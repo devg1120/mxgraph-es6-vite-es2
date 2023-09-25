@@ -287,6 +287,8 @@ export class Graph extends m.mxGraph {
     //this.graph = new m.mxGraph(this, container, model, renderHint, stylesheet);
     super(container, model, renderHint, stylesheet);
 
+console.log("Graph constructor");
+
     this.themes = themes || this.defaultThemes;
     this.currentEdgeStyle = m.mxUtils.clone(this.defaultEdgeStyle);
     this.currentVertexStyle = m.mxUtils.clone(this.defaultVertexStyle);
@@ -311,12 +313,13 @@ export class Graph extends m.mxGraph {
         this.domainPathUrl = b.substring(0, d + 1);
       }
     }
+this.setup();
 
     // Adds support for HTML labels via style. Note: Currently, only the Java
     // backend supports HTML labels but CSS support is limited to the following:
     // http://docs.oracle.com/javase/6/docs/api/index.html?javax/swing/text/html/CSS.html
     // TODO: Wrap should not affect isHtmlLabel output (should be handled later)
-
+    
     function isHtmlLabel(cell) {
       var style = this.getCurrentCellStyle(cell);
 
@@ -905,6 +908,7 @@ export class Graph extends m.mxGraph {
           start.handle = null;
         }),
       });
+
     } // end constructor
   }
   /**
@@ -1140,7 +1144,8 @@ static  decompress(data, inflate, checked) {
     return text != null && Graph.linkPattern.test(text);
   }
 
-  set() {
+  setup() {
+     console.log("set=================================================")
     // HTML entities are displayed as plain text in wrapped plain text labels
     this.cellRenderer.getLabelValue = function (state) {
       var result = m.mxCellRenderer.prototype.getLabelValue.apply(
@@ -1159,6 +1164,7 @@ static  decompress(data, inflate, checked) {
       return result;
     };
 
+        console.log("if  1  Grapf  loadStylesheet--------------------------");
     // All code below not available and not needed in embed mode
     if (typeof m.mxVertexHandler !== "undefined") {
       this.setConnectable(true);
@@ -1187,9 +1193,10 @@ static  decompress(data, inflate, checked) {
       // Sets the style to be used when an elbow edge is double clicked
       this.alternateEdgeStyle = "vertical";
 
-      if (stylesheet == null) {
+      //if (stylesheet == null) {    /*GS */
+        console.log("Grapf  loadStylesheet--------------------------");
         this.loadStylesheet();
-      }
+      //}
 
       // Adds page centers to the guides for moving cells
       var graphHandlerGetGuideStates = this.graphHandler.getGuideStates;
@@ -3681,7 +3688,6 @@ Graph.prototype.getLinkForCell = function (cell) {
  */
 Graph.prototype.getCellStyle = function (cell) {
   var style = m.mxGraph.prototype.getCellStyle.apply(this, arguments);
-
   if (cell != null && this.layoutManager != null) {
     var parent = this.model.getParent(cell);
 
@@ -6781,6 +6787,7 @@ if (typeof m.mxVertexHandler != "undefined") {
      * Loads the stylesheet for this graph.
      */
     Graph.prototype.loadStylesheet = function () {
+         console.log("-----------------------Graph.prototype.loadStylesheet");
       var node =
         this.themes != null
           ? this.themes[this.defaultThemeName]

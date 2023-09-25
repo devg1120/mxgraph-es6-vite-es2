@@ -49,6 +49,7 @@ export class mxStylesheet {
   }
 
   putCellStyle(name, style) {
+      console.log("putCellStyle", name, style);
     this.styles[name] = style;
   }
 
@@ -60,6 +61,8 @@ export class mxStylesheet {
 
       if (style != null && name.charAt(0) != ';') {
         style = mxUtils.clone(style);
+        //style = Object.assign( {}, style);
+
       } else {
         style = new Object();
       }
@@ -71,7 +74,6 @@ export class mxStylesheet {
         if (pos >= 0) {
           var key = tmp.substring(0, pos);
           var value = tmp.substring(pos + 1);
-
           if (value == mxConstants.NONE) {
             delete style[key];
           } else if (mxUtils.isNumeric(value)) {
@@ -81,7 +83,7 @@ export class mxStylesheet {
           }
         } else {
           var tmpStyle = this.styles[tmp];
-
+          
           if (tmpStyle != null) {
             for (var key in tmpStyle) {
               style[key] = tmpStyle[key];

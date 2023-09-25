@@ -1050,7 +1050,6 @@ export class mxGraph extends mxEventSource {
     if (style == null) {
       style = new Object();
     }
-
     return style;
   }
 

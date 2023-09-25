@@ -55,6 +55,7 @@ export class mxStylesheetCodec extends mxObjectCodec {
   }
 
   decode(dec, node, into) {
+
     var obj = into || new this.template.constructor();
     var id = node.getAttribute('id');
 
