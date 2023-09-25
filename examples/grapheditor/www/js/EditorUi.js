@@ -14,6 +14,7 @@ import { Format } from "./Format.js";
 import { Toolbar } from "./Toolbar.js";
 import { Dialog } from "./Editor.js";
 import { ErrorDialog } from "./Editor.js";
+import { ColorDialog } from "./Dialogs.js";
 
 export class EditorUi extends m.mxEventSource {
   /**

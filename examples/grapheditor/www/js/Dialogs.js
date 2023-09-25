@@ -40,7 +40,8 @@ export function OpenDialog() {
 /**
  * Constructs a new color dialog.
  */
-var ColorDialog = function (editorUi, color, apply, cancelFn) {
+//var ColorDialog = function (editorUi, color, apply, cancelFn) {
+export function ColorDialog(editorUi, color, apply, cancelFn) {
   this.editorUi = editorUi;
 
   var input = document.createElement("input");
