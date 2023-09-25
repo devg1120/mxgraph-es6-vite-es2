@@ -1,4 +1,4 @@
-import { mxObjectIdentity } from '@mxgraph/util/mxObjectIdentity';
+import { mxObjectIdentity } from "@mxgraph/util/mxObjectIdentity";
 
 export class mxDictionary {
   map = null;

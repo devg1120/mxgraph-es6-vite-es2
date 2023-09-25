@@ -1,5 +1,5 @@
-import { mxObjectCodec } from '@mxgraph/io/mxObjectCodec';
-import { mxDefaultPopupMenu } from '@mxgraph/editor/mxDefaultPopupMenu';
+import { mxObjectCodec } from "@mxgraph/io/mxObjectCodec";
+import { mxDefaultPopupMenu } from "@mxgraph/editor/mxDefaultPopupMenu";
 
 export class mxDefaultPopupMenuCodec extends mxObjectCodec {
   constructor() {
@@ -11,7 +11,7 @@ export class mxDefaultPopupMenuCodec extends mxObjectCodec {
   }
 
   decode(dec, node, into) {
-    var inc = node.getElementsByTagName('include')[0];
+    var inc = node.getElementsByTagName("include")[0];
 
     if (inc != null) {
       this.processInclude(dec, inc, into);

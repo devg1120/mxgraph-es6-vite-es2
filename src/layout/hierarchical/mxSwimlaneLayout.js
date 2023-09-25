@@ -1,13 +1,13 @@
-import { mxGraphLayout } from '@mxgraph/layout/mxGraphLayout';
-import { mxCoordinateAssignment } from '@mxgraph/layout/hierarchical/stage/mxCoordinateAssignment';
-import { mxMedianHybridCrossingReduction } from '@mxgraph/layout/hierarchical/stage/mxMedianHybridCrossingReduction';
-import { mxSwimlaneOrdering } from '@mxgraph/layout/hierarchical/stage/mxSwimlaneOrdering';
-import { mxObjectIdentity } from '@mxgraph/util/mxObjectIdentity';
-import { mxSwimlaneModel } from '@mxgraph/layout/hierarchical/model/mxSwimlaneModel';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxHierarchicalEdgeStyle } from '@mxgraph/layout/hierarchical/mxHierarchicalEdgeStyle';
+import { mxGraphLayout } from "@mxgraph/layout/mxGraphLayout";
+import { mxCoordinateAssignment } from "@mxgraph/layout/hierarchical/stage/mxCoordinateAssignment";
+import { mxMedianHybridCrossingReduction } from "@mxgraph/layout/hierarchical/stage/mxMedianHybridCrossingReduction";
+import { mxSwimlaneOrdering } from "@mxgraph/layout/hierarchical/stage/mxSwimlaneOrdering";
+import { mxObjectIdentity } from "@mxgraph/util/mxObjectIdentity";
+import { mxSwimlaneModel } from "@mxgraph/layout/hierarchical/model/mxSwimlaneModel";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxHierarchicalEdgeStyle } from "@mxgraph/layout/hierarchical/mxHierarchicalEdgeStyle";
 
 export class mxSwimlaneLayout extends mxGraphLayout {
   roots = null;
@@ -33,7 +33,8 @@ export class mxSwimlaneLayout extends mxGraphLayout {
 
   constructor(graph, orientation, deterministic) {
     super(graph);
-    this.orientation = orientation != null ? orientation : mxConstants.DIRECTION_NORTH;
+    this.orientation =
+      orientation != null ? orientation : mxConstants.DIRECTION_NORTH;
     this.deterministic = deterministic != null ? deterministic : true;
   }
 
@@ -59,7 +60,11 @@ export class mxSwimlaneLayout extends mxGraphLayout {
     this.parentX = null;
     this.parentY = null;
 
-    if (parent != this.root && model.isVertex(parent) != null && this.maintainParentLocation) {
+    if (
+      parent != this.root &&
+      model.isVertex(parent) != null &&
+      this.maintainParentLocation
+    ) {
       var geo = this.graph.getCellGeometry(parent);
 
       if (geo != null) {
@@ -75,7 +80,15 @@ export class mxSwimlaneLayout extends mxGraphLayout {
       var children = this.graph.getChildCells(swimlanes[i]);
 
       if (children == null || children.length == 0) {
-        var vertex = this.graph.insertVertex(swimlanes[i], null, null, 0, 0, this.dummyVertexWidth, 0);
+        var vertex = this.graph.insertVertex(
+          swimlanes[i],
+          null,
+          null,
+          0,
+          0,
+          this.dummyVertexWidth,
+          0,
+        );
         dummyVertices.push(vertex);
       }
     }
@@ -86,7 +99,11 @@ export class mxSwimlaneLayout extends mxGraphLayout {
       this.run(parent);
 
       if (this.resizeParent && !this.graph.isCellCollapsed(parent)) {
-        this.graph.updateGroupBounds([parent], this.parentBorder, this.moveParent);
+        this.graph.updateGroupBounds(
+          [parent],
+          this.parentBorder,
+          this.moveParent,
+        );
       }
 
       if (this.parentX != null && this.parentY != null) {
@@ -127,17 +144,27 @@ export class mxSwimlaneLayout extends mxGraphLayout {
 
       if (geo != null) {
         var children = this.graph.getChildCells(lane);
-        var size = this.graph.isSwimlane(lane) ? this.graph.getStartSize(lane) : new mxRectangle();
+        var size = this.graph.isSwimlane(lane)
+          ? this.graph.getStartSize(lane)
+          : new mxRectangle();
         var bounds = this.graph.getBoundingBoxFromGeometry(children);
         childBounds[i] = bounds;
         var childrenY = bounds.y + geo.y - size.height - this.parentBorder;
         var maxChildrenY = bounds.y + geo.y + bounds.height;
 
         if (layoutBounds == null) {
-          layoutBounds = new mxRectangle(0, childrenY, 0, maxChildrenY - childrenY);
+          layoutBounds = new mxRectangle(
+            0,
+            childrenY,
+            0,
+            maxChildrenY - childrenY,
+          );
         } else {
           layoutBounds.y = Math.min(layoutBounds.y, childrenY);
-          var maxY = Math.max(layoutBounds.y + layoutBounds.height, maxChildrenY);
+          var maxY = Math.max(
+            layoutBounds.y + layoutBounds.height,
+            maxChildrenY,
+          );
           layoutBounds.height = maxY - layoutBounds.y;
         }
       }
@@ -149,16 +176,20 @@ export class mxSwimlaneLayout extends mxGraphLayout {
 
       if (geo != null) {
         var children = this.graph.getChildCells(lane);
-        var size = this.graph.isSwimlane(lane) ? this.graph.getStartSize(lane) : new mxRectangle();
+        var size = this.graph.isSwimlane(lane)
+          ? this.graph.getStartSize(lane)
+          : new mxRectangle();
         var newGeo = geo.clone();
-        var leftGroupBorder = i == 0 ? this.parentBorder : this.interRankCellSpacing / 2;
+        var leftGroupBorder =
+          i == 0 ? this.parentBorder : this.interRankCellSpacing / 2;
         var w = size.width + leftGroupBorder;
         var x = childBounds[i].x - w;
         var y = layoutBounds.y - this.parentBorder;
         newGeo.x += x;
         newGeo.y = y;
         newGeo.width = childBounds[i].width + w + this.interRankCellSpacing / 2;
-        newGeo.height = layoutBounds.height + size.height + 2 * this.parentBorder;
+        newGeo.height =
+          layoutBounds.height + size.height + 2 * this.parentBorder;
         this.graph.model.setGeometry(lane, newGeo);
         this.graph.moveCells(children, -x, geo.y - y);
       }
@@ -176,7 +207,12 @@ export class mxSwimlaneLayout extends mxGraphLayout {
       for (var i in vertices) {
         var cell = vertices[i];
 
-        if (cell != null && model.isVertex(cell) && this.graph.isCellVisible(cell) && model.isAncestor(parent, cell)) {
+        if (
+          cell != null &&
+          model.isVertex(cell) &&
+          this.graph.isCellVisible(cell) &&
+          model.isAncestor(parent, cell)
+        ) {
           var conns = this.getEdges(cell);
           var fanOut = 0;
           var fanIn = 0;
@@ -249,9 +285,19 @@ export class mxSwimlaneLayout extends mxGraphLayout {
         source == target ||
         (source != target &&
           ((target == cell &&
-            (this.parent == null || this.graph.isValidAncestor(source, this.parent, this.traverseAncestors))) ||
+            (this.parent == null ||
+              this.graph.isValidAncestor(
+                source,
+                this.parent,
+                this.traverseAncestors,
+              ))) ||
             (source == cell &&
-              (this.parent == null || this.graph.isValidAncestor(target, this.parent, this.traverseAncestors)))))
+              (this.parent == null ||
+                this.graph.isValidAncestor(
+                  target,
+                  this.parent,
+                  this.traverseAncestors,
+                )))))
       ) {
         result.push(edges[i]);
       }
@@ -275,10 +321,16 @@ export class mxSwimlaneLayout extends mxGraphLayout {
     }
 
     var state = this.graph.view.getState(edge);
-    var terminal = state != null ? state.getVisibleTerminal(source) : this.graph.view.getVisibleTerminal(edge, source);
+    var terminal =
+      state != null
+        ? state.getVisibleTerminal(source)
+        : this.graph.view.getVisibleTerminal(edge, source);
 
     if (terminal == null) {
-      terminal = state != null ? state.getVisibleTerminal(source) : this.graph.view.getVisibleTerminal(edge, source);
+      terminal =
+        state != null
+          ? state.getVisibleTerminal(source)
+          : this.graph.view.getVisibleTerminal(edge, source);
     }
 
     if (terminal != null) {
@@ -316,7 +368,10 @@ export class mxSwimlaneLayout extends mxGraphLayout {
       var laneCounter = 0;
 
       while (!filledVertexSetEmpty && laneCounter < this.swimlanes.length) {
-        var candidateRoots = this.findRoots(this.swimlanes[laneCounter], filledVertexSet);
+        var candidateRoots = this.findRoots(
+          this.swimlanes[laneCounter],
+          filledVertexSet,
+        );
 
         if (candidateRoots.length == 0) {
           laneCounter++;
@@ -334,7 +389,7 @@ export class mxSwimlaneLayout extends mxGraphLayout {
             vertexSet,
             hierarchyVertices,
             filledVertexSet,
-            laneCounter
+            laneCounter,
           );
         }
 
@@ -355,7 +410,15 @@ export class mxSwimlaneLayout extends mxGraphLayout {
       for (var i = 0; i < this.roots.length; i++) {
         var vertexSet = Object();
         hierarchyVertices.push(vertexSet);
-        this.traverse(this.roots[i], true, null, allVertexSet, vertexSet, hierarchyVertices, null);
+        this.traverse(
+          this.roots[i],
+          true,
+          null,
+          allVertexSet,
+          vertexSet,
+          hierarchyVertices,
+          null,
+        );
       }
     }
 
@@ -365,7 +428,13 @@ export class mxSwimlaneLayout extends mxGraphLayout {
       tmp.push(allVertexSet[key]);
     }
 
-    this.model = new mxSwimlaneModel(this, tmp, this.roots, parent, this.tightenToSource);
+    this.model = new mxSwimlaneModel(
+      this,
+      tmp,
+      this.roots,
+      parent,
+      this.tightenToSource,
+    );
     this.cycleStage(parent);
     this.layeringStage();
     this.crossingStage(parent);
@@ -384,7 +453,10 @@ export class mxSwimlaneLayout extends mxGraphLayout {
       result[mxObjectIdentity.get(cell)] = cell;
     }
 
-    if (this.traverseAncestors || (cell == this.parent && this.graph.isCellVisible(cell))) {
+    if (
+      this.traverseAncestors ||
+      (cell == this.parent && this.graph.isCellVisible(cell))
+    ) {
       var childCount = model.getChildCount(cell);
 
       for (var i = 0; i < childCount; i++) {
@@ -414,7 +486,10 @@ export class mxSwimlaneLayout extends mxGraphLayout {
       var src = this.getVisibleTerminal(edges[i], true);
       var trg = this.getVisibleTerminal(edges[i], false);
 
-      if ((src == source && trg == target) || (!directed && src == target && trg == source)) {
+      if (
+        (src == source && trg == target) ||
+        (!directed && src == target && trg == source)
+      ) {
         result.push(edges[i]);
       }
     }
@@ -422,11 +497,23 @@ export class mxSwimlaneLayout extends mxGraphLayout {
     return result;
   }
 
-  traverse(vertex, directed, edge, allVertices, currentComp, hierarchyVertices, filledVertexSet, swimlaneIndex) {
+  traverse(
+    vertex,
+    directed,
+    edge,
+    allVertices,
+    currentComp,
+    hierarchyVertices,
+    filledVertexSet,
+    swimlaneIndex,
+  ) {
     if (vertex != null && allVertices != null) {
       var vertexID = mxObjectIdentity.get(vertex);
 
-      if (allVertices[vertexID] == null && (filledVertexSet == null ? true : filledVertexSet[vertexID] != null)) {
+      if (
+        allVertices[vertexID] == null &&
+        (filledVertexSet == null ? true : filledVertexSet[vertexID] != null)
+      ) {
         if (currentComp[vertexID] == null) {
           currentComp[vertexID] = vertex;
         }
@@ -452,7 +539,11 @@ export class mxSwimlaneLayout extends mxGraphLayout {
 
           var otherIndex = 0;
 
-          for (otherIndex = 0; otherIndex < this.swimlanes.length; otherIndex++) {
+          for (
+            otherIndex = 0;
+            otherIndex < this.swimlanes.length;
+            otherIndex++
+          ) {
             if (model.isAncestor(this.swimlanes[otherIndex], otherVertex)) {
               break;
             }
@@ -462,7 +553,10 @@ export class mxSwimlaneLayout extends mxGraphLayout {
             continue;
           }
 
-          if (otherIndex > swimlaneIndex || ((!directed || isSource) && otherIndex == swimlaneIndex)) {
+          if (
+            otherIndex > swimlaneIndex ||
+            ((!directed || isSource) && otherIndex == swimlaneIndex)
+          ) {
             currentComp = this.traverse(
               otherVertex,
               directed,
@@ -471,7 +565,7 @@ export class mxSwimlaneLayout extends mxGraphLayout {
               currentComp,
               hierarchyVertices,
               filledVertexSet,
-              otherIndex
+              otherIndex,
             );
           }
         }
@@ -518,7 +612,7 @@ export class mxSwimlaneLayout extends mxGraphLayout {
       this.interRankCellSpacing,
       this.orientation,
       initialX,
-      this.parallelEdgeSpacing
+      this.parallelEdgeSpacing,
     );
     placementStage.fineTuning = this.fineTuning;
     placementStage.execute(parent);

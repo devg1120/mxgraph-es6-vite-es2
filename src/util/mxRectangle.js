@@ -1,4 +1,4 @@
-import { mxPoint } from '@mxgraph/util/mxPoint';
+import { mxPoint } from "@mxgraph/util/mxPoint";
 
 export class mxRectangle extends mxPoint {
   constructor(x, y, width, height) {
@@ -70,7 +70,13 @@ export class mxRectangle extends mxPoint {
   }
 
   equals(obj) {
-    return obj != null && obj.x == this.x && obj.y == this.y && obj.width == this.width && obj.height == this.height;
+    return (
+      obj != null &&
+      obj.x == this.x &&
+      obj.y == this.y &&
+      obj.width == this.width &&
+      obj.height == this.height
+    );
   }
 
   static fromRectangle(rect) {

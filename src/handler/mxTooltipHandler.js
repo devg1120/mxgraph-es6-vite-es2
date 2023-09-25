@@ -1,6 +1,6 @@
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxTooltipHandler {
   zIndex = 10005;
@@ -37,9 +37,9 @@ export class mxTooltipHandler {
 
   init() {
     if (document.body != null) {
-      this.div = document.createElement('div');
-      this.div.className = 'mxTooltip';
-      this.div.style.visibility = 'hidden';
+      this.div = document.createElement("div");
+      this.div.className = "mxTooltip";
+      this.div.style.visibility = "hidden";
       document.body.appendChild(this.div);
       mxEvent.addGestureListeners(this.div, (evt) => {
         this.hideTooltip();
@@ -66,7 +66,9 @@ export class mxTooltipHandler {
         state != this.state ||
         (me.getSource() != this.node &&
           (!this.stateSource ||
-            (state != null && this.stateSource == (me.isSource(state.shape) || !me.isSource(state.text)))))
+            (state != null &&
+              this.stateSource ==
+                (me.isSource(state.shape) || !me.isSource(state.text)))))
       ) {
         this.hideTooltip();
       }
@@ -93,13 +95,22 @@ export class mxTooltipHandler {
       this.resetTimer();
       state = state != null ? state : this.getStateForEvent(me);
 
-      if (restart && this.isEnabled() && state != null && (this.div == null || this.div.style.visibility == 'hidden')) {
+      if (
+        restart &&
+        this.isEnabled() &&
+        state != null &&
+        (this.div == null || this.div.style.visibility == "hidden")
+      ) {
         var node = me.getSource();
         var x = me.getX();
         var y = me.getY();
         var stateSource = me.isSource(state.shape) || me.isSource(state.text);
         this.thread = window.setTimeout(() => {
-          if (!this.graph.isEditing() && !this.graph.popupMenuHandler.isMenuShowing() && !this.graph.isMouseDown) {
+          if (
+            !this.graph.isEditing() &&
+            !this.graph.popupMenuHandler.isMenuShowing() &&
+            !this.graph.isMouseDown
+          ) {
             var tip = this.graph.getTooltip(state, node, x, y);
             this.show(tip, x, y);
             this.state = state;
@@ -118,8 +129,8 @@ export class mxTooltipHandler {
 
   hideTooltip() {
     if (this.div != null) {
-      this.div.style.visibility = 'hidden';
-      this.div.innerHTML = '';
+      this.div.style.visibility = "hidden";
+      this.div.innerHTML = "";
     }
   }
 
@@ -131,17 +142,18 @@ export class mxTooltipHandler {
 
       var origin = mxUtils.getScrollOrigin();
       this.div.style.zIndex = this.zIndex;
-      this.div.style.left = x + origin.x + 'px';
-      this.div.style.top = y + mxConstants.TOOLTIP_VERTICAL_OFFSET + origin.y + 'px';
+      this.div.style.left = x + origin.x + "px";
+      this.div.style.top =
+        y + mxConstants.TOOLTIP_VERTICAL_OFFSET + origin.y + "px";
 
       if (!mxUtils.isNode(tip)) {
-        this.div.innerHTML = tip.replace(/\n/g, '<br>');
+        this.div.innerHTML = tip.replace(/\n/g, "<br>");
       } else {
-        this.div.innerHTML = '';
+        this.div.innerHTML = "";
         this.div.appendChild(tip);
       }
 
-      this.div.style.visibility = '';
+      this.div.style.visibility = "";
       mxUtils.fit(this.div);
     }
   }

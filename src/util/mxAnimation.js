@@ -1,7 +1,7 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxAnimation extends mxEventSource {
   thread = null;
@@ -17,7 +17,10 @@ export class mxAnimation extends mxEventSource {
 
   startAnimation() {
     if (this.thread == null) {
-      this.thread = window.setInterval(mxUtils.bind(this, this.updateAnimation), this.delay);
+      this.thread = window.setInterval(
+        mxUtils.bind(this, this.updateAnimation),
+        this.delay,
+      );
     }
   }
 

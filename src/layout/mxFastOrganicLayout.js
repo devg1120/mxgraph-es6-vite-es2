@@ -1,5 +1,5 @@
-import { mxGraphLayout } from '@mxgraph/layout/mxGraphLayout';
-import { mxObjectIdentity } from '@mxgraph/util/mxObjectIdentity';
+import { mxGraphLayout } from "@mxgraph/layout/mxGraphLayout";
+import { mxObjectIdentity } from "@mxgraph/util/mxObjectIdentity";
 
 export class mxFastOrganicLayout extends mxGraphLayout {
   useInputOrigin = true;
@@ -30,7 +30,10 @@ export class mxFastOrganicLayout extends mxGraphLayout {
   }
 
   isVertexIgnored(vertex) {
-    return super.isVertexIgnored(vertex) || this.graph.getConnections(vertex).length == 0;
+    return (
+      super.isVertexIgnored(vertex) ||
+      this.graph.getConnections(vertex).length == 0
+    );
   }
 
   execute(parent) {
@@ -44,7 +47,9 @@ export class mxFastOrganicLayout extends mxGraphLayout {
       }
     }
 
-    var initialBounds = this.useInputOrigin ? this.graph.getBoundingBoxFromGeometry(this.vertexArray) : null;
+    var initialBounds = this.useInputOrigin
+      ? this.graph.getBoundingBoxFromGeometry(this.vertexArray)
+      : null;
     var n = this.vertexArray.length;
     this.indices = [];
     this.dispX = [];
@@ -114,7 +119,11 @@ export class mxFastOrganicLayout extends mxGraphLayout {
         this.maxIterations = 20 * Math.sqrt(n);
       }
 
-      for (this.iteration = 0; this.iteration < this.maxIterations; this.iteration++) {
+      for (
+        this.iteration = 0;
+        this.iteration < this.maxIterations;
+        this.iteration++
+      ) {
         if (!this.allowedToRun) {
           return;
         }
@@ -173,14 +182,21 @@ export class mxFastOrganicLayout extends mxGraphLayout {
   calcPositions() {
     for (var index = 0; index < this.vertexArray.length; index++) {
       if (this.isMoveable[index]) {
-        var deltaLength = Math.sqrt(this.dispX[index] * this.dispX[index] + this.dispY[index] * this.dispY[index]);
+        var deltaLength = Math.sqrt(
+          this.dispX[index] * this.dispX[index] +
+            this.dispY[index] * this.dispY[index],
+        );
 
         if (deltaLength < 0.001) {
           deltaLength = 0.001;
         }
 
-        var newXDisp = (this.dispX[index] / deltaLength) * Math.min(deltaLength, this.temperature);
-        var newYDisp = (this.dispY[index] / deltaLength) * Math.min(deltaLength, this.temperature);
+        var newXDisp =
+          (this.dispX[index] / deltaLength) *
+          Math.min(deltaLength, this.temperature);
+        var newYDisp =
+          (this.dispY[index] / deltaLength) *
+          Math.min(deltaLength, this.temperature);
         this.dispX[index] = 0;
         this.dispY[index] = 0;
         this.cellLocation[index][0] += newXDisp;
@@ -197,7 +213,11 @@ export class mxFastOrganicLayout extends mxGraphLayout {
         if (i != j && this.isMoveable[i] && this.isMoveable[j]) {
           var xDelta = this.cellLocation[i][0] - this.cellLocation[j][0];
           var yDelta = this.cellLocation[i][1] - this.cellLocation[j][1];
-          var deltaLengthSquared = xDelta * xDelta + yDelta * yDelta - this.radiusSquared[i] - this.radiusSquared[j];
+          var deltaLengthSquared =
+            xDelta * xDelta +
+            yDelta * yDelta -
+            this.radiusSquared[i] -
+            this.radiusSquared[j];
 
           if (deltaLengthSquared < this.minDistanceLimitSquared) {
             deltaLengthSquared = this.minDistanceLimitSquared;
@@ -238,7 +258,8 @@ export class mxFastOrganicLayout extends mxGraphLayout {
           }
 
           var deltaLength = Math.sqrt(xDelta * xDelta + yDelta * yDelta);
-          var deltaLengthWithRadius = deltaLength - this.radius[i] - this.radius[j];
+          var deltaLengthWithRadius =
+            deltaLength - this.radius[i] - this.radius[j];
 
           if (deltaLengthWithRadius > this.maxDistanceLimit) {
             continue;
@@ -261,6 +282,7 @@ export class mxFastOrganicLayout extends mxGraphLayout {
   }
 
   reduceTemperature() {
-    this.temperature = this.initialTemp * (1.0 - this.iteration / this.maxIterations);
+    this.temperature =
+      this.initialTemp * (1.0 - this.iteration / this.maxIterations);
   }
 }

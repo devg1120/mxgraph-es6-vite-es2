@@ -1,6 +1,6 @@
-import { mxGraphLayout } from '@mxgraph/layout/mxGraphLayout';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxObjectIdentity } from '@mxgraph/util/mxObjectIdentity';
+import { mxGraphLayout } from "@mxgraph/layout/mxGraphLayout";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxObjectIdentity } from "@mxgraph/util/mxObjectIdentity";
 
 export class mxParallelEdgeLayout extends mxGraphLayout {
   spacing = 20;
@@ -58,7 +58,7 @@ export class mxParallelEdgeLayout extends mxGraphLayout {
     if (src != null && trg != null) {
       src = mxObjectIdentity.get(src);
       trg = mxObjectIdentity.get(trg);
-      return src > trg ? trg + '-' + src : src + '-' + trg;
+      return src > trg ? trg + "-" + src : src + "-" + trg;
     }
 
     return null;

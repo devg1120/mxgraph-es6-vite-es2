@@ -1,5 +1,5 @@
-import { mxObjectCodec } from '@mxgraph/io/mxObjectCodec';
-import { mxDefaultKeyHandler } from '@mxgraph/editor/mxDefaultKeyHandler';
+import { mxObjectCodec } from "@mxgraph/io/mxObjectCodec";
+import { mxDefaultKeyHandler } from "@mxgraph/editor/mxDefaultKeyHandler";
 
 export class mxDefaultKeyHandlerCodec extends mxObjectCodec {
   constructor() {
@@ -16,10 +16,10 @@ export class mxDefaultKeyHandlerCodec extends mxObjectCodec {
       node = node.firstChild;
 
       while (node != null) {
-        if (!this.processInclude(dec, node, into) && node.nodeName == 'add') {
-          var as = node.getAttribute('as');
-          var action = node.getAttribute('action');
-          var control = node.getAttribute('control');
+        if (!this.processInclude(dec, node, into) && node.nodeName == "add") {
+          var as = node.getAttribute("as");
+          var action = node.getAttribute("action");
+          var control = node.getAttribute("control");
           into.bindAction(as, action, control);
         }
 

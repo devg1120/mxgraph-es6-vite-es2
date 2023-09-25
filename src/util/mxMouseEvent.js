@@ -1,5 +1,5 @@
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxMouseEvent {
   consumed = false;
@@ -68,7 +68,9 @@ export class mxMouseEvent {
 
   consume(preventDefault) {
     preventDefault =
-      preventDefault != null ? preventDefault : this.evt.touches != null || mxEvent.isMouseEvent(this.evt);
+      preventDefault != null
+        ? preventDefault
+        : this.evt.touches != null || mxEvent.isMouseEvent(this.evt);
 
     if (preventDefault && this.evt.preventDefault) {
       this.evt.preventDefault();

@@ -1,10 +1,10 @@
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxXmlRequest } from '@mxgraph/util/mxXmlRequest';
-import { mxClient } from '@mxgraph/mxClient';
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxXmlRequest } from "@mxgraph/util/mxXmlRequest";
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxResources {
   static resources = {};
-  static extension = '.txt';
+  static extension = ".txt";
   static resourcesEncoded = false;
   static loadDefaultBundle = true;
   static loadSpecialBundle = true;
@@ -18,7 +18,10 @@ export class mxResources {
   }
 
   static getDefaultBundle(basename, lan) {
-    if (mxResources.loadDefaultBundle || !mxResources.isLanguageSupported(lan)) {
+    if (
+      mxResources.loadDefaultBundle ||
+      !mxResources.isLanguageSupported(lan)
+    ) {
       return basename + mxResources.extension;
     } else {
       return null;
@@ -27,22 +30,31 @@ export class mxResources {
 
   static getSpecialBundle(basename, lan) {
     if (mxClient.languages == null || !this.isLanguageSupported(lan)) {
-      var dash = lan.indexOf('-');
+      var dash = lan.indexOf("-");
 
       if (dash > 0) {
         lan = lan.substring(0, dash);
       }
     }
 
-    if (mxResources.loadSpecialBundle && mxResources.isLanguageSupported(lan) && lan != mxClient.defaultLanguage) {
-      return basename + '_' + lan + mxResources.extension;
+    if (
+      mxResources.loadSpecialBundle &&
+      mxResources.isLanguageSupported(lan) &&
+      lan != mxClient.defaultLanguage
+    ) {
+      return basename + "_" + lan + mxResources.extension;
     } else {
       return null;
     }
   }
 
   static add(basename, lan, callback) {
-    lan = lan != null ? lan : mxClient.language != null ? mxClient.language.toLowerCase() : mxConstants.NONE;
+    lan =
+      lan != null
+        ? lan
+        : mxClient.language != null
+        ? mxClient.language.toLowerCase()
+        : mxConstants.NONE;
 
     if (lan != mxConstants.NONE) {
       var defaultBundle = mxResources.getDefaultBundle(basename, lan);
@@ -59,7 +71,7 @@ export class mxResources {
               },
               function () {
                 callback();
-              }
+              },
             );
           } else {
             try {
@@ -87,7 +99,7 @@ export class mxResources {
             },
             function () {
               loadSpecialBundle();
-            }
+            },
           );
         } else {
           try {
@@ -110,11 +122,11 @@ export class mxResources {
 
   static parse(text) {
     if (text != null) {
-      var lines = text.split('\n');
+      var lines = text.split("\n");
 
       for (var i = 0; i < lines.length; i++) {
-        if (lines[i].charAt(0) != '#') {
-          var index = lines[i].indexOf('=');
+        if (lines[i].charAt(0) != "#") {
+          var index = lines[i].indexOf("=");
 
           if (index > 0) {
             var key = lines[i].substring(0, index);
@@ -127,7 +139,7 @@ export class mxResources {
             var value = lines[i].substring(index + 1, idx);
 
             if (this.resourcesEncoded) {
-              value = value.replace(/\\(?=u[a-fA-F\d]{4})/g, '%');
+              value = value.replace(/\\(?=u[a-fA-F\d]{4})/g, "%");
               mxResources.resources[key] = unescape(value);
             } else {
               mxResources.resources[key] = value;
@@ -159,9 +171,9 @@ export class mxResources {
     for (var i = 0; i < value.length; i++) {
       var c = value.charAt(i);
 
-      if (c == '{') {
-        index = '';
-      } else if (index != null && c == '}') {
+      if (c == "{") {
+        index = "";
+      } else if (index != null && c == "}") {
         index = parseInt(index) - 1;
 
         if (index >= 0 && index < params.length) {
@@ -176,12 +188,12 @@ export class mxResources {
       }
     }
 
-    return result.join('');
+    return result.join("");
   }
 
   static loadResources(callback) {
-    mxResources.add(mxClient.basePath + '/resources/editor', null, function () {
-      mxResources.add(mxClient.basePath + '/resources/graph', null, callback);
+    mxResources.add(mxClient.basePath + "/resources/editor", null, function () {
+      mxResources.add(mxClient.basePath + "/resources/graph", null, callback);
     });
   }
 }

@@ -1,5 +1,5 @@
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxCell {
   id = null;
@@ -15,14 +15,21 @@ export class mxCell {
   target = null;
   children = null;
   edges = null;
-  mxTransient = ['id', 'value', 'parent', 'source', 'target', 'children', 'edges'];
+  mxTransient = [
+    "id",
+    "value",
+    "parent",
+    "source",
+    "target",
+    "children",
+    "edges",
+  ];
 
   constructor(value, geometry, style) {
     this.value = value;
     this.setGeometry(geometry);
     this.setStyle(style);
 
-    
     if (this.onInit != null) {
       this.onInit();
     }
@@ -203,7 +210,11 @@ export class mxCell {
       edge.removeFromTerminal(isOutgoing);
       edge.setTerminal(this, isOutgoing);
 
-      if (this.edges == null || edge.getTerminal(!isOutgoing) != this || mxUtils.indexOf(this.edges, edge) < 0) {
+      if (
+        this.edges == null ||
+        edge.getTerminal(!isOutgoing) != this ||
+        mxUtils.indexOf(this.edges, edge) < 0
+      ) {
         if (this.edges == null) {
           this.edges = [];
         }
@@ -241,7 +252,9 @@ export class mxCell {
 
   hasAttribute(name) {
     var userObject = this.getValue();
-    return userObject != null && userObject.nodeType == mxConstants.NODETYPE_ELEMENT && userObject.hasAttribute
+    return userObject != null &&
+      userObject.nodeType == mxConstants.NODETYPE_ELEMENT &&
+      userObject.hasAttribute
       ? userObject.hasAttribute(name)
       : userObject.getAttribute(name) != null;
   }
@@ -249,14 +262,19 @@ export class mxCell {
   getAttribute(name, defaultValue) {
     var userObject = this.getValue();
     var val =
-      userObject != null && userObject.nodeType == mxConstants.NODETYPE_ELEMENT ? userObject.getAttribute(name) : null;
+      userObject != null && userObject.nodeType == mxConstants.NODETYPE_ELEMENT
+        ? userObject.getAttribute(name)
+        : null;
     return val != null ? val : defaultValue;
   }
 
   setAttribute(name, value) {
     var userObject = this.getValue();
 
-    if (userObject != null && userObject.nodeType == mxConstants.NODETYPE_ELEMENT) {
+    if (
+      userObject != null &&
+      userObject.nodeType == mxConstants.NODETYPE_ELEMENT
+    ) {
       userObject.setAttribute(name, value);
     }
   }
@@ -265,16 +283,16 @@ export class mxCell {
     var clone = mxUtils.clone(this, this.mxTransient);
     clone.setValue(this.cloneValue());
     return clone;
-//    console.log("mxCell clone...");
-//    let  clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
-//    return clone;
+    //    console.log("mxCell clone...");
+    //    let  clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+    //    return clone;
   }
 
   cloneValue() {
     var value = this.getValue();
 
     if (value != null) {
-      if (typeof value.clone == 'function') {
+      if (typeof value.clone == "function") {
         value = value.clone();
       } else if (!isNaN(value.nodeType)) {
         value = value.cloneNode(true);
@@ -283,5 +301,4 @@ export class mxCell {
 
     return value;
   }
-
 }

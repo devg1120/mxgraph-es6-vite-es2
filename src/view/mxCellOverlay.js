@@ -1,7 +1,7 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxPoint } from '@mxgraph/util/mxPoint';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxPoint } from "@mxgraph/util/mxPoint";
 
 export class mxCellOverlay extends mxEventSource {
   defaultOverlap = 0.5;
@@ -11,9 +11,10 @@ export class mxCellOverlay extends mxEventSource {
     this.image = image;
     this.tooltip = tooltip;
     this.align = align != null ? align : this.align;
-    this.verticalAlign = verticalAlign != null ? verticalAlign : this.verticalAlign;
+    this.verticalAlign =
+      verticalAlign != null ? verticalAlign : this.verticalAlign;
     this.offset = offset != null ? offset : new mxPoint();
-    this.cursor = cursor != null ? cursor : 'help';
+    this.cursor = cursor != null ? cursor : "help";
   }
 
   getBounds(state) {
@@ -58,7 +59,7 @@ export class mxCellOverlay extends mxEventSource {
       Math.round(pt.x - (w * this.defaultOverlap - this.offset.x) * s),
       Math.round(pt.y - (h * this.defaultOverlap - this.offset.y) * s),
       w * s,
-      h * s
+      h * s,
     );
   }
 

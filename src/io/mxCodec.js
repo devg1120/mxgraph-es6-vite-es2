@@ -1,10 +1,10 @@
-import { mxLog } from '@mxgraph/util/mxLog';
-import { mxCodecRegistry } from '@mxgraph/io/mxCodecRegistry';
-import { mxCellPath } from '@mxgraph/model/mxCellPath';
-import { mxCell } from '@mxgraph/model/mxCell';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxGeometry } from '@mxgraph/model/mxGeometry';  /*GS*/
+import { mxLog } from "@mxgraph/util/mxLog";
+import { mxCodecRegistry } from "@mxgraph/io/mxCodecRegistry";
+import { mxCellPath } from "@mxgraph/model/mxCellPath";
+import { mxCell } from "@mxgraph/model/mxCell";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxGeometry } from "@mxgraph/model/mxGeometry"; /*GS*/
 
 export class mxCodec {
   elements = null;
@@ -63,13 +63,13 @@ export class mxCodec {
 
   addElement(node) {
     if (node.nodeType == mxConstants.NODETYPE_ELEMENT) {
-      var id = node.getAttribute('id');
+      var id = node.getAttribute("id");
 
       if (id != null) {
         if (this.elements[id] == null) {
           this.elements[id] = node;
         } else if (this.elements[id] != node) {
-          throw new Error(id + ': Duplicate ID');
+          throw new Error(id + ": Duplicate ID");
         }
       }
     }
@@ -95,7 +95,7 @@ export class mxCodec {
           id = mxCellPath.create(obj);
 
           if (id.length == 0) {
-            id = 'root';
+            id = "root";
           }
         }
       }
@@ -120,7 +120,10 @@ export class mxCodec {
         if (mxUtils.isNode(obj)) {
           node = mxUtils.importNode(this.document, obj, true);
         } else {
-          mxLog.warn('mxCodec.encode: No codec for ' + mxUtils.getFunctionName(obj.constructor));
+          mxLog.warn(
+            "mxCodec.encode: No codec for " +
+              mxUtils.getFunctionName(obj.constructor),
+          );
         }
       }
     }
@@ -135,20 +138,19 @@ export class mxCodec {
     if (node != null && node.nodeType == mxConstants.NODETYPE_ELEMENT) {
       var ctor = null;
 
-//      try {
-//        ctor = window[node.nodeName];
-//      } catch (err) {
-//        /* ignore */
-//      }
-//
-//     var dec = mxCodecRegistry.getCodec(ctor);  /*  GS  BUG FIX */
-	   
-//      var dec = mxCodecRegistry.getCodec(node.nodeName );
+      //      try {
+      //        ctor = window[node.nodeName];
+      //      } catch (err) {
+      //        /* ignore */
+      //      }
+      //
+      //     var dec = mxCodecRegistry.getCodec(ctor);  /*  GS  BUG FIX */
 
+      //      var dec = mxCodecRegistry.getCodec(node.nodeName );
 
       var dec = null;
 
-/*
+      /*
       try {
         ctor = window[node.nodeName];
         //ctor = globalThis[node.nodeName];
@@ -156,27 +158,27 @@ export class mxCodec {
       }
       if (ctor != null) {
           dec = mxCodecRegistry.getCodec(ctor);  
-          //console.log("ctor    :",ctor,dec);
       } else {
           dec = mxCodecRegistry.getCodec(node.nodeName );
-          //console.log("nodeName:",node.nodeName,dec);
       }
 */
-      var dec = mxCodecRegistry.getCodec(node.nodeName );
+      var dec = mxCodecRegistry.getCodec(node.nodeName);
       if (dec != null) {
-         try {                                        /* try GS */
-            obj = dec.decode( this, node, into);
-         } catch (err) {
-		 console.log("dec.decode err", err);
-	 }
+        try {
+          /* try GS */
+          obj = dec.decode(this, node, into);
+        } catch (err) {
+          console.log("dec.decode err", err);
+        }
       } else {
         //obj = node.cloneNode(true);
         //obj.removeAttribute('as');
-	 if ( node.nodeName == 'mxGeometry') {      /* GS */
-              obj = new mxGeometry(0,0, 100,100);
-	 } else {
-        console.warn("mxCodec decode notreg:", node.nodeName);
-	 }
+        if (node.nodeName == "mxGeometry") {
+          /* GS */
+          obj = new mxGeometry(0, 0, 100, 100);
+        } else {
+          console.warn("mxCodec decode notreg:", node.nodeName);
+        }
       }
     }
     return obj;
@@ -195,7 +197,7 @@ export class mxCodec {
   }
 
   isCellCodec(codec) {
-    if (codec != null && typeof codec.isCellCodec == 'function') {
+    if (codec != null && typeof codec.isCellCodec == "function") {
       return codec.isCellCodec();
     }
 
@@ -242,7 +244,7 @@ export class mxCodec {
 
     if (parent != null) {
       if (parent == cell) {
-        throw new Error(parent.id + ': Self Reference');
+        throw new Error(parent.id + ": Self Reference");
       } else {
         parent.insert(cell);
       }
@@ -263,4 +265,3 @@ export class mxCodec {
     }
   }
 }
-

@@ -1,7 +1,7 @@
-import { mxRectangleShape } from '@mxgraph/shape/mxRectangleShape';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxConstants } from '@mxgraph/util/mxConstants';
+import { mxRectangleShape } from "@mxgraph/shape/mxRectangleShape";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxConstants } from "@mxgraph/util/mxConstants";
 
 export class mxLabel extends mxRectangleShape {
   static imageSize = mxConstants.DEFAULT_IMAGESIZE;
@@ -36,7 +36,11 @@ export class mxLabel extends mxRectangleShape {
   }
 
   isHtmlAllowed() {
-    return super.isHtmlAllowed() && this.indicatorColor == null && this.indicatorShape == null;
+    return (
+      super.isHtmlAllowed() &&
+      this.indicatorColor == null &&
+      this.indicatorShape == null
+    );
   }
 
   paintForeground(c, x, y, w, h) {
@@ -48,16 +52,43 @@ export class mxLabel extends mxRectangleShape {
   paintImage(c, x, y, w, h) {
     if (this.image != null) {
       var bounds = this.getImageBounds(x, y, w, h);
-      c.image(bounds.x, bounds.y, bounds.width, bounds.height, this.image, false, false, false);
+      c.image(
+        bounds.x,
+        bounds.y,
+        bounds.width,
+        bounds.height,
+        this.image,
+        false,
+        false,
+        false,
+      );
     }
   }
 
   getImageBounds(x, y, w, h) {
-    var align = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_ALIGN, mxConstants.ALIGN_LEFT);
-    var valign = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_VERTICAL_ALIGN, mxConstants.ALIGN_MIDDLE);
-    var width = mxUtils.getNumber(this.style, mxConstants.STYLE_IMAGE_WIDTH, mxConstants.DEFAULT_IMAGESIZE);
-    var height = mxUtils.getNumber(this.style, mxConstants.STYLE_IMAGE_HEIGHT, mxConstants.DEFAULT_IMAGESIZE);
-    var spacing = mxUtils.getNumber(this.style, mxConstants.STYLE_SPACING, this.spacing) + 5;
+    var align = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_IMAGE_ALIGN,
+      mxConstants.ALIGN_LEFT,
+    );
+    var valign = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_IMAGE_VERTICAL_ALIGN,
+      mxConstants.ALIGN_MIDDLE,
+    );
+    var width = mxUtils.getNumber(
+      this.style,
+      mxConstants.STYLE_IMAGE_WIDTH,
+      mxConstants.DEFAULT_IMAGESIZE,
+    );
+    var height = mxUtils.getNumber(
+      this.style,
+      mxConstants.STYLE_IMAGE_HEIGHT,
+      mxConstants.DEFAULT_IMAGESIZE,
+    );
+    var spacing =
+      mxUtils.getNumber(this.style, mxConstants.STYLE_SPACING, this.spacing) +
+      5;
 
     if (align == mxConstants.ALIGN_CENTER) {
       x += (w - width) / 2;
@@ -84,15 +115,40 @@ export class mxLabel extends mxRectangleShape {
       this.indicator.paint(c);
     } else if (this.indicatorImage != null) {
       var bounds = this.getIndicatorBounds(x, y, w, h);
-      c.image(bounds.x, bounds.y, bounds.width, bounds.height, this.indicatorImage, false, false, false);
+      c.image(
+        bounds.x,
+        bounds.y,
+        bounds.width,
+        bounds.height,
+        this.indicatorImage,
+        false,
+        false,
+        false,
+      );
     }
   }
 
   getIndicatorBounds(x, y, w, h) {
-    var align = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_ALIGN, mxConstants.ALIGN_LEFT);
-    var valign = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_VERTICAL_ALIGN, mxConstants.ALIGN_MIDDLE);
-    var width = mxUtils.getNumber(this.style, mxConstants.STYLE_INDICATOR_WIDTH, this.indicatorSize);
-    var height = mxUtils.getNumber(this.style, mxConstants.STYLE_INDICATOR_HEIGHT, this.indicatorSize);
+    var align = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_IMAGE_ALIGN,
+      mxConstants.ALIGN_LEFT,
+    );
+    var valign = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_IMAGE_VERTICAL_ALIGN,
+      mxConstants.ALIGN_MIDDLE,
+    );
+    var width = mxUtils.getNumber(
+      this.style,
+      mxConstants.STYLE_INDICATOR_WIDTH,
+      this.indicatorSize,
+    );
+    var height = mxUtils.getNumber(
+      this.style,
+      mxConstants.STYLE_INDICATOR_HEIGHT,
+      this.indicatorSize,
+    );
     var spacing = this.spacing + 5;
 
     if (align == mxConstants.ALIGN_RIGHT) {
@@ -122,16 +178,21 @@ export class mxLabel extends mxRectangleShape {
     }
 
     if (this.image != null) {
-      var node = document.createElement('img');
-      node.style.position = 'relative';
-      node.setAttribute('border', '0');
-      var bounds = this.getImageBounds(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+      var node = document.createElement("img");
+      node.style.position = "relative";
+      node.setAttribute("border", "0");
+      var bounds = this.getImageBounds(
+        this.bounds.x,
+        this.bounds.y,
+        this.bounds.width,
+        this.bounds.height,
+      );
       bounds.x -= this.bounds.x;
       bounds.y -= this.bounds.y;
-      node.style.left = Math.round(bounds.x) + 'px';
-      node.style.top = Math.round(bounds.y) + 'px';
-      node.style.width = Math.round(bounds.width) + 'px';
-      node.style.height = Math.round(bounds.height) + 'px';
+      node.style.left = Math.round(bounds.x) + "px";
+      node.style.top = Math.round(bounds.y) + "px";
+      node.style.width = Math.round(bounds.width) + "px";
+      node.style.height = Math.round(bounds.height) + "px";
       node.src = this.image;
       this.node.appendChild(node);
     }

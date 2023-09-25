@@ -2,14 +2,13 @@
  * Copyright (c) 2006-2012, JGraph Ltd
  */
 
-import * as m   from "../../../../../dist/mxgraph.es.js";
-
+import * as m from "../../../../../dist/mxgraph.es.js";
 
 //Format = function (editorUi, container) {
 export function Format(editorUi, container) {
   this.editorUi = editorUi;
   this.container = container;
-};
+}
 
 /**
  * Returns information about the current selection.
@@ -248,7 +247,11 @@ Format.prototype.updateSelectionStateForCell = function (result, cell, cells) {
     result.fill = result.fill && this.isFillState(state);
     result.stroke = result.stroke && this.isStrokeState(state);
 
-    var shape = m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null);
+    var shape = m.mxUtils.getValue(
+      state.style,
+      m.mxConstants.STYLE_SHAPE,
+      null,
+    );
     result.containsImage = result.containsImage || shape == "image";
 
     for (var key in state.style) {
@@ -272,7 +275,8 @@ Format.prototype.isFillState = function (state) {
   return (
     !this.isSpecialColor(state.style[m.mxConstants.STYLE_FILLCOLOR]) &&
     (state.view.graph.model.isVertex(state.cell) ||
-      m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null) == "arrow" ||
+      m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null) ==
+        "arrow" ||
       m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null) ==
         "filledEdge" ||
       m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null) ==
@@ -339,7 +343,11 @@ Format.prototype.isRoundedState = function (state) {
  */
 Format.prototype.isLineJumpState = function (state) {
   var shape = m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null);
-  var curved = m.mxUtils.getValue(state.style, m.mxConstants.STYLE_CURVED, false);
+  var curved = m.mxUtils.getValue(
+    state.style,
+    m.mxConstants.STYLE_CURVED,
+    false,
+  );
 
   return !curved && (shape == "connector" || shape == "filledEdge");
 };
@@ -348,7 +356,9 @@ Format.prototype.isLineJumpState = function (state) {
  * Returns information about the current selection.
  */
 Format.prototype.isAutoSizeState = function (state) {
-  return m.mxUtils.getValue(state.style, m.mxConstants.STYLE_AUTOSIZE, null) == "1";
+  return (
+    m.mxUtils.getValue(state.style, m.mxConstants.STYLE_AUTOSIZE, null) == "1"
+  );
 };
 
 /**
@@ -620,7 +630,7 @@ export function BaseFormatPanel(format, editorUi, container) {
   this.editorUi = editorUi;
   this.container = container;
   this.listeners = [];
-};
+}
 
 /**
  *
@@ -639,7 +649,11 @@ BaseFormatPanel.prototype.getSelectionState = function () {
     var state = graph.view.getState(cells[i]);
 
     if (state != null) {
-      var tmp = m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null);
+      var tmp = m.mxUtils.getValue(
+        state.style,
+        m.mxConstants.STYLE_SHAPE,
+        null,
+      );
 
       if (tmp != null) {
         if (shape == null) {
@@ -708,7 +722,11 @@ BaseFormatPanel.prototype.installInputHandler = function (
       }
     } else if (
       value !=
-      m.mxUtils.getValue(this.format.getSelectionState().style, key, defaultValue)
+      m.mxUtils.getValue(
+        this.format.getSelectionState().style,
+        key,
+        defaultValue,
+      )
     ) {
       if (graph.isEditing()) {
         graph.stopEditing(true);
@@ -866,7 +884,7 @@ BaseFormatPanel.prototype.createStepper = function (
 
     var val = isFloat ? parseFloat(input.value) : parseInt(input.value);
 
-  if (!isNaN(val)) {
+    if (!isNaN(val)) {
       input.value = val + step;
 
       if (update != null) {
@@ -1077,7 +1095,8 @@ BaseFormatPanel.prototype.createCellOption = function (
 
           if (state != null) {
             apply(
-              m.mxUtils.getValue(state.style, key, defaultValue) != disabledValue,
+              m.mxUtils.getValue(state.style, key, defaultValue) !=
+                disabledValue,
             );
           }
         };
@@ -1571,7 +1590,7 @@ BaseFormatPanel.prototype.destroy = function () {
 export function ArrangePanel(format, editorUi, container) {
   BaseFormatPanel.call(this, format, editorUi, container);
   this.init();
-};
+}
 
 m.mxUtils.extend(ArrangePanel, BaseFormatPanel);
 
@@ -1852,9 +1871,12 @@ ArrangePanel.prototype.addGroupOps = function (div) {
     count++;
 
     if (ui.copiedSize != null) {
-      var btn2 = m.mxUtils.button(m.mxResources.get("pasteSize"), function (evt) {
-        ui.actions.get("pasteSize").funct();
-      });
+      var btn2 = m.mxUtils.button(
+        m.mxResources.get("pasteSize"),
+        function (evt) {
+          ui.actions.get("pasteSize").funct();
+        },
+      );
 
       btn2.setAttribute(
         "title",
@@ -1885,9 +1907,12 @@ ArrangePanel.prototype.addGroupOps = function (div) {
       m.mxUtils.br(div);
     }
 
-    btn = m.mxUtils.button(m.mxResources.get("removeFromGroup"), function (evt) {
-      ui.actions.get("removeFromGroup").funct();
-    });
+    btn = m.mxUtils.button(
+      m.mxResources.get("removeFromGroup"),
+      function (evt) {
+        ui.actions.get("removeFromGroup").funct();
+      },
+    );
 
     btn.setAttribute("title", m.mxResources.get("removeFromGroup"));
     btn.style.width = "202px";
@@ -2833,7 +2858,7 @@ ArrangePanel.prototype.addEdgeGeometry = function (container) {
 export function TextFormatPanel(format, editorUi, container) {
   BaseFormatPanel.call(this, format, editorUi, container);
   this.init();
-};
+}
 
 m.mxUtils.extend(TextFormatPanel, BaseFormatPanel);
 
@@ -4081,7 +4106,8 @@ TextFormatPanel.prototype.addFont = function (container) {
             );
             this.editorUi.pickColor(color, function (newColor) {
               var targetElt =
-                tableCell != null && (evt == null || !m.mxEvent.isShiftDown(evt))
+                tableCell != null &&
+                (evt == null || !m.mxEvent.isShiftDown(evt))
                   ? tableCell
                   : currentTable;
 
@@ -4122,7 +4148,8 @@ TextFormatPanel.prototype.addFont = function (container) {
             );
             this.editorUi.pickColor(color, function (newColor) {
               var targetElt =
-                tableCell != null && (evt == null || !m.mxEvent.isShiftDown(evt))
+                tableCell != null &&
+                (evt == null || !m.mxEvent.isShiftDown(evt))
                   ? tableCell
                   : currentTable;
 
@@ -4212,7 +4239,10 @@ TextFormatPanel.prototype.addFont = function (container) {
   }
 
   function setSelected(elt, selected) {
-    if (m.mxClient.IS_IE && (m.mxClient.IS_QUIRKS || document.documentMode < 10)) {
+    if (
+      m.mxClient.IS_IE &&
+      (m.mxClient.IS_QUIRKS || document.documentMode < 10)
+    ) {
       elt.style.filter = selected
         ? "progid:DXImageTransform.Microsoft.Gradient(" +
           "StartColorStr='#c5ecff', EndColorStr='#87d4fb', GradientType=0)"
@@ -4226,7 +4256,11 @@ TextFormatPanel.prototype.addFont = function (container) {
 
   var listener = m.mxUtils.bind(this, function (sender, evt, force) {
     ss = this.format.getSelectionState();
-    var fontStyle = m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_FONTSTYLE, 0);
+    var fontStyle = m.mxUtils.getValue(
+      ss.style,
+      m.mxConstants.STYLE_FONTSTYLE,
+      0,
+    );
     setSelected(
       fontStyleItems[0],
       (fontStyle & m.mxConstants.FONT_BOLD) == m.mxConstants.FONT_BOLD,
@@ -4237,7 +4271,8 @@ TextFormatPanel.prototype.addFont = function (container) {
     );
     setSelected(
       fontStyleItems[2],
-      (fontStyle & m.mxConstants.FONT_UNDERLINE) == m.mxConstants.FONT_UNDERLINE,
+      (fontStyle & m.mxConstants.FONT_UNDERLINE) ==
+        m.mxConstants.FONT_UNDERLINE,
     );
     fontMenu.firstChild.nodeValue = m.mxUtils.getValue(
       ss.style,
@@ -4705,7 +4740,11 @@ TextFormatPanel.prototype.addFont = function (container) {
       "touchend",
       updateCssHandler,
     );
-    m.mxEvent.addListener(graph.cellEditor.textarea, "mouseup", updateCssHandler);
+    m.mxEvent.addListener(
+      graph.cellEditor.textarea,
+      "mouseup",
+      updateCssHandler,
+    );
     m.mxEvent.addListener(graph.cellEditor.textarea, "keyup", updateCssHandler);
     this.listeners.push({
       destroy: function () {
@@ -4725,7 +4764,7 @@ TextFormatPanel.prototype.addFont = function (container) {
 export function StyleFormatPanel(format, editorUi, container) {
   BaseFormatPanel.call(this, format, editorUi, container);
   this.init();
-};
+}
 
 m.mxUtils.extend(StyleFormatPanel, BaseFormatPanel);
 
@@ -5511,7 +5550,9 @@ StyleFormatPanel.prototype.addStroke = function (container) {
     var value = parseInt(input.value);
     value = Math.min(999, Math.max(1, isNaN(value) ? 1 : value));
 
-    if (value != m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_STROKEWIDTH, 1)) {
+    if (
+      value != m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_STROKEWIDTH, 1)
+    ) {
       graph.setCellStyles(
         m.mxConstants.STYLE_STROKEWIDTH,
         value,
@@ -5539,7 +5580,9 @@ StyleFormatPanel.prototype.addStroke = function (container) {
     var value = parseInt(altInput.value);
     value = Math.min(999, Math.max(1, isNaN(value) ? 1 : value));
 
-    if (value != m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_STROKEWIDTH, 1)) {
+    if (
+      value != m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_STROKEWIDTH, 1)
+    ) {
       graph.setCellStyles(
         m.mxConstants.STYLE_STROKEWIDTH,
         value,
@@ -6594,7 +6637,8 @@ StyleFormatPanel.prototype.addStroke = function (container) {
 
     if (m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_DASHED, null) == "1") {
       if (
-        m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_DASH_PATTERN, null) == null
+        m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_DASH_PATTERN, null) ==
+        null
       ) {
         solid.style.borderBottom = "1px dashed " + this.defaultStrokeColor;
       } else {
@@ -6613,7 +6657,8 @@ StyleFormatPanel.prototype.addStroke = function (container) {
       var es = m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_EDGE, null);
 
       if (
-        m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_NOEDGESTYLE, null) == "1"
+        m.mxUtils.getValue(ss.style, m.mxConstants.STYLE_NOEDGESTYLE, null) ==
+        "1"
       ) {
         es = null;
       }
@@ -6681,7 +6726,9 @@ StyleFormatPanel.prototype.addStroke = function (container) {
         );
 
         if (markerDiv.className == "geSprite geSprite-noarrow") {
-          markerDiv.innerHTML = m.mxUtils.htmlEntities(m.mxResources.get("none"));
+          markerDiv.innerHTML = m.mxUtils.htmlEntities(
+            m.mxResources.get("none"),
+          );
           markerDiv.style.backgroundImage = "none";
           markerDiv.style.verticalAlign = "top";
           markerDiv.style.marginTop = "5px";
@@ -7080,7 +7127,7 @@ StyleFormatPanel.prototype.addStyleOps = function (div) {
 export function DiagramStylePanel(format, editorUi, container) {
   BaseFormatPanel.call(this, format, editorUi, container);
   this.init();
-};
+}
 
 m.mxUtils.extend(DiagramStylePanel, BaseFormatPanel);
 
@@ -7291,19 +7338,23 @@ DiagramStylePanel.prototype.addView = function (div) {
     }
   });
 
-  var removeStyles = m.mxUtils.bind(this, function (style, styles, defaultStyle) {
-    if (style != null) {
-      for (var j = 0; j < styles.length; j++) {
-        if (
-          (style[styles[j]] != null && style[styles[j]] != m.mxConstants.NONE) ||
-          (styles[j] != m.mxConstants.STYLE_FILLCOLOR &&
-            styles[j] != m.mxConstants.STYLE_STROKECOLOR)
-        ) {
-          style[styles[j]] = defaultStyle[styles[j]];
+  var removeStyles = m.mxUtils.bind(
+    this,
+    function (style, styles, defaultStyle) {
+      if (style != null) {
+        for (var j = 0; j < styles.length; j++) {
+          if (
+            (style[styles[j]] != null &&
+              style[styles[j]] != m.mxConstants.NONE) ||
+            (styles[j] != m.mxConstants.STYLE_FILLCOLOR &&
+              styles[j] != m.mxConstants.STYLE_STROKECOLOR)
+          ) {
+            style[styles[j]] = defaultStyle[styles[j]];
+          }
         }
       }
-    }
-  });
+    },
+  );
 
   var applyStyle = m.mxUtils.bind(
     this,
@@ -7477,7 +7528,9 @@ DiagramStylePanel.prototype.addView = function (div) {
             graph.defaultVertexStyle = m.mxUtils.clone(
               ui.initialDefaultVertexStyle,
             );
-            graph.defaultEdgeStyle = m.mxUtils.clone(ui.initialDefaultEdgeStyle);
+            graph.defaultEdgeStyle = m.mxUtils.clone(
+              ui.initialDefaultEdgeStyle,
+            );
 
             applyStyle(commonStyle, graph.defaultVertexStyle);
             applyStyle(commonStyle, graph.defaultEdgeStyle);
@@ -7672,7 +7725,9 @@ DiagramStylePanel.prototype.addView = function (div) {
         left,
         "click",
         m.mxUtils.bind(this, function () {
-          selectPage(m.mxUtils.mod(this.format.currentStylePage - 1, pageCount));
+          selectPage(
+            m.mxUtils.mod(this.format.currentStylePage - 1, pageCount),
+          );
         }),
       );
 
@@ -7687,7 +7742,9 @@ DiagramStylePanel.prototype.addView = function (div) {
         right,
         "click",
         m.mxUtils.bind(this, function () {
-          selectPage(m.mxUtils.mod(this.format.currentStylePage + 1, pageCount));
+          selectPage(
+            m.mxUtils.mod(this.format.currentStylePage + 1, pageCount),
+          );
         }),
       );
 
@@ -7718,7 +7775,7 @@ DiagramStylePanel.prototype.addView = function (div) {
 export function DiagramFormatPanel(format, editorUi, container) {
   BaseFormatPanel.call(this, format, editorUi, container);
   this.init();
-};
+}
 
 m.mxUtils.extend(DiagramFormatPanel, BaseFormatPanel);
 

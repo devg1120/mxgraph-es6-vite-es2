@@ -5,11 +5,11 @@
  * Constructs a new graph editor
  */
 
-import * as m   from "../../../../../dist/mxgraph.es.js";
-import {EditorUi}  from "./EditorUi.js";
+import * as m from "../../../../../dist/mxgraph.es.js";
+import { EditorUi } from "./EditorUi.js";
 
 //Menus = function (editorUi) {
-export  function Menus(editorUi) {
+export function Menus(editorUi) {
   this.editorUi = editorUi;
   this.menus = new Object();
   this.init();
@@ -18,7 +18,7 @@ export  function Menus(editorUi) {
   if (!m.mxClient.IS_SVG) {
     new Image().src = this.checkmarkImage;
   }
-};
+}
 
 /**
  * Sets the default font family.
@@ -136,7 +136,9 @@ Menus.prototype.init = function () {
           m.mxUtils.bind(this, function (newValue) {
             if (m.mxUtils.indexOf(this.customFonts, newValue) < 0) {
               this.customFonts.push(newValue);
-              this.editorUi.fireEvent(new m.mxEventObject("customFontsChanged"));
+              this.editorUi.fireEvent(
+                new m.mxEventObject("customFontsChanged"),
+              );
             }
           }),
         );
@@ -178,7 +180,9 @@ Menus.prototype.init = function () {
           '<h6 style="margin:0px;">' + m.mxResources.get("heading") + " 6</h6>";
 
         addItem("", "pre").firstChild.nextSibling.innerHTML =
-          '<pre style="margin:0px;">' + m.mxResources.get("formatted") + "</pre>";
+          '<pre style="margin:0px;">' +
+          m.mxResources.get("formatted") +
+          "</pre>";
         addItem("", "blockquote").firstChild.nextSibling.innerHTML =
           '<blockquote style="margin-top:0px;margin-bottom:0px;">' +
           m.mxResources.get("blockquote") +
@@ -1559,7 +1563,8 @@ Menus.prototype.addPopupMenuCellItems = function (menu, cell, evt) {
       graph.getModel().isEdge(cell) &&
       m.mxUtils.getValue(state.style, m.mxConstants.STYLE_EDGE, null) !=
         "entityRelationEdgeStyle" &&
-      m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null) != "arrow"
+      m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null) !=
+        "arrow"
     ) {
       var handler = graph.selectionCellsHandler.getHandler(cell);
       var isWaypoint = false;

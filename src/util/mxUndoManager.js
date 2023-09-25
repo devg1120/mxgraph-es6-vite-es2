@@ -1,6 +1,6 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
 
 export class mxUndoManager extends mxEventSource {
   history = null;
@@ -32,7 +32,7 @@ export class mxUndoManager extends mxEventSource {
       edit.undo();
 
       if (edit.isSignificant()) {
-        this.fireEvent(new mxEventObject(mxEvent.UNDO, 'edit', edit));
+        this.fireEvent(new mxEventObject(mxEvent.UNDO, "edit", edit));
         break;
       }
     }
@@ -50,7 +50,7 @@ export class mxUndoManager extends mxEventSource {
       edit.redo();
 
       if (edit.isSignificant()) {
-        this.fireEvent(new mxEventObject(mxEvent.REDO, 'edit', edit));
+        this.fireEvent(new mxEventObject(mxEvent.REDO, "edit", edit));
         break;
       }
     }
@@ -65,12 +65,15 @@ export class mxUndoManager extends mxEventSource {
 
     this.history.push(undoableEdit);
     this.indexOfNextAdd = this.history.length;
-    this.fireEvent(new mxEventObject(mxEvent.ADD, 'edit', undoableEdit));
+    this.fireEvent(new mxEventObject(mxEvent.ADD, "edit", undoableEdit));
   }
 
   trim() {
     if (this.history.length > this.indexOfNextAdd) {
-      var edits = this.history.splice(this.indexOfNextAdd, this.history.length - this.indexOfNextAdd);
+      var edits = this.history.splice(
+        this.indexOfNextAdd,
+        this.history.length - this.indexOfNextAdd,
+      );
 
       for (var i = 0; i < edits.length; i++) {
         edits[i].die();

@@ -1,12 +1,16 @@
-import { mxObjectCodec } from '@mxgraph/io/mxObjectCodec';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxCell } from '@mxgraph/model/mxCell';
-import { mxCodecRegistry } from '@mxgraph/io/mxCodecRegistry';
+import { mxObjectCodec } from "@mxgraph/io/mxObjectCodec";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxCell } from "@mxgraph/model/mxCell";
+import { mxCodecRegistry } from "@mxgraph/io/mxCodecRegistry";
 
 export class mxCellCodec extends mxObjectCodec {
   constructor() {
-    super(new mxCell(), ['children', 'edges', 'overlays', 'mxTransient'], ['parent', 'source', 'target']);
+    super(
+      new mxCell(),
+      ["children", "edges", "overlays", "mxTransient"],
+      ["parent", "source", "target"],
+    );
   }
 
   isCellCodec() {
@@ -14,24 +18,31 @@ export class mxCellCodec extends mxObjectCodec {
   }
 
   isNumericAttribute(dec, attr, obj) {
-    return attr.nodeName !== 'value' && super.isNumericAttribute(dec, attr, obj);
+    return (
+      attr.nodeName !== "value" && super.isNumericAttribute(dec, attr, obj)
+    );
   }
 
   isExcluded(obj, attr, value, isWrite) {
     return (
       super.isExcluded(obj, attr, value, isWrite) ||
-      (isWrite && attr == 'value' && value.nodeType == mxConstants.NODETYPE_ELEMENT)
+      (isWrite &&
+        attr == "value" &&
+        value.nodeType == mxConstants.NODETYPE_ELEMENT)
     );
   }
 
   afterEncode(enc, obj, node) {
-    if (obj.value != null && obj.value.nodeType == mxConstants.NODETYPE_ELEMENT) {
+    if (
+      obj.value != null &&
+      obj.value.nodeType == mxConstants.NODETYPE_ELEMENT
+    ) {
       var tmp = node;
       node = mxUtils.importNode(enc.document, obj.value, true);
       node.appendChild(tmp);
-      var id = tmp.getAttribute('id');
-      node.setAttribute('id', id);
-      tmp.removeAttribute('id');
+      var id = tmp.getAttribute("id");
+      node.setAttribute("id", id);
+      tmp.removeAttribute("id");
     }
 
     return node;
@@ -54,14 +65,14 @@ export class mxCellCodec extends mxObjectCodec {
       }
 
       obj.value = node.cloneNode(true);
-      var id = obj.value.getAttribute('id');
+      var id = obj.value.getAttribute("id");
 
       if (id != null) {
         obj.setId(id);
-        obj.value.removeAttribute('id');
+        obj.value.removeAttribute("id");
       }
     } else {
-      obj.setId(node.getAttribute('id'));
+      obj.setId(node.getAttribute("id"));
     }
 
     if (inner != null) {

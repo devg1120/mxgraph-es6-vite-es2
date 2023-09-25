@@ -1,5 +1,5 @@
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxDivResizer {
   resizeWidth = true;
@@ -7,7 +7,7 @@ export class mxDivResizer {
   handlingResize = false;
 
   constructor(div, container) {
-    if (div.nodeName.toLowerCase() == 'div') {
+    if (div.nodeName.toLowerCase() == "div") {
       if (container == null) {
         container = window;
       }
@@ -16,11 +16,11 @@ export class mxDivResizer {
       var style = mxUtils.getCurrentStyle(div);
 
       if (style != null) {
-        this.resizeWidth = style.width == 'auto';
-        this.resizeHeight = style.height == 'auto';
+        this.resizeWidth = style.width == "auto";
+        this.resizeHeight = style.height == "auto";
       }
 
-      mxEvent.addListener(container, 'resize', (evt) => {
+      mxEvent.addListener(container, "resize", (evt) => {
         if (!this.handlingResize) {
           this.handlingResize = true;
           this.resize();
@@ -39,12 +39,26 @@ export class mxDivResizer {
     var t = parseInt(this.div.style.top);
     var b = parseInt(this.div.style.bottom);
 
-    if (this.resizeWidth && !isNaN(l) && !isNaN(r) && l >= 0 && r >= 0 && w - r - l > 0) {
-      this.div.style.width = w - r - l + 'px';
+    if (
+      this.resizeWidth &&
+      !isNaN(l) &&
+      !isNaN(r) &&
+      l >= 0 &&
+      r >= 0 &&
+      w - r - l > 0
+    ) {
+      this.div.style.width = w - r - l + "px";
     }
 
-    if (this.resizeHeight && !isNaN(t) && !isNaN(b) && t >= 0 && b >= 0 && h - t - b > 0) {
-      this.div.style.height = h - t - b + 'px';
+    if (
+      this.resizeHeight &&
+      !isNaN(t) &&
+      !isNaN(b) &&
+      t >= 0 &&
+      b >= 0 &&
+      h - t - b > 0
+    ) {
+      this.div.style.height = h - t - b + "px";
     }
   }
 

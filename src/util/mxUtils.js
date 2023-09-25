@@ -1,31 +1,28 @@
-import { mxDragSource } from '@mxgraph/util/mxDragSource';
-import { mxResources } from '@mxgraph/util/mxResources';
-import { mxWindow } from '@mxgraph/util/mxWindow';
-import { mxCodec } from '@mxgraph/io/mxCodec';
-import { mxTemporaryCellStates } from '@mxgraph/view/mxTemporaryCellStates';
-import { mxCellPath } from '@mxgraph/model/mxCellPath';
-import { mxEffects } from '@mxgraph/util/mxEffects';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
-import { mxObjectIdentity } from '@mxgraph/util/mxObjectIdentity';
-import { mxXmlRequest } from '@mxgraph/util/mxXmlRequest';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxLog } from '@mxgraph/util/mxLog';
-import { mxClient } from '@mxgraph/mxClient';
+import { mxDragSource } from "@mxgraph/util/mxDragSource";
+import { mxResources } from "@mxgraph/util/mxResources";
+import { mxWindow } from "@mxgraph/util/mxWindow";
+import { mxCodec } from "@mxgraph/io/mxCodec";
+import { mxTemporaryCellStates } from "@mxgraph/view/mxTemporaryCellStates";
+import { mxCellPath } from "@mxgraph/model/mxCellPath";
+import { mxEffects } from "@mxgraph/util/mxEffects";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
+import { mxObjectIdentity } from "@mxgraph/util/mxObjectIdentity";
+import { mxXmlRequest } from "@mxgraph/util/mxXmlRequest";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxLog } from "@mxgraph/util/mxLog";
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxUtils {
-  static errorResource = mxClient.language != 'none' ? 'error' : '';
-  static closeResource = mxClient.language != 'none' ? 'close' : '';
-  static errorImage = mxClient.imageBasePath + '/error.gif';
+  static errorResource = mxClient.language != "none" ? "error" : "";
+  static closeResource = mxClient.language != "none" ? "close" : "";
+  static errorImage = mxClient.imageBasePath + "/error.gif";
 
-  static gtest(msg) {
-     console.log("mxUtils gtest:",msg);
-  }
   static removeCursors(element) {
     if (element.style != null) {
-      element.style.cursor = '';
+      element.style.cursor = "";
     }
 
     var children = element.childNodes;
@@ -40,16 +37,16 @@ export class mxUtils {
   }
 
   static getCurrentStyle(element) {
-    return element != null ? window.getComputedStyle(element, '') : null;
+    return element != null ? window.getComputedStyle(element, "") : null;
   }
 
   static parseCssNumber(value) {
-    if (value == 'thin') {
-      value = '2';
-    } else if (value == 'medium') {
-      value = '4';
-    } else if (value == 'thick') {
-      value = '6';
+    if (value == "thin") {
+      value = "2";
+    } else if (value == "medium") {
+      value = "4";
+    } else if (value == "thick") {
+      value = "6";
     }
 
     value = parseFloat(value);
@@ -65,11 +62,11 @@ export class mxUtils {
     var prefix = null;
 
     if (mxClient.IS_OT) {
-      prefix = 'O';
+      prefix = "O";
     } else if (mxClient.IS_SF || mxClient.IS_GC) {
-      prefix = 'Webkit';
+      prefix = "Webkit";
     } else if (mxClient.IS_MT) {
-      prefix = 'Moz';
+      prefix = "Moz";
     }
 
     return function (style, name, value) {
@@ -84,7 +81,9 @@ export class mxUtils {
 
   static hasScrollbars(node) {
     var style = mxUtils.getCurrentStyle(node);
-    return style != null && (style.overflow == 'scroll' || style.overflow == 'auto');
+    return (
+      style != null && (style.overflow == "scroll" || style.overflow == "auto")
+    );
   }
 
   static bind(scope, funct) {
@@ -96,27 +95,26 @@ export class mxUtils {
   static eval(expr) {
     var result = null;
 
-    let  _mxJavaScriptExpression = null;
-    if (expr.indexOf('function') >= 0) {
+    let _mxJavaScriptExpression = null;
+    if (expr.indexOf("function") >= 0) {
       try {
-
         //Function(' _mxJavaScriptExpression= function() { return (' + expr + ')}();')();
 
         //eval(' _mxJavaScriptExpression= (function() { return (' + expr + ')})();');
-	//console.log(expr);
-        eval(' _mxJavaScriptExpression= function() { return (' + expr + ')}();');
+        eval(
+          " _mxJavaScriptExpression= function() { return (" + expr + ")}();",
+        );
 
         result = _mxJavaScriptExpression;
         _mxJavaScriptExpression = null;
-	
       } catch (e) {
-        mxLog.warn(e.message + ' while evaluating ' + expr);
+        mxLog.warn(e.message + " while evaluating " + expr);
       }
     } else {
       try {
         result = eval(expr);
       } catch (e) {
-        mxLog.warn(e.message + ' while evaluating ' + expr);
+        mxLog.warn(e.message + " while evaluating " + expr);
       }
     }
 
@@ -158,7 +156,7 @@ export class mxUtils {
 
         if (/^function\s/.test(str)) {
           str = mxUtils.ltrim(str.substring(9));
-          var idx2 = str.indexOf('(');
+          var idx2 = str.indexOf("(");
 
           if (idx2 > 0) {
             str = str.substring(0, idx2);
@@ -195,7 +193,7 @@ export class mxUtils {
   static remove(obj, array) {
     var result = null;
 
-    if (typeof array == 'object') {
+    if (typeof array == "object") {
       var index = mxUtils.indexOf(array, obj);
 
       while (index >= 0) {
@@ -219,9 +217,13 @@ export class mxUtils {
     if (
       value != null &&
       !isNaN(value.nodeType) &&
-      (nodeName == null || value.nodeName.toLowerCase() == nodeName.toLowerCase())
+      (nodeName == null ||
+        value.nodeName.toLowerCase() == nodeName.toLowerCase())
     ) {
-      return attributeName == null || value.getAttribute(attributeName) == attributeValue;
+      return (
+        attributeName == null ||
+        value.getAttribute(attributeName) == attributeValue
+      );
     }
 
     return false;
@@ -268,13 +270,22 @@ export class mxUtils {
 
         if (node.attributes && node.attributes.length > 0) {
           for (var i = 0; i < node.attributes.length; i++) {
-            newNode.setAttribute(node.attributes[i].nodeName, node.getAttribute(node.attributes[i].nodeName));
+            newNode.setAttribute(
+              node.attributes[i].nodeName,
+              node.getAttribute(node.attributes[i].nodeName),
+            );
           }
         }
 
         if (allChildren && node.childNodes && node.childNodes.length > 0) {
           for (var i = 0; i < node.childNodes.length; i++) {
-            newNode.appendChild(mxUtils.importNodeImplementation(doc, node.childNodes[i], allChildren));
+            newNode.appendChild(
+              mxUtils.importNodeImplementation(
+                doc,
+                node.childNodes[i],
+                allChildren,
+              ),
+            );
           }
         }
 
@@ -284,7 +295,9 @@ export class mxUtils {
       case 3:
       case 4:
       case 8: {
-        return doc.createTextNode(node.nodeValue != null ? node.nodeValue : node.value);
+        return doc.createTextNode(
+          node.nodeValue != null ? node.nodeValue : node.value,
+        );
       }
     }
   }
@@ -293,8 +306,8 @@ export class mxUtils {
     var doc = null;
 
     if (document.implementation && document.implementation.createDocument) {
-      doc = document.implementation.createDocument('', '', null);
-    } else if ('ActiveXObject' in window) {
+      doc = document.implementation.createDocument("", "", null);
+    } else if ("ActiveXObject" in window) {
       doc = mxUtils.createMsXmlDocument();
     }
 
@@ -303,7 +316,7 @@ export class mxUtils {
 
   static createMsXmlDocument() {
     // eslint-disable-next-line no-undef
-    var doc = new ActiveXObject('Microsoft.XMLDOM');
+    var doc = new ActiveXObject("Microsoft.XMLDOM");
     doc.async = false;
     doc.validateOnParse = false;
     doc.resolveExternals = false;
@@ -312,7 +325,7 @@ export class mxUtils {
 
   static parseXml(xml) {
     var parser = new DOMParser();
-    return parser.parseFromString(xml, 'text/xml');
+    return parser.parseFromString(xml, "text/xml");
   }
 
   static clearSelection = (function () {
@@ -349,40 +362,40 @@ export class mxUtils {
   }
 
   static htmlEntities(s, newline) {
-    s = String(s || '');
-    s = s.replace(/&/g, '&amp;');
-    s = s.replace(/"/g, '&quot;');
-    s = s.replace(/\'/g, '&#39;');
-    s = s.replace(/</g, '&lt;');
-    s = s.replace(/>/g, '&gt;');
+    s = String(s || "");
+    s = s.replace(/&/g, "&amp;");
+    s = s.replace(/"/g, "&quot;");
+    s = s.replace(/\'/g, "&#39;");
+    s = s.replace(/</g, "&lt;");
+    s = s.replace(/>/g, "&gt;");
 
     if (newline == null || newline) {
-      s = s.replace(/\n/g, '&#xa;');
+      s = s.replace(/\n/g, "&#xa;");
     }
 
     return s;
   }
 
   static isVml(node) {
-    return node != null && node.tagUrn == 'urn:schemas-microsoft-com:vml';
+    return node != null && node.tagUrn == "urn:schemas-microsoft-com:vml";
   }
 
   static getXml(node, linefeed) {
-    var xml = '';
+    var xml = "";
 
     if (mxClient.IS_IE11) {
-      xml = mxUtils.getPrettyXml(node, '', '', '');
+      xml = mxUtils.getPrettyXml(node, "", "", "");
     } else if (window.XMLSerializer != null) {
       var xmlSerializer = new XMLSerializer();
       xml = xmlSerializer.serializeToString(node);
     } else if (node.xml != null) {
       xml = node.xml
-        .replace(/\r\n\t[\t]*/g, '')
-        .replace(/>\r\n/g, '>')
-        .replace(/\r\n/g, '\n');
+        .replace(/\r\n\t[\t]*/g, "")
+        .replace(/>\r\n/g, ">")
+        .replace(/\r\n/g, "\n");
     }
 
-    linefeed = linefeed || '&#xa;';
+    linefeed = linefeed || "&#xa;";
     xml = xml.replace(/\n/g, linefeed);
     return xml;
   }
@@ -391,20 +404,22 @@ export class mxUtils {
     var result = [];
 
     if (node != null) {
-      tab = tab != null ? tab : '  ';
-      indent = indent != null ? indent : '';
-      newline = newline != null ? newline : '\n';
+      tab = tab != null ? tab : "  ";
+      indent = indent != null ? indent : "";
+      newline = newline != null ? newline : "\n";
 
       if (node.namespaceURI != null && node.namespaceURI != ns) {
         ns = node.namespaceURI;
 
-        if (node.getAttribute('xmlns') == null) {
-          node.setAttribute('xmlns', node.namespaceURI);
+        if (node.getAttribute("xmlns") == null) {
+          node.setAttribute("xmlns", node.namespaceURI);
         }
       }
 
       if (node.nodeType == mxConstants.NODETYPE_DOCUMENT) {
-        result.push(mxUtils.getPrettyXml(node.documentElement, tab, indent, newline, ns));
+        result.push(
+          mxUtils.getPrettyXml(node.documentElement, tab, indent, newline, ns),
+        );
       } else if (node.nodeType == mxConstants.NODETYPE_DOCUMENT_FRAGMENT) {
         var tmp = node.firstChild;
 
@@ -418,57 +433,78 @@ export class mxUtils {
         var value = mxUtils.getTextContent(node);
 
         if (value.length > 0) {
-          result.push(indent + '<!--' + value + '-->' + newline);
+          result.push(indent + "<!--" + value + "-->" + newline);
         }
       } else if (node.nodeType == mxConstants.NODETYPE_TEXT) {
         var value = mxUtils.getTextContent(node);
 
         if (value.length > 0) {
-          result.push(indent + mxUtils.htmlEntities(mxUtils.trim(value), false) + newline);
+          result.push(
+            indent + mxUtils.htmlEntities(mxUtils.trim(value), false) + newline,
+          );
         }
       } else if (node.nodeType == mxConstants.NODETYPE_CDATA) {
         var value = mxUtils.getTextContent(node);
 
         if (value.length > 0) {
-          result.push(indent + '<![CDATA[' + value + ']]' + newline);
+          result.push(indent + "<![CDATA[" + value + "]]" + newline);
         }
       } else {
-        result.push(indent + '<' + node.nodeName);
+        result.push(indent + "<" + node.nodeName);
         var attrs = node.attributes;
 
         if (attrs != null) {
           for (var i = 0; i < attrs.length; i++) {
             var val = mxUtils.htmlEntities(attrs[i].value);
-            result.push(' ' + attrs[i].nodeName + '="' + val + '"');
+            result.push(" " + attrs[i].nodeName + '="' + val + '"');
           }
         }
 
         var tmp = node.firstChild;
 
         if (tmp != null) {
-          result.push('>' + newline);
+          result.push(">" + newline);
 
           while (tmp != null) {
-            result.push(mxUtils.getPrettyXml(tmp, tab, indent + tab, newline, ns));
+            result.push(
+              mxUtils.getPrettyXml(tmp, tab, indent + tab, newline, ns),
+            );
             tmp = tmp.nextSibling;
           }
 
-          result.push(indent + '</' + node.nodeName + '>' + newline);
+          result.push(indent + "</" + node.nodeName + ">" + newline);
         } else {
-          result.push(' />' + newline);
+          result.push(" />" + newline);
         }
       }
     }
 
-    return result.join('');
+    return result.join("");
   }
 
   static extractTextWithWhitespace(elems) {
-    var blocks = ['BLOCKQUOTE', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'OL', 'P', 'PRE', 'TABLE', 'UL'];
+    var blocks = [
+      "BLOCKQUOTE",
+      "DIV",
+      "H1",
+      "H2",
+      "H3",
+      "H4",
+      "H5",
+      "H6",
+      "OL",
+      "P",
+      "PRE",
+      "TABLE",
+      "UL",
+    ];
     var ret = [];
 
     function doExtract(elts) {
-      if (elts.length == 1 && (elts[0].nodeName == 'BR' || elts[0].innerHTML == '\n')) {
+      if (
+        elts.length == 1 &&
+        (elts[0].nodeName == "BR" || elts[0].innerHTML == "\n")
+      ) {
         return;
       }
 
@@ -476,11 +512,13 @@ export class mxUtils {
         var elem = elts[i];
 
         if (
-          elem.nodeName == 'BR' ||
-          elem.innerHTML == '\n' ||
-          ((elts.length == 1 || i == 0) && elem.nodeName == 'DIV' && elem.innerHTML.toLowerCase() == '<br>')
+          elem.nodeName == "BR" ||
+          elem.innerHTML == "\n" ||
+          ((elts.length == 1 || i == 0) &&
+            elem.nodeName == "DIV" &&
+            elem.innerHTML.toLowerCase() == "<br>")
         ) {
-          ret.push('\n');
+          ret.push("\n");
         } else {
           if (elem.nodeType === 3 || elem.nodeType === 4) {
             if (elem.nodeValue.length > 0) {
@@ -490,21 +528,24 @@ export class mxUtils {
             doExtract(elem.childNodes);
           }
 
-          if (i < elts.length - 1 && mxUtils.indexOf(blocks, elts[i + 1].nodeName) >= 0) {
-            ret.push('\n');
+          if (
+            i < elts.length - 1 &&
+            mxUtils.indexOf(blocks, elts[i + 1].nodeName) >= 0
+          ) {
+            ret.push("\n");
           }
         }
       }
     }
 
     doExtract(elems);
-    return ret.join('');
+    return ret.join("");
   }
 
   static replaceTrailingNewlines(str, pattern) {
-    var postfix = '';
+    var postfix = "";
 
-    while (str.length > 0 && str.charAt(str.length - 1) == '\n') {
+    while (str.length > 0 && str.charAt(str.length - 1) == "\n") {
       str = str.substring(0, str.length - 1);
       postfix += pattern;
     }
@@ -513,14 +554,16 @@ export class mxUtils {
   }
 
   static getTextContent(node) {
-    return node != null ? node[node.textContent === undefined ? 'text' : 'textContent'] : '';
+    return node != null
+      ? node[node.textContent === undefined ? "text" : "textContent"]
+      : "";
   }
 
   static setTextContent(node, text) {
     if (node.innerText !== undefined) {
       node.innerText = text;
     } else {
-      node[node.textContent === undefined ? 'text' : 'textContent'] = text;
+      node[node.textContent === undefined ? "text" : "textContent"] = text;
     }
   }
 
@@ -530,7 +573,7 @@ export class mxUtils {
       return serializer.serializeToString(node);
     }
 
-    return '';
+    return "";
   }
 
   static getOuterHtml(node) {
@@ -539,7 +582,7 @@ export class mxUtils {
       return serializer.serializeToString(node);
     }
 
-    return '';
+    return "";
   }
 
   static write(parent, text) {
@@ -559,7 +602,7 @@ export class mxUtils {
 
     if (parent != null) {
       parent.appendChild(node);
-      parent.appendChild(document.createElement('br'));
+      parent.appendChild(document.createElement("br"));
     }
 
     return node;
@@ -571,7 +614,7 @@ export class mxUtils {
 
     for (var i = 0; i < count; i++) {
       if (parent != null) {
-        br = parent.ownerDocument.createElement('br');
+        br = parent.ownerDocument.createElement("br");
         parent.appendChild(br);
       }
     }
@@ -581,16 +624,16 @@ export class mxUtils {
 
   static button(label, funct, doc) {
     doc = doc != null ? doc : document;
-    var button = doc.createElement('button');
+    var button = doc.createElement("button");
     mxUtils.write(button, label);
-    mxEvent.addListener(button, 'click', function (evt) {
+    mxEvent.addListener(button, "click", function (evt) {
       funct(evt);
     });
     return button;
   }
 
   static para(parent, text) {
-    var p = document.createElement('p');
+    var p = document.createElement("p");
     mxUtils.write(p, text);
 
     if (parent != null) {
@@ -614,7 +657,7 @@ export class mxUtils {
       function () {
         editor.execute(action);
       },
-      pad
+      pad,
     );
   }
 
@@ -625,21 +668,21 @@ export class mxUtils {
       function () {
         editor[functName](arg);
       },
-      pad
+      pad,
     );
   }
 
   static link(parent, text, funct, pad) {
-    var a = document.createElement('span');
-    a.style.color = 'blue';
-    a.style.textDecoration = 'underline';
-    a.style.cursor = 'pointer';
+    var a = document.createElement("span");
+    a.style.color = "blue";
+    a.style.textDecoration = "underline";
+    a.style.cursor = "pointer";
 
     if (pad != null) {
-      a.style.paddingLeft = pad + 'px';
+      a.style.paddingLeft = pad + "px";
     }
 
-    mxEvent.addListener(a, 'click', funct);
+    mxEvent.addListener(a, "click", funct);
     mxUtils.write(a, text);
 
     if (parent != null) {
@@ -654,7 +697,12 @@ export class mxUtils {
     var d = document.documentElement;
 
     try {
-      return new mxRectangle(0, 0, b.clientWidth || d.clientWidth, Math.max(b.clientHeight || 0, d.clientHeight));
+      return new mxRectangle(
+        0,
+        0,
+        b.clientWidth || d.clientWidth,
+        Math.max(b.clientHeight || 0, d.clientHeight),
+      );
     } catch (e) {
       return new mxRectangle();
     }
@@ -672,7 +720,7 @@ export class mxUtils {
     var right = sl + ds.width;
 
     if (left + width > right) {
-      node.style.left = Math.max(sl, right - width) + 'px';
+      node.style.left = Math.max(sl, right - width) + "px";
     }
 
     var top = parseInt(node.offsetTop);
@@ -680,18 +728,18 @@ export class mxUtils {
     var bottom = st + ds.height;
 
     if (top + height > bottom) {
-      node.style.top = Math.max(st, bottom - height) + 'px';
+      node.style.top = Math.max(st, bottom - height) + "px";
     }
   }
 
   static load(url) {
-    var req = new mxXmlRequest(url, null, 'GET', false);
+    var req = new mxXmlRequest(url, null, "GET", false);
     req.send();
     return req;
   }
 
   static get(url, onload, onerror, binary, timeout, ontimeout, headers) {
-    var req = new mxXmlRequest(url, null, 'GET');
+    var req = new mxXmlRequest(url, null, "GET");
     var setRequestHeaders = req.setRequestHeaders;
 
     if (headers) {
@@ -743,7 +791,7 @@ export class mxUtils {
               }
             }
           },
-          err
+          err,
         );
       })(urls[i], i);
     }
@@ -762,7 +810,7 @@ export class mxUtils {
   }
 
   static loadInto(url, doc, onload) {
-    doc.addEventListener('load', onload, false);
+    doc.addEventListener("load", onload, false);
     doc.load(url);
   }
 
@@ -802,13 +850,15 @@ export class mxUtils {
     shallow = shallow != null ? shallow : false;
     var clone = null;
 
-    console.log("clone obj type of:", typeof obj);
-    if (obj != null && typeof obj.constructor == 'function') {
+    if (obj != null && typeof obj.constructor == "function") {
       clone = new obj.constructor(); /**/
 
       for (var i in obj) {
-        if (i != mxObjectIdentity.FIELD_NAME && (transients == null || mxUtils.indexOf(transients, i) < 0)) {
-          if (!shallow && typeof obj[i] == 'object') {
+        if (
+          i != mxObjectIdentity.FIELD_NAME &&
+          (transients == null || mxUtils.indexOf(transients, i) < 0)
+        ) {
+          if (!shallow && typeof obj[i] == "object") {
             clone[i] = mxUtils.clone(obj[i]);
           } else {
             clone[i] = obj[i];
@@ -823,22 +873,27 @@ export class mxUtils {
   static clone(obj, transients, shallow) {
     shallow = shallow != null ? shallow : false;
     var clone = null;
-    if (!shallow && typeof obj == 'object') {
+    if (!shallow && typeof obj == "object") {
       clone = Object.assign(Object.create(Object.getPrototypeOf(obj)), obj);
-      
     }
     return clone;
   }
 
   static equalPoints(a, b) {
-    if ((a == null && b != null) || (a != null && b == null) || (a != null && b != null && a.length != b.length)) {
+    if (
+      (a == null && b != null) ||
+      (a != null && b == null) ||
+      (a != null && b != null && a.length != b.length)
+    ) {
       return false;
     } else if (a != null && b != null) {
       for (var i = 0; i < a.length; i++) {
         if (
           (a[i] != null && b[i] == null) ||
           (a[i] == null && b[i] != null) ||
-          (a[i] != null && b[i] != null && (a[i].x != b[i].x || a[i].y != b[i].y))
+          (a[i] != null &&
+            b[i] != null &&
+            (a[i].x != b[i].x || a[i].y != b[i].y))
         ) {
           return false;
         }
@@ -851,7 +906,11 @@ export class mxUtils {
   static equalEntries(a, b) {
     var count = 0;
 
-    if ((a == null && b != null) || (a != null && b == null) || (a != null && b != null && a.length != b.length)) {
+    if (
+      (a == null && b != null) ||
+      (a != null && b == null) ||
+      (a != null && b != null && a.length != b.length)
+    ) {
       return false;
     } else if (a != null && b != null) {
       for (var key in b) {
@@ -861,7 +920,10 @@ export class mxUtils {
       for (var key in a) {
         count--;
 
-        if ((!mxUtils.isNaN(a[key]) || !mxUtils.isNaN(b[key])) && a[key] != b[key]) {
+        if (
+          (!mxUtils.isNaN(a[key]) || !mxUtils.isNaN(b[key])) &&
+          a[key] != b[key]
+        ) {
           return false;
         }
       }
@@ -885,7 +947,7 @@ export class mxUtils {
   }
 
   static isNaN(value) {
-    return typeof value == 'number' && isNaN(value);
+    return typeof value == "number" && isNaN(value);
   }
 
   static extend(ctor, superCtor) {
@@ -897,22 +959,22 @@ export class mxUtils {
   }
 
   static toString(obj) {
-    var output = '';
+    var output = "";
 
     for (var i in obj) {
       try {
         if (obj[i] == null) {
-          output += i + ' = [null]\n';
-        } else if (typeof obj[i] == 'function') {
-          output += i + ' => [Function]\n';
-        } else if (typeof obj[i] == 'object') {
+          output += i + " = [null]\n";
+        } else if (typeof obj[i] == "function") {
+          output += i + " => [Function]\n";
+        } else if (typeof obj[i] == "object") {
           var ctor = mxUtils.getFunctionName(obj[i].constructor);
-          output += i + ' => [' + ctor + ']\n';
+          output += i + " => [" + ctor + "]\n";
         } else {
-          output += i + ' = ' + obj[i] + '\n';
+          output += i + " = " + obj[i] + "\n";
         }
       } catch (e) {
-        output += i + '=' + e.message;
+        output += i + "=" + e.message;
       }
     }
 
@@ -963,7 +1025,11 @@ export class mxUtils {
         seif = -1;
       }
 
-      sds = seif * Math.sqrt((r1x * r2y - r1x * rydd - r2y * rxdd) / (r1x * rydd + r2y * rxdd));
+      sds =
+        seif *
+        Math.sqrt(
+          (r1x * r2y - r1x * rydd - r2y * rxdd) / (r1x * rydd + r2y * rxdd),
+        );
     }
 
     var txd = (sds * r1 * ryd) / r2;
@@ -972,7 +1038,9 @@ export class mxUtils {
     var ty = spsi * txd + cpsi * tyd + y / 2;
     var rad = Math.atan2((ryd - tyd) / r2, (rxd - txd) / r1) - Math.atan2(0, 1);
     var s1 = rad >= 0 ? rad : 2 * Math.PI + rad;
-    rad = Math.atan2((-ryd - tyd) / r2, (-rxd - txd) / r1) - Math.atan2((ryd - tyd) / r2, (rxd - txd) / r1);
+    rad =
+      Math.atan2((-ryd - tyd) / r2, (-rxd - txd) / r1) -
+      Math.atan2((ryd - tyd) / r2, (rxd - txd) / r1);
     var dr = rad >= 0 ? rad : 2 * Math.PI + rad;
 
     if (fS == 0 && dr > 0) {
@@ -984,7 +1052,8 @@ export class mxUtils {
     var sse = (dr * 2) / Math.PI;
     var seg = Math.ceil(sse < 0 ? -1 * sse : sse);
     var segr = dr / seg;
-    var t = ((8 / 3) * Math.sin(segr / 4) * Math.sin(segr / 4)) / Math.sin(segr / 2);
+    var t =
+      ((8 / 3) * Math.sin(segr / 4) * Math.sin(segr / 4)) / Math.sin(segr / 2);
     var cpsir1 = cpsi * r1;
     var cpsir2 = cpsi * r2;
     var spsir1 = spsi * r1;
@@ -1026,7 +1095,10 @@ export class mxUtils {
       var rad = mxUtils.toRadians(rotation);
       var cos = Math.cos(rad);
       var sin = Math.sin(rad);
-      cx = cx != null ? cx : new mxPoint(rect.x + rect.width / 2, rect.y + rect.height / 2);
+      cx =
+        cx != null
+          ? cx
+          : new mxPoint(rect.x + rect.width / 2, rect.y + rect.height / 2);
       var p1 = new mxPoint(rect.x, rect.y);
       var p2 = new mxPoint(rect.x + rect.width, rect.y);
       var p3 = new mxPoint(p2.x, rect.y + rect.height);
@@ -1059,9 +1131,11 @@ export class mxUtils {
       mxConstants.STYLE_PORT_CONSTRAINT,
       mxUtils.getValue(
         edge.style,
-        source ? mxConstants.STYLE_SOURCE_PORT_CONSTRAINT : mxConstants.STYLE_TARGET_PORT_CONSTRAINT,
-        null
-      )
+        source
+          ? mxConstants.STYLE_SOURCE_PORT_CONSTRAINT
+          : mxConstants.STYLE_TARGET_PORT_CONSTRAINT,
+        null,
+      ),
     );
 
     if (value == null) {
@@ -1069,11 +1143,19 @@ export class mxUtils {
     } else {
       var directions = value.toString();
       var returnValue = mxConstants.DIRECTION_MASK_NONE;
-      var constraintRotationEnabled = mxUtils.getValue(terminal.style, mxConstants.STYLE_PORT_CONSTRAINT_ROTATION, 0);
+      var constraintRotationEnabled = mxUtils.getValue(
+        terminal.style,
+        mxConstants.STYLE_PORT_CONSTRAINT_ROTATION,
+        0,
+      );
       var rotation = 0;
 
       if (constraintRotationEnabled == 1) {
-        rotation = mxUtils.getValue(terminal.style, mxConstants.STYLE_ROTATION, 0);
+        rotation = mxUtils.getValue(
+          terminal.style,
+          mxConstants.STYLE_ROTATION,
+          0,
+        );
       }
 
       var quad = 0;
@@ -1194,7 +1276,14 @@ export class mxUtils {
 
       for (var i = 1; i < state.absolutePoints.length; i++) {
         var current = state.absolutePoints[i];
-        var dist = mxUtils.ptSegDistSq(last.x, last.y, current.x, current.y, x, y);
+        var dist = mxUtils.ptSegDistSq(
+          last.x,
+          last.y,
+          current.x,
+          current.y,
+          x,
+          y,
+        );
 
         if (min == null || dist < min) {
           min = dist;
@@ -1209,17 +1298,30 @@ export class mxUtils {
   }
 
   static getDirectedBounds(rect, m, style, flipH, flipV) {
-    var d = mxUtils.getValue(style, mxConstants.STYLE_DIRECTION, mxConstants.DIRECTION_EAST);
-    flipH = flipH != null ? flipH : mxUtils.getValue(style, mxConstants.STYLE_FLIPH, false);
-    flipV = flipV != null ? flipV : mxUtils.getValue(style, mxConstants.STYLE_FLIPV, false);
+    var d = mxUtils.getValue(
+      style,
+      mxConstants.STYLE_DIRECTION,
+      mxConstants.DIRECTION_EAST,
+    );
+    flipH =
+      flipH != null
+        ? flipH
+        : mxUtils.getValue(style, mxConstants.STYLE_FLIPH, false);
+    flipV =
+      flipV != null
+        ? flipV
+        : mxUtils.getValue(style, mxConstants.STYLE_FLIPV, false);
     m.x = Math.round(Math.max(0, Math.min(rect.width, m.x)));
     m.y = Math.round(Math.max(0, Math.min(rect.height, m.y)));
     m.width = Math.round(Math.max(0, Math.min(rect.width, m.width)));
     m.height = Math.round(Math.max(0, Math.min(rect.height, m.height)));
 
     if (
-      (flipV && (d == mxConstants.DIRECTION_SOUTH || d == mxConstants.DIRECTION_NORTH)) ||
-      (flipH && (d == mxConstants.DIRECTION_EAST || d == mxConstants.DIRECTION_WEST))
+      (flipV &&
+        (d == mxConstants.DIRECTION_SOUTH ||
+          d == mxConstants.DIRECTION_NORTH)) ||
+      (flipH &&
+        (d == mxConstants.DIRECTION_EAST || d == mxConstants.DIRECTION_WEST))
     ) {
       var tmp = m.x;
       m.x = m.width;
@@ -1227,8 +1329,11 @@ export class mxUtils {
     }
 
     if (
-      (flipH && (d == mxConstants.DIRECTION_SOUTH || d == mxConstants.DIRECTION_NORTH)) ||
-      (flipV && (d == mxConstants.DIRECTION_EAST || d == mxConstants.DIRECTION_WEST))
+      (flipH &&
+        (d == mxConstants.DIRECTION_SOUTH ||
+          d == mxConstants.DIRECTION_NORTH)) ||
+      (flipV &&
+        (d == mxConstants.DIRECTION_EAST || d == mxConstants.DIRECTION_WEST))
     ) {
       var tmp = m.y;
       m.y = m.height;
@@ -1254,7 +1359,12 @@ export class mxUtils {
       m2.height = m.x;
     }
 
-    return new mxRectangle(rect.x + m2.x, rect.y + m2.y, rect.width - m2.width - m2.x, rect.height - m2.height - m2.y);
+    return new mxRectangle(
+      rect.x + m2.x,
+      rect.y + m2.y,
+      rect.width - m2.width - m2.x,
+      rect.height - m2.height - m2.y,
+    );
   }
 
   static getPerimeterPoint(pts, center, point) {
@@ -1269,7 +1379,7 @@ export class mxUtils {
         center.x,
         center.y,
         point.x,
-        point.y
+        point.y,
       );
 
       if (pt != null) {
@@ -1277,7 +1387,7 @@ export class mxUtils {
         var dy = point.y - pt.y;
         var ip = {
           p: pt,
-          distSq: dy * dy + dx * dx
+          distSq: dy * dy + dx * dx,
         };
 
         if (ip != null && (min == null || min.distSq > ip.distSq)) {
@@ -1347,7 +1457,12 @@ export class mxUtils {
   }
 
   static contains(bounds, x, y) {
-    return bounds.x <= x && bounds.x + bounds.width >= x && bounds.y <= y && bounds.y + bounds.height >= y;
+    return (
+      bounds.x <= x &&
+      bounds.x + bounds.width >= x &&
+      bounds.y <= y &&
+      bounds.y + bounds.height >= y
+    );
   }
 
   static intersects(a, b) {
@@ -1368,7 +1483,12 @@ export class mxUtils {
     rh += ry;
     tw += tx;
     th += ty;
-    return (rw < rx || rw > tx) && (rh < ry || rh > ty) && (tw < tx || tw > rx) && (th < ty || th > ry);
+    return (
+      (rw < rx || rw > tx) &&
+      (rh < ry || rh > ty) &&
+      (tw < tx || tw > rx) &&
+      (th < ty || th > ry)
+    );
   }
 
   static intersectsHotspot(state, x, y, hotspot, min, max) {
@@ -1381,7 +1501,9 @@ export class mxUtils {
       var cy = state.getCenterY();
       var w = state.width;
       var h = state.height;
-      var start = mxUtils.getValue(state.style, mxConstants.STYLE_STARTSIZE) * state.view.scale;
+      var start =
+        mxUtils.getValue(state.style, mxConstants.STYLE_STARTSIZE) *
+        state.view.scale;
 
       if (start > 0) {
         if (mxUtils.getValue(state.style, mxConstants.STYLE_HORIZONTAL, true)) {
@@ -1402,7 +1524,9 @@ export class mxUtils {
       }
 
       var rect = new mxRectangle(cx - w / 2, cy - h / 2, w, h);
-      var alpha = mxUtils.toRadians(mxUtils.getValue(state.style, mxConstants.STYLE_ROTATION) || 0);
+      var alpha = mxUtils.toRadians(
+        mxUtils.getValue(state.style, mxConstants.STYLE_ROTATION) || 0,
+      );
 
       if (alpha != 0) {
         var cos = Math.cos(-alpha);
@@ -1431,7 +1555,7 @@ export class mxUtils {
       var style = mxUtils.getCurrentStyle(node);
 
       if (style != null) {
-        fixed = fixed || style.position == 'fixed';
+        fixed = fixed || style.position == "fixed";
       }
 
       node = node.parentNode;
@@ -1461,11 +1585,19 @@ export class mxUtils {
       var x =
         wnd != null && window.pageXOffset !== undefined
           ? window.pageXOffset
-          : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
+          : (
+              document.documentElement ||
+              document.body.parentNode ||
+              document.body
+            ).scrollLeft;
       var y =
         wnd != null && window.pageYOffset !== undefined
           ? window.pageYOffset
-          : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+          : (
+              document.documentElement ||
+              document.body.parentNode ||
+              document.body
+            ).scrollTop;
       return new mxPoint(x, y);
     }
   }
@@ -1488,7 +1620,7 @@ export class mxUtils {
       var style = mxUtils.getCurrentStyle(node);
 
       if (style != null) {
-        fixed = fixed || style.position == 'fixed';
+        fixed = fixed || style.position == "fixed";
       }
 
       node = includeAncestors ? node.parentNode : null;
@@ -1512,13 +1644,17 @@ export class mxUtils {
   }
 
   static ltrim(str, chars) {
-    chars = chars || '\\s';
-    return str != null ? str.replace(new RegExp('^[' + chars + ']+', 'g'), '') : null;
+    chars = chars || "\\s";
+    return str != null
+      ? str.replace(new RegExp("^[" + chars + "]+", "g"), "")
+      : null;
   }
 
   static rtrim(str, chars) {
-    chars = chars || '\\s';
-    return str != null ? str.replace(new RegExp('[' + chars + ']+$', 'g'), '') : null;
+    chars = chars || "\\s";
+    return str != null
+      ? str.replace(new RegExp("[" + chars + "]+$", "g"), "")
+      : null;
   }
 
   static trim(str, chars) {
@@ -1526,7 +1662,11 @@ export class mxUtils {
   }
 
   static isNumeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n) && (typeof n != 'string' || n.toLowerCase().indexOf('0x') < 0);
+    return (
+      !isNaN(parseFloat(n)) &&
+      isFinite(n) &&
+      (typeof n != "string" || n.toLowerCase().indexOf("0x") < 0)
+    );
   }
 
   static isInteger(n) {
@@ -1630,9 +1770,9 @@ export class mxUtils {
   static setOpacity(node, value) {
     if (mxUtils.isVml(node)) {
       if (value >= 100) {
-        node.style.filter = '';
+        node.style.filter = "";
       } else {
-        node.style.filter = 'alpha(opacity=' + value / 5 + ')';
+        node.style.filter = "alpha(opacity=" + value / 5 + ")";
       }
     } else {
       node.style.opacity = value / 100;
@@ -1641,9 +1781,9 @@ export class mxUtils {
 
   static createImage(src) {
     var imageNode = null;
-    imageNode = document.createElement('img');
-    imageNode.setAttribute('src', src);
-    imageNode.setAttribute('border', '0');
+    imageNode = document.createElement("img");
+    imageNode.setAttribute("src", src);
+    imageNode.setAttribute("border", "0");
     return imageNode;
   }
 
@@ -1673,25 +1813,25 @@ export class mxUtils {
 
   static getStylename(style) {
     if (style != null) {
-      var pairs = style.split(';');
+      var pairs = style.split(";");
       var stylename = pairs[0];
 
-      if (stylename.indexOf('=') < 0) {
+      if (stylename.indexOf("=") < 0) {
         return stylename;
       }
     }
 
-    return '';
+    return "";
   }
 
   static getStylenames(style) {
     var result = [];
 
     if (style != null) {
-      var pairs = style.split(';');
+      var pairs = style.split(";");
 
       for (var i = 0; i < pairs.length; i++) {
-        if (pairs[i].indexOf('=') < 0) {
+        if (pairs[i].indexOf("=") < 0) {
           result.push(pairs[i]);
         }
       }
@@ -1702,7 +1842,7 @@ export class mxUtils {
 
   static indexOfStylename(style, stylename) {
     if (style != null && stylename != null) {
-      var tokens = style.split(';');
+      var tokens = style.split(";");
       var pos = 0;
 
       for (var i = 0; i < tokens.length; i++) {
@@ -1720,9 +1860,9 @@ export class mxUtils {
   static addStylename(style, stylename) {
     if (mxUtils.indexOfStylename(style, stylename) < 0) {
       if (style == null) {
-        style = '';
-      } else if (style.length > 0 && style.charAt(style.length - 1) != ';') {
-        style += ';';
+        style = "";
+      } else if (style.length > 0 && style.charAt(style.length - 1) != ";") {
+        style += ";";
       }
 
       style += stylename;
@@ -1735,7 +1875,7 @@ export class mxUtils {
     var result = [];
 
     if (style != null) {
-      var tokens = style.split(';');
+      var tokens = style.split(";");
 
       for (var i = 0; i < tokens.length; i++) {
         if (tokens[i] != stylename) {
@@ -1744,23 +1884,23 @@ export class mxUtils {
       }
     }
 
-    return result.join(';');
+    return result.join(";");
   }
 
   static removeAllStylenames(style) {
     var result = [];
 
     if (style != null) {
-      var tokens = style.split(';');
+      var tokens = style.split(";");
 
       for (var i = 0; i < tokens.length; i++) {
-        if (tokens[i].indexOf('=') >= 0) {
+        if (tokens[i].indexOf("=") >= 0) {
           result.push(tokens[i]);
         }
       }
     }
 
-    return result.join(';');
+    return result.join(";");
   }
 
   static setCellStyles(model, cells, key, value) {
@@ -1781,36 +1921,47 @@ export class mxUtils {
   }
 
   static setStyle(style, key, value) {
-    var isValue = value != null && (typeof value.length == 'undefined' || value.length > 0);
+    var isValue =
+      value != null && (typeof value.length == "undefined" || value.length > 0);
 
     if (style == null || style.length == 0) {
       if (isValue) {
-        style = key + '=' + value + ';';
+        style = key + "=" + value + ";";
       }
     } else {
-      if (style.substring(0, key.length + 1) == key + '=') {
-        var next = style.indexOf(';');
+      if (style.substring(0, key.length + 1) == key + "=") {
+        var next = style.indexOf(";");
 
         if (isValue) {
-          style = key + '=' + value + (next < 0 ? ';' : style.substring(next));
+          style = key + "=" + value + (next < 0 ? ";" : style.substring(next));
         } else {
-          style = next < 0 || next == style.length - 1 ? '' : style.substring(next + 1);
+          style =
+            next < 0 || next == style.length - 1
+              ? ""
+              : style.substring(next + 1);
         }
       } else {
-        var index = style.indexOf(';' + key + '=');
+        var index = style.indexOf(";" + key + "=");
 
         if (index < 0) {
           if (isValue) {
-            var sep = style.charAt(style.length - 1) == ';' ? '' : ';';
-            style = style + sep + key + '=' + value + ';';
+            var sep = style.charAt(style.length - 1) == ";" ? "" : ";";
+            style = style + sep + key + "=" + value + ";";
           }
         } else {
-          var next = style.indexOf(';', index + 1);
+          var next = style.indexOf(";", index + 1);
 
           if (isValue) {
-            style = style.substring(0, index + 1) + key + '=' + value + (next < 0 ? ';' : style.substring(next));
+            style =
+              style.substring(0, index + 1) +
+              key +
+              "=" +
+              value +
+              (next < 0 ? ";" : style.substring(next));
           } else {
-            style = style.substring(0, index) + (next < 0 ? ';' : style.substring(next));
+            style =
+              style.substring(0, index) +
+              (next < 0 ? ";" : style.substring(next));
           }
         }
       }
@@ -1826,7 +1977,12 @@ export class mxUtils {
       try {
         for (var i = 0; i < cells.length; i++) {
           if (cells[i] != null) {
-            var style = mxUtils.setStyleFlag(model.getStyle(cells[i]), key, flag, value);
+            var style = mxUtils.setStyleFlag(
+              model.getStyle(cells[i]),
+              key,
+              flag,
+              value,
+            );
             model.setStyle(cells[i], style);
           }
         }
@@ -1839,24 +1995,24 @@ export class mxUtils {
   static setStyleFlag(style, key, flag, value) {
     if (style == null || style.length == 0) {
       if (value || value == null) {
-        style = key + '=' + flag;
+        style = key + "=" + flag;
       } else {
-        style = key + '=0';
+        style = key + "=0";
       }
     } else {
-      var index = style.indexOf(key + '=');
+      var index = style.indexOf(key + "=");
 
       if (index < 0) {
-        var sep = style.charAt(style.length - 1) == ';' ? '' : ';';
+        var sep = style.charAt(style.length - 1) == ";" ? "" : ";";
 
         if (value || value == null) {
-          style = style + sep + key + '=' + flag;
+          style = style + sep + key + "=" + flag;
         } else {
-          style = style + sep + key + '=0';
+          style = style + sep + key + "=0";
         }
       } else {
-        var cont = style.indexOf(';', index);
-        var tmp = '';
+        var cont = style.indexOf(";", index);
+        var tmp = "";
 
         if (cont < 0) {
           tmp = style.substring(index + key.length + 1);
@@ -1872,7 +2028,12 @@ export class mxUtils {
           tmp = parseInt(tmp) & ~flag;
         }
 
-        style = style.substring(0, index) + key + '=' + tmp + (cont >= 0 ? style.substring(cont) : '');
+        style =
+          style.substring(0, index) +
+          key +
+          "=" +
+          tmp +
+          (cont >= 0 ? style.substring(cont) : "");
       }
     }
 
@@ -1900,46 +2061,54 @@ export class mxUtils {
 
   static getSizeForString(text, fontSize, fontFamily, textWidth, fontStyle) {
     fontSize = fontSize != null ? fontSize : mxConstants.DEFAULT_FONTSIZE;
-    fontFamily = fontFamily != null ? fontFamily : mxConstants.DEFAULT_FONTFAMILY;
-    var div = document.createElement('div');
+    fontFamily =
+      fontFamily != null ? fontFamily : mxConstants.DEFAULT_FONTFAMILY;
+    var div = document.createElement("div");
     div.style.fontFamily = fontFamily;
-    div.style.fontSize = Math.round(fontSize) + 'px';
-    div.style.lineHeight = Math.round(fontSize * mxConstants.LINE_HEIGHT) + 'px';
+    div.style.fontSize = Math.round(fontSize) + "px";
+    div.style.lineHeight =
+      Math.round(fontSize * mxConstants.LINE_HEIGHT) + "px";
 
     if (fontStyle != null) {
       if ((fontStyle & mxConstants.FONT_BOLD) == mxConstants.FONT_BOLD) {
-        div.style.fontWeight = 'bold';
+        div.style.fontWeight = "bold";
       }
 
       if ((fontStyle & mxConstants.FONT_ITALIC) == mxConstants.FONT_ITALIC) {
-        div.style.fontStyle = 'italic';
+        div.style.fontStyle = "italic";
       }
 
       var txtDecor = [];
 
-      if ((fontStyle & mxConstants.FONT_UNDERLINE) == mxConstants.FONT_UNDERLINE) {
-        txtDecor.push('underline');
+      if (
+        (fontStyle & mxConstants.FONT_UNDERLINE) ==
+        mxConstants.FONT_UNDERLINE
+      ) {
+        txtDecor.push("underline");
       }
 
-      if ((fontStyle & mxConstants.FONT_STRIKETHROUGH) == mxConstants.FONT_STRIKETHROUGH) {
-        txtDecor.push('line-through');
+      if (
+        (fontStyle & mxConstants.FONT_STRIKETHROUGH) ==
+        mxConstants.FONT_STRIKETHROUGH
+      ) {
+        txtDecor.push("line-through");
       }
 
       if (txtDecor.length > 0) {
-        div.style.textDecoration = txtDecor.join(' ');
+        div.style.textDecoration = txtDecor.join(" ");
       }
     }
 
-    div.style.position = 'absolute';
-    div.style.visibility = 'hidden';
-    div.style.display = mxClient.IS_QUIRKS ? 'inline' : 'inline-block';
-    div.style.zoom = '1';
+    div.style.position = "absolute";
+    div.style.visibility = "hidden";
+    div.style.display = mxClient.IS_QUIRKS ? "inline" : "inline-block";
+    div.style.zoom = "1";
 
     if (textWidth != null) {
-      div.style.width = textWidth + 'px';
-      div.style.whiteSpace = 'normal';
+      div.style.width = textWidth + "px";
+      div.style.whiteSpace = "normal";
     } else {
-      div.style.whiteSpace = 'nowrap';
+      div.style.whiteSpace = "nowrap";
     }
 
     div.innerHTML = text;
@@ -1967,9 +2136,9 @@ export class mxUtils {
     var overlayPane = view.overlayPane;
 
     if (graph.dialect == mxConstants.DIALECT_SVG) {
-      view.drawPane = document.createElementNS(mxConstants.NS_SVG, 'g');
+      view.drawPane = document.createElementNS(mxConstants.NS_SVG, "g");
       view.canvas.appendChild(view.drawPane);
-      view.overlayPane = document.createElementNS(mxConstants.NS_SVG, 'g');
+      view.overlayPane = document.createElementNS(mxConstants.NS_SVG, "g");
       view.canvas.appendChild(view.overlayPane);
     } else {
       view.drawPane = view.drawPane.cloneNode(false);
@@ -2003,7 +2172,8 @@ export class mxUtils {
       return 1;
     }
 
-    pageFormat = pageFormat != null ? pageFormat : mxConstants.PAGE_FORMAT_A4_PORTRAIT;
+    pageFormat =
+      pageFormat != null ? pageFormat : mxConstants.PAGE_FORMAT_A4_PORTRAIT;
     border = border != null ? border : 0;
     var availablePageWidth = pageFormat.width - border * 2;
     var availablePageHeight = pageFormat.height - border * 2;
@@ -2039,14 +2209,16 @@ export class mxUtils {
 
     while (currentTotalPages > pageCount) {
       var roundRowDownProportion = Math.floor(numRowPages) / numRowPages;
-      var roundColumnDownProportion = Math.floor(numColumnPages) / numColumnPages;
+      var roundColumnDownProportion =
+        Math.floor(numColumnPages) / numColumnPages;
 
       if (roundRowDownProportion == 1) {
         roundRowDownProportion = Math.floor(numRowPages - 1) / numRowPages;
       }
 
       if (roundColumnDownProportion == 1) {
-        roundColumnDownProportion = Math.floor(numColumnPages - 1) / numColumnPages;
+        roundColumnDownProportion =
+          Math.floor(numColumnPages - 1) / numColumnPages;
       }
 
       var scaleChange = 1;
@@ -2084,7 +2256,9 @@ export class mxUtils {
     }
 
     if (document.documentMode == 9) {
-      doc.writeln('<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=9"><![endif]-->');
+      doc.writeln(
+        '<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=9"><![endif]-->',
+      );
     }
 
     var bounds = graph.getGraphBounds();
@@ -2092,22 +2266,26 @@ export class mxUtils {
     var dy = Math.ceil(y0 - bounds.y);
 
     if (w == null) {
-      w = Math.ceil(bounds.width + x0) + Math.ceil(Math.ceil(bounds.x) - bounds.x);
+      w =
+        Math.ceil(bounds.width + x0) +
+        Math.ceil(Math.ceil(bounds.x) - bounds.x);
     }
 
     if (h == null) {
-      h = Math.ceil(bounds.height + y0) + Math.ceil(Math.ceil(bounds.y) - bounds.y);
+      h =
+        Math.ceil(bounds.height + y0) +
+        Math.ceil(Math.ceil(bounds.y) - bounds.y);
     }
 
     if (document.documentMode == 11) {
-      var html = '<html><head>';
-      var base = document.getElementsByTagName('base');
+      var html = "<html><head>";
+      var base = document.getElementsByTagName("base");
 
       for (var i = 0; i < base.length; i++) {
         html += base[i].outerHTML;
       }
 
-      html += '<style>';
+      html += "<style>";
 
       for (var i = 0; i < document.styleSheets.length; i++) {
         try {
@@ -2121,32 +2299,32 @@ export class mxUtils {
       html +=
         '<div style="position:absolute;overflow:hidden;width:' +
         w +
-        'px;height:' +
+        "px;height:" +
         h +
         'px;"><div style="position:relative;left:' +
         dx +
-        'px;top:' +
+        "px;top:" +
         dy +
         'px;">';
       html += graph.container.innerHTML;
-      html += '</div></div></body><html>';
+      html += "</div></div></body><html>";
       doc.writeln(html);
       doc.close();
     } else {
-      doc.writeln('<html><head>');
-      var base = document.getElementsByTagName('base');
+      doc.writeln("<html><head>");
+      var base = document.getElementsByTagName("base");
 
       for (var i = 0; i < base.length; i++) {
         doc.writeln(mxUtils.getOuterHtml(base[i]));
       }
 
-      var links = document.getElementsByTagName('link');
+      var links = document.getElementsByTagName("link");
 
       for (var i = 0; i < links.length; i++) {
         doc.writeln(mxUtils.getOuterHtml(links[i]));
       }
 
-      var styles = document.getElementsByTagName('style');
+      var styles = document.getElementsByTagName("style");
 
       for (var i = 0; i < styles.length; i++) {
         doc.writeln(mxUtils.getOuterHtml(styles[i]));
@@ -2154,15 +2332,15 @@ export class mxUtils {
 
       doc.writeln('</head><body style="margin:0px;"></body></html>');
       doc.close();
-      var outer = doc.createElement('div');
-      outer.position = 'absolute';
-      outer.overflow = 'hidden';
-      outer.style.width = w + 'px';
-      outer.style.height = h + 'px';
-      var div = doc.createElement('div');
-      div.style.position = 'absolute';
-      div.style.left = dx + 'px';
-      div.style.top = dy + 'px';
+      var outer = doc.createElement("div");
+      outer.position = "absolute";
+      outer.overflow = "hidden";
+      outer.style.width = w + "px";
+      outer.style.height = h + "px";
+      var div = doc.createElement("div");
+      div.style.position = "absolute";
+      div.style.left = dx + "px";
+      div.style.top = dy + "px";
       var node = graph.container.firstChild;
       var svg = null;
 
@@ -2186,9 +2364,12 @@ export class mxUtils {
       }
 
       if (svg != null) {
-        svg.style.minWidth = '';
-        svg.style.minHeight = '';
-        svg.firstChild.setAttribute('transform', 'translate(' + dx + ',' + dy + ')');
+        svg.style.minWidth = "";
+        svg.style.minHeight = "";
+        svg.firstChild.setAttribute(
+          "transform",
+          "translate(" + dx + "," + dy + ")",
+        );
       }
     }
 
@@ -2216,27 +2397,45 @@ export class mxUtils {
 
   static popup(content, isInternalWindow) {
     if (isInternalWindow) {
-      var div = document.createElement('div');
-      div.style.overflow = 'scroll';
-      div.style.width = '636px';
-      div.style.height = '460px';
-      var pre = document.createElement('pre');
-      pre.innerHTML = mxUtils.htmlEntities(content, false).replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+      var div = document.createElement("div");
+      div.style.overflow = "scroll";
+      div.style.width = "636px";
+      div.style.height = "460px";
+      var pre = document.createElement("pre");
+      pre.innerHTML = mxUtils
+        .htmlEntities(content, false)
+        .replace(/\n/g, "<br>")
+        .replace(/ /g, "&nbsp;");
       div.appendChild(pre);
       var w = document.body.clientWidth;
-      var h = Math.max(document.body.clientHeight || 0, document.documentElement.clientHeight);
-      var wnd = new mxWindow('Popup Window', div, w / 2 - 320, h / 2 - 240, 640, 480, false, true);
+      var h = Math.max(
+        document.body.clientHeight || 0,
+        document.documentElement.clientHeight,
+      );
+      var wnd = new mxWindow(
+        "Popup Window",
+        div,
+        w / 2 - 320,
+        h / 2 - 240,
+        640,
+        480,
+        false,
+        true,
+      );
       wnd.setClosable(true);
       wnd.setVisible(true);
     } else {
       if (mxClient.IS_NS) {
         var wnd = window.open();
-        wnd.document.writeln('<pre>' + mxUtils.htmlEntities(content) + '</pre');
+        wnd.document.writeln("<pre>" + mxUtils.htmlEntities(content) + "</pre");
         wnd.document.close();
       } else {
         var wnd = window.open();
-        var pre = wnd.document.createElement('pre');
-        pre.innerHTML = mxUtils.htmlEntities(content, false).replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+        var pre = wnd.document.createElement("pre");
+        pre.innerHTML = mxUtils
+          .htmlEntities(content, false)
+          .replace(/\n/g, "<br>")
+          .replace(/ /g, "&nbsp;");
         wnd.document.body.appendChild(pre);
       }
     }
@@ -2247,7 +2446,7 @@ export class mxUtils {
   }
 
   static prompt(message, defaultValue) {
-    return prompt(message, defaultValue != null ? defaultValue : '');
+    return prompt(message, defaultValue != null ? defaultValue : "");
   }
 
   static confirm(message) {
@@ -2255,16 +2454,16 @@ export class mxUtils {
   }
 
   static error(message, width, close, icon) {
-    var div = document.createElement('div');
-    div.style.padding = '20px';
-    var img = document.createElement('img');
-    img.setAttribute('src', icon || mxUtils.errorImage);
-    img.setAttribute('valign', 'bottom');
-    img.style.verticalAlign = 'middle';
+    var div = document.createElement("div");
+    div.style.padding = "20px";
+    var img = document.createElement("img");
+    img.setAttribute("src", icon || mxUtils.errorImage);
+    img.setAttribute("valign", "bottom");
+    img.style.verticalAlign = "middle";
     div.appendChild(img);
-    div.appendChild(document.createTextNode('\u00a0'));
-    div.appendChild(document.createTextNode('\u00a0'));
-    div.appendChild(document.createTextNode('\u00a0'));
+    div.appendChild(document.createTextNode("\u00a0"));
+    div.appendChild(document.createTextNode("\u00a0"));
+    div.appendChild(document.createTextNode("\u00a0"));
     mxUtils.write(div, message);
     var w = document.body.clientWidth;
     var h = document.body.clientHeight || document.documentElement.clientHeight;
@@ -2276,18 +2475,21 @@ export class mxUtils {
       width,
       null,
       false,
-      true
+      true,
     );
 
     if (close) {
       mxUtils.br(div);
-      var tmp = document.createElement('p');
-      var button = document.createElement('button');
-      button.setAttribute('style', 'float:right');
-      mxEvent.addListener(button, 'click', function (evt) {
+      var tmp = document.createElement("p");
+      var button = document.createElement("button");
+      button.setAttribute("style", "float:right");
+      mxEvent.addListener(button, "click", function (evt) {
         warn.destroy();
       });
-      mxUtils.write(button, mxResources.get(mxUtils.closeResource) || mxUtils.closeResource);
+      mxUtils.write(
+        button,
+        mxResources.get(mxUtils.closeResource) || mxUtils.closeResource,
+      );
       tmp.appendChild(button);
       div.appendChild(tmp);
       mxUtils.br(div);
@@ -2308,10 +2510,13 @@ export class mxUtils {
     autoscroll,
     scalePreview,
     highlightDropTargets,
-    getDropTarget
+    getDropTarget,
   ) {
     var dragSource = new mxDragSource(element, funct);
-    dragSource.dragOffset = new mxPoint(dx != null ? dx : 0, dy != null ? dy : mxConstants.TOOLTIP_VERTICAL_OFFSET);
+    dragSource.dragOffset = new mxPoint(
+      dx != null ? dx : 0,
+      dy != null ? dy : mxConstants.TOOLTIP_VERTICAL_OFFSET,
+    );
     dragSource.autoscroll = autoscroll;
     dragSource.setGuidesEnabled(false);
 
@@ -2324,7 +2529,7 @@ export class mxUtils {
     }
 
     dragSource.getGraphForEvent = function (evt) {
-      return typeof graphF == 'function' ? graphF(evt) : graphF;
+      return typeof graphF == "function" ? graphF(evt) : graphF;
     };
 
     if (dragElement != null) {
@@ -2337,8 +2542,8 @@ export class mxUtils {
           var elt = dragElement.cloneNode(true);
           var w = parseInt(elt.style.width);
           var h = parseInt(elt.style.height);
-          elt.style.width = Math.round(w * graph.view.scale) + 'px';
-          elt.style.height = Math.round(h * graph.view.scale) + 'px';
+          elt.style.width = Math.round(w * graph.view.scale) + "px";
+          elt.style.height = Math.round(h * graph.view.scale) + "px";
           return elt;
         };
       }

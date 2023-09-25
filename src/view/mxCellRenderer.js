@@ -1,18 +1,18 @@
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
-import { mxMouseEvent } from '@mxgraph/util/mxMouseEvent';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxShape } from '@mxgraph/shape/mxShape';
-import { mxStencilRegistry } from '@mxgraph/shape/mxStencilRegistry';
-import { mxText } from '@mxgraph/shape/mxText';
-import { mxImageShape } from '@mxgraph/shape/mxImageShape';
-import { mxConnector } from '@mxgraph/shape/mxConnector';
-import { mxRectangleShape } from '@mxgraph/shape/mxRectangleShape';
-import { mxConstants } from '@mxgraph/util/mxConstants';
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
+import { mxMouseEvent } from "@mxgraph/util/mxMouseEvent";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxShape } from "@mxgraph/shape/mxShape";
+import { mxStencilRegistry } from "@mxgraph/shape/mxStencilRegistry";
+import { mxText } from "@mxgraph/shape/mxText";
+import { mxImageShape } from "@mxgraph/shape/mxImageShape";
+import { mxConnector } from "@mxgraph/shape/mxConnector";
+import { mxRectangleShape } from "@mxgraph/shape/mxRectangleShape";
+import { mxConstants } from "@mxgraph/util/mxConstants";
 
 export class mxCellRenderer {
   static defaultShapes = new Object();
@@ -41,7 +41,9 @@ export class mxCellRenderer {
     var shape = null;
 
     if (state.style != null) {
-      var stencil = mxStencilRegistry.getStencil(state.style[mxConstants.STYLE_SHAPE]);
+      var stencil = mxStencilRegistry.getStencil(
+        state.style[mxConstants.STYLE_SHAPE],
+      );
 
       if (stencil != null) {
         shape = new mxShape(stencil);
@@ -55,7 +57,9 @@ export class mxCellRenderer {
   }
 
   createIndicatorShape(state) {
-    state.shape.indicatorShape = this.getShape(state.view.graph.getIndicatorShape(state));
+    state.shape.indicatorShape = this.getShape(
+      state.view.graph.getIndicatorShape(state),
+    );
   }
 
   getShape(name) {
@@ -66,7 +70,9 @@ export class mxCellRenderer {
     var ctor = this.getShape(state.style[mxConstants.STYLE_SHAPE]);
 
     if (ctor == null) {
-      ctor = state.view.graph.getModel().isEdge(state.cell) ? this.defaultEdgeShape : this.defaultVertexShape;
+      ctor = state.view.graph.getModel().isEdge(state.cell)
+        ? this.defaultEdgeShape
+        : this.defaultVertexShape;
     }
 
     return ctor;
@@ -76,31 +82,38 @@ export class mxCellRenderer {
     state.shape.apply(state);
     state.shape.image = state.view.graph.getImage(state);
     state.shape.indicatorColor = state.view.graph.getIndicatorColor(state);
-    state.shape.indicatorStrokeColor = state.style[mxConstants.STYLE_INDICATOR_STROKECOLOR];
-    state.shape.indicatorGradientColor = state.view.graph.getIndicatorGradientColor(state);
-    state.shape.indicatorDirection = state.style[mxConstants.STYLE_INDICATOR_DIRECTION];
+    state.shape.indicatorStrokeColor =
+      state.style[mxConstants.STYLE_INDICATOR_STROKECOLOR];
+    state.shape.indicatorGradientColor =
+      state.view.graph.getIndicatorGradientColor(state);
+    state.shape.indicatorDirection =
+      state.style[mxConstants.STYLE_INDICATOR_DIRECTION];
     state.shape.indicatorImage = state.view.graph.getIndicatorImage(state);
     this.postConfigureShape(state);
   }
 
   postConfigureShape(state) {
     if (state.shape != null) {
-      this.resolveColor(state, 'indicatorGradientColor', mxConstants.STYLE_GRADIENTCOLOR);
-      this.resolveColor(state, 'indicatorColor', mxConstants.STYLE_FILLCOLOR);
-      this.resolveColor(state, 'gradient', mxConstants.STYLE_GRADIENTCOLOR);
-      this.resolveColor(state, 'stroke', mxConstants.STYLE_STROKECOLOR);
-      this.resolveColor(state, 'fill', mxConstants.STYLE_FILLCOLOR);
+      this.resolveColor(
+        state,
+        "indicatorGradientColor",
+        mxConstants.STYLE_GRADIENTCOLOR,
+      );
+      this.resolveColor(state, "indicatorColor", mxConstants.STYLE_FILLCOLOR);
+      this.resolveColor(state, "gradient", mxConstants.STYLE_GRADIENTCOLOR);
+      this.resolveColor(state, "stroke", mxConstants.STYLE_STROKECOLOR);
+      this.resolveColor(state, "fill", mxConstants.STYLE_FILLCOLOR);
     }
   }
 
   checkPlaceholderStyles(state) {
     if (state.style != null) {
-      var values = ['inherit', 'swimlane', 'indicated'];
+      var values = ["inherit", "swimlane", "indicated"];
       var styles = [
         mxConstants.STYLE_FILLCOLOR,
         mxConstants.STYLE_STROKECOLOR,
         mxConstants.STYLE_GRADIENTCOLOR,
-        mxConstants.STYLE_FONTCOLOR
+        mxConstants.STYLE_FONTCOLOR,
       ];
 
       for (var i = 0; i < styles.length; i++) {
@@ -121,11 +134,14 @@ export class mxCellRenderer {
       var value = shape[field];
       var referenced = null;
 
-      if (value == 'inherit') {
+      if (value == "inherit") {
         referenced = graph.model.getParent(state.cell);
-      } else if (value == 'swimlane') {
+      } else if (value == "swimlane") {
         shape[field] =
-          key == mxConstants.STYLE_STROKECOLOR || key == mxConstants.STYLE_FONTCOLOR ? '#000000' : '#ffffff';
+          key == mxConstants.STYLE_STROKECOLOR ||
+          key == mxConstants.STYLE_FONTCOLOR
+            ? "#000000"
+            : "#ffffff";
 
         if (graph.model.getTerminal(state.cell, false) != null) {
           referenced = graph.model.getTerminal(state.cell, false);
@@ -135,7 +151,7 @@ export class mxCellRenderer {
 
         referenced = graph.getSwimlane(referenced);
         key = graph.swimlaneIndicatorColorAttribute;
-      } else if (value == 'indicated' && state.shape != null) {
+      } else if (value == "indicated" && state.shape != null) {
         shape[field] = state.shape.indicatorColor;
       }
 
@@ -144,9 +160,10 @@ export class mxCellRenderer {
         shape[field] = null;
 
         if (rstate != null) {
-          var rshape = key == mxConstants.STYLE_FONTCOLOR ? rstate.text : rstate.shape;
+          var rshape =
+            key == mxConstants.STYLE_FONTCOLOR ? rstate.text : rstate.shape;
 
-          if (rshape != null && field != 'indicatorColor') {
+          if (rshape != null && field != "indicatorColor") {
             shape[field] = rshape[field];
           } else {
             shape[field] = rstate.style[key];
@@ -164,8 +181,13 @@ export class mxCellRenderer {
     var graph = state.view.graph;
     var isEdge = graph.getModel().isEdge(state.cell);
 
-    if (state.style[mxConstants.STYLE_FONTSIZE] > 0 || state.style[mxConstants.STYLE_FONTSIZE] == null) {
-      var isForceHtml = graph.isHtmlLabel(state.cell) || (value != null && mxUtils.isNode(value));
+    if (
+      state.style[mxConstants.STYLE_FONTSIZE] > 0 ||
+      state.style[mxConstants.STYLE_FONTSIZE] == null
+    ) {
+      var isForceHtml =
+        graph.isHtmlLabel(state.cell) ||
+        (value != null && mxUtils.isNode(value));
       state.text = new this.defaultTextShape(
         value,
         new mxRectangle(),
@@ -187,10 +209,20 @@ export class mxCellRenderer {
         graph.isLabelClipped(state.cell),
         state.style[mxConstants.STYLE_OVERFLOW],
         state.style[mxConstants.STYLE_LABEL_PADDING],
-        mxUtils.getValue(state.style, mxConstants.STYLE_TEXT_DIRECTION, mxConstants.DEFAULT_TEXT_DIRECTION)
+        mxUtils.getValue(
+          state.style,
+          mxConstants.STYLE_TEXT_DIRECTION,
+          mxConstants.DEFAULT_TEXT_DIRECTION,
+        ),
       );
-      state.text.opacity = mxUtils.getValue(state.style, mxConstants.STYLE_TEXT_OPACITY, 100);
-      state.text.dialect = isForceHtml ? mxConstants.DIALECT_STRICTHTML : state.view.graph.dialect;
+      state.text.opacity = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_TEXT_OPACITY,
+        100,
+      );
+      state.text.dialect = isForceHtml
+        ? mxConstants.DIALECT_STRICTHTML
+        : state.view.graph.dialect;
       state.text.style = state.style;
       state.text.state = state;
       this.initializeLabel(state, state.text);
@@ -213,25 +245,36 @@ export class mxCellRenderer {
         state.text.node,
         (evt) => {
           if (this.isLabelEvent(state, evt)) {
-            graph.fireMouseEvent(mxEvent.MOUSE_DOWN, new mxMouseEvent(evt, state));
-            forceGetCell = graph.dialect != mxConstants.DIALECT_SVG && mxEvent.getSource(evt).nodeName == 'IMG';
+            graph.fireMouseEvent(
+              mxEvent.MOUSE_DOWN,
+              new mxMouseEvent(evt, state),
+            );
+            forceGetCell =
+              graph.dialect != mxConstants.DIALECT_SVG &&
+              mxEvent.getSource(evt).nodeName == "IMG";
           }
         },
         (evt) => {
           if (this.isLabelEvent(state, evt)) {
-            graph.fireMouseEvent(mxEvent.MOUSE_MOVE, new mxMouseEvent(evt, getState(evt)));
+            graph.fireMouseEvent(
+              mxEvent.MOUSE_MOVE,
+              new mxMouseEvent(evt, getState(evt)),
+            );
           }
         },
         (evt) => {
           if (this.isLabelEvent(state, evt)) {
-            graph.fireMouseEvent(mxEvent.MOUSE_UP, new mxMouseEvent(evt, getState(evt)));
+            graph.fireMouseEvent(
+              mxEvent.MOUSE_UP,
+              new mxMouseEvent(evt, getState(evt)),
+            );
             forceGetCell = false;
           }
-        }
+        },
       );
 
       if (graph.nativeDblClickEnabled) {
-        mxEvent.addListener(state.text.node, 'dblclick', (evt) => {
+        mxEvent.addListener(state.text.node, "dblclick", (evt) => {
           if (this.isLabelEvent(state, evt)) {
             graph.dblClick(evt, state.cell);
             mxEvent.consume(evt);
@@ -242,7 +285,11 @@ export class mxCellRenderer {
   }
 
   initializeLabel(state, shape) {
-    if (mxClient.IS_SVG && mxClient.NO_FO && shape.dialect != mxConstants.DIALECT_SVG) {
+    if (
+      mxClient.IS_SVG &&
+      mxClient.NO_FO &&
+      shape.dialect != mxConstants.DIALECT_SVG
+    ) {
       shape.init(state.view.graph.container);
     } else {
       shape.init(state.view.getDrawPane());
@@ -258,7 +305,8 @@ export class mxCellRenderer {
       dict = new mxDictionary();
 
       for (var i = 0; i < overlays.length; i++) {
-        var shape = state.overlays != null ? state.overlays.remove(overlays[i]) : null;
+        var shape =
+          state.overlays != null ? state.overlays.remove(overlays[i]) : null;
 
         if (shape == null) {
           var tmp = new mxImageShape(new mxRectangle(), overlays[i].image.src);
@@ -294,12 +342,14 @@ export class mxCellRenderer {
 
   installCellOverlayListeners(state, overlay, shape) {
     var graph = state.view.graph;
-    mxEvent.addListener(shape.node, 'click', function (evt) {
+    mxEvent.addListener(shape.node, "click", function (evt) {
       if (graph.isEditing()) {
         graph.stopEditing(!graph.isInvokesStopCellEditing());
       }
 
-      overlay.fireEvent(new mxEventObject(mxEvent.CLICK, 'event', evt, 'cell', state.cell));
+      overlay.fireEvent(
+        new mxEventObject(mxEvent.CLICK, "event", evt, "cell", state.cell),
+      );
     });
     mxEvent.addGestureListeners(
       shape.node,
@@ -308,12 +358,14 @@ export class mxCellRenderer {
       },
       function (evt) {
         graph.fireMouseEvent(mxEvent.MOUSE_MOVE, new mxMouseEvent(evt, state));
-      }
+      },
     );
 
     if (mxClient.IS_TOUCH) {
-      mxEvent.addListener(shape.node, 'touchend', function (evt) {
-        overlay.fireEvent(new mxEventObject(mxEvent.CLICK, 'event', evt, 'cell', state.cell));
+      mxEvent.addListener(shape.node, "touchend", function (evt) {
+        overlay.fireEvent(
+          new mxEventObject(mxEvent.CLICK, "event", evt, "cell", state.cell),
+        );
       });
     }
   }
@@ -328,7 +380,12 @@ export class mxCellRenderer {
         state.control = new mxImageShape(b, image.src);
         state.control.preserveImageAspect = false;
         state.control.dialect = graph.dialect;
-        this.initControl(state, state.control, true, this.createControlClickHandler(state));
+        this.initControl(
+          state,
+          state.control,
+          true,
+          this.createControlClickHandler(state),
+        );
       }
     } else if (state.control != null) {
       state.control.destroy();
@@ -349,7 +406,10 @@ export class mxCellRenderer {
 
   initControl(state, control, handleEvents, clickHandler) {
     var graph = state.view.graph;
-    var isForceHtml = graph.isHtmlLabel(state.cell) && mxClient.NO_FO && graph.dialect == mxConstants.DIALECT_SVG;
+    var isForceHtml =
+      graph.isHtmlLabel(state.cell) &&
+      mxClient.NO_FO &&
+      graph.dialect == mxConstants.DIALECT_SVG;
 
     if (isForceHtml) {
       control.dialect = mxConstants.DIALECT_PREFERHTML;
@@ -363,10 +423,10 @@ export class mxCellRenderer {
 
     if (clickHandler != null && !mxClient.IS_IOS) {
       if (graph.isEnabled()) {
-        node.style.cursor = 'pointer';
+        node.style.cursor = "pointer";
       }
 
-      mxEvent.addListener(node, 'click', clickHandler);
+      mxEvent.addListener(node, "click", clickHandler);
     }
 
     if (handleEvents) {
@@ -375,21 +435,27 @@ export class mxCellRenderer {
         node,
         function (evt) {
           first = new mxPoint(mxEvent.getClientX(evt), mxEvent.getClientY(evt));
-          graph.fireMouseEvent(mxEvent.MOUSE_DOWN, new mxMouseEvent(evt, state));
+          graph.fireMouseEvent(
+            mxEvent.MOUSE_DOWN,
+            new mxMouseEvent(evt, state),
+          );
           mxEvent.consume(evt);
         },
         function (evt) {
-          graph.fireMouseEvent(mxEvent.MOUSE_MOVE, new mxMouseEvent(evt, state));
+          graph.fireMouseEvent(
+            mxEvent.MOUSE_MOVE,
+            new mxMouseEvent(evt, state),
+          );
         },
         function (evt) {
           graph.fireMouseEvent(mxEvent.MOUSE_UP, new mxMouseEvent(evt, state));
           mxEvent.consume(evt);
-        }
+        },
       );
 
       if (clickHandler != null && mxClient.IS_IOS) {
         node.addEventListener(
-          'touchend',
+          "touchend",
           function (evt) {
             if (first != null) {
               var tol = graph.tolerance;
@@ -403,7 +469,7 @@ export class mxCellRenderer {
               }
             }
           },
-          true
+          true,
         );
       }
     }
@@ -425,7 +491,11 @@ export class mxCellRenderer {
     var getState = function (evt) {
       var result = state;
 
-      if ((graph.dialect != mxConstants.DIALECT_SVG && mxEvent.getSource(evt).nodeName == 'IMG') || mxClient.IS_TOUCH) {
+      if (
+        (graph.dialect != mxConstants.DIALECT_SVG &&
+          mxEvent.getSource(evt).nodeName == "IMG") ||
+        mxClient.IS_TOUCH
+      ) {
         var x = mxEvent.getClientX(evt);
         var y = mxEvent.getClientY(evt);
         var pt = mxUtils.convertPoint(graph.container, x, y);
@@ -439,23 +509,32 @@ export class mxCellRenderer {
       state.shape.node,
       (evt) => {
         if (this.isShapeEvent(state, evt)) {
-          graph.fireMouseEvent(mxEvent.MOUSE_DOWN, new mxMouseEvent(evt, state));
+          graph.fireMouseEvent(
+            mxEvent.MOUSE_DOWN,
+            new mxMouseEvent(evt, state),
+          );
         }
       },
       (evt) => {
         if (this.isShapeEvent(state, evt)) {
-          graph.fireMouseEvent(mxEvent.MOUSE_MOVE, new mxMouseEvent(evt, getState(evt)));
+          graph.fireMouseEvent(
+            mxEvent.MOUSE_MOVE,
+            new mxMouseEvent(evt, getState(evt)),
+          );
         }
       },
       (evt) => {
         if (this.isShapeEvent(state, evt)) {
-          graph.fireMouseEvent(mxEvent.MOUSE_UP, new mxMouseEvent(evt, getState(evt)));
+          graph.fireMouseEvent(
+            mxEvent.MOUSE_UP,
+            new mxMouseEvent(evt, getState(evt)),
+          );
         }
-      }
+      },
     );
 
     if (graph.nativeDblClickEnabled) {
-      mxEvent.addListener(state.shape.node, 'dblclick', (evt) => {
+      mxEvent.addListener(state.shape.node, "dblclick", (evt) => {
         if (this.isShapeEvent(state, evt)) {
           graph.dblClick(evt, state.cell);
           mxEvent.consume(evt);
@@ -469,9 +548,13 @@ export class mxCellRenderer {
     var value = this.getLabelValue(state);
     var wrapping = graph.isWrapping(state.cell);
     var clipping = graph.isLabelClipped(state.cell);
-    var isForceHtml = state.view.graph.isHtmlLabel(state.cell) || (value != null && mxUtils.isNode(value));
-    var dialect = isForceHtml ? mxConstants.DIALECT_STRICTHTML : state.view.graph.dialect;
-    var overflow = state.style[mxConstants.STYLE_OVERFLOW] || 'visible';
+    var isForceHtml =
+      state.view.graph.isHtmlLabel(state.cell) ||
+      (value != null && mxUtils.isNode(value));
+    var dialect = isForceHtml
+      ? mxConstants.DIALECT_STRICTHTML
+      : state.view.graph.dialect;
+    var overflow = state.style[mxConstants.STYLE_OVERFLOW] || "visible";
 
     if (
       state.text != null &&
@@ -484,7 +567,11 @@ export class mxCellRenderer {
       state.text = null;
     }
 
-    if (state.text == null && value != null && (mxUtils.isNode(value) || value.length > 0)) {
+    if (
+      state.text == null &&
+      value != null &&
+      (mxUtils.isNode(value) || value.length > 0)
+    ) {
       this.createLabel(state, value);
     } else if (state.text != null && (value == null || value.length == 0)) {
       state.text.destroy();
@@ -493,7 +580,10 @@ export class mxCellRenderer {
 
     if (state.text != null) {
       if (forced) {
-        if (state.text.lastValue != null && this.isTextShapeInvalid(state, state.text)) {
+        if (
+          state.text.lastValue != null &&
+          this.isTextShapeInvalid(state, state.text)
+        ) {
           state.text.lastValue = null;
         }
 
@@ -504,7 +594,7 @@ export class mxCellRenderer {
 
       var bounds = this.getLabelBounds(state);
       var nextScale = this.getTextScale(state);
-      this.resolveColor(state, 'color', mxConstants.STYLE_FONTCOLOR);
+      this.resolveColor(state, "color", mxConstants.STYLE_FONTCOLOR);
 
       if (
         forced ||
@@ -536,12 +626,14 @@ export class mxCellRenderer {
       var result = false;
 
       if (
-        stylename == 'spacingTop' ||
-        stylename == 'spacingRight' ||
-        stylename == 'spacingBottom' ||
-        stylename == 'spacingLeft'
+        stylename == "spacingTop" ||
+        stylename == "spacingRight" ||
+        stylename == "spacingBottom" ||
+        stylename == "spacingLeft"
       ) {
-        result = parseFloat(shape[property]) - parseFloat(shape.spacing) != (state.style[stylename] || defaultValue);
+        result =
+          parseFloat(shape[property]) - parseFloat(shape.spacing) !=
+          (state.style[stylename] || defaultValue);
       } else {
         result = shape[property] != (state.style[stylename] || defaultValue);
       }
@@ -550,22 +642,34 @@ export class mxCellRenderer {
     }
 
     return (
-      check('fontStyle', mxConstants.STYLE_FONTSTYLE, mxConstants.DEFAULT_FONTSTYLE) ||
-      check('family', mxConstants.STYLE_FONTFAMILY, mxConstants.DEFAULT_FONTFAMILY) ||
-      check('size', mxConstants.STYLE_FONTSIZE, mxConstants.DEFAULT_FONTSIZE) ||
-      check('color', mxConstants.STYLE_FONTCOLOR, 'black') ||
-      check('align', mxConstants.STYLE_ALIGN, '') ||
-      check('valign', mxConstants.STYLE_VERTICAL_ALIGN, '') ||
-      check('spacing', mxConstants.STYLE_SPACING, 2) ||
-      check('spacingTop', mxConstants.STYLE_SPACING_TOP, 0) ||
-      check('spacingRight', mxConstants.STYLE_SPACING_RIGHT, 0) ||
-      check('spacingBottom', mxConstants.STYLE_SPACING_BOTTOM, 0) ||
-      check('spacingLeft', mxConstants.STYLE_SPACING_LEFT, 0) ||
-      check('horizontal', mxConstants.STYLE_HORIZONTAL, true) ||
-      check('background', mxConstants.STYLE_LABEL_BACKGROUNDCOLOR) ||
-      check('border', mxConstants.STYLE_LABEL_BORDERCOLOR) ||
-      check('opacity', mxConstants.STYLE_TEXT_OPACITY, 100) ||
-      check('textDirection', mxConstants.STYLE_TEXT_DIRECTION, mxConstants.DEFAULT_TEXT_DIRECTION)
+      check(
+        "fontStyle",
+        mxConstants.STYLE_FONTSTYLE,
+        mxConstants.DEFAULT_FONTSTYLE,
+      ) ||
+      check(
+        "family",
+        mxConstants.STYLE_FONTFAMILY,
+        mxConstants.DEFAULT_FONTFAMILY,
+      ) ||
+      check("size", mxConstants.STYLE_FONTSIZE, mxConstants.DEFAULT_FONTSIZE) ||
+      check("color", mxConstants.STYLE_FONTCOLOR, "black") ||
+      check("align", mxConstants.STYLE_ALIGN, "") ||
+      check("valign", mxConstants.STYLE_VERTICAL_ALIGN, "") ||
+      check("spacing", mxConstants.STYLE_SPACING, 2) ||
+      check("spacingTop", mxConstants.STYLE_SPACING_TOP, 0) ||
+      check("spacingRight", mxConstants.STYLE_SPACING_RIGHT, 0) ||
+      check("spacingBottom", mxConstants.STYLE_SPACING_BOTTOM, 0) ||
+      check("spacingLeft", mxConstants.STYLE_SPACING_LEFT, 0) ||
+      check("horizontal", mxConstants.STYLE_HORIZONTAL, true) ||
+      check("background", mxConstants.STYLE_LABEL_BACKGROUNDCOLOR) ||
+      check("border", mxConstants.STYLE_LABEL_BORDERCOLOR) ||
+      check("opacity", mxConstants.STYLE_TEXT_OPACITY, 100) ||
+      check(
+        "textDirection",
+        mxConstants.STYLE_TEXT_DIRECTION,
+        mxConstants.DEFAULT_TEXT_DIRECTION,
+      )
     );
   }
 
@@ -581,7 +685,10 @@ export class mxCellRenderer {
     var graph = state.view.graph;
     var scale = state.view.scale;
     var isEdge = graph.getModel().isEdge(state.cell);
-    var bounds = new mxRectangle(state.absoluteOffset.x, state.absoluteOffset.y);
+    var bounds = new mxRectangle(
+      state.absoluteOffset.x,
+      state.absoluteOffset.y,
+    );
 
     if (isEdge) {
       var spacing = state.text.getSpacing();
@@ -616,10 +723,21 @@ export class mxCellRenderer {
     }
 
     if (state.shape != null) {
-      var hpos = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_POSITION, mxConstants.ALIGN_CENTER);
-      var vpos = mxUtils.getValue(state.style, mxConstants.STYLE_VERTICAL_LABEL_POSITION, mxConstants.ALIGN_MIDDLE);
+      var hpos = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_LABEL_POSITION,
+        mxConstants.ALIGN_CENTER,
+      );
+      var vpos = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_VERTICAL_LABEL_POSITION,
+        mxConstants.ALIGN_MIDDLE,
+      );
 
-      if (hpos == mxConstants.ALIGN_CENTER && vpos == mxConstants.ALIGN_MIDDLE) {
+      if (
+        hpos == mxConstants.ALIGN_CENTER &&
+        vpos == mxConstants.ALIGN_MIDDLE
+      ) {
         bounds = state.shape.getLabelBounds(bounds);
       }
     }
@@ -643,32 +761,51 @@ export class mxCellRenderer {
 
     if (
       !this.legacySpacing ||
-      (state.style[mxConstants.STYLE_OVERFLOW] != 'fill' && state.style[mxConstants.STYLE_OVERFLOW] != 'width')
+      (state.style[mxConstants.STYLE_OVERFLOW] != "fill" &&
+        state.style[mxConstants.STYLE_OVERFLOW] != "width")
     ) {
       var s = state.view.scale;
       var spacing = state.text.getSpacing();
       bounds.x += spacing.x * s;
       bounds.y += spacing.y * s;
-      var hpos = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_POSITION, mxConstants.ALIGN_CENTER);
-      var vpos = mxUtils.getValue(state.style, mxConstants.STYLE_VERTICAL_LABEL_POSITION, mxConstants.ALIGN_MIDDLE);
-      var lw = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_WIDTH, null);
+      var hpos = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_LABEL_POSITION,
+        mxConstants.ALIGN_CENTER,
+      );
+      var vpos = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_VERTICAL_LABEL_POSITION,
+        mxConstants.ALIGN_MIDDLE,
+      );
+      var lw = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_LABEL_WIDTH,
+        null,
+      );
       bounds.width = Math.max(
         0,
         bounds.width -
           (hpos == mxConstants.ALIGN_CENTER && lw == null
             ? state.text.spacingLeft * s + state.text.spacingRight * s
-            : 0)
+            : 0),
       );
       bounds.height = Math.max(
         0,
         bounds.height -
-          (vpos == mxConstants.ALIGN_MIDDLE ? state.text.spacingTop * s + state.text.spacingBottom * s : 0)
+          (vpos == mxConstants.ALIGN_MIDDLE
+            ? state.text.spacingTop * s + state.text.spacingBottom * s
+            : 0),
       );
     }
 
     var theta = state.text.getTextRotation();
 
-    if (theta != 0 && state != null && state.view.graph.model.isVertex(state.cell)) {
+    if (
+      theta != 0 &&
+      state != null &&
+      state.view.graph.model.isVertex(state.cell)
+    ) {
       var cx = state.getCenterX();
       var cy = state.getCenterY();
 
@@ -678,7 +815,7 @@ export class mxCellRenderer {
           new mxPoint(bounds.x, bounds.y),
           Math.cos(rad),
           Math.sin(rad),
-          new mxPoint(cx, cy)
+          new mxPoint(cx, cy),
         );
         bounds.x = pt.x;
         bounds.y = pt.y;
@@ -690,7 +827,10 @@ export class mxCellRenderer {
     this.createCellOverlays(state);
 
     if (state.overlays != null) {
-      var rot = mxUtils.mod(mxUtils.getValue(state.style, mxConstants.STYLE_ROTATION, 0), 90);
+      var rot = mxUtils.mod(
+        mxUtils.getValue(state.style, mxConstants.STYLE_ROTATION, 0),
+        90,
+      );
       var rad = mxUtils.toRadians(rot);
       var cos = Math.cos(rad);
       var sin = Math.sin(rad);
@@ -705,7 +845,7 @@ export class mxCellRenderer {
               new mxPoint(cx, cy),
               cos,
               sin,
-              new mxPoint(state.getCenterX(), state.getCenterY())
+              new mxPoint(state.getCenterX(), state.getCenterY()),
             );
             cx = point.x;
             cy = point.y;
@@ -714,7 +854,12 @@ export class mxCellRenderer {
           }
         }
 
-        if (forced || shape.bounds == null || shape.scale != state.view.scale || !shape.bounds.equals(bounds)) {
+        if (
+          forced ||
+          shape.bounds == null ||
+          shape.scale != state.view.scale ||
+          !shape.bounds.equals(bounds)
+        ) {
           shape.bounds = bounds;
           shape.scale = state.view.scale;
           shape.redraw();
@@ -733,7 +878,12 @@ export class mxCellRenderer {
         : state.shape.getTextRotation();
       var s = state.view.scale;
 
-      if (forced || state.control.scale != s || !state.control.bounds.equals(bounds) || state.control.rotation != r) {
+      if (
+        forced ||
+        state.control.scale != s ||
+        !state.control.bounds.equals(bounds) ||
+        state.control.rotation != r
+      ) {
         state.control.rotation = r;
         state.control.bounds = bounds;
         state.control.scale = s;
@@ -773,7 +923,7 @@ export class mxCellRenderer {
               new mxPoint(cx, cy),
               cos,
               sin,
-              new mxPoint(state.getCenterX(), state.getCenterY())
+              new mxPoint(state.getCenterX(), state.getCenterY()),
             );
             cx = point.x;
             cy = point.y;
@@ -786,13 +936,13 @@ export class mxCellRenderer {
             Math.round(cx - (w / 2) * s),
             Math.round(cy - (h / 2) * s),
             Math.round(w * s),
-            Math.round(h * s)
+            Math.round(h * s),
           )
         : new mxRectangle(
             Math.round(cx - (w / 2) * s),
             Math.round(cy - (h / 2) * s),
             Math.round(w * s),
-            Math.round(h * s)
+            Math.round(h * s),
           );
     }
 
@@ -819,13 +969,19 @@ export class mxCellRenderer {
           if (shapes[i].node.parentNode == state.view.graph.container) {
             var canvas = state.view.canvas;
 
-            while (canvas != null && canvas.parentNode != state.view.graph.container) {
+            while (
+              canvas != null &&
+              canvas.parentNode != state.view.graph.container
+            ) {
               canvas = canvas.parentNode;
             }
 
             if (canvas != null && canvas.nextSibling != null) {
               if (canvas.nextSibling != shapes[i].node) {
-                shapes[i].node.parentNode.insertBefore(shapes[i].node, canvas.nextSibling);
+                shapes[i].node.parentNode.insertBefore(
+                  shapes[i].node,
+                  canvas.nextSibling,
+                );
               }
             } else {
               shapes[i].node.parentNode.appendChild(shapes[i].node);
@@ -835,7 +991,10 @@ export class mxCellRenderer {
             shapes[i].node.parentNode.firstChild != null &&
             shapes[i].node.parentNode.firstChild != shapes[i].node
           ) {
-            shapes[i].node.parentNode.insertBefore(shapes[i].node, shapes[i].node.parentNode.firstChild);
+            shapes[i].node.parentNode.insertBefore(
+              shapes[i].node,
+              shapes[i].node.parentNode.firstChild,
+            );
           }
         }
 
@@ -872,7 +1031,8 @@ export class mxCellRenderer {
       state.shape != null &&
       state.shape.style != null &&
       state.style != null &&
-      state.shape.style[mxConstants.STYLE_SHAPE] != state.style[mxConstants.STYLE_SHAPE]
+      state.shape.style[mxConstants.STYLE_SHAPE] !=
+        state.style[mxConstants.STYLE_SHAPE]
     ) {
       state.shape.destroy();
       state.shape = null;
@@ -898,7 +1058,8 @@ export class mxCellRenderer {
     } else if (
       !force &&
       state.shape != null &&
-      (!mxUtils.equalEntries(state.shape.style, state.style) || this.checkPlaceholderStyles(state))
+      (!mxUtils.equalEntries(state.shape.style, state.style) ||
+        this.checkPlaceholderStyles(state))
     ) {
       state.shape.resetStyles();
       this.configureShape(state);
@@ -906,7 +1067,11 @@ export class mxCellRenderer {
       force = true;
     }
 
-    if (state.shape != null && state.shape.indicatorShape != this.getShape(state.view.graph.getIndicatorShape(state))) {
+    if (
+      state.shape != null &&
+      state.shape.indicatorShape !=
+        this.getShape(state.view.graph.getIndicatorShape(state))
+    ) {
       if (state.shape.indicator != null) {
         state.shape.indicator.destroy();
         state.shape.indicator = null;
@@ -931,7 +1096,12 @@ export class mxCellRenderer {
           state.shape.bounds = null;
         } else {
           state.shape.points = null;
-          state.shape.bounds = new mxRectangle(state.x, state.y, state.width, state.height);
+          state.shape.bounds = new mxRectangle(
+            state.x,
+            state.y,
+            state.width,
+            state.height,
+          );
         }
 
         state.shape.scale = state.view.scale;
@@ -958,7 +1128,8 @@ export class mxCellRenderer {
       shape.bounds == null ||
       shape.scale != state.view.scale ||
       (state.absolutePoints == null && !shape.bounds.equals(state)) ||
-      (state.absolutePoints != null && !mxUtils.equalPoints(shape.points, state.absolutePoints))
+      (state.absolutePoints != null &&
+        !mxUtils.equalPoints(shape.points, state.absolutePoints))
     );
   }
 

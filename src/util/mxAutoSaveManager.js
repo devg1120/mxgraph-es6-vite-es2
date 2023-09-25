@@ -1,5 +1,5 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxAutoSaveManager extends mxEventSource {
   graph = null;
@@ -15,7 +15,7 @@ export class mxAutoSaveManager extends mxEventSource {
 
     this.changeHandler = (sender, evt) => {
       if (this.isEnabled()) {
-        this.graphModelChanged(evt.getProperty('edit').changes);
+        this.graphModelChanged(evt.getProperty("edit").changes);
       }
     };
 
@@ -48,7 +48,11 @@ export class mxAutoSaveManager extends mxEventSource {
     var now = new Date().getTime();
     var dt = (now - this.lastSnapshot) / 1000;
 
-    if (dt > this.autoSaveDelay || (this.ignoredChanges >= this.autoSaveThreshold && dt > this.autoSaveThrottle)) {
+    if (
+      dt > this.autoSaveDelay ||
+      (this.ignoredChanges >= this.autoSaveThreshold &&
+        dt > this.autoSaveThrottle)
+    ) {
       this.save();
       this.reset();
     } else {

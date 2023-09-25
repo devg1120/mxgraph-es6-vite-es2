@@ -1,13 +1,13 @@
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEllipse } from '@mxgraph/shape/mxEllipse';
-import { mxImageShape } from '@mxgraph/shape/mxImageShape';
-import { mxRectangleShape } from '@mxgraph/shape/mxRectangleShape';
-import { mxGraphHandler } from '@mxgraph/handler/mxGraphHandler';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEllipse } from "@mxgraph/shape/mxEllipse";
+import { mxImageShape } from "@mxgraph/shape/mxImageShape";
+import { mxRectangleShape } from "@mxgraph/shape/mxRectangleShape";
+import { mxGraphHandler } from "@mxgraph/handler/mxGraphHandler";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxVertexHandler {
   graph = null;
@@ -20,7 +20,7 @@ export class mxVertexHandler {
   rotationEnabled = false;
   parentHighlightEnabled = false;
   rotationRaster = true;
-  rotationCursor = 'crosshair';
+  rotationCursor = "crosshair";
   livePreview = false;
   manageSizers = false;
   constrainGroupByChildren = false;
@@ -55,42 +55,55 @@ export class mxVertexHandler {
       this.selectionBounds.x,
       this.selectionBounds.y,
       this.selectionBounds.width,
-      this.selectionBounds.height
+      this.selectionBounds.height,
     );
     this.selectionBorder = this.createSelectionShape(this.bounds);
     this.selectionBorder.dialect =
-      this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_VML : mxConstants.DIALECT_SVG;
+      this.graph.dialect != mxConstants.DIALECT_SVG
+        ? mxConstants.DIALECT_VML
+        : mxConstants.DIALECT_SVG;
     this.selectionBorder.pointerEvents = false;
-    this.selectionBorder.rotation = Number(this.state.style[mxConstants.STYLE_ROTATION] || '0');
+    this.selectionBorder.rotation = Number(
+      this.state.style[mxConstants.STYLE_ROTATION] || "0",
+    );
     this.selectionBorder.init(this.graph.getView().getOverlayPane());
-    mxEvent.redirectMouseEvents(this.selectionBorder.node, this.graph, this.state);
+    mxEvent.redirectMouseEvents(
+      this.selectionBorder.node,
+      this.graph,
+      this.state,
+    );
 
     if (this.graph.isCellMovable(this.state.cell)) {
       this.selectionBorder.setCursor(mxConstants.CURSOR_MOVABLE_VERTEX);
     }
 
-    if (mxGraphHandler.maxCells <= 0 || this.graph.getSelectionCount() < mxGraphHandler.maxCells) {
+    if (
+      mxGraphHandler.maxCells <= 0 ||
+      this.graph.getSelectionCount() < mxGraphHandler.maxCells
+    ) {
       var resizable = this.graph.isCellResizable(this.state.cell);
       this.sizers = [];
 
       if (
         resizable ||
-        (this.graph.isLabelMovable(this.state.cell) && this.state.width >= 2 && this.state.height >= 2)
+        (this.graph.isLabelMovable(this.state.cell) &&
+          this.state.width >= 2 &&
+          this.state.height >= 2)
       ) {
         var i = 0;
 
         if (resizable) {
           if (!this.singleSizer) {
-            this.sizers.push(this.createSizer('nw-resize', i++));
-            this.sizers.push(this.createSizer('n-resize', i++));
-            this.sizers.push(this.createSizer('ne-resize', i++));
-            this.sizers.push(this.createSizer('w-resize', i++));
-            this.sizers.push(this.createSizer('e-resize', i++));
-            this.sizers.push(this.createSizer('sw-resize', i++));
-            this.sizers.push(this.createSizer('s-resize', i++));
+            this.sizers.push(this.createSizer("nw-resize", i++));
+            this.sizers.push(this.createSizer("n-resize", i++));
+            this.sizers.push(this.createSizer("ne-resize", i++));
+            this.sizers.push(this.createSizer("w-resize", i++));
+            this.sizers.push(this.createSizer("e-resize", i++));
+            this.sizers.push(this.createSizer("sw-resize", i++));
+            this.sizers.push(this.createSizer("s-resize", i++));
           }
 
-          this.sizers.push(this.createSizer('se-resize', i++));
+          this.sizers.push(this.createSizer("se-resize", i++));
         }
 
         var geo = this.graph.model.getGeometry(this.state.cell);
@@ -105,7 +118,7 @@ export class mxVertexHandler {
             mxConstants.CURSOR_LABEL_HANDLE,
             mxEvent.LABEL_HANDLE,
             mxConstants.LABEL_HANDLE_SIZE,
-            mxConstants.LABEL_HANDLE_FILLCOLOR
+            mxConstants.LABEL_HANDLE_FILLCOLOR,
           );
           this.sizers.push(this.labelShape);
         }
@@ -119,7 +132,7 @@ export class mxVertexHandler {
           mxConstants.CURSOR_MOVABLE_VERTEX,
           mxEvent.LABEL_HANDLE,
           null,
-          mxConstants.LABEL_HANDLE_FILLCOLOR
+          mxConstants.LABEL_HANDLE_FILLCOLOR,
         );
         this.sizers.push(this.labelShape);
       }
@@ -130,7 +143,7 @@ export class mxVertexHandler {
         this.rotationCursor,
         mxEvent.ROTATION_HANDLE,
         mxConstants.HANDLE_SIZE + 3,
-        mxConstants.HANDLE_FILLCOLOR
+        mxConstants.HANDLE_FILLCOLOR,
       );
       this.sizers.push(this.rotationShape);
     }
@@ -148,12 +161,16 @@ export class mxVertexHandler {
       this.graph.isEnabled() &&
       this.rotationEnabled &&
       this.graph.isCellRotatable(this.state.cell) &&
-      (mxGraphHandler.maxCells <= 0 || this.graph.getSelectionCount() < mxGraphHandler.maxCells)
+      (mxGraphHandler.maxCells <= 0 ||
+        this.graph.getSelectionCount() < mxGraphHandler.maxCells)
     );
   }
 
   isConstrainedEvent(me) {
-    return mxEvent.isShiftDown(me.getEvent()) || this.state.style[mxConstants.STYLE_ASPECT] == 'fixed';
+    return (
+      mxEvent.isShiftDown(me.getEvent()) ||
+      this.state.style[mxConstants.STYLE_ASPECT] == "fixed"
+    );
   }
 
   isCenteredEvent(state, me) {
@@ -186,7 +203,12 @@ export class mxVertexHandler {
   }
 
   getSelectionBounds(state) {
-    return new mxRectangle(Math.round(state.x), Math.round(state.y), Math.round(state.width), Math.round(state.height));
+    return new mxRectangle(
+      Math.round(state.x),
+      Math.round(state.y),
+      Math.round(state.width),
+      Math.round(state.height),
+    );
   }
 
   createParentHighlightShape(bounds) {
@@ -194,7 +216,11 @@ export class mxVertexHandler {
   }
 
   createSelectionShape(bounds) {
-    var shape = new mxRectangleShape(mxRectangle.fromRectangle(bounds), null, this.getSelectionColor());
+    var shape = new mxRectangleShape(
+      mxRectangle.fromRectangle(bounds),
+      null,
+      this.getSelectionColor(),
+    );
     shape.strokewidth = this.getSelectionStrokeWidth();
     shape.isDashed = this.isSelectionDashed();
     return shape;
@@ -217,14 +243,20 @@ export class mxVertexHandler {
     var bounds = new mxRectangle(0, 0, size, size);
     var sizer = this.createSizerShape(bounds, index, fillColor);
 
-    if (sizer.isHtmlAllowed() && this.state.text != null && this.state.text.node.parentNode == this.graph.container) {
+    if (
+      sizer.isHtmlAllowed() &&
+      this.state.text != null &&
+      this.state.text.node.parentNode == this.graph.container
+    ) {
       sizer.bounds.height -= 1;
       sizer.bounds.width -= 1;
       sizer.dialect = mxConstants.DIALECT_STRICTHTML;
       sizer.init(this.graph.container);
     } else {
       sizer.dialect =
-        this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_MIXEDHTML : mxConstants.DIALECT_SVG;
+        this.graph.dialect != mxConstants.DIALECT_SVG
+          ? mxConstants.DIALECT_MIXEDHTML
+          : mxConstants.DIALECT_SVG;
       sizer.init(this.graph.getView().getOverlayPane());
     }
 
@@ -247,14 +279,27 @@ export class mxVertexHandler {
 
   createSizerShape(bounds, index, fillColor) {
     if (this.handleImage != null) {
-      bounds = new mxRectangle(bounds.x, bounds.y, this.handleImage.width, this.handleImage.height);
+      bounds = new mxRectangle(
+        bounds.x,
+        bounds.y,
+        this.handleImage.width,
+        this.handleImage.height,
+      );
       var shape = new mxImageShape(bounds, this.handleImage.src);
       shape.preserveImageAspect = false;
       return shape;
     } else if (index == mxEvent.ROTATION_HANDLE) {
-      return new mxEllipse(bounds, fillColor || mxConstants.HANDLE_FILLCOLOR, mxConstants.HANDLE_STROKECOLOR);
+      return new mxEllipse(
+        bounds,
+        fillColor || mxConstants.HANDLE_FILLCOLOR,
+        mxConstants.HANDLE_STROKECOLOR,
+      );
     } else {
-      return new mxRectangleShape(bounds, fillColor || mxConstants.HANDLE_FILLCOLOR, mxConstants.HANDLE_STROKECOLOR);
+      return new mxRectangleShape(
+        bounds,
+        fillColor || mxConstants.HANDLE_FILLCOLOR,
+        mxConstants.HANDLE_STROKECOLOR,
+      );
     }
   }
 
@@ -263,7 +308,7 @@ export class mxVertexHandler {
       shape.bounds.x = Math.floor(x - shape.bounds.width / 2);
       shape.bounds.y = Math.floor(y - shape.bounds.height / 2);
 
-      if (shape.node != null && shape.node.style.display != 'none') {
+      if (shape.node != null && shape.node.style.display != "none") {
         shape.redraw();
       }
     }
@@ -273,17 +318,24 @@ export class mxVertexHandler {
     var tol = !mxEvent.isMouseEvent(me.getEvent()) ? this.tolerance : 1;
     var hit =
       this.allowHandleBoundsCheck && tol > 0
-        ? new mxRectangle(me.getGraphX() - tol, me.getGraphY() - tol, 2 * tol, 2 * tol)
+        ? new mxRectangle(
+            me.getGraphX() - tol,
+            me.getGraphY() - tol,
+            2 * tol,
+            2 * tol,
+          )
         : null;
 
     var checkShape = (shape) => {
       var real =
-        shape != null && shape.constructor != mxImageShape && this.allowHandleBoundsCheck
+        shape != null &&
+        shape.constructor != mxImageShape &&
+        this.allowHandleBoundsCheck
           ? new mxRectangle(
               me.getGraphX() - shape.svgStrokeTolerance,
               me.getGraphY() - shape.svgStrokeTolerance,
               2 * shape.svgStrokeTolerance,
-              2 * shape.svgStrokeTolerance
+              2 * shape.svgStrokeTolerance,
             )
           : hit;
       return (
@@ -291,8 +343,8 @@ export class mxVertexHandler {
         (me.isSource(shape) ||
           (real != null &&
             mxUtils.intersects(shape.bounds, real) &&
-            shape.node.style.display != 'none' &&
-            shape.node.style.visibility != 'hidden'))
+            shape.node.style.display != "none" &&
+            shape.node.style.visibility != "hidden"))
       );
     };
 
@@ -337,12 +389,18 @@ export class mxVertexHandler {
   }
 
   isLivePreviewBorder() {
-    return this.state.shape != null && this.state.shape.fill == null && this.state.shape.stroke == null;
+    return (
+      this.state.shape != null &&
+      this.state.shape.fill == null &&
+      this.state.shape.stroke == null
+    );
   }
 
   start(x, y, index) {
     if (this.selectionBorder != null) {
-      this.livePreviewActive = this.livePreview && this.graph.model.getChildCount(this.state.cell) == 0;
+      this.livePreviewActive =
+        this.livePreview &&
+        this.graph.model.getChildCount(this.state.cell) == 0;
       this.inTolerance = true;
       this.childOffsetX = 0;
       this.childOffsetY = 0;
@@ -356,17 +414,24 @@ export class mxVertexHandler {
         var model = this.state.view.graph.model;
         var parent = model.getParent(this.state.cell);
 
-        if (this.state.view.currentRoot != parent && (model.isVertex(parent) || model.isEdge(parent))) {
+        if (
+          this.state.view.currentRoot != parent &&
+          (model.isVertex(parent) || model.isEdge(parent))
+        ) {
           this.parentState = this.state.view.graph.view.getState(parent);
         }
 
-        this.selectionBorder.node.style.display = index == mxEvent.ROTATION_HANDLE ? 'inline' : 'none';
+        this.selectionBorder.node.style.display =
+          index == mxEvent.ROTATION_HANDLE ? "inline" : "none";
 
         if (!this.livePreviewActive || this.isLivePreviewBorder()) {
           this.preview = this.createSelectionShape(this.bounds);
 
           if (
-            !(mxClient.IS_SVG && Number(this.state.style[mxConstants.STYLE_ROTATION] || '0') != 0) &&
+            !(
+              mxClient.IS_SVG &&
+              Number(this.state.style[mxConstants.STYLE_ROTATION] || "0") != 0
+            ) &&
             this.state.text != null &&
             this.state.text.node.parentNode == this.graph.container
           ) {
@@ -374,7 +439,9 @@ export class mxVertexHandler {
             this.preview.init(this.graph.container);
           } else {
             this.preview.dialect =
-              this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_VML : mxConstants.DIALECT_SVG;
+              this.graph.dialect != mxConstants.DIALECT_SVG
+                ? mxConstants.DIALECT_VML
+                : mxConstants.DIALECT_SVG;
             this.preview.init(this.graph.view.getOverlayPane());
           }
         }
@@ -383,7 +450,12 @@ export class mxVertexHandler {
           var pos = this.getRotationHandlePosition();
           var dx = pos.x - this.state.getCenterX();
           var dy = pos.y - this.state.getCenterY();
-          this.startAngle = dx != 0 ? (Math.atan(dy / dx) * 180) / Math.PI + 90 : dy < 0 ? 180 : 0;
+          this.startAngle =
+            dx != 0
+              ? (Math.atan(dy / dx) * 180) / Math.PI + 90
+              : dy < 0
+              ? 180
+              : 0;
           this.startDist = Math.sqrt(dx * dx + dy * dy);
         }
 
@@ -391,12 +463,15 @@ export class mxVertexHandler {
           this.hideSizers();
 
           if (index == mxEvent.ROTATION_HANDLE) {
-            this.rotationShape.node.style.display = '';
+            this.rotationShape.node.style.display = "";
           } else if (index == mxEvent.LABEL_HANDLE) {
-            this.labelShape.node.style.display = '';
+            this.labelShape.node.style.display = "";
           } else if (this.sizers != null && this.sizers[index] != null) {
-            this.sizers[index].node.style.display = '';
-          } else if (index <= mxEvent.CUSTOM_HANDLE && this.customHandles != null) {
+            this.sizers[index].node.style.display = "";
+          } else if (
+            index <= mxEvent.CUSTOM_HANDLE &&
+            this.customHandles != null
+          ) {
             this.customHandles[mxEvent.CUSTOM_HANDLE - index].setVisible(true);
           }
 
@@ -427,7 +502,7 @@ export class mxVertexHandler {
   setHandlesVisible(visible) {
     if (this.sizers != null) {
       for (var i = 0; i < this.sizers.length; i++) {
-        this.sizers[i].node.style.display = visible ? '' : 'none';
+        this.sizers[i].node.style.display = visible ? "" : "none";
       }
     }
 
@@ -473,23 +548,31 @@ export class mxVertexHandler {
       if (!this.inTolerance) {
         if (this.index <= mxEvent.CUSTOM_HANDLE) {
           if (this.customHandles != null) {
-            this.customHandles[mxEvent.CUSTOM_HANDLE - this.index].processEvent(me);
-            this.customHandles[mxEvent.CUSTOM_HANDLE - this.index].active = true;
+            this.customHandles[mxEvent.CUSTOM_HANDLE - this.index].processEvent(
+              me,
+            );
+            this.customHandles[
+              mxEvent.CUSTOM_HANDLE - this.index
+            ].active = true;
 
             if (this.ghostPreview != null) {
               this.ghostPreview.apply(this.state);
               this.ghostPreview.strokewidth =
-                this.getSelectionStrokeWidth() / this.ghostPreview.scale / this.ghostPreview.scale;
+                this.getSelectionStrokeWidth() /
+                this.ghostPreview.scale /
+                this.ghostPreview.scale;
               this.ghostPreview.isDashed = this.isSelectionDashed();
               this.ghostPreview.stroke = this.getSelectionColor();
               this.ghostPreview.redraw();
 
               if (this.selectionBounds != null) {
-                this.selectionBorder.node.style.display = 'none';
+                this.selectionBorder.node.style.display = "none";
               }
             } else {
               this.moveToFront();
-              this.customHandles[mxEvent.CUSTOM_HANDLE - this.index].positionChanged();
+              this.customHandles[
+                mxEvent.CUSTOM_HANDLE - this.index
+              ].positionChanged();
             }
           }
         } else if (this.index == mxEvent.LABEL_HANDLE) {
@@ -522,7 +605,10 @@ export class mxVertexHandler {
       point.y = (this.graph.snap(point.y / scale - tr.y) + tr.y) * scale;
     }
 
-    var index = this.rotationShape != null ? this.sizers.length - 2 : this.sizers.length - 1;
+    var index =
+      this.rotationShape != null
+        ? this.sizers.length - 2
+        : this.sizers.length - 1;
     this.moveSizerTo(this.sizers[index], point.x, point.y);
   }
 
@@ -530,7 +616,8 @@ export class mxVertexHandler {
     var point = new mxPoint(me.getGraphX(), me.getGraphY());
     var dx = this.state.x + this.state.width / 2 - point.x;
     var dy = this.state.y + this.state.height / 2 - point.y;
-    this.currentAlpha = dx != 0 ? (Math.atan(dy / dx) * 180) / Math.PI + 90 : dy < 0 ? 180 : 0;
+    this.currentAlpha =
+      dx != 0 ? (Math.atan(dy / dx) * 180) / Math.PI + 90 : dy < 0 ? 180 : 0;
 
     if (dx > 0) {
       this.currentAlpha -= 180;
@@ -567,7 +654,9 @@ export class mxVertexHandler {
 
   resizeVertex(me) {
     var ct = new mxPoint(this.state.getCenterX(), this.state.getCenterY());
-    var alpha = mxUtils.toRadians(this.state.style[mxConstants.STYLE_ROTATION] || '0');
+    var alpha = mxUtils.toRadians(
+      this.state.style[mxConstants.STYLE_ROTATION] || "0",
+    );
     var point = new mxPoint(me.getGraphX(), me.getGraphY());
     var tr = this.graph.view.translate;
     var scale = this.graph.view.scale;
@@ -589,7 +678,7 @@ export class mxVertexHandler {
       1,
       new mxPoint(0, 0),
       this.isConstrainedEvent(me),
-      this.isCenteredEvent(this.state, me)
+      this.isCenteredEvent(this.state, me),
     );
 
     if (!geo.relative) {
@@ -635,22 +724,38 @@ export class mxVertexHandler {
           this.unscaledBounds.y = max.y;
         }
 
-        if (this.unscaledBounds.x + this.unscaledBounds.width > max.x + max.width) {
-          this.unscaledBounds.width -= this.unscaledBounds.x + this.unscaledBounds.width - max.x - max.width;
+        if (
+          this.unscaledBounds.x + this.unscaledBounds.width >
+          max.x + max.width
+        ) {
+          this.unscaledBounds.width -=
+            this.unscaledBounds.x +
+            this.unscaledBounds.width -
+            max.x -
+            max.width;
         }
 
-        if (this.unscaledBounds.y + this.unscaledBounds.height > max.y + max.height) {
-          this.unscaledBounds.height -= this.unscaledBounds.y + this.unscaledBounds.height - max.y - max.height;
+        if (
+          this.unscaledBounds.y + this.unscaledBounds.height >
+          max.y + max.height
+        ) {
+          this.unscaledBounds.height -=
+            this.unscaledBounds.y +
+            this.unscaledBounds.height -
+            max.y -
+            max.height;
         }
       }
     }
 
     var old = this.bounds;
     this.bounds = new mxRectangle(
-      (this.parentState != null ? this.parentState.x : tr.x * scale) + this.unscaledBounds.x * scale,
-      (this.parentState != null ? this.parentState.y : tr.y * scale) + this.unscaledBounds.y * scale,
+      (this.parentState != null ? this.parentState.x : tr.x * scale) +
+        this.unscaledBounds.x * scale,
+      (this.parentState != null ? this.parentState.y : tr.y * scale) +
+        this.unscaledBounds.y * scale,
       this.unscaledBounds.width * scale,
-      this.unscaledBounds.height * scale
+      this.unscaledBounds.height * scale,
     );
 
     if (geo.relative && this.parentState != null) {
@@ -673,12 +778,19 @@ export class mxVertexHandler {
     var dy5 = sin * dx4 + cos * dy4;
     this.bounds.x += dx3;
     this.bounds.y += dy3;
-    this.unscaledBounds.x = this.roundLength(this.unscaledBounds.x + dx3 / scale);
-    this.unscaledBounds.y = this.roundLength(this.unscaledBounds.y + dy3 / scale);
+    this.unscaledBounds.x = this.roundLength(
+      this.unscaledBounds.x + dx3 / scale,
+    );
+    this.unscaledBounds.y = this.roundLength(
+      this.unscaledBounds.y + dy3 / scale,
+    );
     this.unscaledBounds.width = this.roundLength(this.unscaledBounds.width);
     this.unscaledBounds.height = this.roundLength(this.unscaledBounds.height);
 
-    if (!this.graph.isCellCollapsed(this.state.cell) && (dx3 != 0 || dy3 != 0)) {
+    if (
+      !this.graph.isCellCollapsed(this.state.cell) &&
+      (dx3 != 0 || dy3 != 0)
+    ) {
       this.childOffsetX = this.state.x - this.bounds.x + dx5;
       this.childOffsetY = this.state.y - this.bounds.y + dy5;
     } else {
@@ -705,7 +817,10 @@ export class mxVertexHandler {
     var tempState = this.state.clone();
     this.state.x = this.bounds.x;
     this.state.y = this.bounds.y;
-    this.state.origin = new mxPoint(this.state.x / scale - tr.x, this.state.y / scale - tr.y);
+    this.state.origin = new mxPoint(
+      this.state.x / scale - tr.x,
+      this.state.y / scale - tr.y,
+    );
     this.state.width = this.bounds.width;
     this.state.height = this.bounds.height;
     var off = this.state.absoluteOffset;
@@ -733,7 +848,7 @@ export class mxVertexHandler {
     this.moveToFront();
 
     if (this.state.control != null && this.state.control.node != null) {
-      this.state.control.node.style.visibility = 'hidden';
+      this.state.control.node.style.visibility = "hidden";
     }
 
     this.state.setState(tempState);
@@ -741,11 +856,14 @@ export class mxVertexHandler {
 
   moveToFront() {
     if (
-      (this.state.text != null && this.state.text.node != null && this.state.text.node.nextSibling != null) ||
+      (this.state.text != null &&
+        this.state.text.node != null &&
+        this.state.text.node.nextSibling != null) ||
       (this.state.shape != null &&
         this.state.shape.node != null &&
         this.state.shape.node.nextSibling != null &&
-        (this.state.text == null || this.state.shape.node.nextSibling != this.state.text.node))
+        (this.state.text == null ||
+          this.state.shape.node.nextSibling != this.state.text.node))
     ) {
       if (this.state.shape != null && this.state.shape.node != null) {
         this.state.shape.node.parentNode.appendChild(this.state.shape.node);
@@ -777,14 +895,21 @@ export class mxVertexHandler {
             this.customHandles[mxEvent.CUSTOM_HANDLE - index].active = false;
             this.customHandles[mxEvent.CUSTOM_HANDLE - index].execute(me);
 
-            if (this.customHandles != null && this.customHandles[mxEvent.CUSTOM_HANDLE - index] != null) {
+            if (
+              this.customHandles != null &&
+              this.customHandles[mxEvent.CUSTOM_HANDLE - index] != null
+            ) {
               this.state.style = style;
-              this.customHandles[mxEvent.CUSTOM_HANDLE - index].positionChanged();
+              this.customHandles[
+                mxEvent.CUSTOM_HANDLE - index
+              ].positionChanged();
             }
           }
         } else if (index == mxEvent.ROTATION_HANDLE) {
           if (this.currentAlpha != null) {
-            var delta = this.currentAlpha - (this.state.style[mxConstants.STYLE_ROTATION] || 0);
+            var delta =
+              this.currentAlpha -
+              (this.state.style[mxConstants.STYLE_ROTATION] || 0);
 
             if (delta != 0) {
               this.rotateCell(this.state.cell, delta);
@@ -794,7 +919,9 @@ export class mxVertexHandler {
           }
         } else {
           var gridEnabled = this.graph.isGridEnabledEvent(me.getEvent());
-          var alpha = mxUtils.toRadians(this.state.style[mxConstants.STYLE_ROTATION] || '0');
+          var alpha = mxUtils.toRadians(
+            this.state.style[mxConstants.STYLE_ROTATION] || "0",
+          );
           var cos = Math.cos(-alpha);
           var sin = Math.sin(-alpha);
           var dx = point.x - this.startX;
@@ -812,7 +939,7 @@ export class mxVertexHandler {
             index,
             gridEnabled,
             this.isConstrainedEvent(me),
-            recurse
+            recurse,
           );
         }
       } finally {
@@ -869,9 +996,9 @@ export class mxVertexHandler {
       this.sizers != null &&
       this.index != null &&
       this.sizers[this.index] != null &&
-      this.sizers[this.index].node.style.display == 'none'
+      this.sizers[this.index].node.style.display == "none"
     ) {
-      this.sizers[this.index].node.style.display = '';
+      this.sizers[this.index].node.style.display = "";
     }
 
     this.currentAlpha = null;
@@ -891,12 +1018,12 @@ export class mxVertexHandler {
     if (this.livePreviewActive && this.sizers != null) {
       for (var i = 0; i < this.sizers.length; i++) {
         if (this.sizers[i] != null) {
-          this.sizers[i].node.style.display = '';
+          this.sizers[i].node.style.display = "";
         }
       }
 
       if (this.state.control != null && this.state.control.node != null) {
-        this.state.control.node.style.visibility = '';
+        this.state.control.node.style.visibility = "";
       }
     }
 
@@ -912,13 +1039,13 @@ export class mxVertexHandler {
     }
 
     if (this.selectionBorder != null) {
-      this.selectionBorder.node.style.display = 'inline';
+      this.selectionBorder.node.style.display = "inline";
       this.selectionBounds = this.getSelectionBounds(this.state);
       this.bounds = new mxRectangle(
         this.selectionBounds.x,
         this.selectionBounds.y,
         this.selectionBounds.width,
-        this.selectionBounds.height
+        this.selectionBounds.height,
       );
       this.drawPreview();
     }
@@ -935,17 +1062,23 @@ export class mxVertexHandler {
 
     if (geo != null) {
       if (index == mxEvent.LABEL_HANDLE) {
-        var alpha = -mxUtils.toRadians(this.state.style[mxConstants.STYLE_ROTATION] || '0');
+        var alpha = -mxUtils.toRadians(
+          this.state.style[mxConstants.STYLE_ROTATION] || "0",
+        );
         var cos = Math.cos(alpha);
         var sin = Math.sin(alpha);
         var scale = this.graph.view.scale;
         var pt = mxUtils.getRotatedPoint(
           new mxPoint(
-            Math.round((this.labelShape.bounds.getCenterX() - this.startX) / scale),
-            Math.round((this.labelShape.bounds.getCenterY() - this.startY) / scale)
+            Math.round(
+              (this.labelShape.bounds.getCenterX() - this.startX) / scale,
+            ),
+            Math.round(
+              (this.labelShape.bounds.getCenterY() - this.startY) / scale,
+            ),
           ),
           cos,
-          sin
+          sin,
         );
         geo = geo.clone();
 
@@ -961,7 +1094,11 @@ export class mxVertexHandler {
         var scale = this.graph.view.scale;
 
         if (this.childOffsetX != 0 || this.childOffsetY != 0) {
-          this.moveChildren(cell, Math.round(this.childOffsetX / scale), Math.round(this.childOffsetY / scale));
+          this.moveChildren(
+            cell,
+            Math.round(this.childOffsetX / scale),
+            Math.round(this.childOffsetY / scale),
+          );
         }
 
         this.graph.resizeCell(cell, this.unscaledBounds, recurse);
@@ -986,7 +1123,10 @@ export class mxVertexHandler {
   }
 
   union(bounds, dx, dy, index, gridEnabled, scale, tr, constrained, centered) {
-    gridEnabled = gridEnabled != null ? gridEnabled && this.graph.gridEnabled : this.graph.gridEnabled;
+    gridEnabled =
+      gridEnabled != null
+        ? gridEnabled && this.graph.gridEnabled
+        : this.graph.gridEnabled;
 
     if (this.singleSizer) {
       var x = bounds.x + bounds.width + dx;
@@ -1089,16 +1229,25 @@ export class mxVertexHandler {
         height = Math.abs(height);
       }
 
-      var result = new mxRectangle(left + tr.x * scale, top + tr.y * scale, width, height);
+      var result = new mxRectangle(
+        left + tr.x * scale,
+        top + tr.y * scale,
+        width,
+        height,
+      );
 
       if (this.minBounds != null) {
         result.width = Math.max(
           result.width,
-          this.minBounds.x * scale + this.minBounds.width * scale + Math.max(0, this.x0 * scale - result.x)
+          this.minBounds.x * scale +
+            this.minBounds.width * scale +
+            Math.max(0, this.x0 * scale - result.x),
         );
         result.height = Math.max(
           result.height,
-          this.minBounds.y * scale + this.minBounds.height * scale + Math.max(0, this.y0 * scale - result.y)
+          this.minBounds.y * scale +
+            this.minBounds.height * scale +
+            Math.max(0, this.y0 * scale - result.y),
         );
       }
 
@@ -1112,7 +1261,7 @@ export class mxVertexHandler {
       this.selectionBounds.x,
       this.selectionBounds.y,
       this.selectionBounds.width,
-      this.selectionBounds.height
+      this.selectionBounds.height,
     );
     this.drawPreview();
 
@@ -1155,13 +1304,16 @@ export class mxVertexHandler {
         var temp = this.customHandles[i].shape.node.style.display;
         this.customHandles[i].redraw();
         this.customHandles[i].shape.node.style.display = temp;
-        this.customHandles[i].shape.node.style.visibility = this.isCustomHandleVisible(this.customHandles[i])
-          ? ''
-          : 'hidden';
+        this.customHandles[i].shape.node.style.visibility =
+          this.isCustomHandleVisible(this.customHandles[i]) ? "" : "hidden";
       }
     }
 
-    if (this.sizers != null && this.sizers.length > 0 && this.sizers[0] != null) {
+    if (
+      this.sizers != null &&
+      this.sizers.length > 0 &&
+      this.sizers[0] != null
+    ) {
       if (this.index == null && this.manageSizers && this.sizers.length >= 8) {
         var padding = this.getHandlePadding();
         this.horizontalOffset = padding.x;
@@ -1180,15 +1332,15 @@ export class mxVertexHandler {
             s.width < 2 * this.sizers[0].bounds.width + 2 * tol ||
             s.height < 2 * this.sizers[0].bounds.height + 2 * tol
           ) {
-            this.sizers[0].node.style.display = 'none';
-            this.sizers[2].node.style.display = 'none';
-            this.sizers[5].node.style.display = 'none';
-            this.sizers[7].node.style.display = 'none';
+            this.sizers[0].node.style.display = "none";
+            this.sizers[2].node.style.display = "none";
+            this.sizers[5].node.style.display = "none";
+            this.sizers[7].node.style.display = "none";
           } else {
-            this.sizers[0].node.style.display = '';
-            this.sizers[2].node.style.display = '';
-            this.sizers[5].node.style.display = '';
-            this.sizers[7].node.style.display = '';
+            this.sizers[0].node.style.display = "";
+            this.sizers[2].node.style.display = "";
+            this.sizers[5].node.style.display = "";
+            this.sizers[7].node.style.display = "";
           }
         }
       }
@@ -1204,16 +1356,18 @@ export class mxVertexHandler {
 
         if (this.sizers.length >= 8) {
           var crs = [
-            'nw-resize',
-            'n-resize',
-            'ne-resize',
-            'e-resize',
-            'se-resize',
-            's-resize',
-            'sw-resize',
-            'w-resize'
+            "nw-resize",
+            "n-resize",
+            "ne-resize",
+            "e-resize",
+            "se-resize",
+            "s-resize",
+            "sw-resize",
+            "w-resize",
           ];
-          var alpha = mxUtils.toRadians(this.state.style[mxConstants.STYLE_ROTATION] || '0');
+          var alpha = mxUtils.toRadians(
+            this.state.style[mxConstants.STYLE_ROTATION] || "0",
+          );
           var cos = Math.cos(alpha);
           var sin = Math.sin(alpha);
           var da = Math.round((alpha * 4) / Math.PI);
@@ -1261,7 +1415,11 @@ export class mxVertexHandler {
           pt = mxUtils.getRotatedPoint(pt, cos, sin, ct);
           this.moveSizerTo(this.sizers[8], pt.x, pt.y);
         } else if (this.state.width >= 2 && this.state.height >= 2) {
-          this.moveSizerTo(this.sizers[0], cx + this.state.absoluteOffset.x, cy + this.state.absoluteOffset.y);
+          this.moveSizerTo(
+            this.sizers[0],
+            cx + this.state.absoluteOffset.x,
+            cy + this.state.absoluteOffset.y,
+          );
         } else {
           this.moveSizerTo(this.sizers[0], this.state.x, this.state.y);
         }
@@ -1270,21 +1428,31 @@ export class mxVertexHandler {
 
     if (this.rotationShape != null) {
       var alpha = mxUtils.toRadians(
-        this.currentAlpha != null ? this.currentAlpha : this.state.style[mxConstants.STYLE_ROTATION] || '0'
+        this.currentAlpha != null
+          ? this.currentAlpha
+          : this.state.style[mxConstants.STYLE_ROTATION] || "0",
       );
       var cos = Math.cos(alpha);
       var sin = Math.sin(alpha);
       var ct = new mxPoint(this.state.getCenterX(), this.state.getCenterY());
-      var pt = mxUtils.getRotatedPoint(this.getRotationHandlePosition(), cos, sin, ct);
+      var pt = mxUtils.getRotatedPoint(
+        this.getRotationHandlePosition(),
+        cos,
+        sin,
+        ct,
+      );
 
       if (this.rotationShape.node != null) {
         this.moveSizerTo(this.rotationShape, pt.x, pt.y);
-        this.rotationShape.node.style.visibility = this.state.view.graph.isEditing() ? 'hidden' : '';
+        this.rotationShape.node.style.visibility =
+          this.state.view.graph.isEditing() ? "hidden" : "";
       }
     }
 
     if (this.selectionBorder != null) {
-      this.selectionBorder.rotation = Number(this.state.style[mxConstants.STYLE_ROTATION] || '0');
+      this.selectionBorder.rotation = Number(
+        this.state.style[mxConstants.STYLE_ROTATION] || "0",
+      );
     }
 
     if (this.edgeHandlers != null) {
@@ -1295,11 +1463,16 @@ export class mxVertexHandler {
   }
 
   isCustomHandleVisible(handle) {
-    return !this.graph.isEditing() && this.state.view.graph.getSelectionCount() == 1;
+    return (
+      !this.graph.isEditing() && this.state.view.graph.getSelectionCount() == 1
+    );
   }
 
   getRotationHandlePosition() {
-    return new mxPoint(this.bounds.x + this.bounds.width / 2, this.bounds.y + this.rotationHandleVSpacing);
+    return new mxPoint(
+      this.bounds.x + this.bounds.width / 2,
+      this.bounds.y + this.rotationHandleVSpacing,
+    );
   }
 
   isParentHighlightVisible() {
@@ -1317,7 +1490,10 @@ export class mxVertexHandler {
 
           if (
             pstate != null &&
-            (b.x != pstate.x || b.y != pstate.y || b.width != pstate.width || b.height != pstate.height)
+            (b.x != pstate.x ||
+              b.y != pstate.y ||
+              b.width != pstate.width ||
+              b.height != pstate.height)
           ) {
             this.parentHighlight.bounds = mxRectangle.fromRectangle(pstate);
             this.parentHighlight.redraw();
@@ -1335,9 +1511,13 @@ export class mxVertexHandler {
           if (pstate != null) {
             this.parentHighlight = this.createParentHighlightShape(pstate);
             this.parentHighlight.dialect =
-              this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_VML : mxConstants.DIALECT_SVG;
+              this.graph.dialect != mxConstants.DIALECT_SVG
+                ? mxConstants.DIALECT_VML
+                : mxConstants.DIALECT_SVG;
             this.parentHighlight.pointerEvents = false;
-            this.parentHighlight.rotation = Number(pstate.style[mxConstants.STYLE_ROTATION] || '0');
+            this.parentHighlight.rotation = Number(
+              pstate.style[mxConstants.STYLE_ROTATION] || "0",
+            );
             this.parentHighlight.init(this.graph.getView().getOverlayPane());
             this.parentHighlight.redraw();
           }
@@ -1352,10 +1532,15 @@ export class mxVertexHandler {
 
       if (this.preview.node.parentNode == this.graph.container) {
         this.preview.bounds.width = Math.max(0, this.preview.bounds.width - 1);
-        this.preview.bounds.height = Math.max(0, this.preview.bounds.height - 1);
+        this.preview.bounds.height = Math.max(
+          0,
+          this.preview.bounds.height - 1,
+        );
       }
 
-      this.preview.rotation = Number(this.state.style[mxConstants.STYLE_ROTATION] || '0');
+      this.preview.rotation = Number(
+        this.state.style[mxConstants.STYLE_ROTATION] || "0",
+      );
       this.preview.redraw();
     }
 

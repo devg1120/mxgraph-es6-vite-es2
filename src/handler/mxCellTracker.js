@@ -1,4 +1,4 @@
-import { mxCellMarker } from '@mxgraph/handler/mxCellMarker';
+import { mxCellMarker } from "@mxgraph/handler/mxCellMarker";
 
 export class mxCellTracker extends mxCellMarker {
   constructor(graph, color, funct) {

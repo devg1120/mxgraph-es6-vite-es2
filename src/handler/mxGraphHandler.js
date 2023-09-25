@@ -1,13 +1,13 @@
-import { mxCellHighlight } from '@mxgraph/handler/mxCellHighlight';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxGuide } from '@mxgraph/util/mxGuide';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxRectangleShape } from '@mxgraph/shape/mxRectangleShape';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxClient } from '@mxgraph/mxClient';
+import { mxCellHighlight } from "@mxgraph/handler/mxCellHighlight";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxGuide } from "@mxgraph/util/mxGuide";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxRectangleShape } from "@mxgraph/shape/mxRectangleShape";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxGraphHandler {
   static maxCells = 50;
@@ -27,7 +27,7 @@ export class mxGraphHandler {
   connectOnDrop = false;
   scrollOnMove = true;
   minimumSize = 6;
-  previewColor = 'black';
+  previewColor = "black";
   htmlPreview = false;
   shape = null;
   scaleGrid = false;
@@ -74,7 +74,10 @@ export class mxGraphHandler {
             this.updateHint();
 
             if (this.livePreviewUsed) {
-              this.setHandlesVisibleForCells(this.graph.selectionCellsHandler.getHandledSelectionCells(), false);
+              this.setHandlesVisibleForCells(
+                this.graph.selectionCellsHandler.getHandledSelectionCells(),
+                false,
+              );
             }
           }
         }
@@ -86,11 +89,14 @@ export class mxGraphHandler {
     this.keyHandler = (e) => {
       if (
         this.graph.container != null &&
-        this.graph.container.style.visibility != 'hidden' &&
+        this.graph.container.style.visibility != "hidden" &&
         this.first != null &&
         !this.suspended
       ) {
-        var clone = this.graph.isCloneEvent(e) && this.graph.isCellsCloneable() && this.isCloneEnabled();
+        var clone =
+          this.graph.isCloneEvent(e) &&
+          this.graph.isCellsCloneable() &&
+          this.isCloneEnabled();
 
         if (clone != this.cloning) {
           this.cloning = clone;
@@ -100,8 +106,8 @@ export class mxGraphHandler {
       }
     };
 
-    mxEvent.addListener(document, 'keydown', this.keyHandler);
-    mxEvent.addListener(document, 'keyup', this.keyHandler);
+    mxEvent.addListener(document, "keydown", this.keyHandler);
+    mxEvent.addListener(document, "keyup", this.keyHandler);
   }
 
   isEnabled() {
@@ -158,9 +164,12 @@ export class mxGraphHandler {
     } else {
       return (
         (!this.graph.isToggleEvent(me.getEvent()) ||
-          (!this.graph.isSiblingSelected(cell) && !this.graph.isCellSelected(cell) && !this.graph.isSwimlane(parent)) ||
+          (!this.graph.isSiblingSelected(cell) &&
+            !this.graph.isCellSelected(cell) &&
+            !this.graph.isSwimlane(parent)) ||
           this.graph.isCellSelected(parent)) &&
-        (this.graph.isToggleEvent(me.getEvent()) || !this.graph.isCellSelected(parent))
+        (this.graph.isToggleEvent(me.getEvent()) ||
+          !this.graph.isCellSelected(parent))
       );
     }
   }
@@ -169,7 +178,8 @@ export class mxGraphHandler {
     var state = me.getState();
 
     if (
-      (!this.graph.isToggleEvent(me.getEvent()) || !mxEvent.isAltDown(me.getEvent())) &&
+      (!this.graph.isToggleEvent(me.getEvent()) ||
+        !mxEvent.isAltDown(me.getEvent())) &&
       state != null &&
       !this.graph.isCellSelected(state.cell)
     ) {
@@ -183,7 +193,9 @@ export class mxGraphHandler {
         this.isPropagateSelectionCell(state.cell, true, me)
       ) {
         state = next;
-        next = this.graph.view.getState(this.graph.getModel().getParent(state.cell));
+        next = this.graph.view.getState(
+          this.graph.getModel().getParent(state.cell),
+        );
       }
     }
 
@@ -191,7 +203,10 @@ export class mxGraphHandler {
   }
 
   isDelayedSelection(cell, me) {
-    if (!this.graph.isToggleEvent(me.getEvent()) || !mxEvent.isAltDown(me.getEvent())) {
+    if (
+      !this.graph.isToggleEvent(me.getEvent()) ||
+      !mxEvent.isAltDown(me.getEvent())
+    ) {
       while (cell != null) {
         if (this.graph.selectionCellsHandler.isHandled(cell)) {
           return this.graph.cellEditor.getEditingCell() != cell;
@@ -201,7 +216,10 @@ export class mxGraphHandler {
       }
     }
 
-    return this.graph.isToggleEvent(me.getEvent()) && !mxEvent.isAltDown(me.getEvent());
+    return (
+      this.graph.isToggleEvent(me.getEvent()) &&
+      !mxEvent.isAltDown(me.getEvent())
+    );
   }
 
   selectDelayed(me) {
@@ -218,7 +236,10 @@ export class mxGraphHandler {
         if (me.isSource(state.control)) {
           this.graph.selectCellForEvent(cell, me.getEvent());
         } else {
-          if (!this.graph.isToggleEvent(me.getEvent()) || !mxEvent.isAltDown(me.getEvent())) {
+          if (
+            !this.graph.isToggleEvent(me.getEvent()) ||
+            !mxEvent.isAltDown(me.getEvent())
+          ) {
             var model = this.graph.getModel();
             var parent = model.getParent(cell);
 
@@ -270,7 +291,8 @@ export class mxGraphHandler {
             model.getTerminal(cell, true) == null ||
             model.getTerminal(cell, false) == null ||
             this.graph.allowDanglingEdges ||
-            (this.graph.isCloneEvent(me.getEvent()) && this.graph.isCellsCloneable()))
+            (this.graph.isCloneEvent(me.getEvent()) &&
+              this.graph.isCellsCloneable()))
         ) {
           this.start(cell, me.getX(), me.getY());
         } else if (this.delayedSelection) {
@@ -296,7 +318,9 @@ export class mxGraphHandler {
       );
     };
 
-    return this.graph.view.getCellStates(model.filterDescendants(filter, parent));
+    return this.graph.view.getCellStates(
+      model.filterDescendants(filter, parent),
+    );
   }
 
   getCells(initialCell) {
@@ -352,7 +376,11 @@ export class mxGraphHandler {
           if (state != null) {
             var bbox = state;
 
-            if (model.isVertex(cells[i]) && state.shape != null && state.shape.boundingBox != null) {
+            if (
+              model.isVertex(cells[i]) &&
+              state.shape != null &&
+              state.shape.boundingBox != null
+            ) {
               bbox = state.shape.boundingBox;
             }
 
@@ -377,7 +405,10 @@ export class mxGraphHandler {
       shape.dialect = mxConstants.DIALECT_STRICTHTML;
       shape.init(this.graph.container);
     } else {
-      shape.dialect = this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_VML : mxConstants.DIALECT_SVG;
+      shape.dialect =
+        this.graph.dialect != mxConstants.DIALECT_SVG
+          ? mxConstants.DIALECT_VML
+          : mxConstants.DIALECT_SVG;
       shape.init(this.graph.getView().getOverlayPane());
       shape.pointerEvents = false;
 
@@ -410,7 +441,10 @@ export class mxGraphHandler {
       var parent = this.graph.model.getParent(cell);
       var ignore = this.graph.model.getChildCount(parent) < 2;
       var connected = new mxDictionary();
-      var opps = this.graph.getOpposites(this.graph.getEdges(this.cell), this.cell);
+      var opps = this.graph.getOpposites(
+        this.graph.getEdges(this.cell),
+        this.cell,
+      );
 
       for (var i = 0; i < opps.length; i++) {
         var state = this.graph.view.getState(opps[i]);
@@ -428,7 +462,8 @@ export class mxGraphHandler {
             (state.cell != (this.target || parent) &&
               !ignore &&
               !connected.get(state) &&
-              (this.target == null || this.graph.model.getChildCount(this.target) >= 2) &&
+              (this.target == null ||
+                this.graph.model.getChildCount(this.target) >= 2) &&
               p != (this.target || parent)))
         );
       };
@@ -458,7 +493,8 @@ export class mxGraphHandler {
 
   useGuidesForEvent(me) {
     return this.guide != null
-      ? this.guide.isEnabledForEvent(me.getEvent()) && !this.graph.isConstrainedEvent(me.getEvent())
+      ? this.guide.isEnabledForEvent(me.getEvent()) &&
+          !this.graph.isConstrainedEvent(me.getEvent())
       : true;
   }
 
@@ -470,8 +506,15 @@ export class mxGraphHandler {
   }
 
   getDelta(me) {
-    var point = mxUtils.convertPoint(this.graph.container, me.getX(), me.getY());
-    return new mxPoint(point.x - this.first.x - this.graph.panDx, point.y - this.first.y - this.graph.panDy);
+    var point = mxUtils.convertPoint(
+      this.graph.container,
+      me.getX(),
+      me.getY(),
+    );
+    return new mxPoint(
+      point.x - this.first.x - this.graph.panDx,
+      point.y - this.first.y - this.graph.panDy,
+    );
   }
 
   updateHint(me) {}
@@ -490,7 +533,11 @@ export class mxGraphHandler {
     if (this.livePreviewActive && this.cloning) {
       this.resetLivePreview();
       this.livePreviewActive = false;
-    } else if (this.maxLivePreview >= this.cellCount && !this.livePreviewActive && this.allowLivePreview) {
+    } else if (
+      this.maxLivePreview >= this.cellCount &&
+      !this.livePreviewActive &&
+      this.allowLivePreview
+    ) {
       if (!this.cloning || !this.livePreviewActive) {
         this.livePreviewActive = true;
         this.livePreviewUsed = true;
@@ -519,12 +566,24 @@ export class mxGraphHandler {
       var delta = this.getDelta(me);
       var tol = graph.tolerance;
 
-      if (this.shape != null || this.livePreviewActive || Math.abs(delta.x) > tol || Math.abs(delta.y) > tol) {
+      if (
+        this.shape != null ||
+        this.livePreviewActive ||
+        Math.abs(delta.x) > tol ||
+        Math.abs(delta.y) > tol
+      ) {
         if (this.highlight == null) {
-          this.highlight = new mxCellHighlight(this.graph, mxConstants.DROP_TARGET_COLOR, 3);
+          this.highlight = new mxCellHighlight(
+            this.graph,
+            mxConstants.DROP_TARGET_COLOR,
+            3,
+          );
         }
 
-        var clone = graph.isCloneEvent(me.getEvent()) && graph.isCellsCloneable() && this.isCloneEnabled();
+        var clone =
+          graph.isCloneEvent(me.getEvent()) &&
+          graph.isCellsCloneable() &&
+          this.isCloneEnabled();
         var gridEnabled = graph.isGridEnabledEvent(me.getEvent());
         var cell = me.getCell();
         var hideGuide = true;
@@ -559,7 +618,10 @@ export class mxGraphHandler {
 
             if (state != null) {
               var error = graph.getEdgeValidationError(null, this.cell, cell);
-              var color = error == null ? mxConstants.VALID_COLOR : mxConstants.INVALID_CONNECT_TARGET_COLOR;
+              var color =
+                error == null
+                  ? mxConstants.VALID_COLOR
+                  : mxConstants.INVALID_CONNECT_TARGET_COLOR;
               this.setHighlightColor(color);
               highlight = true;
             }
@@ -576,7 +638,13 @@ export class mxGraphHandler {
           delta = this.guide.move(this.bounds, delta, gridEnabled, clone);
           hideGuide = false;
         } else {
-          delta = this.graph.snapDelta(delta, this.bounds, !gridEnabled, false, false);
+          delta = this.graph.snapDelta(
+            delta,
+            this.bounds,
+            !gridEnabled,
+            false,
+            false,
+          );
         }
 
         if (this.guide != null && hideGuide) {
@@ -612,7 +680,11 @@ export class mxGraphHandler {
     ) {
       var cursor = graph.getCursorForMouseEvent(me);
 
-      if (cursor == null && graph.isEnabled() && graph.isCellMovable(me.getCell())) {
+      if (
+        cursor == null &&
+        graph.isEnabled() &&
+        graph.isCellMovable(me.getCell())
+      ) {
         if (graph.getModel().isEdge(me.getCell())) {
           cursor = mxConstants.CURSOR_MOVABLE_EDGE;
         } else {
@@ -629,7 +701,10 @@ export class mxGraphHandler {
   updatePreview(remote) {
     if (this.livePreviewUsed && !remote) {
       if (this.cells != null) {
-        this.setHandlesVisibleForCells(this.graph.selectionCellsHandler.getHandledSelectionCells(), false);
+        this.setHandlesVisibleForCells(
+          this.graph.selectionCellsHandler.getHandledSelectionCells(),
+          false,
+        );
         this.updateLivePreview(this.currentDx, this.currentDy);
       }
     } else {
@@ -643,7 +718,7 @@ export class mxGraphHandler {
         Math.round(this.pBounds.x + this.currentDx),
         Math.round(this.pBounds.y + this.currentDy),
         this.pBounds.width,
-        this.pBounds.height
+        this.pBounds.height,
       );
       this.shape.redraw();
     }
@@ -687,7 +762,7 @@ export class mxGraphHandler {
                 state.invalid = false;
 
                 if (state.control != null && state.control.node != null) {
-                  state.control.node.style.visibility = 'hidden';
+                  state.control.node.style.visibility = "hidden";
                 }
               }
             }
@@ -710,7 +785,12 @@ export class mxGraphHandler {
             if (geometry != null && geometry.points != null) {
               for (var j = 0; j < geometry.points.length; j++) {
                 if (geometry.points[j] != null) {
-                  points.push(new mxPoint(geometry.points[j].x + dx / s, geometry.points[j].y + dy / s));
+                  points.push(
+                    new mxPoint(
+                      geometry.points[j].x + dx / s,
+                      geometry.points[j].y + dy / s,
+                    ),
+                  );
                 }
               }
             }
@@ -721,27 +801,33 @@ export class mxGraphHandler {
 
             if (source == null || !this.isCellMoving(source.cell)) {
               var pt0 = pts[0];
-              state.setAbsoluteTerminalPoint(new mxPoint(pt0.x + dx, pt0.y + dy), true);
+              state.setAbsoluteTerminalPoint(
+                new mxPoint(pt0.x + dx, pt0.y + dy),
+                true,
+              );
               source = null;
             } else {
               state.view.updateFixedTerminalPoint(
                 state,
                 source,
                 true,
-                this.graph.getConnectionConstraint(state, source, true)
+                this.graph.getConnectionConstraint(state, source, true),
               );
             }
 
             if (target == null || !this.isCellMoving(target.cell)) {
               var ptn = pts[pts.length - 1];
-              state.setAbsoluteTerminalPoint(new mxPoint(ptn.x + dx, ptn.y + dy), false);
+              state.setAbsoluteTerminalPoint(
+                new mxPoint(ptn.x + dx, ptn.y + dy),
+                false,
+              );
               target = null;
             } else {
               state.view.updateFixedTerminalPoint(
                 state,
                 target,
                 false,
-                this.graph.getConnectionConstraint(state, target, false)
+                this.graph.getConnectionConstraint(state, target, false),
               );
             }
 
@@ -765,7 +851,9 @@ export class mxGraphHandler {
 
   redrawHandles(states) {
     for (var i = 0; i < states.length; i++) {
-      var handler = this.graph.selectionCellsHandler.getHandler(states[i][0].cell);
+      var handler = this.graph.selectionCellsHandler.getHandler(
+        states[i][0].cell,
+      );
 
       if (handler != null) {
         handler.redraw(true);
@@ -786,7 +874,7 @@ export class mxGraphHandler {
       }
 
       if (this.shape != null) {
-        this.shape.node.style.visibility = 'hidden';
+        this.shape.node.style.visibility = "hidden";
       }
 
       if (this.guide != null) {
@@ -806,7 +894,7 @@ export class mxGraphHandler {
       }
 
       if (this.shape != null) {
-        this.shape.node.style.visibility = 'visible';
+        this.shape.node.style.visibility = "visible";
       }
 
       if (this.guide != null) {
@@ -829,8 +917,12 @@ export class mxGraphHandler {
           }
         }
 
-        if (state.control != null && state.control.node != null && state.control.node.style.visibility == 'hidden') {
-          state.control.node.style.visibility = '';
+        if (
+          state.control != null &&
+          state.control.node != null &&
+          state.control.node.style.visibility == "hidden"
+        ) {
+          state.control.node.style.visibility = "";
         }
 
         state.view.invalidate(state.cell);
@@ -889,19 +981,44 @@ export class mxGraphHandler {
         ) {
           graph.connectionHandler.connect(this.cell, cell, me.getEvent());
         } else {
-          var clone = graph.isCloneEvent(me.getEvent()) && graph.isCellsCloneable() && this.isCloneEnabled();
+          var clone =
+            graph.isCloneEvent(me.getEvent()) &&
+            graph.isCellsCloneable() &&
+            this.isCloneEnabled();
           var scale = graph.getView().scale;
           var dx = this.roundLength(this.currentDx / scale);
           var dy = this.roundLength(this.currentDy / scale);
           var target = this.target;
 
-          if (graph.isSplitEnabled() && graph.isSplitTarget(target, this.cells, me.getEvent())) {
-            graph.splitEdge(target, this.cells, null, dx, dy, me.getGraphX(), me.getGraphY());
+          if (
+            graph.isSplitEnabled() &&
+            graph.isSplitTarget(target, this.cells, me.getEvent())
+          ) {
+            graph.splitEdge(
+              target,
+              this.cells,
+              null,
+              dx,
+              dy,
+              me.getGraphX(),
+              me.getGraphY(),
+            );
           } else {
-            this.moveCells(this.cells, dx, dy, clone, this.target, me.getEvent());
+            this.moveCells(
+              this.cells,
+              dx,
+              dy,
+              clone,
+              this.target,
+              me.getEvent(),
+            );
           }
         }
-      } else if (this.isSelectEnabled() && this.delayedSelection && this.cell != null) {
+      } else if (
+        this.isSelectEnabled() &&
+        this.delayedSelection &&
+        this.cell != null
+      ) {
         this.selectDelayed(me);
       }
     }
@@ -916,7 +1033,10 @@ export class mxGraphHandler {
   reset() {
     if (this.livePreviewUsed) {
       this.resetLivePreview();
-      this.setHandlesVisibleForCells(this.graph.selectionCellsHandler.getHandledSelectionCells(), true);
+      this.setHandlesVisibleForCells(
+        this.graph.selectionCellsHandler.getHandledSelectionCells(),
+        true,
+      );
     }
 
     this.destroyShapes();
@@ -944,8 +1064,14 @@ export class mxGraphHandler {
       var pState = this.graph.getView().getState(parent);
 
       if (pState != null) {
-        var pt = mxUtils.convertPoint(this.graph.container, mxEvent.getClientX(evt), mxEvent.getClientY(evt));
-        var alpha = mxUtils.toRadians(mxUtils.getValue(pState.style, mxConstants.STYLE_ROTATION) || 0);
+        var pt = mxUtils.convertPoint(
+          this.graph.container,
+          mxEvent.getClientX(evt),
+          mxEvent.getClientY(evt),
+        );
+        var alpha = mxUtils.toRadians(
+          mxUtils.getValue(pState.style, mxConstants.STYLE_ROTATION) || 0,
+        );
 
         if (alpha != 0) {
           var cos = Math.cos(-alpha);
@@ -968,11 +1094,17 @@ export class mxGraphHandler {
 
     var parent = this.graph.getModel().getParent(this.cell);
 
-    if (target == null && this.isRemoveCellsFromParent() && this.shouldRemoveCellsFromParent(parent, cells, evt)) {
+    if (
+      target == null &&
+      this.isRemoveCellsFromParent() &&
+      this.shouldRemoveCellsFromParent(parent, cells, evt)
+    ) {
       target = this.graph.getDefaultParent();
     }
 
-    clone = clone && !this.graph.isCellLocked(target || this.graph.getDefaultParent());
+    clone =
+      clone &&
+      !this.graph.isCellLocked(target || this.graph.getDefaultParent());
     this.graph.getModel().beginUpdate();
 
     try {
@@ -1022,7 +1154,8 @@ export class mxGraphHandler {
     var state = this.graph.view.getState(parent);
     return (
       state != null &&
-      (this.graph.model.isEdge(state.cell) || this.graph.model.isVertex(state.cell)) &&
+      (this.graph.model.isEdge(state.cell) ||
+        this.graph.model.isVertex(state.cell)) &&
       this.graph.isCellDeletable(state.cell) &&
       this.graph.model.getChildCount(state.cell) == 0 &&
       this.graph.isTransparentState(state)
@@ -1060,8 +1193,8 @@ export class mxGraphHandler {
       this.refreshHandler = null;
     }
 
-    mxEvent.removeListener(document, 'keydown', this.keyHandler);
-    mxEvent.removeListener(document, 'keyup', this.keyHandler);
+    mxEvent.removeListener(document, "keydown", this.keyHandler);
+    mxEvent.removeListener(document, "keyup", this.keyHandler);
     this.destroyShapes();
     this.removeHint();
   }

@@ -1,10 +1,10 @@
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxRectangleShape } from '@mxgraph/shape/mxRectangleShape';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxImageShape } from '@mxgraph/shape/mxImageShape';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxPoint } from '@mxgraph/util/mxPoint';
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxRectangleShape } from "@mxgraph/shape/mxRectangleShape";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxImageShape } from "@mxgraph/shape/mxImageShape";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxPoint } from "@mxgraph/util/mxPoint";
 
 export class mxHandle {
   ignoreGrid = false;
@@ -31,7 +31,10 @@ export class mxHandle {
   processEvent(me) {
     var scale = this.graph.view.scale;
     var tr = this.graph.view.translate;
-    var pt = new mxPoint(me.getGraphX() / scale - tr.x, me.getGraphY() / scale - tr.y);
+    var pt = new mxPoint(
+      me.getGraphX() / scale - tr.x,
+      me.getGraphY() / scale - tr.y,
+    );
 
     if (this.shape != null && this.shape.bounds != null) {
       pt.x -= this.shape.bounds.width / scale / 4;
@@ -42,9 +45,12 @@ export class mxHandle {
     var alpha2 = -mxUtils.toRadians(this.getTotalRotation()) - alpha1;
     pt = this.flipPoint(
       this.rotatePoint(
-        this.snapPoint(this.rotatePoint(pt, alpha1), this.ignoreGrid || !this.graph.isGridEnabledEvent(me.getEvent())),
-        alpha2
-      )
+        this.snapPoint(
+          this.rotatePoint(pt, alpha1),
+          this.ignoreGrid || !this.graph.isGridEnabledEvent(me.getEvent()),
+        ),
+        alpha2,
+      ),
     );
     this.setPosition(this.state.getPaintBounds(), pt, me);
     this.redraw();
@@ -82,7 +88,10 @@ export class mxHandle {
     var html = this.isHtmlRequired();
 
     if (this.image != null) {
-      this.shape = new mxImageShape(new mxRectangle(0, 0, this.image.width, this.image.height), this.image.src);
+      this.shape = new mxImageShape(
+        new mxRectangle(0, 0, this.image.width, this.image.height),
+        this.image.src,
+      );
       this.shape.preserveImageAspect = false;
     } else if (this.shape == null) {
       this.shape = this.createShape(html);
@@ -92,8 +101,17 @@ export class mxHandle {
   }
 
   createShape(html) {
-    var bounds = new mxRectangle(0, 0, mxConstants.HANDLE_SIZE, mxConstants.HANDLE_SIZE);
-    return new mxRectangleShape(bounds, mxConstants.HANDLE_FILLCOLOR, mxConstants.HANDLE_STROKECOLOR);
+    var bounds = new mxRectangle(
+      0,
+      0,
+      mxConstants.HANDLE_SIZE,
+      mxConstants.HANDLE_SIZE,
+    );
+    return new mxRectangleShape(
+      bounds,
+      mxConstants.HANDLE_FILLCOLOR,
+      mxConstants.HANDLE_STROKECOLOR,
+    );
   }
 
   initShape(html) {
@@ -102,7 +120,9 @@ export class mxHandle {
       this.shape.init(this.graph.container);
     } else {
       this.shape.dialect =
-        this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_MIXEDHTML : mxConstants.DIALECT_SVG;
+        this.graph.dialect != mxConstants.DIALECT_SVG
+          ? mxConstants.DIALECT_MIXEDHTML
+          : mxConstants.DIALECT_SVG;
 
       if (this.cursor != null) {
         this.shape.init(this.graph.getView().getOverlayPane());
@@ -122,15 +142,22 @@ export class mxHandle {
         pt = this.rotatePoint(this.flipPoint(pt), alpha);
         var scale = this.graph.view.scale;
         var tr = this.graph.view.translate;
-        this.shape.bounds.x = Math.floor((pt.x + tr.x) * scale - this.shape.bounds.width / 2);
-        this.shape.bounds.y = Math.floor((pt.y + tr.y) * scale - this.shape.bounds.height / 2);
+        this.shape.bounds.x = Math.floor(
+          (pt.x + tr.x) * scale - this.shape.bounds.width / 2,
+        );
+        this.shape.bounds.y = Math.floor(
+          (pt.y + tr.y) * scale - this.shape.bounds.height / 2,
+        );
         this.shape.redraw();
       }
     }
   }
 
   isHtmlRequired() {
-    return this.state.text != null && this.state.text.node.parentNode == this.graph.container;
+    return (
+      this.state.text != null &&
+      this.state.text.node.parentNode == this.graph.container
+    );
   }
 
   rotatePoint(pt, alpha) {
@@ -168,7 +195,7 @@ export class mxHandle {
 
   setVisible(visible) {
     if (this.shape != null && this.shape.node != null) {
-      this.shape.node.style.display = visible ? '' : 'none';
+      this.shape.node.style.display = visible ? "" : "none";
     }
   }
 

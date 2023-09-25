@@ -7,14 +7,11 @@ window.onload = function () {
 };
 */
 
-
-document.addEventListener('DOMContentLoaded', function() {
-
+document.addEventListener("DOMContentLoaded", function () {
   createEditor("config/diagrameditor.xml");
   //let e = createEditor("config/diagrameditor.xml");
   //g_onInit(e);
 });
-
 
 var urlParams = (function (url) {
   var result = new Object();
@@ -41,7 +38,6 @@ var mxLanguage = urlParams["lang"];
 //export function g_onInit(editor) {
 
 globalThis.g_onInit = function (editor) {
-
   console.log("window:", window);
 
   // Enables rotation handle
@@ -57,8 +53,6 @@ globalThis.g_onInit = function (editor) {
 
   // Enables snapping waypoints to terminals
   m.mxEdgeHandler.prototype.snapToTerminals = true;
-
-  
 
   // Defines an icon for creating new connections in the connection handler.
   // This will automatically disable the highlighting of the source vertex.
@@ -168,7 +162,6 @@ globalThis.g_onInit = function (editor) {
 
   // Only adds image and SVG export if backend is available
   // NOTE: The old image export in mxEditor is not used, the urlImage is used for the new export.
-
 
   if (editor.urlImage != null) {
     // Client-side code for image export
@@ -292,10 +285,9 @@ globalThis.g_onInit = function (editor) {
     buttons.push("exportSvg");
   }
 
-
   for (var i = 0; i < buttons.length; i++) {
     var button = document.createElement("button");
-    m.mxUtils.write(button, m.mxResources.get(buttons[i]));  // BUG   GS
+    m.mxUtils.write(button, m.mxResources.get(buttons[i])); // BUG   GS
     //m.mxUtils.write(button, "OK");
 
     var factory = function (name) {
@@ -329,9 +321,7 @@ globalThis.g_onInit = function (editor) {
   m.mxUtils.linkAction(node, "Actual", editor, "actualSize");
   m.mxUtils.write(node, ", ");
   m.mxUtils.linkAction(node, "Fit", editor, "fit");
-
-
-}
+};
 
 window.onbeforeunload = function () {
   return m.mxResources.get("changesLost");

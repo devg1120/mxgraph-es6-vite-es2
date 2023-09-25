@@ -1,4 +1,4 @@
-import { mxShape } from '@mxgraph/shape/mxShape';
+import { mxShape } from "@mxgraph/shape/mxShape";
 
 export class mxLine extends mxShape {
   constructor(bounds, stroke, strokewidth, vertical) {

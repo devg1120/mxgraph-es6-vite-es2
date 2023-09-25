@@ -284,10 +284,8 @@ export class Graph extends m.mxGraph {
   ];
 
   constructor(container, model, renderHint, stylesheet, themes, standalone) {
-    //this.graph = new m.mxGraph(this, container, model, renderHint, stylesheet);
     super(container, model, renderHint, stylesheet);
 
-console.log("Graph constructor");
 
     this.themes = themes || this.defaultThemes;
     this.currentEdgeStyle = m.mxUtils.clone(this.defaultEdgeStyle);
@@ -313,13 +311,13 @@ console.log("Graph constructor");
         this.domainPathUrl = b.substring(0, d + 1);
       }
     }
-this.setup();
+    this.setup();
 
     // Adds support for HTML labels via style. Note: Currently, only the Java
     // backend supports HTML labels but CSS support is limited to the following:
     // http://docs.oracle.com/javase/6/docs/api/index.html?javax/swing/text/html/CSS.html
     // TODO: Wrap should not affect isHtmlLabel output (should be handled later)
-    
+
     function isHtmlLabel(cell) {
       var style = this.getCurrentCellStyle(cell);
 
@@ -908,7 +906,6 @@ this.setup();
           start.handle = null;
         }),
       });
-
     } // end constructor
   }
   /**
@@ -944,7 +941,7 @@ this.setup();
    * Removes all illegal control characters with ASCII code <32 except TAB, LF
    * and CR.
    */
-static  zapGremlins(text) {
+  static zapGremlins(text) {
     var lastIndex = 0;
     var checked = [];
 
@@ -1048,7 +1045,7 @@ static  zapGremlins(text) {
   /**
    * Returns a decompressed version of the base64 encoded string.
    */
-static  decompress(data, inflate, checked) {
+  static decompress(data, inflate, checked) {
     if (data == null || data.length == 0 || typeof pako === "undefined") {
       return data;
     } else {
@@ -1145,7 +1142,6 @@ static  decompress(data, inflate, checked) {
   }
 
   setup() {
-     console.log("set=================================================")
     // HTML entities are displayed as plain text in wrapped plain text labels
     this.cellRenderer.getLabelValue = function (state) {
       var result = m.mxCellRenderer.prototype.getLabelValue.apply(
@@ -1164,7 +1160,6 @@ static  decompress(data, inflate, checked) {
       return result;
     };
 
-        console.log("if  1  Grapf  loadStylesheet--------------------------");
     // All code below not available and not needed in embed mode
     if (typeof m.mxVertexHandler !== "undefined") {
       this.setConnectable(true);
@@ -1194,8 +1189,7 @@ static  decompress(data, inflate, checked) {
       this.alternateEdgeStyle = "vertical";
 
       //if (stylesheet == null) {    /*GS */
-        console.log("Grapf  loadStylesheet--------------------------");
-        this.loadStylesheet();
+      this.loadStylesheet();
       //}
 
       // Adds page centers to the guides for moving cells
@@ -3142,7 +3136,7 @@ Graph.prototype.replacePlaceholders = function (cell, str, vars, translate) {
   if (str != null) {
     var last = 0;
     var match = null;
-    while (( match = this.placeholderPattern.exec(str))) {
+    while ((match = this.placeholderPattern.exec(str))) {
       var val = match[0];
 
       if (val.length > 2 && val != "%label%" && val != "%tooltip%") {
@@ -5562,10 +5556,10 @@ function TableLayout(graph) {
 
 //export class TableLayout extends m.mxGraphLayout {
 export class TableLayout extends m.mxStackLayout {
-   constructor(graph){
-      super(graph)
-   }
-};
+  constructor(graph) {
+    super(graph);
+  }
+}
 /**
  * Function: isHorizontal
  *
@@ -6787,7 +6781,6 @@ if (typeof m.mxVertexHandler != "undefined") {
      * Loads the stylesheet for this graph.
      */
     Graph.prototype.loadStylesheet = function () {
-         console.log("-----------------------Graph.prototype.loadStylesheet");
       var node =
         this.themes != null
           ? this.themes[this.defaultThemeName]

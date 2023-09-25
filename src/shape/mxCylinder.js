@@ -1,6 +1,6 @@
-import { mxShape } from '@mxgraph/shape/mxShape';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxShape } from "@mxgraph/shape/mxShape";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxCylinder extends mxShape {
   maxHeight = 40;
@@ -39,7 +39,10 @@ export class mxCylinder extends mxShape {
   redrawPath(c, x, y, w, h, isForeground) {
     var dy = this.getCylinderSize(x, y, w, h);
 
-    if ((isForeground && this.fill != null) || (!isForeground && this.fill == null)) {
+    if (
+      (isForeground && this.fill != null) ||
+      (!isForeground && this.fill == null)
+    ) {
       c.moveTo(0, dy);
       c.curveTo(0, 2 * dy, w, 2 * dy, w, dy);
 

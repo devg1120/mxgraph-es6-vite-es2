@@ -1,16 +1,16 @@
-import { mxConnectionConstraint } from '@mxgraph/view/mxConnectionConstraint';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxImageShape } from '@mxgraph/shape/mxImageShape';
-import { mxEdgeStyle } from '@mxgraph/view/mxEdgeStyle';
-import { EdgeCellMarker } from '@mxgraph/handler/EdgeCellMarker';
-import { mxRectangleShape } from '@mxgraph/shape/mxRectangleShape';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxGraphHandler } from '@mxgraph/handler/mxGraphHandler';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxConstraintHandler } from '@mxgraph/handler/mxConstraintHandler';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxConnectionConstraint } from "@mxgraph/view/mxConnectionConstraint";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxImageShape } from "@mxgraph/shape/mxImageShape";
+import { mxEdgeStyle } from "@mxgraph/view/mxEdgeStyle";
+import { EdgeCellMarker } from "@mxgraph/handler/EdgeCellMarker";
+import { mxRectangleShape } from "@mxgraph/shape/mxRectangleShape";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxGraphHandler } from "@mxgraph/handler/mxGraphHandler";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxConstraintHandler } from "@mxgraph/handler/mxConstraintHandler";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxEdgeHandler {
   graph = null;
@@ -48,7 +48,11 @@ export class mxEdgeHandler {
         this.reset();
 
         if (dirty) {
-          this.graph.cellRenderer.redraw(this.state, false, state.view.isRendering());
+          this.graph.cellRenderer.redraw(
+            this.state,
+            false,
+            state.view.isRendering(),
+          );
         }
       };
 
@@ -64,25 +68,33 @@ export class mxEdgeHandler {
     this.abspoints = this.getSelectionPoints(this.state);
     this.shape = this.createSelectionShape(this.abspoints);
     this.shape.dialect =
-      this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_MIXEDHTML : mxConstants.DIALECT_SVG;
+      this.graph.dialect != mxConstants.DIALECT_SVG
+        ? mxConstants.DIALECT_MIXEDHTML
+        : mxConstants.DIALECT_SVG;
     this.shape.init(this.graph.getView().getOverlayPane());
     this.shape.pointerEvents = false;
     this.shape.setCursor(mxConstants.CURSOR_MOVABLE_EDGE);
     mxEvent.redirectMouseEvents(this.shape.node, this.graph, this.state);
-    this.preferHtml = this.state.text != null && this.state.text.node.parentNode == this.graph.container;
+    this.preferHtml =
+      this.state.text != null &&
+      this.state.text.node.parentNode == this.graph.container;
 
     if (!this.preferHtml) {
       var sourceState = this.state.getVisibleTerminalState(true);
 
       if (sourceState != null) {
-        this.preferHtml = sourceState.text != null && sourceState.text.node.parentNode == this.graph.container;
+        this.preferHtml =
+          sourceState.text != null &&
+          sourceState.text.node.parentNode == this.graph.container;
       }
 
       if (!this.preferHtml) {
         var targetState = this.state.getVisibleTerminalState(false);
 
         if (targetState != null) {
-          this.preferHtml = targetState.text != null && targetState.text.node.parentNode == this.graph.container;
+          this.preferHtml =
+            targetState.text != null &&
+            targetState.text.node.parentNode == this.graph.container;
         }
       }
     }
@@ -96,15 +108,22 @@ export class mxEdgeHandler {
         if (pstate != null) {
           this.parentHighlight = this.createParentHighlightShape(pstate);
           this.parentHighlight.dialect =
-            this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_VML : mxConstants.DIALECT_SVG;
+            this.graph.dialect != mxConstants.DIALECT_SVG
+              ? mxConstants.DIALECT_VML
+              : mxConstants.DIALECT_SVG;
           this.parentHighlight.pointerEvents = false;
-          this.parentHighlight.rotation = Number(pstate.style[mxConstants.STYLE_ROTATION] || '0');
+          this.parentHighlight.rotation = Number(
+            pstate.style[mxConstants.STYLE_ROTATION] || "0",
+          );
           this.parentHighlight.init(this.graph.getView().getOverlayPane());
         }
       }
     }
 
-    if (this.graph.getSelectionCount() < mxGraphHandler.maxCells || mxGraphHandler.maxCells <= 0) {
+    if (
+      this.graph.getSelectionCount() < mxGraphHandler.maxCells ||
+      mxGraphHandler.maxCells <= 0
+    ) {
       this.bends = this.createBends();
 
       if (this.isVirtualBendsEnabled()) {
@@ -112,7 +131,10 @@ export class mxEdgeHandler {
       }
     }
 
-    this.label = new mxPoint(this.state.absoluteOffset.x, this.state.absoluteOffset.y);
+    this.label = new mxPoint(
+      this.state.absoluteOffset.x,
+      this.state.absoluteOffset.y,
+    );
     this.labelShape = this.createLabelHandleShape();
     this.initBend(this.labelShape);
     this.labelShape.setCursor(mxConstants.CURSOR_LABEL_HANDLE);
@@ -130,7 +152,8 @@ export class mxEdgeHandler {
       (this.state.style[mxConstants.STYLE_EDGE] == null ||
         this.state.style[mxConstants.STYLE_EDGE] == mxConstants.NONE ||
         this.state.style[mxConstants.STYLE_NOEDGESTYLE] == 1) &&
-      mxUtils.getValue(this.state.style, mxConstants.STYLE_SHAPE, null) != 'arrow'
+      mxUtils.getValue(this.state.style, mxConstants.STYLE_SHAPE, null) !=
+        "arrow"
     );
   }
 
@@ -216,14 +239,18 @@ export class mxEdgeHandler {
             });
 
             if (this.isHandleEnabled(i)) {
-              bend.setCursor(terminal ? mxConstants.CURSOR_TERMINAL_HANDLE : mxConstants.CURSOR_BEND_HANDLE);
+              bend.setCursor(
+                terminal
+                  ? mxConstants.CURSOR_TERMINAL_HANDLE
+                  : mxConstants.CURSOR_BEND_HANDLE,
+              );
             }
 
             bends.push(bend);
 
             if (!terminal) {
               this.points.push(new mxPoint(0, 0));
-              bend.node.style.visibility = 'hidden';
+              bend.node.style.visibility = "hidden";
             }
           })(i);
         }
@@ -259,15 +286,22 @@ export class mxEdgeHandler {
     var source = this.state.getVisibleTerminalState(true);
     var target = this.state.getVisibleTerminalState(false);
     var geo = this.graph.getCellGeometry(this.state.cell);
-    var edgeStyle = geo != null ? this.graph.view.getEdgeStyle(this.state, geo.points, source, target) : null;
-    return edgeStyle != mxEdgeStyle.EntityRelation || index == 0 || index == this.abspoints.length - 1;
+    var edgeStyle =
+      geo != null
+        ? this.graph.view.getEdgeStyle(this.state, geo.points, source, target)
+        : null;
+    return (
+      edgeStyle != mxEdgeStyle.EntityRelation ||
+      index == 0 ||
+      index == this.abspoints.length - 1
+    );
   }
 
   createHandleShape(index) {
     if (this.handleImage != null) {
       var shape = new mxImageShape(
         new mxRectangle(0, 0, this.handleImage.width, this.handleImage.height),
-        this.handleImage.src
+        this.handleImage.src,
       );
       shape.preserveImageAspect = false;
       return shape;
@@ -281,7 +315,7 @@ export class mxEdgeHandler {
       return new mxRectangleShape(
         new mxRectangle(0, 0, s, s),
         mxConstants.HANDLE_FILLCOLOR,
-        mxConstants.HANDLE_STROKECOLOR
+        mxConstants.HANDLE_STROKECOLOR,
       );
     }
   }
@@ -289,8 +323,13 @@ export class mxEdgeHandler {
   createLabelHandleShape() {
     if (this.labelHandleImage != null) {
       var shape = new mxImageShape(
-        new mxRectangle(0, 0, this.labelHandleImage.width, this.labelHandleImage.height),
-        this.labelHandleImage.src
+        new mxRectangle(
+          0,
+          0,
+          this.labelHandleImage.width,
+          this.labelHandleImage.height,
+        ),
+        this.labelHandleImage.src,
       );
       shape.preserveImageAspect = false;
       return shape;
@@ -299,7 +338,7 @@ export class mxEdgeHandler {
       return new mxRectangleShape(
         new mxRectangle(0, 0, s, s),
         mxConstants.LABEL_HANDLE_FILLCOLOR,
-        mxConstants.HANDLE_STROKECOLOR
+        mxConstants.HANDLE_STROKECOLOR,
       );
     }
   }
@@ -310,21 +349,31 @@ export class mxEdgeHandler {
       bend.init(this.graph.container);
     } else {
       bend.dialect =
-        this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_MIXEDHTML : mxConstants.DIALECT_SVG;
+        this.graph.dialect != mxConstants.DIALECT_SVG
+          ? mxConstants.DIALECT_MIXEDHTML
+          : mxConstants.DIALECT_SVG;
       bend.init(this.graph.getView().getOverlayPane());
     }
 
-    mxEvent.redirectMouseEvents(bend.node, this.graph, this.state, null, null, null, dblClick);
+    mxEvent.redirectMouseEvents(
+      bend.node,
+      this.graph,
+      this.state,
+      null,
+      null,
+      null,
+      dblClick,
+    );
 
     if (mxClient.IS_QUIRKS || document.documentMode == 8) {
-      mxEvent.addListener(bend.node, 'dragstart', function (evt) {
+      mxEvent.addListener(bend.node, "dragstart", function (evt) {
         mxEvent.consume(evt);
         return false;
       });
     }
 
     if (mxClient.IS_TOUCH) {
-      bend.node.setAttribute('pointer-events', 'none');
+      bend.node.setAttribute("pointer-events", "none");
     }
   }
 
@@ -332,7 +381,12 @@ export class mxEdgeHandler {
     var tol = !mxEvent.isMouseEvent(me.getEvent()) ? this.tolerance : 1;
     var hit =
       this.allowHandleBoundsCheck && tol > 0
-        ? new mxRectangle(me.getGraphX() - tol, me.getGraphY() - tol, 2 * tol, 2 * tol)
+        ? new mxRectangle(
+            me.getGraphX() - tol,
+            me.getGraphY() - tol,
+            2 * tol,
+            2 * tol,
+          )
         : null;
     var minDistSq = null;
     var result = null;
@@ -341,9 +395,10 @@ export class mxEdgeHandler {
       if (
         shape != null &&
         shape.node != null &&
-        shape.node.style.display != 'none' &&
-        shape.node.style.visibility != 'hidden' &&
-        (me.isSource(shape) || (hit != null && mxUtils.intersects(shape.bounds, hit)))
+        shape.node.style.display != "none" &&
+        shape.node.style.visibility != "hidden" &&
+        (me.isSource(shape) ||
+          (hit != null && mxUtils.intersects(shape.bounds, hit)))
       ) {
         var dx = me.getGraphX() - shape.bounds.getCenterX();
         var dy = me.getGraphY() - shape.bounds.getCenterY();
@@ -405,15 +460,25 @@ export class mxEdgeHandler {
       this.snapPoint = new mxPoint(b.getCenterX(), b.getCenterY());
     }
 
-    if (this.addEnabled && handle == null && this.isAddPointEvent(me.getEvent())) {
+    if (
+      this.addEnabled &&
+      handle == null &&
+      this.isAddPointEvent(me.getEvent())
+    ) {
       this.addPoint(this.state, me.getEvent());
       me.consume();
     } else if (handle != null && !me.isConsumed() && this.graph.isEnabled()) {
       if (this.removeEnabled && this.isRemovePointEvent(me.getEvent())) {
         this.removePoint(this.state, handle);
-      } else if (handle != mxEvent.LABEL_HANDLE || this.graph.isLabelMovable(me.getCell())) {
+      } else if (
+        handle != mxEvent.LABEL_HANDLE ||
+        this.graph.isLabelMovable(me.getCell())
+      ) {
         if (handle <= mxEvent.VIRTUAL_HANDLE) {
-          mxUtils.setOpacity(this.virtualBends[mxEvent.VIRTUAL_HANDLE - handle].node, 100);
+          mxUtils.setOpacity(
+            this.virtualBends[mxEvent.VIRTUAL_HANDLE - handle].node,
+            100,
+          );
         }
 
         this.start(me.getX(), me.getY(), handle);
@@ -435,8 +500,10 @@ export class mxEdgeHandler {
       var terminal = this.graph.model.getTerminal(cell, this.isSource);
 
       if (
-        (terminal == null && this.graph.isTerminalPointMovable(cell, this.isSource)) ||
-        (terminal != null && this.graph.isCellDisconnectable(cell, terminal, this.isSource))
+        (terminal == null &&
+          this.graph.isTerminalPointMovable(cell, this.isSource)) ||
+        (terminal != null &&
+          this.graph.isCellDisconnectable(cell, terminal, this.isSource))
       ) {
         this.index = index;
       }
@@ -444,7 +511,10 @@ export class mxEdgeHandler {
       this.index = index;
     }
 
-    if (this.index <= mxEvent.CUSTOM_HANDLE && this.index > mxEvent.VIRTUAL_HANDLE) {
+    if (
+      this.index <= mxEvent.CUSTOM_HANDLE &&
+      this.index > mxEvent.VIRTUAL_HANDLE
+    ) {
       if (this.customHandles != null) {
         for (var i = 0; i < this.customHandles.length; i++) {
           if (i != mxEvent.CUSTOM_HANDLE - this.index) {
@@ -480,7 +550,7 @@ export class mxEdgeHandler {
     var scale = view.scale;
     var point = new mxPoint(
       this.roundLength(me.getGraphX() / scale) * scale,
-      this.roundLength(me.getGraphY() / scale) * scale
+      this.roundLength(me.getGraphY() / scale) * scale,
     );
     var tt = this.getSnapToTerminalTolerance();
     var overrideX = false;
@@ -507,7 +577,13 @@ export class mxEdgeHandler {
 
       function snapToTerminal(terminal) {
         if (terminal != null) {
-          snapToPoint.call(this, new mxPoint(view.getRoutingCenterX(terminal), view.getRoutingCenterY(terminal)));
+          snapToPoint.call(
+            this,
+            new mxPoint(
+              view.getRoutingCenterX(terminal),
+              view.getRoutingCenterY(terminal),
+            ),
+          );
         }
       }
 
@@ -541,32 +617,45 @@ export class mxEdgeHandler {
       me,
       this.isSource,
       true,
-      me.isSource(this.marker.highlight.shape) ? null : this.currentPoint
+      me.isSource(this.marker.highlight.shape) ? null : this.currentPoint,
     );
 
-    if (this.constraintHandler.currentFocus != null && this.constraintHandler.currentConstraint != null) {
+    if (
+      this.constraintHandler.currentFocus != null &&
+      this.constraintHandler.currentConstraint != null
+    ) {
       if (
         this.marker.highlight != null &&
         this.marker.highlight.state != null &&
-        this.marker.highlight.state.cell == this.constraintHandler.currentFocus.cell
+        this.marker.highlight.state.cell ==
+          this.constraintHandler.currentFocus.cell
       ) {
-        if (this.marker.highlight.shape.stroke != 'transparent') {
-          this.marker.highlight.shape.stroke = 'transparent';
+        if (this.marker.highlight.shape.stroke != "transparent") {
+          this.marker.highlight.shape.stroke = "transparent";
           this.marker.highlight.repaint();
         }
       } else {
-        this.marker.markCell(this.constraintHandler.currentFocus.cell, 'transparent');
+        this.marker.markCell(
+          this.constraintHandler.currentFocus.cell,
+          "transparent",
+        );
       }
 
       var model = this.graph.getModel();
       var other = this.graph.view.getTerminalPort(
         this.state,
-        this.graph.view.getState(model.getTerminal(this.state.cell, !this.isSource)),
-        !this.isSource
+        this.graph.view.getState(
+          model.getTerminal(this.state.cell, !this.isSource),
+        ),
+        !this.isSource,
       );
       var otherCell = other != null ? other.cell : null;
-      var source = this.isSource ? this.constraintHandler.currentFocus.cell : otherCell;
-      var target = this.isSource ? otherCell : this.constraintHandler.currentFocus.cell;
+      var source = this.isSource
+        ? this.constraintHandler.currentFocus.cell
+        : otherCell;
+      var target = this.isSource
+        ? otherCell
+        : this.constraintHandler.currentFocus.cell;
       this.error = this.validateConnection(source, target);
       var result = null;
 
@@ -574,7 +663,10 @@ export class mxEdgeHandler {
         result = this.constraintHandler.currentFocus;
       }
 
-      if (this.error != null || (result != null && !this.isCellEnabled(result.cell))) {
+      if (
+        this.error != null ||
+        (result != null && !this.isCellEnabled(result.cell))
+      ) {
         this.constraintHandler.reset();
       }
 
@@ -628,7 +720,11 @@ export class mxEdgeHandler {
             }
           }
 
-          if (result == null && this.straightRemoveEnabled && (me == null || !mxEvent.isAltDown(me.getEvent()))) {
+          if (
+            result == null &&
+            this.straightRemoveEnabled &&
+            (me == null || !mxEvent.isAltDown(me.getEvent()))
+          ) {
             var tol = this.graph.tolerance * this.graph.tolerance;
             var abs = this.state.absolutePoints.slice();
             abs[this.index] = pt;
@@ -638,17 +734,27 @@ export class mxEdgeHandler {
               var c = this.graph.getConnectionConstraint(this.state, src, true);
 
               if (c == null || this.graph.getConnectionPoint(src, c) == null) {
-                abs[0] = new mxPoint(src.view.getRoutingCenterX(src), src.view.getRoutingCenterY(src));
+                abs[0] = new mxPoint(
+                  src.view.getRoutingCenterX(src),
+                  src.view.getRoutingCenterY(src),
+                );
               }
             }
 
             var trg = this.state.getVisibleTerminalState(false);
 
             if (trg != null) {
-              var c = this.graph.getConnectionConstraint(this.state, trg, false);
+              var c = this.graph.getConnectionConstraint(
+                this.state,
+                trg,
+                false,
+              );
 
               if (c == null || this.graph.getConnectionPoint(trg, c) == null) {
-                abs[abs.length - 1] = new mxPoint(trg.view.getRoutingCenterX(trg), trg.view.getRoutingCenterY(trg));
+                abs[abs.length - 1] = new mxPoint(
+                  trg.view.getRoutingCenterX(trg),
+                  trg.view.getRoutingCenterY(trg),
+                );
               }
             }
 
@@ -656,7 +762,14 @@ export class mxEdgeHandler {
               if (
                 idx > 0 &&
                 idx < abs.length - 1 &&
-                mxUtils.ptSegDistSq(abs[idx - 1].x, abs[idx - 1].y, abs[idx + 1].x, abs[idx + 1].y, tmp.x, tmp.y) < tol
+                mxUtils.ptSegDistSq(
+                  abs[idx - 1].x,
+                  abs[idx - 1].y,
+                  abs[idx + 1].x,
+                  abs[idx + 1].y,
+                  tmp.x,
+                  tmp.y,
+                ) < tol
               ) {
                 points.splice(idx - 1, 1);
                 result = points;
@@ -686,8 +799,10 @@ export class mxEdgeHandler {
     var doc = document.documentElement;
     var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
     var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-    var gridX = this.currentPoint.x - this.graph.container.scrollLeft + offset.x - left;
-    var gridY = this.currentPoint.y - this.graph.container.scrollTop + offset.y - top;
+    var gridX =
+      this.currentPoint.x - this.graph.container.scrollLeft + offset.x - left;
+    var gridY =
+      this.currentPoint.y - this.graph.container.scrollTop + offset.y - top;
     return (
       this.outlineConnect &&
       !mxEvent.isShiftDown(me.getEvent()) &&
@@ -701,10 +816,22 @@ export class mxEdgeHandler {
   }
 
   updatePreviewState(edge, point, terminalState, me, outline) {
-    var sourceState = this.isSource ? terminalState : this.state.getVisibleTerminalState(true);
-    var targetState = this.isTarget ? terminalState : this.state.getVisibleTerminalState(false);
-    var sourceConstraint = this.graph.getConnectionConstraint(edge, sourceState, true);
-    var targetConstraint = this.graph.getConnectionConstraint(edge, targetState, false);
+    var sourceState = this.isSource
+      ? terminalState
+      : this.state.getVisibleTerminalState(true);
+    var targetState = this.isTarget
+      ? terminalState
+      : this.state.getVisibleTerminalState(false);
+    var sourceConstraint = this.graph.getConnectionConstraint(
+      edge,
+      sourceState,
+      true,
+    );
+    var targetConstraint = this.graph.getConnectionConstraint(
+      edge,
+      targetState,
+      false,
+    );
     var constraint = this.constraintHandler.currentConstraint;
 
     if (constraint == null && outline) {
@@ -722,19 +849,31 @@ export class mxEdgeHandler {
       }
     }
 
-    if (this.outlineConnect && this.marker.highlight != null && this.marker.highlight.shape != null) {
+    if (
+      this.outlineConnect &&
+      this.marker.highlight != null &&
+      this.marker.highlight.shape != null
+    ) {
       var s = this.graph.view.scale;
 
-      if (this.constraintHandler.currentConstraint != null && this.constraintHandler.currentFocus != null) {
-        this.marker.highlight.shape.stroke = outline ? mxConstants.OUTLINE_HIGHLIGHT_COLOR : 'transparent';
-        this.marker.highlight.shape.strokewidth = mxConstants.OUTLINE_HIGHLIGHT_STROKEWIDTH / s / s;
+      if (
+        this.constraintHandler.currentConstraint != null &&
+        this.constraintHandler.currentFocus != null
+      ) {
+        this.marker.highlight.shape.stroke = outline
+          ? mxConstants.OUTLINE_HIGHLIGHT_COLOR
+          : "transparent";
+        this.marker.highlight.shape.strokewidth =
+          mxConstants.OUTLINE_HIGHLIGHT_STROKEWIDTH / s / s;
         this.marker.highlight.repaint();
       } else if (this.marker.hasValidState()) {
         this.marker.highlight.shape.stroke =
-          this.graph.isCellConnectable(me.getCell()) && this.marker.getValidState() != me.getState()
-            ? 'transparent'
+          this.graph.isCellConnectable(me.getCell()) &&
+          this.marker.getValidState() != me.getState()
+            ? "transparent"
             : mxConstants.DEFAULT_VALID_COLOR;
-        this.marker.highlight.shape.strokewidth = mxConstants.HIGHLIGHT_STROKEWIDTH / s / s;
+        this.marker.highlight.shape.strokewidth =
+          mxConstants.HIGHLIGHT_STROKEWIDTH / s / s;
         this.marker.highlight.repaint();
       }
     }
@@ -747,11 +886,19 @@ export class mxEdgeHandler {
 
     if (this.isSource || this.isTarget) {
       if (constraint != null && constraint.point != null) {
-        edge.style[this.isSource ? mxConstants.STYLE_EXIT_X : mxConstants.STYLE_ENTRY_X] = constraint.point.x;
-        edge.style[this.isSource ? mxConstants.STYLE_EXIT_Y : mxConstants.STYLE_ENTRY_Y] = constraint.point.y;
+        edge.style[
+          this.isSource ? mxConstants.STYLE_EXIT_X : mxConstants.STYLE_ENTRY_X
+        ] = constraint.point.x;
+        edge.style[
+          this.isSource ? mxConstants.STYLE_EXIT_Y : mxConstants.STYLE_ENTRY_Y
+        ] = constraint.point.y;
       } else {
-        delete edge.style[this.isSource ? mxConstants.STYLE_EXIT_X : mxConstants.STYLE_ENTRY_X];
-        delete edge.style[this.isSource ? mxConstants.STYLE_EXIT_Y : mxConstants.STYLE_ENTRY_Y];
+        delete edge.style[
+          this.isSource ? mxConstants.STYLE_EXIT_X : mxConstants.STYLE_ENTRY_X
+        ];
+        delete edge.style[
+          this.isSource ? mxConstants.STYLE_EXIT_Y : mxConstants.STYLE_ENTRY_Y
+        ];
       }
     }
 
@@ -759,18 +906,28 @@ export class mxEdgeHandler {
     edge.setVisibleTerminalState(targetState, false);
 
     if (!this.isSource || sourceState != null) {
-      edge.view.updateFixedTerminalPoint(edge, sourceState, true, sourceConstraint);
+      edge.view.updateFixedTerminalPoint(
+        edge,
+        sourceState,
+        true,
+        sourceConstraint,
+      );
     }
 
     if (!this.isTarget || targetState != null) {
-      edge.view.updateFixedTerminalPoint(edge, targetState, false, targetConstraint);
+      edge.view.updateFixedTerminalPoint(
+        edge,
+        targetState,
+        false,
+        targetConstraint,
+      );
     }
 
     if ((this.isSource || this.isTarget) && terminalState == null) {
       edge.setAbsoluteTerminalPoint(point, this.isSource);
 
       if (this.marker.getMarkedState() == null) {
-        this.error = this.graph.allowDanglingEdges ? null : '';
+        this.error = this.graph.allowDanglingEdges ? null : "";
       }
     }
 
@@ -788,24 +945,37 @@ export class mxEdgeHandler {
         mxEvent.isShiftDown(me.getEvent()) &&
         this.snapPoint != null
       ) {
-        if (Math.abs(this.snapPoint.x - this.currentPoint.x) < Math.abs(this.snapPoint.y - this.currentPoint.y)) {
+        if (
+          Math.abs(this.snapPoint.x - this.currentPoint.x) <
+          Math.abs(this.snapPoint.y - this.currentPoint.y)
+        ) {
           this.currentPoint.x = this.snapPoint.x;
         } else {
           this.currentPoint.y = this.snapPoint.y;
         }
       }
 
-      if (this.index <= mxEvent.CUSTOM_HANDLE && this.index > mxEvent.VIRTUAL_HANDLE) {
+      if (
+        this.index <= mxEvent.CUSTOM_HANDLE &&
+        this.index > mxEvent.VIRTUAL_HANDLE
+      ) {
         if (this.customHandles != null) {
-          this.customHandles[mxEvent.CUSTOM_HANDLE - this.index].processEvent(me);
-          this.customHandles[mxEvent.CUSTOM_HANDLE - this.index].positionChanged();
+          this.customHandles[mxEvent.CUSTOM_HANDLE - this.index].processEvent(
+            me,
+          );
+          this.customHandles[
+            mxEvent.CUSTOM_HANDLE - this.index
+          ].positionChanged();
         }
       } else if (this.isLabel) {
         this.label.x = this.currentPoint.x;
         this.label.y = this.currentPoint.y;
       } else {
         this.points = this.getPreviewPoints(this.currentPoint, me);
-        var terminalState = this.isSource || this.isTarget ? this.getPreviewTerminalState(me) : null;
+        var terminalState =
+          this.isSource || this.isTarget
+            ? this.getPreviewTerminalState(me)
+            : null;
 
         if (
           this.constraintHandler.currentConstraint != null &&
@@ -814,7 +984,10 @@ export class mxEdgeHandler {
         ) {
           this.currentPoint = this.constraintHandler.currentPoint.clone();
         } else if (this.outlineConnect) {
-          var outline = this.isSource || this.isTarget ? this.isOutlineConnectEvent(me) : false;
+          var outline =
+            this.isSource || this.isTarget
+              ? this.isOutlineConnectEvent(me)
+              : false;
 
           if (outline) {
             terminalState = this.marker.highlight.state;
@@ -824,7 +997,7 @@ export class mxEdgeHandler {
             this.graph.isCellConnectable(me.getCell()) &&
             this.marker.highlight.shape != null
           ) {
-            this.marker.highlight.shape.stroke = 'transparent';
+            this.marker.highlight.shape.stroke = "transparent";
             this.marker.highlight.repaint();
             terminalState = null;
           }
@@ -835,9 +1008,21 @@ export class mxEdgeHandler {
           this.marker.reset();
         }
 
-        var clone = this.clonePreviewState(this.currentPoint, terminalState != null ? terminalState.cell : null);
-        this.updatePreviewState(clone, this.currentPoint, terminalState, me, outline);
-        var color = this.error == null ? this.marker.validColor : this.marker.invalidColor;
+        var clone = this.clonePreviewState(
+          this.currentPoint,
+          terminalState != null ? terminalState.cell : null,
+        );
+        this.updatePreviewState(
+          clone,
+          this.currentPoint,
+          terminalState,
+          me,
+          outline,
+        );
+        var color =
+          this.error == null
+            ? this.marker.validColor
+            : this.marker.invalidColor;
         this.setPreviewColor(color);
         this.abspoints = clone.absolutePoints;
         this.active = true;
@@ -867,7 +1052,10 @@ export class mxEdgeHandler {
           if (this.error.length > 0) {
             this.graph.validationAlert(this.error);
           }
-        } else if (index <= mxEvent.CUSTOM_HANDLE && index > mxEvent.VIRTUAL_HANDLE) {
+        } else if (
+          index <= mxEvent.CUSTOM_HANDLE &&
+          index > mxEvent.VIRTUAL_HANDLE
+        ) {
           if (this.customHandles != null) {
             var model = this.graph.getModel();
             model.beginUpdate();
@@ -883,7 +1071,10 @@ export class mxEdgeHandler {
         } else if (this.isSource || this.isTarget) {
           var terminal = null;
 
-          if (this.constraintHandler.currentConstraint != null && this.constraintHandler.currentFocus != null) {
+          if (
+            this.constraintHandler.currentConstraint != null &&
+            this.constraintHandler.currentFocus != null
+          ) {
             terminal = this.constraintHandler.currentFocus.cell;
           }
 
@@ -892,8 +1083,8 @@ export class mxEdgeHandler {
             this.marker.hasValidState() &&
             this.marker.highlight != null &&
             this.marker.highlight.shape != null &&
-            this.marker.highlight.shape.stroke != 'transparent' &&
-            this.marker.highlight.shape.stroke != 'white'
+            this.marker.highlight.shape.stroke != "transparent" &&
+            this.marker.highlight.shape.stroke != "white"
           ) {
             terminal = this.marker.validState.cell;
           }
@@ -924,10 +1115,17 @@ export class mxEdgeHandler {
               model.endUpdate();
             }
           } else if (this.graph.isAllowDanglingEdges()) {
-            var pt = this.abspoints[this.isSource ? 0 : this.abspoints.length - 1];
-            pt.x = this.roundLength(pt.x / this.graph.view.scale - this.graph.view.translate.x);
-            pt.y = this.roundLength(pt.y / this.graph.view.scale - this.graph.view.translate.y);
-            var pstate = this.graph.getView().getState(this.graph.getModel().getParent(edge));
+            var pt =
+              this.abspoints[this.isSource ? 0 : this.abspoints.length - 1];
+            pt.x = this.roundLength(
+              pt.x / this.graph.view.scale - this.graph.view.translate.x,
+            );
+            pt.y = this.roundLength(
+              pt.y / this.graph.view.scale - this.graph.view.translate.y,
+            );
+            var pstate = this.graph
+              .getView()
+              .getState(this.graph.getModel().getParent(edge));
 
             if (pstate != null) {
               pt.x -= pstate.origin.x;
@@ -978,7 +1176,7 @@ export class mxEdgeHandler {
     if (this.livePreview && this.sizers != null) {
       for (var i = 0; i < this.sizers.length; i++) {
         if (this.sizers[i] != null) {
-          this.sizers[i].node.style.display = '';
+          this.sizers[i].node.style.display = "";
         }
       }
     }
@@ -1019,7 +1217,9 @@ export class mxEdgeHandler {
 
     point.x = Math.round(point.x / scale - tr.x);
     point.y = Math.round(point.y / scale - tr.y);
-    var pstate = this.graph.getView().getState(this.graph.getModel().getParent(this.state.cell));
+    var pstate = this.graph
+      .getView()
+      .getState(this.graph.getModel().getParent(this.state.cell));
 
     if (pstate != null) {
       point.x -= pstate.origin.x;
@@ -1043,7 +1243,10 @@ export class mxEdgeHandler {
         geometry.y = Math.round(pt.y);
         geometry.offset = new mxPoint(0, 0);
         var pt = this.graph.view.getPoint(edgeState, geometry);
-        geometry.offset = new mxPoint(Math.round((x - pt.x) / scale), Math.round((y - pt.y) / scale));
+        geometry.offset = new mxPoint(
+          Math.round((x - pt.x) / scale),
+          Math.round((y - pt.y) / scale),
+        );
       } else {
         var points = edgeState.absolutePoints;
         var p0 = points[0];
@@ -1052,7 +1255,10 @@ export class mxEdgeHandler {
         if (p0 != null && pe != null) {
           var cx = p0.x + (pe.x - p0.x) / 2;
           var cy = p0.y + (pe.y - p0.y) / 2;
-          geometry.offset = new mxPoint(Math.round((x - cx) / scale), Math.round((y - cy) / scale));
+          geometry.offset = new mxPoint(
+            Math.round((x - cx) / scale),
+            Math.round((y - cy) / scale),
+          );
           geometry.x = 0;
           geometry.y = 0;
         }
@@ -1101,7 +1307,12 @@ export class mxEdgeHandler {
         geo = geo.clone();
         geo.setTerminalPoint(point, isSource);
         model.setGeometry(edge, geo);
-        this.graph.connectCell(edge, null, isSource, new mxConnectionConstraint());
+        this.graph.connectCell(
+          edge,
+          null,
+          isSource,
+          new mxConnectionConstraint(),
+        );
       }
     } finally {
       model.endUpdate();
@@ -1140,7 +1351,11 @@ export class mxEdgeHandler {
   }
 
   addPoint(state, evt) {
-    var pt = mxUtils.convertPoint(this.graph.container, mxEvent.getClientX(evt), mxEvent.getClientY(evt));
+    var pt = mxUtils.convertPoint(
+      this.graph.container,
+      mxEvent.getClientX(evt),
+      mxEvent.getClientY(evt),
+    );
     var gridEnabled = this.graph.isGridEnabledEvent(evt);
     this.convertPoint(pt, gridEnabled);
     this.addPointAt(state, pt.x, pt.y);
@@ -1163,7 +1378,11 @@ export class mxEdgeHandler {
         offset = new mxPoint(pState.x, pState.y);
       }
 
-      var index = mxUtils.findNearestSegment(state, pt.x * s + offset.x, pt.y * s + offset.y);
+      var index = mxUtils.findNearestSegment(
+        state,
+        pt.x * s + offset.x,
+        pt.y * s + offset.y,
+      );
 
       if (geo.points == null) {
         geo.points = [pt];
@@ -1198,11 +1417,15 @@ export class mxEdgeHandler {
     var color = mxConstants.HANDLE_FILLCOLOR;
 
     if (
-      (terminal != null && !this.graph.isCellDisconnectable(cell, terminal, isSource)) ||
+      (terminal != null &&
+        !this.graph.isCellDisconnectable(cell, terminal, isSource)) ||
       (terminal == null && !this.graph.isTerminalPointMovable(cell, isSource))
     ) {
       color = mxConstants.LOCKED_HANDLE_FILLCOLOR;
-    } else if (terminal != null && this.graph.isCellDisconnectable(cell, terminal, isSource)) {
+    } else if (
+      terminal != null &&
+      this.graph.isCellDisconnectable(cell, terminal, isSource)
+    ) {
       color = mxConstants.CONNECT_HANDLE_FILLCOLOR;
     }
 
@@ -1241,15 +1464,19 @@ export class mxEdgeHandler {
   redrawHandles() {
     var cell = this.state.cell;
     var b = this.labelShape.bounds;
-    this.label = new mxPoint(this.state.absoluteOffset.x, this.state.absoluteOffset.y);
+    this.label = new mxPoint(
+      this.state.absoluteOffset.x,
+      this.state.absoluteOffset.y,
+    );
     this.labelShape.bounds = new mxRectangle(
       Math.round(this.label.x - b.width / 2),
       Math.round(this.label.y - b.height / 2),
       b.width,
-      b.height
+      b.height,
     );
     var lab = this.graph.getLabel(cell);
-    this.labelShape.visible = lab != null && lab.length > 0 && this.graph.isLabelMovable(cell);
+    this.labelShape.visible =
+      lab != null && lab.length > 0 && this.graph.isLabelMovable(cell);
 
     if (this.bends != null && this.bends.length > 0) {
       var n = this.abspoints.length - 1;
@@ -1261,7 +1488,7 @@ export class mxEdgeHandler {
         Math.floor(x0 - b.width / 2),
         Math.floor(y0 - b.height / 2),
         b.width,
-        b.height
+        b.height,
       );
       this.bends[0].fill = this.getHandleFillColor(0);
       this.bends[0].redraw();
@@ -1279,7 +1506,7 @@ export class mxEdgeHandler {
         Math.floor(xn - b.width / 2),
         Math.floor(yn - b.height / 2),
         b.width,
-        b.height
+        b.height,
       );
       this.bends[bn].fill = this.getHandleFillColor(bn);
       this.bends[bn].redraw();
@@ -1291,7 +1518,11 @@ export class mxEdgeHandler {
       this.redrawInnerBends(p0, pe);
     }
 
-    if (this.abspoints != null && this.virtualBends != null && this.virtualBends.length > 0) {
+    if (
+      this.abspoints != null &&
+      this.virtualBends != null &&
+      this.virtualBends.length > 0
+    ) {
       var last = this.abspoints[0];
 
       for (var i = 0; i < this.virtualBends.length; i++) {
@@ -1304,7 +1535,7 @@ export class mxEdgeHandler {
             Math.floor(x - b.bounds.width / 2),
             Math.floor(y - b.bounds.height / 2),
             b.bounds.width,
-            b.bounds.height
+            b.bounds.height,
           );
           b.redraw();
           mxUtils.setOpacity(b.node, this.virtualBendOpacity);
@@ -1326,32 +1557,33 @@ export class mxEdgeHandler {
         var temp = this.customHandles[i].shape.node.style.display;
         this.customHandles[i].redraw();
         this.customHandles[i].shape.node.style.display = temp;
-        this.customHandles[i].shape.node.style.visibility = this.isCustomHandleVisible(this.customHandles[i])
-          ? ''
-          : 'hidden';
+        this.customHandles[i].shape.node.style.visibility =
+          this.isCustomHandleVisible(this.customHandles[i]) ? "" : "hidden";
       }
     }
   }
 
   isCustomHandleVisible(handle) {
-    return !this.graph.isEditing() && this.state.view.graph.getSelectionCount() == 1;
+    return (
+      !this.graph.isEditing() && this.state.view.graph.getSelectionCount() == 1
+    );
   }
 
   setHandlesVisible(visible) {
     if (this.bends != null) {
       for (var i = 0; i < this.bends.length; i++) {
-        this.bends[i].node.style.display = visible ? '' : 'none';
+        this.bends[i].node.style.display = visible ? "" : "none";
       }
     }
 
     if (this.virtualBends != null) {
       for (var i = 0; i < this.virtualBends.length; i++) {
-        this.virtualBends[i].node.style.display = visible ? '' : 'none';
+        this.virtualBends[i].node.style.display = visible ? "" : "none";
       }
     }
 
     if (this.labelShape != null) {
-      this.labelShape.node.style.display = visible ? '' : 'none';
+      this.labelShape.node.style.display = visible ? "" : "none";
     }
 
     if (this.customHandles != null) {
@@ -1368,12 +1600,12 @@ export class mxEdgeHandler {
           var x = this.abspoints[i].x;
           var y = this.abspoints[i].y;
           var b = this.bends[i].bounds;
-          this.bends[i].node.style.visibility = 'visible';
+          this.bends[i].node.style.visibility = "visible";
           this.bends[i].bounds = new mxRectangle(
             Math.round(x - b.width / 2),
             Math.round(y - b.height / 2),
             b.width,
-            b.height
+            b.height,
           );
 
           if (this.manageLabelHandle) {
@@ -1385,7 +1617,12 @@ export class mxEdgeHandler {
           ) {
             var w = mxConstants.HANDLE_SIZE + 3;
             var h = mxConstants.HANDLE_SIZE + 3;
-            this.bends[i].bounds = new mxRectangle(Math.round(x - w / 2), Math.round(y - h / 2), w, h);
+            this.bends[i].bounds = new mxRectangle(
+              Math.round(x - w / 2),
+              Math.round(y - h / 2),
+              w,
+              h,
+            );
           }
 
           this.bends[i].redraw();
@@ -1418,7 +1655,7 @@ export class mxEdgeHandler {
         Math.round(this.label.x - b.width / 2),
         Math.round(this.label.y - b.height / 2),
         b.width,
-        b.height
+        b.height,
       );
 
       if (!this.labelShape.bounds.equals(bounds)) {
@@ -1427,13 +1664,17 @@ export class mxEdgeHandler {
       }
     }
 
-    if (this.shape != null && !mxUtils.equalPoints(this.shape.points, this.abspoints)) {
+    if (
+      this.shape != null &&
+      !mxUtils.equalPoints(this.shape.points, this.abspoints)
+    ) {
       this.shape.apply(this.state);
       this.shape.points = this.abspoints.slice();
       this.shape.scale = this.state.view.scale;
       this.shape.isDashed = this.isSelectionDashed();
       this.shape.stroke = this.getSelectionColor();
-      this.shape.strokewidth = this.getSelectionStrokeWidth() / this.shape.scale / this.shape.scale;
+      this.shape.strokewidth =
+        this.getSelectionStrokeWidth() / this.shape.scale / this.shape.scale;
       this.shape.isShadow = false;
       this.shape.redraw();
     }
@@ -1462,7 +1703,11 @@ export class mxEdgeHandler {
       this.customHandles = this.createCustomHandles();
     }
 
-    if (this.labelShape != null && this.labelShape.node != null && this.labelShape.node.parentNode != null) {
+    if (
+      this.labelShape != null &&
+      this.labelShape.node != null &&
+      this.labelShape.node.parentNode != null
+    ) {
       this.labelShape.node.parentNode.appendChild(this.labelShape.node);
     }
   }

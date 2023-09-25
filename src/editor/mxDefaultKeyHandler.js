@@ -1,6 +1,6 @@
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxKeyHandler } from '@mxgraph/handler/mxKeyHandler';
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxKeyHandler } from "@mxgraph/handler/mxKeyHandler";
 
 export class mxDefaultKeyHandler {
   editor = null;
@@ -15,7 +15,7 @@ export class mxDefaultKeyHandler {
       this.handler.escape = function (evt) {
         old.apply(this, arguments);
         editor.hideProperties();
-        editor.fireEvent(new mxEventObject(mxEvent.ESCAPE, 'event', evt));
+        editor.fireEvent(new mxEventObject(mxEvent.ESCAPE, "event", evt));
       };
     }
   }

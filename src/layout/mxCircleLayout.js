@@ -1,4 +1,4 @@
-import { mxGraphLayout } from '@mxgraph/layout/mxGraphLayout';
+import { mxGraphLayout } from "@mxgraph/layout/mxGraphLayout";
 
 export class mxCircleLayout extends mxGraphLayout {
   moveCircle = false;
@@ -80,7 +80,7 @@ export class mxCircleLayout extends mxGraphLayout {
         this.setVertexLocation(
           vertices[i],
           Math.round(left + r + r * Math.sin(i * phi)),
-          Math.round(top + r + r * Math.cos(i * phi))
+          Math.round(top + r + r * Math.cos(i * phi)),
         );
       }
     }

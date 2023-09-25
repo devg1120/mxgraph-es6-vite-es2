@@ -9,7 +9,10 @@ export class mxCollapseChange {
   execute() {
     if (this.cell != null) {
       this.collapsed = this.previous;
-      this.previous = this.model.collapsedStateForCellChanged(this.cell, this.previous);
+      this.previous = this.model.collapsedStateForCellChanged(
+        this.cell,
+        this.previous,
+      );
     }
   }
 }

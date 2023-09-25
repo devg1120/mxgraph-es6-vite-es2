@@ -1,6 +1,6 @@
-import { mxPopupMenu } from '@mxgraph/util/mxPopupMenu';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxPopupMenu } from "@mxgraph/util/mxPopupMenu";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxPopupMenuHandler extends mxPopupMenu {
   graph = null;
@@ -54,8 +54,10 @@ export class mxPopupMenuHandler extends mxPopupMenu {
   mouseMove(sender, me) {
     if (this.inTolerance && this.screenX != null && this.screenY != null) {
       if (
-        Math.abs(mxEvent.getMainEvent(me.getEvent()).screenX - this.screenX) > this.graph.tolerance ||
-        Math.abs(mxEvent.getMainEvent(me.getEvent()).screenY - this.screenY) > this.graph.tolerance
+        Math.abs(mxEvent.getMainEvent(me.getEvent()).screenX - this.screenX) >
+          this.graph.tolerance ||
+        Math.abs(mxEvent.getMainEvent(me.getEvent()).screenY - this.screenY) >
+          this.graph.tolerance
       ) {
         this.inTolerance = false;
       }
@@ -63,10 +65,20 @@ export class mxPopupMenuHandler extends mxPopupMenu {
   }
 
   mouseUp(sender, me) {
-    if (this.popupTrigger && this.inTolerance && this.triggerX != null && this.triggerY != null) {
+    if (
+      this.popupTrigger &&
+      this.inTolerance &&
+      this.triggerX != null &&
+      this.triggerY != null
+    ) {
       var cell = this.getCellForPopupEvent(me);
 
-      if (this.graph.isEnabled() && this.isSelectOnPopup(me) && cell != null && !this.graph.isCellSelected(cell)) {
+      if (
+        this.graph.isEnabled() &&
+        this.isSelectOnPopup(me) &&
+        cell != null &&
+        !this.graph.isCellSelected(cell)
+      ) {
         this.graph.setSelectionCell(cell);
       } else if (this.clearSelectionOnBackground && cell == null) {
         this.graph.clearSelection();
@@ -74,7 +86,12 @@ export class mxPopupMenuHandler extends mxPopupMenu {
 
       this.graph.tooltipHandler.hide();
       var origin = mxUtils.getScrollOrigin();
-      this.popup(me.getX() + origin.x + 1, me.getY() + origin.y + 1, cell, me.getEvent());
+      this.popup(
+        me.getX() + origin.x + 1,
+        me.getY() + origin.y + 1,
+        cell,
+        me.getEvent(),
+      );
       me.consume();
     }
 

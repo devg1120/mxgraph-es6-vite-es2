@@ -1,7 +1,7 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxPanningHandler extends mxEventSource {
   graph = null;
@@ -27,31 +27,34 @@ export class mxPanningHandler extends mxEventSource {
       this.graph.addMouseListener(this);
 
       this.forcePanningHandler = (sender, evt) => {
-        var evtName = evt.getProperty('eventName');
-        var me = evt.getProperty('event');
+        var evtName = evt.getProperty("eventName");
+        var me = evt.getProperty("event");
 
         if (evtName == mxEvent.MOUSE_DOWN && this.isForcePanningEvent(me)) {
           this.start(me);
           this.active = true;
-          this.fireEvent(new mxEventObject(mxEvent.PAN_START, 'event', me));
+          this.fireEvent(new mxEventObject(mxEvent.PAN_START, "event", me));
           me.consume();
         }
       };
 
-      this.graph.addListener(mxEvent.FIRE_MOUSE_EVENT, this.forcePanningHandler);
+      this.graph.addListener(
+        mxEvent.FIRE_MOUSE_EVENT,
+        this.forcePanningHandler,
+      );
 
       this.gestureHandler = (sender, eo) => {
         if (this.isPinchEnabled()) {
-          var evt = eo.getProperty('event');
+          var evt = eo.getProperty("event");
 
-          if (!mxEvent.isConsumed(evt) && evt.type == 'gesturestart') {
+          if (!mxEvent.isConsumed(evt) && evt.type == "gesturestart") {
             this.initialScale = this.graph.view.scale;
 
             if (!this.active && this.mouseDownEvent != null) {
               this.start(this.mouseDownEvent);
               this.mouseDownEvent = null;
             }
-          } else if (evt.type == 'gestureend' && this.initialScale != null) {
+          } else if (evt.type == "gestureend" && this.initialScale != null) {
             this.initialScale = null;
           }
 
@@ -69,7 +72,7 @@ export class mxPanningHandler extends mxEventSource {
         }
       };
 
-      mxEvent.addListener(document, 'mouseup', this.mouseUpListener);
+      mxEvent.addListener(document, "mouseup", this.mouseUpListener);
     }
   }
 
@@ -96,7 +99,9 @@ export class mxPanningHandler extends mxEventSource {
   isPanningTrigger(me) {
     var evt = me.getEvent();
     return (
-      (this.useLeftButtonForPanning && me.getState() == null && mxEvent.isLeftMouseButton(evt)) ||
+      (this.useLeftButtonForPanning &&
+        me.getState() == null &&
+        mxEvent.isLeftMouseButton(evt)) ||
       (mxEvent.isControlDown(evt) && mxEvent.isShiftDown(evt)) ||
       (this.usePopupTrigger && mxEvent.isPopupTrigger(evt))
     );
@@ -109,7 +114,12 @@ export class mxPanningHandler extends mxEventSource {
   mouseDown(sender, me) {
     this.mouseDownEvent = me;
 
-    if (!me.isConsumed() && this.isPanningEnabled() && !this.active && this.isPanningTrigger(me)) {
+    if (
+      !me.isConsumed() &&
+      this.isPanningEnabled() &&
+      !this.active &&
+      this.isPanningTrigger(me)
+    ) {
       this.start(me);
       this.consumePanningTrigger(me);
     }
@@ -143,13 +153,15 @@ export class mxPanningHandler extends mxEventSource {
         this.graph.panGraph(this.dx + this.dx0, this.dy + this.dy0);
       }
 
-      this.fireEvent(new mxEventObject(mxEvent.PAN, 'event', me));
+      this.fireEvent(new mxEventObject(mxEvent.PAN, "event", me));
     } else if (this.panningTrigger) {
       var tmp = this.active;
-      this.active = Math.abs(this.dx) > this.graph.tolerance || Math.abs(this.dy) > this.graph.tolerance;
+      this.active =
+        Math.abs(this.dx) > this.graph.tolerance ||
+        Math.abs(this.dy) > this.graph.tolerance;
 
       if (!tmp && this.active) {
-        this.fireEvent(new mxEventObject(mxEvent.PAN_START, 'event', me));
+        this.fireEvent(new mxEventObject(mxEvent.PAN_START, "event", me));
       }
     }
 
@@ -161,7 +173,10 @@ export class mxPanningHandler extends mxEventSource {
   mouseUp(sender, me) {
     if (this.active) {
       if (this.dx != null && this.dy != null) {
-        if (!this.graph.useScrollbarsForPanning || !mxUtils.hasScrollbars(this.graph.container)) {
+        if (
+          !this.graph.useScrollbarsForPanning ||
+          !mxUtils.hasScrollbars(this.graph.container)
+        ) {
           var scale = this.graph.getView().scale;
           var t = this.graph.getView().translate;
           this.graph.panGraph(0, 0);
@@ -171,7 +186,7 @@ export class mxPanningHandler extends mxEventSource {
         me.consume();
       }
 
-      this.fireEvent(new mxEventObject(mxEvent.PAN_END, 'event', me));
+      this.fireEvent(new mxEventObject(mxEvent.PAN_END, "event", me));
     }
 
     this.reset();
@@ -210,6 +225,6 @@ export class mxPanningHandler extends mxEventSource {
     this.graph.removeMouseListener(this);
     this.graph.removeListener(this.forcePanningHandler);
     this.graph.removeListener(this.gestureHandler);
-    mxEvent.removeListener(document, 'mouseup', this.mouseUpListener);
+    mxEvent.removeListener(document, "mouseup", this.mouseUpListener);
   }
 }

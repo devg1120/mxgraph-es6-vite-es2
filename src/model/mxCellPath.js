@@ -1,8 +1,8 @@
 export class mxCellPath {
-  static PATH_SEPARATOR = '.';
+  static PATH_SEPARATOR = ".";
 
   static create(cell) {
-    var result = '';
+    var result = "";
 
     if (cell != null) {
       var parent = cell.getParent();
@@ -31,7 +31,7 @@ export class mxCellPath {
       if (index >= 0) {
         return path.substring(0, index);
       } else if (path.length > 0) {
-        return '';
+        return "";
       }
     }
 
@@ -82,9 +82,7 @@ export class mxCellPath {
     return comp;
   }
   clone() {
-    let  clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);    
+    let clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
     return clone;
-
   }
-
 }

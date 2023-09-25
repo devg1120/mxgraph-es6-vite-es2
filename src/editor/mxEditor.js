@@ -1,42 +1,42 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxGeometry } from '@mxgraph/model/mxGeometry';
-import { mxCell } from '@mxgraph/model/mxCell';
-import { mxOutline } from '@mxgraph/view/mxOutline';
-import { mxForm } from '@mxgraph/util/mxForm';
-import { mxWindow } from '@mxgraph/util/mxWindow';
-import { mxDefaultToolbar } from '@mxgraph/editor/mxDefaultToolbar';
-import { mxCompactTreeLayout } from '@mxgraph/layout/mxCompactTreeLayout';
-import { mxStackLayout } from '@mxgraph/layout/mxStackLayout';
-import { mxCellAttributeChange } from '@mxgraph/model/changes/mxCellAttributeChange';
-import { mxValueChange } from '@mxgraph/model/changes/mxValueChange';
-import { mxRootChange } from '@mxgraph/model/changes/mxRootChange';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxDivResizer } from '@mxgraph/util/mxDivResizer';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxRubberband } from '@mxgraph/handler/mxRubberband';
-import { mxLayoutManager } from '@mxgraph/view/mxLayoutManager';
-import { mxSwimlaneManager } from '@mxgraph/view/mxSwimlaneManager';
-import { mxGraph } from '@mxgraph/view/mxGraph';
-import { mxCodec } from '@mxgraph/io/mxCodec';
-import { mxLog } from '@mxgraph/util/mxLog';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxClipboard } from '@mxgraph/util/mxClipboard';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxPrintPreview } from '@mxgraph/view/mxPrintPreview';
-import { mxDefaultKeyHandler } from '@mxgraph/editor/mxDefaultKeyHandler';
-import { mxUndoManager } from '@mxgraph/util/mxUndoManager';
-import { mxDefaultPopupMenu } from '@mxgraph/editor/mxDefaultPopupMenu';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxResources } from '@mxgraph/util/mxResources';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxGeometry } from "@mxgraph/model/mxGeometry";
+import { mxCell } from "@mxgraph/model/mxCell";
+import { mxOutline } from "@mxgraph/view/mxOutline";
+import { mxForm } from "@mxgraph/util/mxForm";
+import { mxWindow } from "@mxgraph/util/mxWindow";
+import { mxDefaultToolbar } from "@mxgraph/editor/mxDefaultToolbar";
+import { mxCompactTreeLayout } from "@mxgraph/layout/mxCompactTreeLayout";
+import { mxStackLayout } from "@mxgraph/layout/mxStackLayout";
+import { mxCellAttributeChange } from "@mxgraph/model/changes/mxCellAttributeChange";
+import { mxValueChange } from "@mxgraph/model/changes/mxValueChange";
+import { mxRootChange } from "@mxgraph/model/changes/mxRootChange";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxDivResizer } from "@mxgraph/util/mxDivResizer";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxRubberband } from "@mxgraph/handler/mxRubberband";
+import { mxLayoutManager } from "@mxgraph/view/mxLayoutManager";
+import { mxSwimlaneManager } from "@mxgraph/view/mxSwimlaneManager";
+import { mxGraph } from "@mxgraph/view/mxGraph";
+import { mxCodec } from "@mxgraph/io/mxCodec";
+import { mxLog } from "@mxgraph/util/mxLog";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxClipboard } from "@mxgraph/util/mxClipboard";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxPrintPreview } from "@mxgraph/view/mxPrintPreview";
+import { mxDefaultKeyHandler } from "@mxgraph/editor/mxDefaultKeyHandler";
+import { mxUndoManager } from "@mxgraph/util/mxUndoManager";
+import { mxDefaultPopupMenu } from "@mxgraph/editor/mxDefaultPopupMenu";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxResources } from "@mxgraph/util/mxResources";
 
 export class mxEditor extends mxEventSource {
-  askZoomResource = mxClient.language != 'none' ? 'askZoom' : '';
-  lastSavedResource = mxClient.language != 'none' ? 'lastSaved' : '';
-  currentFileResource = mxClient.language != 'none' ? 'currentFile' : '';
-  propertiesResource = mxClient.language != 'none' ? 'properties' : '';
-  tasksResource = mxClient.language != 'none' ? 'tasks' : '';
-  helpResource = mxClient.language != 'none' ? 'help' : '';
-  outlineResource = mxClient.language != 'none' ? 'outline' : '';
+  askZoomResource = mxClient.language != "none" ? "askZoom" : "";
+  lastSavedResource = mxClient.language != "none" ? "lastSaved" : "";
+  currentFileResource = mxClient.language != "none" ? "currentFile" : "";
+  propertiesResource = mxClient.language != "none" ? "properties" : "";
+  tasksResource = mxClient.language != "none" ? "tasks" : "";
+  helpResource = mxClient.language != "none" ? "help" : "";
+  outlineResource = mxClient.language != "none" ? "outline" : "";
   outline = null;
   graph = null;
   graphRenderHint = null;
@@ -45,7 +45,7 @@ export class mxEditor extends mxEventSource {
   popupHandler = null;
   undoManager = null;
   keyHandler = null;
-  dblClickAction = 'edit';
+  dblClickAction = "edit";
   swimlaneRequired = false;
   disableContextMenu = true;
   insertFunction = null;
@@ -56,8 +56,8 @@ export class mxEditor extends mxEventSource {
   defaultGroup = null;
   groupBorderSize = null;
   filename = null;
-  linefeed = '&#xa;';
-  postParameterName = 'xml';
+  linefeed = "&#xa;";
+  postParameterName = "xml";
   escapePostData = true;
   urlPost = null;
   urlImage = null;
@@ -68,7 +68,7 @@ export class mxEditor extends mxEventSource {
   layoutSwimlanes = false;
   cycleAttributeValues = null;
   cycleAttributeIndex = 0;
-  cycleAttributeName = 'fillColor';
+  cycleAttributeName = "fillColor";
   tasks = null;
   tasksWindowImage = null;
   tasksTop = 20;
@@ -113,280 +113,317 @@ export class mxEditor extends mxEventSource {
   }
 
   addActions() {
-    this.addAction('save', function (editor) {
+    this.addAction("save", function (editor) {
       editor.save();
     });
-    this.addAction('print', function (editor) {
+    this.addAction("print", function (editor) {
       var preview = new mxPrintPreview(editor.graph, 1);
       preview.open();
     });
-    this.addAction('show', function (editor) {
+    this.addAction("show", function (editor) {
       mxUtils.show(editor.graph, null, 10, 10);
     });
-    this.addAction('exportImage', function (editor) {
+    this.addAction("exportImage", function (editor) {
       var url = editor.getUrlImage();
 
       if (url == null || mxClient.IS_LOCAL) {
-        editor.execute('show');
+        editor.execute("show");
       } else {
         var node = mxUtils.getViewXml(editor.graph, 1);
-        var xml = mxUtils.getXml(node, '\n');
-        mxUtils.submit(url, editor.postParameterName + '=' + encodeURIComponent(xml), document, '_blank');
+        var xml = mxUtils.getXml(node, "\n");
+        mxUtils.submit(
+          url,
+          editor.postParameterName + "=" + encodeURIComponent(xml),
+          document,
+          "_blank",
+        );
       }
     });
-    this.addAction('refresh', function (editor) {
+    this.addAction("refresh", function (editor) {
       editor.graph.refresh();
     });
-    this.addAction('cut', function (editor) {
+    this.addAction("cut", function (editor) {
       if (editor.graph.isEnabled()) {
         mxClipboard.cut(editor.graph);
       }
     });
-    this.addAction('copy', function (editor) {
+    this.addAction("copy", function (editor) {
       if (editor.graph.isEnabled()) {
         mxClipboard.copy(editor.graph);
       }
     });
-    this.addAction('paste', function (editor) {
+    this.addAction("paste", function (editor) {
       if (editor.graph.isEnabled()) {
         mxClipboard.paste(editor.graph);
       }
     });
-    this.addAction('delete', function (editor) {
+    this.addAction("delete", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.removeCells();
       }
     });
-    this.addAction('group', function (editor) {
+    this.addAction("group", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.setSelectionCell(editor.groupCells());
       }
     });
-    this.addAction('ungroup', function (editor) {
+    this.addAction("ungroup", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.setSelectionCells(editor.graph.ungroupCells());
       }
     });
-    this.addAction('removeFromParent', function (editor) {
+    this.addAction("removeFromParent", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.removeCellsFromParent();
       }
     });
-    this.addAction('undo', function (editor) {
+    this.addAction("undo", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.undo();
       }
     });
-    this.addAction('redo', function (editor) {
+    this.addAction("redo", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.redo();
       }
     });
-    this.addAction('zoomIn', function (editor) {
+    this.addAction("zoomIn", function (editor) {
       editor.graph.zoomIn();
     });
-    this.addAction('zoomOut', function (editor) {
+    this.addAction("zoomOut", function (editor) {
       editor.graph.zoomOut();
     });
-    this.addAction('actualSize', function (editor) {
+    this.addAction("actualSize", function (editor) {
       editor.graph.zoomActual();
     });
-    this.addAction('fit', function (editor) {
+    this.addAction("fit", function (editor) {
       editor.graph.fit();
     });
-    this.addAction('showProperties', function (editor, cell) {
+    this.addAction("showProperties", function (editor, cell) {
       editor.showProperties(cell);
     });
-    this.addAction('selectAll', function (editor) {
+    this.addAction("selectAll", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.selectAll();
       }
     });
-    this.addAction('selectNone', function (editor) {
+    this.addAction("selectNone", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.clearSelection();
       }
     });
-    this.addAction('selectVertices', function (editor) {
+    this.addAction("selectVertices", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.selectVertices();
       }
     });
-    this.addAction('selectEdges', function (editor) {
+    this.addAction("selectEdges", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.selectEdges();
       }
     });
-    this.addAction('edit', function (editor, cell) {
+    this.addAction("edit", function (editor, cell) {
       if (editor.graph.isEnabled() && editor.graph.isCellEditable(cell)) {
         editor.graph.startEditingAtCell(cell);
       }
     });
-    this.addAction('toBack', function (editor, cell) {
+    this.addAction("toBack", function (editor, cell) {
       if (editor.graph.isEnabled()) {
         editor.graph.orderCells(true);
       }
     });
-    this.addAction('toFront', function (editor, cell) {
+    this.addAction("toFront", function (editor, cell) {
       if (editor.graph.isEnabled()) {
         editor.graph.orderCells(false);
       }
     });
-    this.addAction('enterGroup', function (editor, cell) {
+    this.addAction("enterGroup", function (editor, cell) {
       editor.graph.enterGroup(cell);
     });
-    this.addAction('exitGroup', function (editor) {
+    this.addAction("exitGroup", function (editor) {
       editor.graph.exitGroup();
     });
-    this.addAction('home', function (editor) {
+    this.addAction("home", function (editor) {
       editor.graph.home();
     });
-    this.addAction('selectPrevious', function (editor) {
+    this.addAction("selectPrevious", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.selectPreviousCell();
       }
     });
-    this.addAction('selectNext', function (editor) {
+    this.addAction("selectNext", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.selectNextCell();
       }
     });
-    this.addAction('selectParent', function (editor) {
+    this.addAction("selectParent", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.selectParentCell();
       }
     });
-    this.addAction('selectChild', function (editor) {
+    this.addAction("selectChild", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.selectChildCell();
       }
     });
-    this.addAction('collapse', function (editor) {
+    this.addAction("collapse", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.foldCells(true);
       }
     });
-    this.addAction('collapseAll', function (editor) {
+    this.addAction("collapseAll", function (editor) {
       if (editor.graph.isEnabled()) {
         var cells = editor.graph.getChildVertices();
         editor.graph.foldCells(true, false, cells);
       }
     });
-    this.addAction('expand', function (editor) {
+    this.addAction("expand", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.foldCells(false);
       }
     });
-    this.addAction('expandAll', function (editor) {
+    this.addAction("expandAll", function (editor) {
       if (editor.graph.isEnabled()) {
         var cells = editor.graph.getChildVertices();
         editor.graph.foldCells(false, false, cells);
       }
     });
-    this.addAction('bold', function (editor) {
+    this.addAction("bold", function (editor) {
       if (editor.graph.isEnabled()) {
-        editor.graph.toggleCellStyleFlags(mxConstants.STYLE_FONTSTYLE, mxConstants.FONT_BOLD);
+        editor.graph.toggleCellStyleFlags(
+          mxConstants.STYLE_FONTSTYLE,
+          mxConstants.FONT_BOLD,
+        );
       }
     });
-    this.addAction('italic', function (editor) {
+    this.addAction("italic", function (editor) {
       if (editor.graph.isEnabled()) {
-        editor.graph.toggleCellStyleFlags(mxConstants.STYLE_FONTSTYLE, mxConstants.FONT_ITALIC);
+        editor.graph.toggleCellStyleFlags(
+          mxConstants.STYLE_FONTSTYLE,
+          mxConstants.FONT_ITALIC,
+        );
       }
     });
-    this.addAction('underline', function (editor) {
+    this.addAction("underline", function (editor) {
       if (editor.graph.isEnabled()) {
-        editor.graph.toggleCellStyleFlags(mxConstants.STYLE_FONTSTYLE, mxConstants.FONT_UNDERLINE);
+        editor.graph.toggleCellStyleFlags(
+          mxConstants.STYLE_FONTSTYLE,
+          mxConstants.FONT_UNDERLINE,
+        );
       }
     });
-    this.addAction('alignCellsLeft', function (editor) {
+    this.addAction("alignCellsLeft", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.alignCells(mxConstants.ALIGN_LEFT);
       }
     });
-    this.addAction('alignCellsCenter', function (editor) {
+    this.addAction("alignCellsCenter", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.alignCells(mxConstants.ALIGN_CENTER);
       }
     });
-    this.addAction('alignCellsRight', function (editor) {
+    this.addAction("alignCellsRight", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.alignCells(mxConstants.ALIGN_RIGHT);
       }
     });
-    this.addAction('alignCellsTop', function (editor) {
+    this.addAction("alignCellsTop", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.alignCells(mxConstants.ALIGN_TOP);
       }
     });
-    this.addAction('alignCellsMiddle', function (editor) {
+    this.addAction("alignCellsMiddle", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.alignCells(mxConstants.ALIGN_MIDDLE);
       }
     });
-    this.addAction('alignCellsBottom', function (editor) {
+    this.addAction("alignCellsBottom", function (editor) {
       if (editor.graph.isEnabled()) {
         editor.graph.alignCells(mxConstants.ALIGN_BOTTOM);
       }
     });
-    this.addAction('alignFontLeft', function (editor) {
-      editor.graph.setCellStyles(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_LEFT);
+    this.addAction("alignFontLeft", function (editor) {
+      editor.graph.setCellStyles(
+        mxConstants.STYLE_ALIGN,
+        mxConstants.ALIGN_LEFT,
+      );
     });
-    this.addAction('alignFontCenter', function (editor) {
+    this.addAction("alignFontCenter", function (editor) {
       if (editor.graph.isEnabled()) {
-        editor.graph.setCellStyles(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_CENTER);
+        editor.graph.setCellStyles(
+          mxConstants.STYLE_ALIGN,
+          mxConstants.ALIGN_CENTER,
+        );
       }
     });
-    this.addAction('alignFontRight', function (editor) {
+    this.addAction("alignFontRight", function (editor) {
       if (editor.graph.isEnabled()) {
-        editor.graph.setCellStyles(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_RIGHT);
+        editor.graph.setCellStyles(
+          mxConstants.STYLE_ALIGN,
+          mxConstants.ALIGN_RIGHT,
+        );
       }
     });
-    this.addAction('alignFontTop', function (editor) {
+    this.addAction("alignFontTop", function (editor) {
       if (editor.graph.isEnabled()) {
-        editor.graph.setCellStyles(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_TOP);
+        editor.graph.setCellStyles(
+          mxConstants.STYLE_VERTICAL_ALIGN,
+          mxConstants.ALIGN_TOP,
+        );
       }
     });
-    this.addAction('alignFontMiddle', function (editor) {
+    this.addAction("alignFontMiddle", function (editor) {
       if (editor.graph.isEnabled()) {
-        editor.graph.setCellStyles(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_MIDDLE);
+        editor.graph.setCellStyles(
+          mxConstants.STYLE_VERTICAL_ALIGN,
+          mxConstants.ALIGN_MIDDLE,
+        );
       }
     });
-    this.addAction('alignFontBottom', function (editor) {
+    this.addAction("alignFontBottom", function (editor) {
       if (editor.graph.isEnabled()) {
-        editor.graph.setCellStyles(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_BOTTOM);
+        editor.graph.setCellStyles(
+          mxConstants.STYLE_VERTICAL_ALIGN,
+          mxConstants.ALIGN_BOTTOM,
+        );
       }
     });
-    this.addAction('zoom', function (editor) {
+    this.addAction("zoom", function (editor) {
       var current = editor.graph.getView().scale * 100;
       var scale =
-        parseFloat(mxUtils.prompt(mxResources.get(editor.askZoomResource) || editor.askZoomResource, current)) / 100;
+        parseFloat(
+          mxUtils.prompt(
+            mxResources.get(editor.askZoomResource) || editor.askZoomResource,
+            current,
+          ),
+        ) / 100;
 
       if (!isNaN(scale)) {
         editor.graph.getView().setScale(scale);
       }
     });
-    this.addAction('toggleTasks', function (editor) {
+    this.addAction("toggleTasks", function (editor) {
       if (editor.tasks != null) {
         editor.tasks.setVisible(!editor.tasks.isVisible());
       } else {
         editor.showTasks();
       }
     });
-    this.addAction('toggleHelp', function (editor) {
+    this.addAction("toggleHelp", function (editor) {
       if (editor.help != null) {
         editor.help.setVisible(!editor.help.isVisible());
       } else {
         editor.showHelp();
       }
     });
-    this.addAction('toggleOutline', function (editor) {
+    this.addAction("toggleOutline", function (editor) {
       if (editor.outline == null) {
         editor.showOutline();
       } else {
         editor.outline.setVisible(!editor.outline.isVisible());
       }
     });
-    this.addAction('toggleConsole', function (editor) {
+    this.addAction("toggleConsole", function (editor) {
       mxLog.setVisible(!mxLog.isVisible());
     });
   }
@@ -398,12 +435,12 @@ export class mxEditor extends mxEventSource {
       this.resetHistory();
     } else {
       //console.log("node null");
-
     }
   }
 
   resetFirstTime() {
-    document.cookie = 'mxgraph=seen; expires=Fri, 27 Jul 2001 02:47:11 UTC; path=/';
+    document.cookie =
+      "mxgraph=seen; expires=Fri, 27 Jul 2001 02:47:11 UTC; path=/";
   }
 
   resetHistory() {
@@ -426,11 +463,15 @@ export class mxEditor extends mxEventSource {
         args[0] = this;
         action.apply(this, args);
       } catch (e) {
-        mxUtils.error('Cannot execute ' + actionname + ': ' + e.message, 280, true);
+        mxUtils.error(
+          "Cannot execute " + actionname + ": " + e.message,
+          280,
+          true,
+        );
         throw e;
       }
     } else {
-      mxUtils.error('Cannot find action ' + actionname, 280, true);
+      mxUtils.error("Cannot find action " + actionname, 280, true);
     }
   }
 
@@ -494,7 +535,11 @@ export class mxEditor extends mxEventSource {
           }
 
           layout = self.swimlaneLayout;
-        } else if (self.layoutDiagram && (graph.isValidRoot(cell) || model.getParent(model.getParent(cell)) == null)) {
+        } else if (
+          self.layoutDiagram &&
+          (graph.isValidRoot(cell) ||
+            model.getParent(model.getParent(cell)) == null)
+        ) {
           if (self.diagramLayout == null) {
             self.diagramLayout = self.createDiagramLayout();
           }
@@ -526,7 +571,7 @@ export class mxEditor extends mxEventSource {
 
   installDblClickHandler(graph) {
     graph.addListener(mxEvent.DOUBLE_CLICK, (sender, evt) => {
-      var cell = evt.getProperty('cell');
+      var cell = evt.getProperty("cell");
 
       if (cell != null && graph.isEnabled() && this.dblClickAction != null) {
         this.execute(this.dblClickAction, cell);
@@ -537,7 +582,7 @@ export class mxEditor extends mxEventSource {
 
   installUndoHandler(graph) {
     var listener = (sender, evt) => {
-      var edit = evt.getProperty('edit');
+      var edit = evt.getProperty("edit");
       this.undoManager.undoableEditHappened(edit);
     };
 
@@ -545,7 +590,7 @@ export class mxEditor extends mxEventSource {
     graph.getView().addListener(mxEvent.UNDO, listener);
 
     var undoHandler = function (sender, evt) {
-      var changes = evt.getProperty('edit').changes;
+      var changes = evt.getProperty("edit").changes;
       graph.setSelectionCells(graph.getSelectionCellsForChanges(changes));
     };
 
@@ -570,15 +615,17 @@ export class mxEditor extends mxEventSource {
         graph.validateGraph();
       }
 
-      var changes = evt.getProperty('edit').changes;
+      var changes = evt.getProperty("edit").changes;
 
       for (var i = 0; i < changes.length; i++) {
         var change = changes[i];
 
         if (
           change instanceof mxRootChange ||
-          (change instanceof mxValueChange && change.cell == this.graph.model.root) ||
-          (change instanceof mxCellAttributeChange && change.cell == this.graph.model.root)
+          (change instanceof mxValueChange &&
+            change.cell == this.graph.model.root) ||
+          (change instanceof mxCellAttributeChange &&
+            change.cell == this.graph.model.root)
         ) {
           this.fireEvent(new mxEventObject(mxEvent.ROOT));
           break;
@@ -593,7 +640,11 @@ export class mxEditor extends mxEventSource {
     var self = this;
     var insertHandler = {
       mouseDown: function (sender, me) {
-        if (self.insertFunction != null && !me.isPopupTrigger() && (self.forcedInserting || me.getState() == null)) {
+        if (
+          self.insertFunction != null &&
+          !me.isPopupTrigger() &&
+          (self.forcedInserting || me.getState() == null)
+        ) {
           self.graph.clearSelection();
           self.insertFunction(me.getEvent(), me.getCell());
           this.isActive = true;
@@ -610,14 +661,20 @@ export class mxEditor extends mxEventSource {
           this.isActive = false;
           me.consume();
         }
-      }
+      },
     };
     graph.addMouseListener(insertHandler);
   }
 
   createDiagramLayout() {
     var gs = this.graph.gridSize;
-    var layout = new mxStackLayout(this.graph, !this.horizontalFlow, this.swimlaneSpacing, 2 * gs, 2 * gs);
+    var layout = new mxStackLayout(
+      this.graph,
+      !this.horizontalFlow,
+      this.swimlaneSpacing,
+      2 * gs,
+      2 * gs,
+    );
 
     layout.isVertexIgnored = function (cell) {
       return !layout.graph.isSwimlane(cell);
@@ -647,10 +704,19 @@ export class mxEditor extends mxEventSource {
       this.status = container;
       this.addListener(mxEvent.SAVE, () => {
         var tstamp = new Date().toLocaleString();
-        this.setStatus((mxResources.get(this.lastSavedResource) || this.lastSavedResource) + ': ' + tstamp);
+        this.setStatus(
+          (mxResources.get(this.lastSavedResource) || this.lastSavedResource) +
+            ": " +
+            tstamp,
+        );
       });
       this.addListener(mxEvent.OPEN, () => {
-        this.setStatus((mxResources.get(this.currentFileResource) || this.currentFileResource) + ': ' + this.filename);
+        this.setStatus(
+          (mxResources.get(this.currentFileResource) ||
+            this.currentFileResource) +
+            ": " +
+            this.filename,
+        );
       });
 
       if (mxClient.IS_QUIRKS) {
@@ -683,13 +749,16 @@ export class mxEditor extends mxEventSource {
   }
 
   getTitle() {
-    var title = '';
+    var title = "";
     var graph = this.graph;
     var cell = graph.getCurrentRoot();
 
-    while (cell != null && graph.getModel().getParent(graph.getModel().getParent(cell)) != null) {
+    while (
+      cell != null &&
+      graph.getModel().getParent(graph.getModel().getParent(cell)) != null
+    ) {
       if (graph.isValidRoot(cell)) {
-        title = ' > ' + graph.convertValueToString(cell) + title;
+        title = " > " + graph.convertValueToString(cell) + title;
       }
 
       cell = graph.getModel().getParent(cell);
@@ -713,7 +782,8 @@ export class mxEditor extends mxEventSource {
   }
 
   groupCells() {
-    var border = this.groupBorderSize != null ? this.groupBorderSize : this.graph.gridSize;
+    var border =
+      this.groupBorderSize != null ? this.groupBorderSize : this.graph.gridSize;
     return this.graph.groupCells(this.createGroup(), border);
   }
 
@@ -727,7 +797,7 @@ export class mxEditor extends mxEventSource {
       var xml = mxUtils.load(filename).getXml();
       this.readGraphModel(xml.documentElement);
       this.filename = filename;
-      this.fireEvent(new mxEventObject(mxEvent.OPEN, 'filename', filename));
+      this.fireEvent(new mxEventObject(mxEvent.OPEN, "filename", filename));
     }
   }
 
@@ -746,7 +816,7 @@ export class mxEditor extends mxEventSource {
       this.setModified(false);
     }
 
-    this.fireEvent(new mxEventObject(mxEvent.SAVE, 'url', url));
+    this.fireEvent(new mxEventObject(mxEvent.SAVE, "url", url));
   }
 
   postDiagram(url, data) {
@@ -754,8 +824,18 @@ export class mxEditor extends mxEventSource {
       data = encodeURIComponent(data);
     }
 
-    mxUtils.post(url, this.postParameterName + '=' + data, (req) => {
-      this.fireEvent(new mxEventObject(mxEvent.POST, 'request', req, 'url', url, 'data', data));
+    mxUtils.post(url, this.postParameterName + "=" + data, (req) => {
+      this.fireEvent(
+        new mxEventObject(
+          mxEvent.POST,
+          "request",
+          req,
+          "url",
+          url,
+          "data",
+          data,
+        ),
+      );
     });
   }
 
@@ -776,7 +856,10 @@ export class mxEditor extends mxEventSource {
 
   swapStyles(first, second) {
     var style = this.graph.getStylesheet().styles[second];
-    this.graph.getView().getStylesheet().putCellStyle(second, this.graph.getStylesheet().styles[first]);
+    this.graph
+      .getView()
+      .getStylesheet()
+      .putCellStyle(second, this.graph.getStylesheet().styles[first]);
     this.graph.getStylesheet().putCellStyle(first, style);
     this.graph.refresh();
   }
@@ -821,7 +904,7 @@ export class mxEditor extends mxEventSource {
           y,
           this.propertiesWidth,
           this.propertiesHeight,
-          false
+          false,
         );
         this.properties.setVisible(true);
       }
@@ -837,9 +920,9 @@ export class mxEditor extends mxEventSource {
     var value = model.getValue(cell);
 
     if (mxUtils.isNode(value)) {
-      var form = new mxForm('properties');
-      var id = form.addText('ID', cell.getId());
-      id.setAttribute('readonly', 'true');
+      var form = new mxForm("properties");
+      var id = form.addText("ID", cell.getId());
+      id.setAttribute("readonly", "true");
       var geo = null;
       var yField = null;
       var xField = null;
@@ -850,21 +933,25 @@ export class mxEditor extends mxEventSource {
         geo = model.getGeometry(cell);
 
         if (geo != null) {
-          yField = form.addText('top', geo.y);
-          xField = form.addText('left', geo.x);
-          widthField = form.addText('width', geo.width);
-          heightField = form.addText('height', geo.height);
+          yField = form.addText("top", geo.y);
+          xField = form.addText("left", geo.x);
+          widthField = form.addText("width", geo.width);
+          heightField = form.addText("height", geo.height);
         }
       }
 
       var tmp = model.getStyle(cell);
-      var style = form.addText('Style', tmp || '');
+      var style = form.addText("Style", tmp || "");
       var attrs = value.attributes;
       var texts = [];
 
       for (var i = 0; i < attrs.length; i++) {
         var val = attrs[i].value;
-        texts[i] = form.addTextarea(attrs[i].nodeName, val, attrs[i].nodeName == 'label' ? 4 : 2);
+        texts[i] = form.addTextarea(
+          attrs[i].nodeName,
+          val,
+          attrs[i].nodeName == "label" ? 4 : 2,
+        );
       }
 
       var okFunction = () => {
@@ -888,7 +975,11 @@ export class mxEditor extends mxEventSource {
           }
 
           for (var i = 0; i < attrs.length; i++) {
-            var edit = new mxCellAttributeChange(cell, attrs[i].nodeName, texts[i].value);
+            var edit = new mxCellAttributeChange(
+              cell,
+              attrs[i].nodeName,
+              texts[i].value,
+            );
             model.execute(edit);
           }
 
@@ -920,23 +1011,23 @@ export class mxEditor extends mxEventSource {
 
   showTasks() {
     if (this.tasks == null) {
-      var div = document.createElement('div');
-      div.style.padding = '4px';
-      div.style.paddingLeft = '20px';
+      var div = document.createElement("div");
+      div.style.padding = "4px";
+      div.style.paddingLeft = "20px";
       var w = document.body.clientWidth;
       var wnd = new mxWindow(
         mxResources.get(this.tasksResource) || this.tasksResource,
         div,
         w - 220,
         this.tasksTop,
-        200
+        200,
       );
       wnd.setClosable(true);
       wnd.destroyOnClose = false;
 
       var funct = (sender) => {
         mxEvent.release(div);
-        div.innerHTML = '';
+        div.innerHTML = "";
         this.createTasks(div);
       };
 
@@ -959,7 +1050,7 @@ export class mxEditor extends mxEventSource {
     if (this.tasks != null) {
       var div = this.tasks.content;
       mxEvent.release(div);
-      div.innerHTML = '';
+      div.innerHTML = "";
       this.createTasks(div);
     }
   }
@@ -968,21 +1059,22 @@ export class mxEditor extends mxEventSource {
 
   showHelp(tasks) {
     if (this.help == null) {
-      var frame = document.createElement('iframe');
-      frame.setAttribute('src', mxResources.get('urlHelp') || this.urlHelp);
-      frame.setAttribute('height', '100%');
-      frame.setAttribute('width', '100%');
-      frame.setAttribute('frameBorder', '0');
-      frame.style.backgroundColor = 'white';
+      var frame = document.createElement("iframe");
+      frame.setAttribute("src", mxResources.get("urlHelp") || this.urlHelp);
+      frame.setAttribute("height", "100%");
+      frame.setAttribute("width", "100%");
+      frame.setAttribute("frameBorder", "0");
+      frame.style.backgroundColor = "white";
       var w = document.body.clientWidth;
-      var h = document.body.clientHeight || document.documentElement.clientHeight;
+      var h =
+        document.body.clientHeight || document.documentElement.clientHeight;
       var wnd = new mxWindow(
         mxResources.get(this.helpResource) || this.helpResource,
         frame,
         (w - this.helpWidth) / 2,
         (h - this.helpHeight) / 3,
         this.helpWidth,
-        this.helpHeight
+        this.helpHeight,
       );
       wnd.setMaximizable(true);
       wnd.setClosable(true);
@@ -996,7 +1088,7 @@ export class mxEditor extends mxEventSource {
       if (mxClient.IS_NS) {
         var handler = function (sender) {
           var h = wnd.div.offsetHeight;
-          frame.setAttribute('height', h - 26 + 'px');
+          frame.setAttribute("height", h - 26 + "px");
         };
 
         wnd.addListener(mxEvent.RESIZE_END, handler);
@@ -1015,16 +1107,17 @@ export class mxEditor extends mxEventSource {
     var create = this.outline == null;
 
     if (create) {
-      var div = document.createElement('div');
-      div.style.overflow = 'hidden';
-      div.style.position = 'relative';
-      div.style.width = '100%';
-      div.style.height = '100%';
-      div.style.background = 'white';
-      div.style.cursor = 'move';
+      var div = document.createElement("div");
+      div.style.overflow = "hidden";
+      div.style.position = "relative";
+      div.style.width = "100%";
+      div.style.height = "100%";
+      div.style.background = "white";
+      div.style.cursor = "move";
 
       if (document.documentMode == 8) {
-        div.style.filter = 'progid:DXImageTransform.Microsoft.alpha(opacity=100)';
+        div.style.filter =
+          "progid:DXImageTransform.Microsoft.alpha(opacity=100)";
       }
 
       var wnd = new mxWindow(
@@ -1034,7 +1127,7 @@ export class mxEditor extends mxEventSource {
         480,
         200,
         200,
-        false
+        false,
       );
       var outline = new mxOutline(this.graph, div);
       wnd.setClosable(true);
@@ -1052,13 +1145,13 @@ export class mxEditor extends mxEventSource {
   }
 
   setMode(modename) {
-    if (modename == 'select') {
+    if (modename == "select") {
       this.graph.panningHandler.useLeftButtonForPanning = false;
       this.graph.setConnectable(false);
-    } else if (modename == 'connect') {
+    } else if (modename == "connect") {
       this.graph.panningHandler.useLeftButtonForPanning = false;
       this.graph.setConnectable(true);
-    } else if (modename == 'pan') {
+    } else if (modename == "pan") {
       this.graph.panningHandler.useLeftButtonForPanning = true;
       this.graph.setConnectable(false);
     }
@@ -1075,7 +1168,7 @@ export class mxEditor extends mxEventSource {
       var model = this.graph.getModel();
       e = model.cloneCell(this.defaultEdge);
     } else {
-      e = new mxCell('');
+      e = new mxCell("");
       e.setEdge(true);
       var geo = new mxGeometry();
       geo.relative = true;
@@ -1096,8 +1189,12 @@ export class mxEditor extends mxEventSource {
   }
 
   consumeCycleAttribute(cell) {
-    return this.cycleAttributeValues != null && this.cycleAttributeValues.length > 0 && this.graph.isSwimlane(cell)
-      ? this.cycleAttributeValues[this.cycleAttributeIndex++ % this.cycleAttributeValues.length]
+    return this.cycleAttributeValues != null &&
+      this.cycleAttributeValues.length > 0 &&
+      this.graph.isSwimlane(cell)
+      ? this.cycleAttributeValues[
+          this.cycleAttributeIndex++ % this.cycleAttributeValues.length
+        ]
       : null;
   }
 
@@ -1106,7 +1203,9 @@ export class mxEditor extends mxEventSource {
       var value = this.consumeCycleAttribute(cell);
 
       if (value != null) {
-        cell.setStyle(cell.getStyle() + ';' + this.cycleAttributeName + '=' + value);
+        cell.setStyle(
+          cell.getStyle() + ";" + this.cycleAttributeName + "=" + value,
+        );
       }
     }
   }
@@ -1155,12 +1254,15 @@ export class mxEditor extends mxEventSource {
       }
     }
 
-
     //geo = geo.clone();   /*GSFX*/
     geo = Object.assign(Object.create(Object.getPrototypeOf(geo)), geo);
 
-    geo.x = this.graph.snap(x / scale - this.graph.getView().translate.x - this.graph.gridSize / 2);
-    geo.y = this.graph.snap(y / scale - this.graph.getView().translate.y - this.graph.gridSize / 2);
+    geo.x = this.graph.snap(
+      x / scale - this.graph.getView().translate.x - this.graph.gridSize / 2,
+    );
+    geo.y = this.graph.snap(
+      y / scale - this.graph.getView().translate.y - this.graph.gridSize / 2,
+    );
     vertex.setGeometry(geo);
 
     if (parent == null) {
@@ -1168,14 +1270,22 @@ export class mxEditor extends mxEventSource {
     }
 
     this.cycleAttribute(vertex);
-    this.fireEvent(new mxEventObject(mxEvent.BEFORE_ADD_VERTEX, 'vertex', vertex, 'parent', parent));
+    this.fireEvent(
+      new mxEventObject(
+        mxEvent.BEFORE_ADD_VERTEX,
+        "vertex",
+        vertex,
+        "parent",
+        parent,
+      ),
+    );
     model.beginUpdate();
 
     try {
       vertex = this.graph.addCell(vertex, parent);
       if (vertex != null) {
         this.graph.constrainChild(vertex);
-        this.fireEvent(new mxEventObject(mxEvent.ADD_VERTEX, 'vertex', vertex));
+        this.fireEvent(new mxEventObject(mxEvent.ADD_VERTEX, "vertex", vertex));
       }
     } finally {
       model.endUpdate();
@@ -1184,7 +1294,9 @@ export class mxEditor extends mxEventSource {
     if (vertex != null) {
       this.graph.setSelectionCell(vertex);
       this.graph.scrollCellToVisible(vertex);
-      this.fireEvent(new mxEventObject(mxEvent.AFTER_ADD_VERTEX, 'vertex', vertex));
+      this.fireEvent(
+        new mxEventObject(mxEvent.AFTER_ADD_VERTEX, "vertex", vertex),
+      );
     }
 
     return vertex;

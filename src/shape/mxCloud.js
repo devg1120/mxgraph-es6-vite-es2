@@ -1,4 +1,4 @@
-import { mxActor } from '@mxgraph/shape/mxActor';
+import { mxActor } from "@mxgraph/shape/mxActor";
 
 export class mxCloud extends mxActor {
   constructor(bounds, fill, stroke, strokewidth) {

@@ -1,4 +1,4 @@
-import { mxClient } from '@mxgraph/mxClient';
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxXmlRequest {
   binary = false;
@@ -9,14 +9,14 @@ export class mxXmlRequest {
   constructor(url, params, method, async, username, password) {
     this.url = url;
     this.params = params;
-    this.method = method || 'POST';
+    this.method = method || "POST";
     this.async = async != null ? async : true;
     this.username = username;
     this.password = password;
   }
 
   static get(url, onload, onerror, binary, timeout, ontimeout, headers) {
-    var req = new mxXmlRequest(url, null, 'GET');
+    var req = new mxXmlRequest(url, null, "GET");
     var setRequestHeaders = req.setRequestHeaders;
 
     if (headers) {
@@ -38,7 +38,7 @@ export class mxXmlRequest {
   }
 
   static load(url) {
-    var req = new mxXmlRequest(url, null, 'GET', false);
+    var req = new mxXmlRequest(url, null, "GET", false);
     req.send();
     return req;
   }
@@ -47,7 +47,7 @@ export class mxXmlRequest {
     var req = new XMLHttpRequest();
 
     if (this.isBinary() && req.overrideMimeType) {
-      req.overrideMimeType('text/plain; charset=x-user-defined');
+      req.overrideMimeType("text/plain; charset=x-user-defined");
     }
 
     return req;
@@ -82,9 +82,13 @@ export class mxXmlRequest {
   getXml() {
     var xml = this.request.responseXML;
 
-    if (document.documentMode >= 9 || xml == null || xml.documentElement == null) {
+    if (
+      document.documentMode >= 9 ||
+      xml == null ||
+      xml.documentElement == null
+    ) {
       var parser = new DOMParser();
-      xml = parser.parseFromString(this.request.responseText, 'text/xml');
+      xml = parser.parseFromString(this.request.responseText, "text/xml");
     }
 
     return xml;
@@ -107,11 +111,17 @@ export class mxXmlRequest {
         };
       }
 
-      this.request.open(this.method, this.url, this.async, this.username, this.password);
+      this.request.open(
+        this.method,
+        this.url,
+        this.async,
+        this.username,
+        this.password,
+      );
       this.setRequestHeaders(this.request, this.params);
 
       if (window.XMLHttpRequest && this.withCredentials) {
-        this.request.withCredentials = 'true';
+        this.request.withCredentials = "true";
       }
 
       if (
@@ -131,7 +141,10 @@ export class mxXmlRequest {
 
   setRequestHeaders(request, params) {
     if (params != null) {
-      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded",
+      );
     }
   }
 
@@ -144,20 +157,23 @@ export class mxXmlRequest {
       window.onbeforeunload = null;
     }
 
-    var form = doc.createElement('form');
-    form.setAttribute('method', this.method);
-    form.setAttribute('action', this.url);
+    var form = doc.createElement("form");
+    form.setAttribute("method", this.method);
+    form.setAttribute("action", this.url);
 
     if (target != null) {
-      form.setAttribute('target', target);
+      form.setAttribute("target", target);
     }
 
-    form.style.display = 'none';
-    form.style.visibility = 'hidden';
-    var pars = this.params.indexOf('&') > 0 ? this.params.split('&') : this.params.split();
+    form.style.display = "none";
+    form.style.visibility = "hidden";
+    var pars =
+      this.params.indexOf("&") > 0
+        ? this.params.split("&")
+        : this.params.split();
 
     for (var i = 0; i < pars.length; i++) {
-      var pos = pars[i].indexOf('=');
+      var pos = pars[i].indexOf("=");
 
       if (pos > 0) {
         var name = pars[i].substring(0, pos);
@@ -167,9 +183,9 @@ export class mxXmlRequest {
           value = decodeURIComponent(value);
         }
 
-        var textarea = doc.createElement('textarea');
-        textarea.setAttribute('wrap', 'off');
-        textarea.setAttribute('name', name);
+        var textarea = doc.createElement("textarea");
+        textarea.setAttribute("wrap", "off");
+        textarea.setAttribute("name", name);
 
         var doc = textarea.ownerDocument;
         var node = doc.createTextNode(value);

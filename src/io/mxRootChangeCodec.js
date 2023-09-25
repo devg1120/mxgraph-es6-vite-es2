@@ -1,10 +1,10 @@
-import { mxObjectCodec } from '@mxgraph/io/mxObjectCodec';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxRootChange } from '@mxgraph/model/changes/mxRootChange';
+import { mxObjectCodec } from "@mxgraph/io/mxObjectCodec";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxRootChange } from "@mxgraph/model/changes/mxRootChange";
 
 export class mxRootChangeCodec extends mxObjectCodec {
   constructor() {
-    super(new mxRootChange(), ['model', 'previous', 'root']);
+    super(new mxRootChange(), ["model", "previous", "root"]);
   }
 
   afterEncode(enc, obj, node) {
@@ -13,7 +13,10 @@ export class mxRootChangeCodec extends mxObjectCodec {
   }
 
   beforeDecode(dec, node, obj) {
-    if (node.firstChild != null && node.firstChild.nodeType == mxConstants.NODETYPE_ELEMENT) {
+    if (
+      node.firstChild != null &&
+      node.firstChild.nodeType == mxConstants.NODETYPE_ELEMENT
+    ) {
       node = node.cloneNode(true);
       var tmp = node.firstChild;
       obj.root = dec.decodeCell(tmp, false);

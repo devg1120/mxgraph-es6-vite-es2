@@ -1,8 +1,8 @@
-import { mxCellPath } from '@mxgraph/model/mxCellPath';
-import { mxGraphHierarchyEdge } from '@mxgraph/layout/hierarchical/model/mxGraphHierarchyEdge';
-import { mxGraphHierarchyNode } from '@mxgraph/layout/hierarchical/model/mxGraphHierarchyNode';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
+import { mxCellPath } from "@mxgraph/model/mxCellPath";
+import { mxGraphHierarchyEdge } from "@mxgraph/layout/hierarchical/model/mxGraphHierarchyEdge";
+import { mxGraphHierarchyNode } from "@mxgraph/layout/hierarchical/model/mxGraphHierarchyNode";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
 
 export class mxSwimlaneModel {
   ranks = null;
@@ -44,14 +44,22 @@ export class mxSwimlaneModel {
             internalTargetCell = this.vertexMapper.get(targetCell);
           }
 
-          if (internalTargetCell != null && internalVertices[i] != internalTargetCell) {
+          if (
+            internalTargetCell != null &&
+            internalVertices[i] != internalTargetCell
+          ) {
             internalEdge.target = internalTargetCell;
 
             if (internalTargetCell.connectsAsTarget.length == 0) {
               internalTargetCell.connectsAsTarget = [];
             }
 
-            if (mxUtils.indexOf(internalTargetCell.connectsAsTarget, internalEdge) < 0) {
+            if (
+              mxUtils.indexOf(
+                internalTargetCell.connectsAsTarget,
+                internalEdge,
+              ) < 0
+            ) {
               internalTargetCell.connectsAsTarget.push(internalEdge);
             }
           }
@@ -84,8 +92,16 @@ export class mxSwimlaneModel {
       for (var j = 0; j < conns.length; j++) {
         var cell = layout.getVisibleTerminal(conns[j], false);
 
-        if (cell != vertices[i] && layout.graph.model.isVertex(cell) && !layout.isVertexIgnored(cell)) {
-          var undirectedEdges = layout.getEdgesBetween(vertices[i], cell, false);
+        if (
+          cell != vertices[i] &&
+          layout.graph.model.isVertex(cell) &&
+          !layout.isVertexIgnored(cell)
+        ) {
+          var undirectedEdges = layout.getEdgesBetween(
+            vertices[i],
+            cell,
+            false,
+          );
           var directedEdges = layout.getEdgesBetween(vertices[i], cell, true);
 
           if (
@@ -109,7 +125,12 @@ export class mxSwimlaneModel {
 
             internalEdge.source = internalVertices[i];
 
-            if (mxUtils.indexOf(internalVertices[i].connectsAsSource, internalEdge) < 0) {
+            if (
+              mxUtils.indexOf(
+                internalVertices[i].connectsAsSource,
+                internalEdge,
+              ) < 0
+            ) {
               internalVertices[i].connectsAsSource.push(internalEdge);
             }
           }
@@ -219,7 +240,10 @@ export class mxSwimlaneModel {
         seen[rootId] = root;
         var slIndex = root.swimlaneIndex;
 
-        if (this.ranksPerGroup[slIndex] == null || this.ranksPerGroup[slIndex] < chainCount) {
+        if (
+          this.ranksPerGroup[slIndex] == null ||
+          this.ranksPerGroup[slIndex] < chainCount
+        ) {
           this.ranksPerGroup[slIndex] = chainCount;
         }
 
@@ -230,9 +254,21 @@ export class mxSwimlaneModel {
           var targetNode = internalEdge.target;
 
           if (root.swimlaneIndex < targetNode.swimlaneIndex) {
-            this.maxChainDfs(root, targetNode, internalEdge, mxUtils.clone(seen, null, true), 0);
+            this.maxChainDfs(
+              root,
+              targetNode,
+              internalEdge,
+              mxUtils.clone(seen, null, true),
+              0,
+            );
           } else if (root.swimlaneIndex == targetNode.swimlaneIndex) {
-            this.maxChainDfs(root, targetNode, internalEdge, mxUtils.clone(seen, null, true), chainCount + 1);
+            this.maxChainDfs(
+              root,
+              targetNode,
+              internalEdge,
+              mxUtils.clone(seen, null, true),
+              chainCount + 1,
+            );
           }
         }
       }
@@ -289,7 +325,7 @@ export class mxSwimlaneModel {
       },
       rootsArray,
       false,
-      null
+      null,
     );
   }
 
@@ -307,7 +343,16 @@ export class mxSwimlaneModel {
             internalNode.hashCode = [];
             internalNode.hashCode[0] = this.dfsCount;
             internalNode.hashCode[1] = i;
-            this.extendedDfs(null, internalNode, null, visitor, seenNodes, internalNode.hashCode, i, 0);
+            this.extendedDfs(
+              null,
+              internalNode,
+              null,
+              visitor,
+              seenNodes,
+              internalNode.hashCode,
+              i,
+              0,
+            );
           } else {
             this.dfs(null, internalNode, null, visitor, seenNodes, 0);
           }
@@ -338,7 +383,16 @@ export class mxSwimlaneModel {
     }
   }
 
-  extendedDfs(parent, root, connectingEdge, visitor, seen, ancestors, childHash, layer) {
+  extendedDfs(
+    parent,
+    root,
+    connectingEdge,
+    visitor,
+    seen,
+    ancestors,
+    childHash,
+    layer,
+  ) {
     if (root != null) {
       if (parent != null) {
         if (root.hashCode == null || root.hashCode[0] != parent.hashCode[0]) {
@@ -361,7 +415,16 @@ export class mxSwimlaneModel {
           var targetNode = internalEdge.target;
 
           if (root.swimlaneIndex <= targetNode.swimlaneIndex) {
-            this.extendedDfs(root, targetNode, internalEdge, visitor, seen, root.hashCode, i, layer + 1);
+            this.extendedDfs(
+              root,
+              targetNode,
+              internalEdge,
+              visitor,
+              seen,
+              root.hashCode,
+              i,
+              layer + 1,
+            );
           }
         }
 
@@ -370,7 +433,16 @@ export class mxSwimlaneModel {
           var targetNode = internalEdge.source;
 
           if (root.swimlaneIndex < targetNode.swimlaneIndex) {
-            this.extendedDfs(root, targetNode, internalEdge, visitor, seen, root.hashCode, i, layer + 1);
+            this.extendedDfs(
+              root,
+              targetNode,
+              internalEdge,
+              visitor,
+              seen,
+              root.hashCode,
+              i,
+              layer + 1,
+            );
           }
         }
       } else {

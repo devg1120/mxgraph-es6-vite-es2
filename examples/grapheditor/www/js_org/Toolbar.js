@@ -5,8 +5,8 @@
  * Construcs a new toolbar for the given editor.
  */
 
-import * as m   from "../../../../../dist/mxgraph.es.js";
-import {EditorUi}  from "./EditorUi.js";
+import * as m from "../../../../../dist/mxgraph.es.js";
+import { EditorUi } from "./EditorUi.js";
 
 export function Toolbar(editorUi, container) {
   this.editorUi = editorUi;
@@ -26,8 +26,6 @@ export function Toolbar(editorUi, container) {
 
   m.mxEvent.addGestureListeners(document, this.gestureHandler);
 }
-
-
 
 /**
  * Image for the dropdown arrow.

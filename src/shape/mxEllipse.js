@@ -1,4 +1,4 @@
-import { mxShape } from '@mxgraph/shape/mxShape';
+import { mxShape } from "@mxgraph/shape/mxShape";
 
 export class mxEllipse extends mxShape {
   constructor(bounds, fill, stroke, strokewidth) {

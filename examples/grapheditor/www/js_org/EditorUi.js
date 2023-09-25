@@ -5,10 +5,10 @@
  * Constructs a new graph editor
  */
 
-import * as m   from "../../../../../dist/mxgraph.es.js";
+import * as m from "../../../../../dist/mxgraph.es.js";
 
 //EditorUi = function (editor, container, lightbox) {
-export  function EditorUi(editor, container, lightbox) {
+export function EditorUi(editor, container, lightbox) {
   m.mxEventSource.call(this);
 
   this.destroyFunctions = [];
@@ -34,7 +34,10 @@ export  function EditorUi(editor, container, lightbox) {
   }
 
   // Pre-fetches connect image
-  if (!m.mxClient.IS_SVG && m.mxConnectionHandler.prototype.connectImage != null) {
+  if (
+    !m.mxClient.IS_SVG &&
+    m.mxConnectionHandler.prototype.connectImage != null
+  ) {
     new Image().src = m.mxConnectionHandler.prototype.connectImage.src;
   }
 
@@ -114,7 +117,11 @@ export  function EditorUi(editor, container, lightbox) {
         (typeof document.documentMode === "undefined" ||
           document.documentMode < 9)
       ) {
-        m.mxEvent.addListener(this.diagramContainer, "contextmenu", linkHandler);
+        m.mxEvent.addListener(
+          this.diagramContainer,
+          "contextmenu",
+          linkHandler,
+        );
       } else {
         // Allows browser context menu outside of diagram and sidebar
         this.diagramContainer.oncontextmenu = linkHandler;
@@ -159,9 +166,13 @@ export  function EditorUi(editor, container, lightbox) {
         var off = m.mxUtils.getOffset(this.diagramContainer);
 
         if (
-          m.mxEvent.getClientX(evt) - off.x - this.diagramContainer.clientWidth >
+          m.mxEvent.getClientX(evt) -
+            off.x -
+            this.diagramContainer.clientWidth >
             0 ||
-          m.mxEvent.getClientY(evt) - off.y - this.diagramContainer.clientHeight >
+          m.mxEvent.getClientY(evt) -
+            off.y -
+            this.diagramContainer.clientHeight >
             0
         ) {
           this.diagramContainer.setAttribute(
@@ -987,7 +998,7 @@ export  function EditorUi(editor, container, lightbox) {
   if (!graph.standalone) {
     this.open();
   }
-};
+}
 
 // Extends mxEventSource
 m.mxUtils.extend(EditorUi, m.mxEventSource);
@@ -1330,7 +1341,11 @@ EditorUi.prototype.showShapePicker = function (
       y +
       "px;width:140px;border-radius:10px;padding:4px;text-align:center;" +
       "box-shadow:0px 0px 3px 1px #d1d1d1;padding: 6px 0 8px 0;";
-    m.mxUtils.setPrefixedStyle(div.style, "transform", "translate(-22px,-22px)");
+    m.mxUtils.setPrefixedStyle(
+      div.style,
+      "transform",
+      "translate(-22px,-22px)",
+    );
 
     if (graph.background != null && graph.background != m.mxConstants.NONE) {
       div.style.backgroundColor = graph.background;
@@ -2260,7 +2275,9 @@ EditorUi.prototype.initCanvas = function () {
                 "px";
 
               // Puts the dialog on top of the container z-index
-              var style = m.mxUtils.getCurrentStyle(this.editor.graph.container);
+              var style = m.mxUtils.getCurrentStyle(
+                this.editor.graph.container,
+              );
               this.layersDialog.style.zIndex = style.zIndex;
 
               document.body.appendChild(this.layersDialog);
@@ -2484,7 +2501,6 @@ EditorUi.prototype.initCanvas = function () {
       if (
         this.graph.container != null &&
         m.mxUtils.hasScrollbars(this.graph.container)
-
       ) {
         var pad = this.graph.getPagePadding();
         var size = this.graph.getPageSize();
@@ -2557,7 +2573,11 @@ EditorUi.prototype.initCanvas = function () {
         } else {
           // Fires event but does not invoke superclass
           this.fireEvent(
-            new m.mxEventObject(m.mxEvent.SIZE, "bounds", this.getGraphBounds()),
+            new m.mxEventObject(
+              m.mxEvent.SIZE,
+              "bounds",
+              this.getGraphBounds(),
+            ),
           );
         }
       };
@@ -4149,7 +4169,10 @@ EditorUi.prototype.addSplitHandler = function (elt, horizontal, dx, onChange) {
 
   function moveHandler(evt) {
     if (start != null) {
-      var pt = new m.mxPoint(m.mxEvent.getClientX(evt), m.mxEvent.getClientY(evt));
+      var pt = new m.mxPoint(
+        m.mxEvent.getClientX(evt),
+        m.mxEvent.getClientY(evt),
+      );
       onChange(
         Math.max(
           0,

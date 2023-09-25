@@ -1,4 +1,4 @@
-import { mxCompactTreeLayout } from '@mxgraph/layout/mxCompactTreeLayout';
+import { mxCompactTreeLayout } from "@mxgraph/layout/mxCompactTreeLayout";
 
 export class mxRadialTreeLayout extends mxCompactTreeLayout {
   angleOffset = 0.5;
@@ -20,7 +20,10 @@ export class mxRadialTreeLayout extends mxCompactTreeLayout {
   }
 
   isVertexIgnored(vertex) {
-    return super.isVertexIgnored(vertex) || this.graph.getConnections(vertex).length == 0;
+    return (
+      super.isVertexIgnored(vertex) ||
+      this.graph.getConnections(vertex).length == 0
+    );
   }
 
   execute(parent, root) {
@@ -44,22 +47,27 @@ export class mxRadialTreeLayout extends mxCompactTreeLayout {
     var maxRightGrad = 0;
 
     for (var i = 0; i < this.row.length; i++) {
-      var leftGrad = (this.centerX - this.rowMinX[i] - this.nodeDistance) / this.rowRadi[i];
-      var rightGrad = (this.rowMaxX[i] - this.centerX - this.nodeDistance) / this.rowRadi[i];
+      var leftGrad =
+        (this.centerX - this.rowMinX[i] - this.nodeDistance) / this.rowRadi[i];
+      var rightGrad =
+        (this.rowMaxX[i] - this.centerX - this.nodeDistance) / this.rowRadi[i];
       maxLeftGrad = Math.max(maxLeftGrad, leftGrad);
       maxRightGrad = Math.max(maxRightGrad, rightGrad);
     }
 
     for (var i = 0; i < this.row.length; i++) {
-      var xLeftLimit = this.centerX - this.nodeDistance - maxLeftGrad * this.rowRadi[i];
-      var xRightLimit = this.centerX + this.nodeDistance + maxRightGrad * this.rowRadi[i];
+      var xLeftLimit =
+        this.centerX - this.nodeDistance - maxLeftGrad * this.rowRadi[i];
+      var xRightLimit =
+        this.centerX + this.nodeDistance + maxRightGrad * this.rowRadi[i];
       var fullWidth = xRightLimit - xLeftLimit;
 
       for (var j = 0; j < this.row[i].length; j++) {
         var row = this.row[i];
         var node = row[j];
         var vertexBounds = this.getVertexBounds(node.cell);
-        var xProportion = (vertexBounds.x + vertexBounds.width / 2 - xLeftLimit) / fullWidth;
+        var xProportion =
+          (vertexBounds.x + vertexBounds.width / 2 - xLeftLimit) / fullWidth;
         var theta = 2 * Math.PI * xProportion;
         node.theta = theta;
       }
@@ -101,8 +109,12 @@ export class mxRadialTreeLayout extends mxCompactTreeLayout {
         var vertexBounds = this.getVertexBounds(node.cell);
         this.setVertexLocation(
           node.cell,
-          this.centerX - vertexBounds.width / 2 + this.rowRadi[i] * Math.cos(node.theta),
-          this.centerY - vertexBounds.height / 2 + this.rowRadi[i] * Math.sin(node.theta)
+          this.centerX -
+            vertexBounds.width / 2 +
+            this.rowRadi[i] * Math.cos(node.theta),
+          this.centerY -
+            vertexBounds.height / 2 +
+            this.rowRadi[i] * Math.sin(node.theta),
         );
       }
     }
@@ -127,10 +139,20 @@ export class mxRadialTreeLayout extends mxCompactTreeLayout {
         var cell = child.cell;
         var vertexBounds = this.getVertexBounds(cell);
         this.rowMinX[rowNum] = Math.min(vertexBounds.x, this.rowMinX[rowNum]);
-        this.rowMaxX[rowNum] = Math.max(vertexBounds.x + vertexBounds.width, this.rowMaxX[rowNum]);
-        this.rowMinCenX[rowNum] = Math.min(vertexBounds.x + vertexBounds.width / 2, this.rowMinCenX[rowNum]);
-        this.rowMaxCenX[rowNum] = Math.max(vertexBounds.x + vertexBounds.width / 2, this.rowMaxCenX[rowNum]);
-        this.rowRadi[rowNum] = vertexBounds.y - this.getVertexBounds(this.root).y;
+        this.rowMaxX[rowNum] = Math.max(
+          vertexBounds.x + vertexBounds.width,
+          this.rowMaxX[rowNum],
+        );
+        this.rowMinCenX[rowNum] = Math.min(
+          vertexBounds.x + vertexBounds.width / 2,
+          this.rowMinCenX[rowNum],
+        );
+        this.rowMaxCenX[rowNum] = Math.max(
+          vertexBounds.x + vertexBounds.width / 2,
+          this.rowMaxCenX[rowNum],
+        );
+        this.rowRadi[rowNum] =
+          vertexBounds.y - this.getVertexBounds(this.root).y;
 
         if (child.child != null) {
           rowHasChildren = true;

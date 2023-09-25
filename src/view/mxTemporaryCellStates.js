@@ -1,5 +1,5 @@
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
 
 export class mxTemporaryCellStates {
   constructor(view, scale, cells, isCellVisibleFn, getLinkForCellState) {
@@ -51,7 +51,9 @@ export class mxTemporaryCellStates {
       var bbox = null;
 
       for (var i = 0; i < cells.length; i++) {
-        var bounds = view.getBoundingBox(view.validateCellState(view.validateCell(cells[i])));
+        var bounds = view.getBoundingBox(
+          view.validateCellState(view.validateCell(cells[i])),
+        );
 
         if (bbox == null) {
           bbox = bounds;

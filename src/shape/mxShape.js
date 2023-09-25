@@ -1,11 +1,11 @@
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxVmlCanvas2D } from '@mxgraph/util/mxVmlCanvas2D';
-import { mxSvgCanvas2D } from '@mxgraph/util/mxSvgCanvas2D';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxVmlCanvas2D } from "@mxgraph/util/mxVmlCanvas2D";
+import { mxSvgCanvas2D } from "@mxgraph/util/mxSvgCanvas2D";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxShape {
   dialect = null;
@@ -20,7 +20,7 @@ export class mxShape {
   boundingBox = null;
   svgStrokeTolerance = 8;
   pointerEvents = true;
-  svgPointerEvents = 'all';
+  svgPointerEvents = "all";
   shapePointerEvents = false;
   stencilPointerEvents = false;
   vmlScale = 1;
@@ -64,8 +64,12 @@ export class mxShape {
 
   getSvgScreenOffset() {
     var sw =
-      this.stencil && this.stencil.strokewidth != 'inherit' ? Number(this.stencil.strokewidth) : this.strokewidth;
-    return mxUtils.mod(Math.max(1, Math.round(sw * this.scale)), 2) == 1 ? 0.5 : 0;
+      this.stencil && this.stencil.strokewidth != "inherit"
+        ? Number(this.stencil.strokewidth)
+        : this.strokewidth;
+    return mxUtils.mod(Math.max(1, Math.round(sw * this.scale)), 2) == 1
+      ? 0.5
+      : 0;
   }
 
   create(container) {
@@ -73,7 +77,10 @@ export class mxShape {
 
     if (container != null && container.ownerSVGElement != null) {
       node = this.createSvg(container);
-    } else if (this.dialect != mxConstants.DIALECT_VML && this.isHtmlAllowed()) {
+    } else if (
+      this.dialect != mxConstants.DIALECT_VML &&
+      this.isHtmlAllowed()
+    ) {
       node = this.createHtml(container);
     } else {
       node = this.createVml(container);
@@ -83,18 +90,18 @@ export class mxShape {
   }
 
   createSvg() {
-    return document.createElementNS(mxConstants.NS_SVG, 'g');
+    return document.createElementNS(mxConstants.NS_SVG, "g");
   }
 
   createVml() {
-    var node = document.createElement(mxClient.VML_PREFIX + ':group');
-    node.style.position = 'absolute';
+    var node = document.createElement(mxClient.VML_PREFIX + ":group");
+    node.style.position = "absolute";
     return node;
   }
 
   createHtml() {
-    var node = document.createElement('div');
-    node.style.position = 'absolute';
+    var node = document.createElement("div");
+    node.style.position = "absolute";
     return node;
   }
 
@@ -106,10 +113,10 @@ export class mxShape {
     this.updateBoundsFromPoints();
 
     if (this.visible && this.checkBounds()) {
-      this.node.style.visibility = 'visible';
+      this.node.style.visibility = "visible";
       this.clear();
 
-      if (this.node.nodeName == 'DIV' && this.isHtmlAllowed()) {
+      if (this.node.nodeName == "DIV" && this.isHtmlAllowed()) {
         this.redrawHtmlShape();
       } else {
         this.redrawShape();
@@ -117,7 +124,7 @@ export class mxShape {
 
       this.updateBoundingBox();
     } else {
-      this.node.style.visibility = 'hidden';
+      this.node.style.visibility = "hidden";
       this.boundingBox = null;
     }
   }
@@ -128,8 +135,10 @@ export class mxShape {
         this.node.removeChild(this.node.lastChild);
       }
     } else {
-      this.node.style.cssText = 'position:absolute;' + (this.cursor != null ? 'cursor:' + this.cursor + ';' : '');
-      this.node.innerHTML = '';
+      this.node.style.cssText =
+        "position:absolute;" +
+        (this.cursor != null ? "cursor:" + this.cursor + ";" : "");
+      this.node.innerHTML = "";
     }
   }
 
@@ -141,14 +150,20 @@ export class mxShape {
 
       for (var i = 1; i < this.points.length; i++) {
         if (pts[i] != null) {
-          this.bounds.add(new mxRectangle(Number(pts[i].x), Number(pts[i].y), 1, 1));
+          this.bounds.add(
+            new mxRectangle(Number(pts[i].x), Number(pts[i].y), 1, 1),
+          );
         }
       }
     }
   }
 
   getLabelBounds(rect) {
-    var d = mxUtils.getValue(this.style, mxConstants.STYLE_DIRECTION, mxConstants.DIRECTION_EAST);
+    var d = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_DIRECTION,
+      mxConstants.DIRECTION_EAST,
+    );
     var bounds = rect;
 
     if (
@@ -167,10 +182,16 @@ export class mxShape {
     var m = this.getLabelMargins(bounds);
 
     if (m != null) {
-      var flipH = mxUtils.getValue(this.style, mxConstants.STYLE_FLIPH, false) == '1';
-      var flipV = mxUtils.getValue(this.style, mxConstants.STYLE_FLIPV, false) == '1';
+      var flipH =
+        mxUtils.getValue(this.style, mxConstants.STYLE_FLIPH, false) == "1";
+      var flipV =
+        mxUtils.getValue(this.style, mxConstants.STYLE_FLIPV, false) == "1";
 
-      if (this.state != null && this.state.text != null && this.state.text.isPaintBoundsInverted()) {
+      if (
+        this.state != null &&
+        this.state.text != null &&
+        this.state.text.isPaintBoundsInverted()
+      ) {
         var tmp = m.x;
         m.x = m.height;
         m.height = m.width;
@@ -207,8 +228,8 @@ export class mxShape {
   }
 
   createVmlGroup() {
-    var node = document.createElement(mxClient.VML_PREFIX + ':group');
-    node.style.position = 'absolute';
+    var node = document.createElement(mxClient.VML_PREFIX + ":group");
+    node.style.position = "absolute";
     node.style.width = this.node.style.width;
     node.style.height = this.node.style.height;
     return node;
@@ -222,11 +243,11 @@ export class mxShape {
       this.paint(canvas);
 
       if (this.node != canvas.root) {
-        this.node.insertAdjacentHTML('beforeend', canvas.root.outerHTML);
+        this.node.insertAdjacentHTML("beforeend", canvas.root.outerHTML);
       }
 
-      if (this.node.nodeName == 'DIV' && document.documentMode == 8) {
-        this.node.style.filter = '';
+      if (this.node.nodeName == "DIV" && document.documentMode == 8) {
+        this.node.style.filter = "";
         mxUtils.addTransparentBackgroundFilter(this.node);
       }
 
@@ -272,9 +293,9 @@ export class mxShape {
     var off = this.getSvgScreenOffset();
 
     if (off != 0) {
-      this.node.setAttribute('transform', 'translate(' + off + ',' + off + ')');
+      this.node.setAttribute("transform", "translate(" + off + "," + off + ")");
     } else {
-      this.node.removeAttribute('transform');
+      this.node.removeAttribute("transform");
     }
 
     canvas.minStrokeWidth = this.minSvgStrokeWidth;
@@ -289,30 +310,36 @@ export class mxShape {
   }
 
   createVmlCanvas() {
-    var node = document.documentMode == 8 && this.isParseVml() ? this.createVmlGroup() : this.node;
+    var node =
+      document.documentMode == 8 && this.isParseVml()
+        ? this.createVmlGroup()
+        : this.node;
     var canvas = new mxVmlCanvas2D(node, false);
 
-    if (node.tagUrn != '') {
+    if (node.tagUrn != "") {
       var w = Math.max(1, Math.round(this.bounds.width));
       var h = Math.max(1, Math.round(this.bounds.height));
-      node.coordsize = w * this.vmlScale + ',' + h * this.vmlScale;
+      node.coordsize = w * this.vmlScale + "," + h * this.vmlScale;
       canvas.scale(this.vmlScale);
       canvas.vmlScale = this.vmlScale;
     }
 
     var s = this.scale;
-    canvas.translate(-Math.round(this.bounds.x / s), -Math.round(this.bounds.y / s));
+    canvas.translate(
+      -Math.round(this.bounds.x / s),
+      -Math.round(this.bounds.y / s),
+    );
     return canvas;
   }
 
   updateVmlContainer() {
-    this.node.style.left = Math.round(this.bounds.x) + 'px';
-    this.node.style.top = Math.round(this.bounds.y) + 'px';
+    this.node.style.left = Math.round(this.bounds.x) + "px";
+    this.node.style.top = Math.round(this.bounds.y) + "px";
     var w = Math.max(1, Math.round(this.bounds.width));
     var h = Math.max(1, Math.round(this.bounds.height));
-    this.node.style.width = w + 'px';
-    this.node.style.height = h + 'px';
-    this.node.style.overflow = 'visible';
+    this.node.style.width = w + "px";
+    this.node.style.height = h + "px";
+    this.node.style.overflow = "visible";
   }
 
   redrawHtmlShape() {
@@ -322,15 +349,15 @@ export class mxShape {
   }
 
   updateHtmlFilters(node) {
-    var f = '';
+    var f = "";
 
     if (this.opacity < 100) {
-      f += 'alpha(opacity=' + this.opacity + ')';
+      f += "alpha(opacity=" + this.opacity + ")";
     }
 
     if (this.isShadow) {
       f +=
-        'progid:DXImageTransform.Microsoft.dropShadow (' +
+        "progid:DXImageTransform.Microsoft.dropShadow (" +
         "OffX='" +
         Math.round(mxConstants.SHADOW_OFFSET_X * this.scale) +
         "', " +
@@ -342,15 +369,20 @@ export class mxShape {
         "')";
     }
 
-    if (this.fill != null && this.fill != mxConstants.NONE && this.gradient && this.gradient != mxConstants.NONE) {
+    if (
+      this.fill != null &&
+      this.fill != mxConstants.NONE &&
+      this.gradient &&
+      this.gradient != mxConstants.NONE
+    ) {
       var start = this.fill;
       var end = this.gradient;
-      var type = '0';
+      var type = "0";
       var lookup = {
         east: 0,
         south: 1,
         west: 2,
-        north: 3
+        north: 3,
       };
       var dir = this.direction != null ? lookup[this.direction] : 0;
 
@@ -359,7 +391,7 @@ export class mxShape {
       }
 
       if (dir == 1) {
-        type = '1';
+        type = "1";
         var tmp = start;
         start = end;
         end = tmp;
@@ -368,11 +400,11 @@ export class mxShape {
         start = end;
         end = tmp;
       } else if (dir == 3) {
-        type = '1';
+        type = "1";
       }
 
       f +=
-        'progid:DXImageTransform.Microsoft.gradient(' +
+        "progid:DXImageTransform.Microsoft.gradient(" +
         "startColorStr='" +
         start +
         "', endColorStr='" +
@@ -392,23 +424,24 @@ export class mxShape {
       node.style.borderColor = color;
 
       if (this.isDashed) {
-        node.style.borderStyle = 'dashed';
+        node.style.borderStyle = "dashed";
       } else if (this.strokewidth > 0) {
-        node.style.borderStyle = 'solid';
+        node.style.borderStyle = "solid";
       }
 
-      node.style.borderWidth = Math.max(1, Math.ceil(this.strokewidth * this.scale)) + 'px';
+      node.style.borderWidth =
+        Math.max(1, Math.ceil(this.strokewidth * this.scale)) + "px";
     } else {
-      node.style.borderWidth = '0px';
+      node.style.borderWidth = "0px";
     }
 
     color = this.outline ? null : this.fill;
 
     if (color != null && color != mxConstants.NONE) {
       node.style.backgroundColor = color;
-      node.style.backgroundImage = 'none';
+      node.style.backgroundImage = "none";
     } else if (this.pointerEvents) {
-      node.style.backgroundColor = 'transparent';
+      node.style.backgroundColor = "transparent";
     } else if (document.documentMode == 8) {
       mxUtils.addTransparentBackgroundFilter(node);
     } else {
@@ -417,18 +450,19 @@ export class mxShape {
   }
 
   updateHtmlBounds(node) {
-    var sw = document.documentMode >= 9 ? 0 : Math.ceil(this.strokewidth * this.scale);
-    node.style.borderWidth = Math.max(1, sw) + 'px';
-    node.style.overflow = 'hidden';
-    node.style.left = Math.round(this.bounds.x - sw / 2) + 'px';
-    node.style.top = Math.round(this.bounds.y - sw / 2) + 'px';
+    var sw =
+      document.documentMode >= 9 ? 0 : Math.ceil(this.strokewidth * this.scale);
+    node.style.borderWidth = Math.max(1, sw) + "px";
+    node.style.overflow = "hidden";
+    node.style.left = Math.round(this.bounds.x - sw / 2) + "px";
+    node.style.top = Math.round(this.bounds.y - sw / 2) + "px";
 
-    if (document.compatMode == 'CSS1Compat') {
+    if (document.compatMode == "CSS1Compat") {
       sw = -sw;
     }
 
-    node.style.width = Math.round(Math.max(0, this.bounds.width + sw)) + 'px';
-    node.style.height = Math.round(Math.max(0, this.bounds.height + sw)) + 'px';
+    node.style.width = Math.round(Math.max(0, this.bounds.width + sw)) + "px";
+    node.style.height = Math.round(Math.max(0, this.bounds.height + sw)) + "px";
   }
 
   destroyCanvas(canvas) {
@@ -485,18 +519,31 @@ export class mxShape {
     var bg = null;
 
     if (
-      (this.stencil == null && this.points == null && this.shapePointerEvents) ||
+      (this.stencil == null &&
+        this.points == null &&
+        this.shapePointerEvents) ||
       (this.stencil != null && this.stencilPointerEvents)
     ) {
       var bb = this.createBoundingBox();
 
       if (this.dialect == mxConstants.DIALECT_SVG) {
-        bg = this.createTransparentSvgRectangle(bb.x, bb.y, bb.width, bb.height);
+        bg = this.createTransparentSvgRectangle(
+          bb.x,
+          bb.y,
+          bb.width,
+          bb.height,
+        );
         this.node.appendChild(bg);
       } else {
-        var rect = c.createRect('rect', bb.x / s, bb.y / s, bb.width / s, bb.height / s);
+        var rect = c.createRect(
+          "rect",
+          bb.x / s,
+          bb.y / s,
+          bb.width / s,
+          bb.height / s,
+        );
         rect.appendChild(c.createTransparentFill());
-        rect.stroked = 'false';
+        rect.stroked = "false";
         c.root.appendChild(rect);
       }
     }
@@ -522,7 +569,7 @@ export class mxShape {
     }
 
     if (bg != null && c.state != null && c.state.transform != null) {
-      bg.setAttribute('transform', c.state.transform);
+      bg.setAttribute("transform", c.state.transform);
     }
 
     if (c != null && this.outline && !strokeDrawn) {
@@ -535,7 +582,7 @@ export class mxShape {
     var dash = null;
 
     if (this.style != null) {
-      dash = this.style['dashPattern'];
+      dash = this.style["dashPattern"];
     }
 
     c.setAlpha(this.opacity / 100);
@@ -549,7 +596,9 @@ export class mxShape {
     if (this.isDashed != null) {
       c.setDashed(
         this.isDashed,
-        this.style != null ? mxUtils.getValue(this.style, mxConstants.STYLE_FIX_DASH, false) == 1 : false
+        this.style != null
+          ? mxUtils.getValue(this.style, mxConstants.STYLE_FIX_DASH, false) == 1
+          : false,
       );
     }
 
@@ -557,9 +606,22 @@ export class mxShape {
       c.setDashPattern(dash);
     }
 
-    if (this.fill != null && this.fill != mxConstants.NONE && this.gradient && this.gradient != mxConstants.NONE) {
+    if (
+      this.fill != null &&
+      this.fill != mxConstants.NONE &&
+      this.gradient &&
+      this.gradient != mxConstants.NONE
+    ) {
       var b = this.getGradientBounds(c, x, y, w, h);
-      c.setGradient(this.fill, this.gradient, b.x, b.y, b.width, b.height, this.gradientDirection);
+      c.setGradient(
+        this.fill,
+        this.gradient,
+        b.x,
+        b.y,
+        b.width,
+        b.height,
+        this.gradientDirection,
+      );
     } else {
       c.setFillColor(this.fill);
     }
@@ -573,7 +635,13 @@ export class mxShape {
 
   updateTransform(c, x, y, w, h) {
     c.scale(this.scale);
-    c.rotate(this.getShapeRotation(), this.flipH, this.flipV, x + w / 2, y + h / 2);
+    c.rotate(
+      this.getShapeRotation(),
+      this.flipH,
+      this.flipV,
+      x + w / 2,
+      y + h / 2,
+    );
   }
 
   paintVertexShape(c, x, y, w, h) {
@@ -598,14 +666,27 @@ export class mxShape {
   getArcSize(w, h) {
     var r = 0;
 
-    if (mxUtils.getValue(this.style, mxConstants.STYLE_ABSOLUTE_ARCSIZE, 0) == '1') {
+    if (
+      mxUtils.getValue(this.style, mxConstants.STYLE_ABSOLUTE_ARCSIZE, 0) == "1"
+    ) {
       r = Math.min(
         w / 2,
-        Math.min(h / 2, mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants.LINE_ARCSIZE) / 2)
+        Math.min(
+          h / 2,
+          mxUtils.getValue(
+            this.style,
+            mxConstants.STYLE_ARCSIZE,
+            mxConstants.LINE_ARCSIZE,
+          ) / 2,
+        ),
       );
     } else {
       var f =
-        mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants.RECTANGLE_ROUNDING_FACTOR * 100) / 100;
+        mxUtils.getValue(
+          this.style,
+          mxConstants.STYLE_ARCSIZE,
+          mxConstants.RECTANGLE_ROUNDING_FACTOR * 100,
+        ) / 100;
       r = Math.min(w * f, h * f);
     }
 
@@ -615,7 +696,7 @@ export class mxShape {
   paintGlassEffect(c, x, y, w, h, arc) {
     var sw = Math.ceil(this.strokewidth / 2);
     var size = 0.4;
-    c.setGradient('#ffffff', '#ffffff', x, y, w, h * 0.6, 'south', 0.9, 0.1);
+    c.setGradient("#ffffff", "#ffffff", x, y, w, h * 0.6, "south", 0.9, 0.1);
     c.begin();
     arc += 2 * sw;
 
@@ -645,7 +726,10 @@ export class mxShape {
       if (close && rounded) {
         pts = pts.slice();
         var p0 = pts[0];
-        var wp = new mxPoint(pe.x + (p0.x - pe.x) / 2, pe.y + (p0.y - pe.y) / 2);
+        var wp = new mxPoint(
+          pe.x + (p0.x - pe.x) / 2,
+          pe.y + (p0.y - pe.y) / 2,
+        );
         pts.splice(0, 0, wp);
       }
 
@@ -663,7 +747,11 @@ export class mxShape {
         var dx = pt.x - tmp.x;
         var dy = pt.y - tmp.y;
 
-        if (rounded && (dx != 0 || dy != 0) && (exclude == null || mxUtils.indexOf(exclude, i - 1) < 0)) {
+        if (
+          rounded &&
+          (dx != 0 || dy != 0) &&
+          (exclude == null || mxUtils.indexOf(exclude, i - 1) < 0)
+        ) {
           var dist = Math.sqrt(dx * dx + dy * dy);
           var nx1 = (dx * Math.min(arcSize, dist / 2)) / dist;
           var ny1 = (dy * Math.min(arcSize, dist / 2)) / dist;
@@ -672,7 +760,11 @@ export class mxShape {
           c.lineTo(x1, y1);
           var next = pts[mxUtils.mod(i + 1, pts.length)];
 
-          while (i < pts.length - 2 && Math.round(next.x - tmp.x) == 0 && Math.round(next.y - tmp.y) == 0) {
+          while (
+            i < pts.length - 2 &&
+            Math.round(next.x - tmp.x) == 0 &&
+            Math.round(next.y - tmp.y) == 0
+          ) {
             next = pts[mxUtils.mod(i + 2, pts.length)];
             i++;
           }
@@ -725,43 +817,116 @@ export class mxShape {
     this.style = state.style;
 
     if (this.style != null) {
-      this.fill = mxUtils.getValue(this.style, mxConstants.STYLE_FILLCOLOR, this.fill);
-      this.gradient = mxUtils.getValue(this.style, mxConstants.STYLE_GRADIENTCOLOR, this.gradient);
+      this.fill = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_FILLCOLOR,
+        this.fill,
+      );
+      this.gradient = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_GRADIENTCOLOR,
+        this.gradient,
+      );
       this.gradientDirection = mxUtils.getValue(
         this.style,
         mxConstants.STYLE_GRADIENT_DIRECTION,
-        this.gradientDirection
+        this.gradientDirection,
       );
-      this.opacity = mxUtils.getValue(this.style, mxConstants.STYLE_OPACITY, this.opacity);
-      this.fillOpacity = mxUtils.getValue(this.style, mxConstants.STYLE_FILL_OPACITY, this.fillOpacity);
-      this.strokeOpacity = mxUtils.getValue(this.style, mxConstants.STYLE_STROKE_OPACITY, this.strokeOpacity);
-      this.stroke = mxUtils.getValue(this.style, mxConstants.STYLE_STROKECOLOR, this.stroke);
-      this.strokewidth = mxUtils.getNumber(this.style, mxConstants.STYLE_STROKEWIDTH, this.strokewidth);
-      this.spacing = mxUtils.getValue(this.style, mxConstants.STYLE_SPACING, this.spacing);
-      this.startSize = mxUtils.getNumber(this.style, mxConstants.STYLE_STARTSIZE, this.startSize);
-      this.endSize = mxUtils.getNumber(this.style, mxConstants.STYLE_ENDSIZE, this.endSize);
-      this.startArrow = mxUtils.getValue(this.style, mxConstants.STYLE_STARTARROW, this.startArrow);
-      this.endArrow = mxUtils.getValue(this.style, mxConstants.STYLE_ENDARROW, this.endArrow);
-      this.rotation = mxUtils.getValue(this.style, mxConstants.STYLE_ROTATION, this.rotation);
-      this.direction = mxUtils.getValue(this.style, mxConstants.STYLE_DIRECTION, this.direction);
-      this.flipH = mxUtils.getValue(this.style, mxConstants.STYLE_FLIPH, 0) == 1;
-      this.flipV = mxUtils.getValue(this.style, mxConstants.STYLE_FLIPV, 0) == 1;
+      this.opacity = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_OPACITY,
+        this.opacity,
+      );
+      this.fillOpacity = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_FILL_OPACITY,
+        this.fillOpacity,
+      );
+      this.strokeOpacity = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_STROKE_OPACITY,
+        this.strokeOpacity,
+      );
+      this.stroke = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_STROKECOLOR,
+        this.stroke,
+      );
+      this.strokewidth = mxUtils.getNumber(
+        this.style,
+        mxConstants.STYLE_STROKEWIDTH,
+        this.strokewidth,
+      );
+      this.spacing = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_SPACING,
+        this.spacing,
+      );
+      this.startSize = mxUtils.getNumber(
+        this.style,
+        mxConstants.STYLE_STARTSIZE,
+        this.startSize,
+      );
+      this.endSize = mxUtils.getNumber(
+        this.style,
+        mxConstants.STYLE_ENDSIZE,
+        this.endSize,
+      );
+      this.startArrow = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_STARTARROW,
+        this.startArrow,
+      );
+      this.endArrow = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_ENDARROW,
+        this.endArrow,
+      );
+      this.rotation = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_ROTATION,
+        this.rotation,
+      );
+      this.direction = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_DIRECTION,
+        this.direction,
+      );
+      this.flipH =
+        mxUtils.getValue(this.style, mxConstants.STYLE_FLIPH, 0) == 1;
+      this.flipV =
+        mxUtils.getValue(this.style, mxConstants.STYLE_FLIPV, 0) == 1;
 
       if (this.stencil != null) {
-        this.flipH = mxUtils.getValue(this.style, 'stencilFlipH', 0) == 1 || this.flipH;
-        this.flipV = mxUtils.getValue(this.style, 'stencilFlipV', 0) == 1 || this.flipV;
+        this.flipH =
+          mxUtils.getValue(this.style, "stencilFlipH", 0) == 1 || this.flipH;
+        this.flipV =
+          mxUtils.getValue(this.style, "stencilFlipV", 0) == 1 || this.flipV;
       }
 
-      if (this.direction == mxConstants.DIRECTION_NORTH || this.direction == mxConstants.DIRECTION_SOUTH) {
+      if (
+        this.direction == mxConstants.DIRECTION_NORTH ||
+        this.direction == mxConstants.DIRECTION_SOUTH
+      ) {
         var tmp = this.flipH;
         this.flipH = this.flipV;
         this.flipV = tmp;
       }
 
-      this.isShadow = mxUtils.getValue(this.style, mxConstants.STYLE_SHADOW, this.isShadow) == 1;
-      this.isDashed = mxUtils.getValue(this.style, mxConstants.STYLE_DASHED, this.isDashed) == 1;
-      this.isRounded = mxUtils.getValue(this.style, mxConstants.STYLE_ROUNDED, this.isRounded) == 1;
-      this.glass = mxUtils.getValue(this.style, mxConstants.STYLE_GLASS, this.glass) == 1;
+      this.isShadow =
+        mxUtils.getValue(this.style, mxConstants.STYLE_SHADOW, this.isShadow) ==
+        1;
+      this.isDashed =
+        mxUtils.getValue(this.style, mxConstants.STYLE_DASHED, this.isDashed) ==
+        1;
+      this.isRounded =
+        mxUtils.getValue(
+          this.style,
+          mxConstants.STYLE_ROUNDED,
+          this.isRounded,
+        ) == 1;
+      this.glass =
+        mxUtils.getValue(this.style, mxConstants.STYLE_GLASS, this.glass) == 1;
 
       if (this.fill == mxConstants.NONE) {
         this.fill = null;
@@ -779,7 +944,7 @@ export class mxShape {
 
   setCursor(cursor) {
     if (cursor == null) {
-      cursor = '';
+      cursor = "";
     }
 
     this.cursor = cursor;
@@ -798,7 +963,11 @@ export class mxShape {
   }
 
   updateBoundingBox() {
-    if (this.useSvgBoundingBox && this.node != null && this.node.ownerSVGElement != null) {
+    if (
+      this.useSvgBoundingBox &&
+      this.node != null &&
+      this.node.ownerSVGElement != null
+    ) {
       try {
         var b = this.node.getBBox();
 
@@ -833,7 +1002,8 @@ export class mxShape {
 
     if (
       (this.stencil != null &&
-        (this.direction == mxConstants.DIRECTION_NORTH || this.direction == mxConstants.DIRECTION_SOUTH)) ||
+        (this.direction == mxConstants.DIRECTION_NORTH ||
+          this.direction == mxConstants.DIRECTION_SOUTH)) ||
       this.isPaintBoundsInverted()
     ) {
       bb.rotate90();
@@ -854,7 +1024,8 @@ export class mxShape {
   isPaintBoundsInverted() {
     return (
       this.stencil == null &&
-      (this.direction == mxConstants.DIRECTION_NORTH || this.direction == mxConstants.DIRECTION_SOUTH)
+      (this.direction == mxConstants.DIRECTION_NORTH ||
+        this.direction == mxConstants.DIRECTION_SOUTH)
     );
   }
 
@@ -889,19 +1060,20 @@ export class mxShape {
   }
 
   createTransparentSvgRectangle(x, y, w, h) {
-    var rect = document.createElementNS(mxConstants.NS_SVG, 'rect');
-    rect.setAttribute('x', x);
-    rect.setAttribute('y', y);
-    rect.setAttribute('width', w);
-    rect.setAttribute('height', h);
-    rect.setAttribute('fill', 'none');
-    rect.setAttribute('stroke', 'none');
-    rect.setAttribute('pointer-events', 'all');
+    var rect = document.createElementNS(mxConstants.NS_SVG, "rect");
+    rect.setAttribute("x", x);
+    rect.setAttribute("y", y);
+    rect.setAttribute("width", w);
+    rect.setAttribute("height", h);
+    rect.setAttribute("fill", "none");
+    rect.setAttribute("stroke", "none");
+    rect.setAttribute("pointer-events", "all");
     return rect;
   }
 
   setTransparentBackgroundImage(node) {
-    node.style.backgroundImage = "url('" + mxClient.imageBasePath + "/transparent.gif')";
+    node.style.backgroundImage =
+      "url('" + mxClient.imageBasePath + "/transparent.gif')";
   }
 
   releaseSvgGradients(grads) {

@@ -1,14 +1,14 @@
-import { mxRectangleShape } from '@mxgraph/shape/mxRectangleShape';
-import { mxImageShape } from '@mxgraph/shape/mxImageShape';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxImage } from '@mxgraph/util/mxImage';
+import { mxRectangleShape } from "@mxgraph/shape/mxRectangleShape";
+import { mxImageShape } from "@mxgraph/shape/mxImageShape";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxImage } from "@mxgraph/util/mxImage";
 
 export class mxConstraintHandler {
-  pointImage = new mxImage(mxClient.imageBasePath + '/point.gif', 5, 5);
+  pointImage = new mxImage(mxClient.imageBasePath + "/point.gif", 5, 5);
   enabled = true;
   highlightColor = mxConstants.DEFAULT_VALID_COLOR;
 
@@ -16,7 +16,10 @@ export class mxConstraintHandler {
     this.graph = graph;
 
     this.resetHandler = (sender, evt) => {
-      if (this.currentFocus != null && this.graph.view.getState(this.currentFocus.cell) == null) {
+      if (
+        this.currentFocus != null &&
+        this.graph.view.getState(this.currentFocus.cell) == null
+      ) {
         this.reset();
       } else {
         this.redraw();
@@ -100,14 +103,21 @@ export class mxConstraintHandler {
   getCellForEvent(me, point) {
     var cell = me.getCell();
 
-    if (cell == null && point != null && (me.getGraphX() != point.x || me.getGraphY() != point.y)) {
+    if (
+      cell == null &&
+      point != null &&
+      (me.getGraphX() != point.x || me.getGraphY() != point.y)
+    ) {
       cell = this.graph.getCellAt(point.x, point.y);
     }
 
     if (cell != null && !this.graph.isCellConnectable(cell)) {
       var parent = this.graph.getModel().getParent(cell);
 
-      if (this.graph.getModel().isVertex(parent) && this.graph.isCellConnectable(parent)) {
+      if (
+        this.graph.getModel().isVertex(parent) &&
+        this.graph.isCellConnectable(parent)
+      ) {
         cell = parent;
       }
     }
@@ -122,14 +132,23 @@ export class mxConstraintHandler {
           this.reset();
         };
 
-        mxEvent.addListener(this.graph.container, 'mouseleave', this.resetHandler);
+        mxEvent.addListener(
+          this.graph.container,
+          "mouseleave",
+          this.resetHandler,
+        );
       }
 
       var tol = this.getTolerance(me);
       var x = point != null ? point.x : me.getGraphX();
       var y = point != null ? point.y : me.getGraphY();
       var grid = new mxRectangle(x - tol, y - tol, 2 * tol, 2 * tol);
-      var mouse = new mxRectangle(me.getGraphX() - tol, me.getGraphY() - tol, 2 * tol, 2 * tol);
+      var mouse = new mxRectangle(
+        me.getGraphX() - tol,
+        me.getGraphY() - tol,
+        2 * tol,
+        2 * tol,
+      );
       var state = this.graph.view.getState(this.getCellForEvent(me, point));
 
       if (
@@ -150,7 +169,11 @@ export class mxConstraintHandler {
       this.currentPoint = null;
       var minDistSq = null;
 
-      if (this.focusIcons != null && this.constraints != null && (state == null || this.currentFocus == state)) {
+      if (
+        this.focusIcons != null &&
+        this.constraints != null &&
+        (state == null || this.currentFocus == state)
+      ) {
         var cx = mouse.getCenterX();
         var cy = mouse.getCenterY();
 
@@ -161,7 +184,13 @@ export class mxConstraintHandler {
 
           if (
             (this.intersects(this.focusIcons[i], mouse, source, existingEdge) ||
-              (point != null && this.intersects(this.focusIcons[i], grid, source, existingEdge))) &&
+              (point != null &&
+                this.intersects(
+                  this.focusIcons[i],
+                  grid,
+                  source,
+                  existingEdge,
+                ))) &&
             (minDistSq == null || tmp < minDistSq)
           ) {
             this.currentConstraint = this.constraints[i];
@@ -175,7 +204,9 @@ export class mxConstraintHandler {
             if (this.focusHighlight == null) {
               var hl = this.createHighlightShape();
               hl.dialect =
-                this.graph.dialect == mxConstants.DIALECT_SVG ? mxConstants.DIALECT_SVG : mxConstants.DIALECT_VML;
+                this.graph.dialect == mxConstants.DIALECT_SVG
+                  ? mxConstants.DIALECT_SVG
+                  : mxConstants.DIALECT_VML;
               hl.pointerEvents = false;
               hl.init(this.graph.getView().getOverlayPane());
               this.focusHighlight = hl;
@@ -204,10 +235,19 @@ export class mxConstraintHandler {
   }
 
   redraw() {
-    if (this.currentFocus != null && this.constraints != null && this.focusIcons != null) {
+    if (
+      this.currentFocus != null &&
+      this.constraints != null &&
+      this.focusIcons != null
+    ) {
       var state = this.graph.view.getState(this.currentFocus.cell);
       this.currentFocus = state;
-      this.currentFocusArea = new mxRectangle(state.x, state.y, state.width, state.height);
+      this.currentFocusArea = new mxRectangle(
+        state.x,
+        state.y,
+        state.width,
+        state.height,
+      );
 
       for (var i = 0; i < this.constraints.length; i++) {
         var cp = this.graph.getConnectionPoint(state, this.constraints[i]);
@@ -216,7 +256,7 @@ export class mxConstraintHandler {
           Math.round(cp.x - img.width / 2),
           Math.round(cp.y - img.height / 2),
           img.width,
-          img.height
+          img.height,
         );
         this.focusIcons[i].bounds = bounds;
         this.focusIcons[i].redraw();
@@ -228,7 +268,9 @@ export class mxConstraintHandler {
 
   setFocus(me, state, source) {
     this.constraints =
-      state != null && !this.isStateIgnored(state, source) && this.graph.isCellConnectable(state.cell)
+      state != null &&
+      !this.isStateIgnored(state, source) &&
+      this.graph.isCellConnectable(state.cell)
         ? this.isEnabled()
           ? this.graph.getAllConnectionConstraints(state, source) || []
           : []
@@ -236,7 +278,12 @@ export class mxConstraintHandler {
 
     if (this.constraints != null) {
       this.currentFocus = state;
-      this.currentFocusArea = new mxRectangle(state.x, state.y, state.width, state.height);
+      this.currentFocusArea = new mxRectangle(
+        state.x,
+        state.y,
+        state.width,
+        state.height,
+      );
 
       if (this.focusIcons != null) {
         for (var i = 0; i < this.focusIcons.length; i++) {
@@ -258,23 +305,28 @@ export class mxConstraintHandler {
           Math.round(cp.x - img.width / 2),
           Math.round(cp.y - img.height / 2),
           img.width,
-          img.height
+          img.height,
         );
         var icon = new mxImageShape(bounds, src);
         icon.dialect =
-          this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_MIXEDHTML : mxConstants.DIALECT_SVG;
+          this.graph.dialect != mxConstants.DIALECT_SVG
+            ? mxConstants.DIALECT_MIXEDHTML
+            : mxConstants.DIALECT_SVG;
         icon.preserveImageAspect = false;
         icon.init(this.graph.getView().getDecoratorPane());
 
         if (mxClient.IS_QUIRKS || document.documentMode == 8) {
-          mxEvent.addListener(icon.node, 'dragstart', function (evt) {
+          mxEvent.addListener(icon.node, "dragstart", function (evt) {
             mxEvent.consume(evt);
             return false;
           });
         }
 
         if (icon.node.previousSibling != null) {
-          icon.node.parentNode.insertBefore(icon.node, icon.node.parentNode.firstChild);
+          icon.node.parentNode.insertBefore(
+            icon.node,
+            icon.node.parentNode.firstChild,
+          );
         }
 
         var getState = () => {
@@ -296,7 +348,12 @@ export class mxConstraintHandler {
   }
 
   createHighlightShape() {
-    var hl = new mxRectangleShape(null, this.highlightColor, this.highlightColor, mxConstants.HIGHLIGHT_STROKEWIDTH);
+    var hl = new mxRectangleShape(
+      null,
+      this.highlightColor,
+      this.highlightColor,
+      mxConstants.HIGHLIGHT_STROKEWIDTH,
+    );
     hl.opacity = mxConstants.HIGHLIGHT_OPACITY;
     return hl;
   }
@@ -316,7 +373,11 @@ export class mxConstraintHandler {
     }
 
     if (this.mouseleaveHandler != null && this.graph.container != null) {
-      mxEvent.removeListener(this.graph.container, 'mouseleave', this.mouseleaveHandler);
+      mxEvent.removeListener(
+        this.graph.container,
+        "mouseleave",
+        this.mouseleaveHandler,
+      );
       this.mouseleaveHandler = null;
     }
   }

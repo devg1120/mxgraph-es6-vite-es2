@@ -1,6 +1,6 @@
-import { mxAnimation } from '@mxgraph/util/mxAnimation';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxCellStatePreview } from '@mxgraph/view/mxCellStatePreview';
+import { mxAnimation } from "@mxgraph/util/mxAnimation";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxCellStatePreview } from "@mxgraph/view/mxCellStatePreview";
 
 export class mxMorphing extends mxAnimation {
   step = 0;
@@ -43,7 +43,10 @@ export class mxMorphing extends mxAnimation {
     if (state != null) {
       delta = this.getDelta(state);
 
-      if (this.graph.getModel().isVertex(cell) && (delta.x != 0 || delta.y != 0)) {
+      if (
+        this.graph.getModel().isVertex(cell) &&
+        (delta.x != 0 || delta.y != 0)
+      ) {
         var translate = this.graph.view.getTranslate();
         var scale = this.graph.view.getScale();
         delta.x += translate.x * scale;
@@ -56,7 +59,11 @@ export class mxMorphing extends mxAnimation {
       var childCount = this.graph.getModel().getChildCount(cell);
 
       for (var i = 0; i < childCount; i++) {
-        this.animateCell(this.graph.getModel().getChildAt(cell, i), move, recurse);
+        this.animateCell(
+          this.graph.getModel().getChildAt(cell, i),
+          move,
+          recurse,
+        );
       }
     }
   }

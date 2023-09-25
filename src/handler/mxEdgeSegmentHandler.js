@@ -1,8 +1,8 @@
-import { mxElbowEdgeHandler } from '@mxgraph/handler/mxElbowEdgeHandler';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxPoint } from '@mxgraph/util/mxPoint';
+import { mxElbowEdgeHandler } from "@mxgraph/handler/mxElbowEdgeHandler";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxPoint } from "@mxgraph/util/mxPoint";
 
 export class mxEdgeSegmentHandler extends mxElbowEdgeHandler {
   constructor(state) {
@@ -18,12 +18,19 @@ export class mxEdgeSegmentHandler extends mxElbowEdgeHandler {
       if (
         pts.length == 2 ||
         (pts.length == 3 &&
-          ((Math.abs(pts[0].x - pts[1].x) < tol && Math.abs(pts[1].x - pts[2].x) < tol) ||
-            (Math.abs(pts[0].y - pts[1].y) < tol && Math.abs(pts[1].y - pts[2].y) < tol)))
+          ((Math.abs(pts[0].x - pts[1].x) < tol &&
+            Math.abs(pts[1].x - pts[2].x) < tol) ||
+            (Math.abs(pts[0].y - pts[1].y) < tol &&
+              Math.abs(pts[1].y - pts[2].y) < tol)))
       ) {
         var cx = pts[0].x + (pts[pts.length - 1].x - pts[0].x) / 2;
         var cy = pts[0].y + (pts[pts.length - 1].y - pts[0].y) / 2;
-        pts = [pts[0], new mxPoint(cx, cy), new mxPoint(cx, cy), pts[pts.length - 1]];
+        pts = [
+          pts[0],
+          new mxPoint(cx, cy),
+          new mxPoint(cx, cy),
+          pts[pts.length - 1],
+        ];
       }
     }
 
@@ -69,7 +76,10 @@ export class mxEdgeSegmentHandler extends mxElbowEdgeHandler {
         var x = result[0].x * scale + tr.x;
         var y = result[0].y * scale + tr.y;
 
-        if ((source != null && mxUtils.contains(source, x, y)) || (target != null && mxUtils.contains(target, x, y))) {
+        if (
+          (source != null && mxUtils.contains(source, x, y)) ||
+          (target != null && mxUtils.contains(target, x, y))
+        ) {
           result = [point, point];
         }
       }
@@ -108,7 +118,8 @@ export class mxEdgeSegmentHandler extends mxElbowEdgeHandler {
 
       if (
         result.length == 0 &&
-        (Math.round(pts[0].x - pts[pts.length - 1].x) == 0 || Math.round(pts[0].y - pts[pts.length - 1].y) == 0)
+        (Math.round(pts[0].x - pts[pts.length - 1].x) == 0 ||
+          Math.round(pts[0].y - pts[pts.length - 1].y) == 0)
       ) {
         result = [point, point];
       } else if (
@@ -210,7 +221,12 @@ export class mxEdgeSegmentHandler extends mxElbowEdgeHandler {
   start(x, y, index) {
     super.start(x, y, index);
 
-    if (this.bends != null && this.bends[index] != null && !this.isSource && !this.isTarget) {
+    if (
+      this.bends != null &&
+      this.bends[index] != null &&
+      !this.isSource &&
+      !this.isTarget
+    ) {
       mxUtils.setOpacity(this.bends[index].node, 100);
     }
   }
@@ -237,7 +253,7 @@ export class mxEdgeSegmentHandler extends mxElbowEdgeHandler {
           horizontal = Math.round(pts[i].x - pts[i + 2].x) == 0;
         }
 
-        bend.setCursor(horizontal ? 'col-resize' : 'row-resize');
+        bend.setCursor(horizontal ? "col-resize" : "row-resize");
         this.points.push(new mxPoint(0, 0));
       }
     }
@@ -261,7 +277,11 @@ export class mxEdgeSegmentHandler extends mxElbowEdgeHandler {
       if (pts != null && pts.length > 1) {
         var straight = false;
 
-        if (pts.length == 4 && Math.round(pts[1].x - pts[2].x) == 0 && Math.round(pts[1].y - pts[2].y) == 0) {
+        if (
+          pts.length == 4 &&
+          Math.round(pts[1].x - pts[2].x) == 0 &&
+          Math.round(pts[1].y - pts[2].y) == 0
+        ) {
           straight = true;
 
           if (Math.round(pts[0].y - pts[pts.length - 1].y) == 0) {
@@ -279,13 +299,16 @@ export class mxEdgeSegmentHandler extends mxElbowEdgeHandler {
           if (this.bends[i + 1] != null) {
             var p0 = pts[i];
             var pe = pts[i + 1];
-            var pt = new mxPoint(p0.x + (pe.x - p0.x) / 2, p0.y + (pe.y - p0.y) / 2);
+            var pt = new mxPoint(
+              p0.x + (pe.x - p0.x) / 2,
+              p0.y + (pe.y - p0.y) / 2,
+            );
             var b = this.bends[i + 1].bounds;
             this.bends[i + 1].bounds = new mxRectangle(
               Math.floor(pt.x - b.width / 2),
               Math.floor(pt.y - b.height / 2),
               b.width,
-              b.height
+              b.height,
             );
             this.bends[i + 1].redraw();
 

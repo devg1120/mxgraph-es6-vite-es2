@@ -1,13 +1,13 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxStyleChange } from '@mxgraph/model/changes/mxStyleChange';
-import { mxVisibleChange } from '@mxgraph/model/changes/mxVisibleChange';
-import { mxGeometryChange } from '@mxgraph/model/changes/mxGeometryChange';
-import { mxTerminalChange } from '@mxgraph/model/changes/mxTerminalChange';
-import { mxChildChange } from '@mxgraph/model/changes/mxChildChange';
-import { mxRootChange } from '@mxgraph/model/changes/mxRootChange';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxStyleChange } from "@mxgraph/model/changes/mxStyleChange";
+import { mxVisibleChange } from "@mxgraph/model/changes/mxVisibleChange";
+import { mxGeometryChange } from "@mxgraph/model/changes/mxGeometryChange";
+import { mxTerminalChange } from "@mxgraph/model/changes/mxTerminalChange";
+import { mxChildChange } from "@mxgraph/model/changes/mxChildChange";
+import { mxRootChange } from "@mxgraph/model/changes/mxRootChange";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxLayoutManager extends mxEventSource {
   graph = null;
@@ -19,19 +19,23 @@ export class mxLayoutManager extends mxEventSource {
 
     this.undoHandler = (sender, evt) => {
       if (this.isEnabled()) {
-        this.beforeUndo(evt.getProperty('edit'));
+        this.beforeUndo(evt.getProperty("edit"));
       }
     };
 
     this.moveHandler = (sender, evt) => {
       if (this.isEnabled()) {
-        this.cellsMoved(evt.getProperty('cells'), evt.getProperty('event'));
+        this.cellsMoved(evt.getProperty("cells"), evt.getProperty("event"));
       }
     };
 
     this.resizeHandler = (sender, evt) => {
       if (this.isEnabled()) {
-        this.cellsResized(evt.getProperty('cells'), evt.getProperty('bounds'), evt.getProperty('previous'));
+        this.cellsResized(
+          evt.getProperty("cells"),
+          evt.getProperty("bounds"),
+          evt.getProperty("previous"),
+        );
       }
     };
 
@@ -90,7 +94,11 @@ export class mxLayoutManager extends mxEventSource {
 
   cellsMoved(cells, evt) {
     if (cells != null && evt != null) {
-      var point = mxUtils.convertPoint(this.getGraph().container, mxEvent.getClientX(evt), mxEvent.getClientY(evt));
+      var point = mxUtils.convertPoint(
+        this.getGraph().container,
+        mxEvent.getClientX(evt),
+        mxEvent.getClientY(evt),
+      );
 
       for (var i = 0; i < cells.length; i++) {
         var layout = this.getAncestorLayout(cells[i], mxEvent.MOVE_CELLS);
@@ -148,10 +156,19 @@ export class mxLayoutManager extends mxEventSource {
 
   getCellsForChange(change) {
     if (change instanceof mxChildChange) {
-      return this.addCellsWithLayout(change.child, this.addCellsWithLayout(change.previous));
-    } else if (change instanceof mxTerminalChange || change instanceof mxGeometryChange) {
+      return this.addCellsWithLayout(
+        change.child,
+        this.addCellsWithLayout(change.previous),
+      );
+    } else if (
+      change instanceof mxTerminalChange ||
+      change instanceof mxGeometryChange
+    ) {
       return this.addCellsWithLayout(change.cell);
-    } else if (change instanceof mxVisibleChange || change instanceof mxStyleChange) {
+    } else if (
+      change instanceof mxVisibleChange ||
+      change instanceof mxStyleChange
+    ) {
       return this.addCellsWithLayout(change.cell);
     }
 
@@ -159,7 +176,10 @@ export class mxLayoutManager extends mxEventSource {
   }
 
   addCellsWithLayout(cell, result) {
-    return this.addDescendantsWithLayout(cell, this.addAncestorsWithLayout(cell, result));
+    return this.addDescendantsWithLayout(
+      cell,
+      this.addAncestorsWithLayout(cell, result),
+    );
   }
 
   addAncestorsWithLayout(cell, result) {
@@ -221,7 +241,7 @@ export class mxLayoutManager extends mxEventSource {
           }
         }
 
-        this.fireEvent(new mxEventObject(mxEvent.LAYOUT_CELLS, 'cells', cells));
+        this.fireEvent(new mxEventObject(mxEvent.LAYOUT_CELLS, "cells", cells));
       } finally {
         model.endUpdate();
       }
@@ -229,7 +249,10 @@ export class mxLayoutManager extends mxEventSource {
   }
 
   executeLayout(cell, bubble) {
-    var layout = this.getLayout(cell, bubble ? mxEvent.BEGIN_UPDATE : mxEvent.END_UPDATE);
+    var layout = this.getLayout(
+      cell,
+      bubble ? mxEvent.BEGIN_UPDATE : mxEvent.END_UPDATE,
+    );
 
     if (layout != null) {
       layout.execute(cell);

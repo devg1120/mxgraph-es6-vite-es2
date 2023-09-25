@@ -1,11 +1,11 @@
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxCellHighlight } from '@mxgraph/handler/mxCellHighlight';
-import { mxGuide } from '@mxgraph/util/mxGuide';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxCellHighlight } from "@mxgraph/handler/mxCellHighlight";
+import { mxGuide } from "@mxgraph/util/mxGuide";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxDragSource {
   dragOffset = null;
@@ -31,13 +31,13 @@ export class mxDragSource {
     mxEvent.addGestureListeners(element, (evt) => {
       this.mouseDown(evt);
     });
-    mxEvent.addListener(element, 'dragstart', function (evt) {
+    mxEvent.addListener(element, "dragstart", function (evt) {
       mxEvent.consume(evt);
     });
 
     this.eventConsumer = function (sender, evt) {
-      var evtName = evt.getProperty('eventName');
-      var me = evt.getProperty('event');
+      var evtName = evt.getProperty("eventName");
+      var me = evt.getProperty("event");
 
       if (evtName != mxEvent.MOUSE_DOWN) {
         me.consume();
@@ -101,27 +101,41 @@ export class mxDragSource {
   }
 
   mouseDown(evt) {
-    if (this.enabled && !mxEvent.isConsumed(evt) && this.mouseMoveHandler == null) {
+    if (
+      this.enabled &&
+      !mxEvent.isConsumed(evt) &&
+      this.mouseMoveHandler == null
+    ) {
       this.startDrag(evt);
       this.mouseMoveHandler = mxUtils.bind(this, this.mouseMove);
       this.mouseUpHandler = mxUtils.bind(this, this.mouseUp);
-      mxEvent.addGestureListeners(document, null, this.mouseMoveHandler, this.mouseUpHandler);
+      mxEvent.addGestureListeners(
+        document,
+        null,
+        this.mouseMoveHandler,
+        this.mouseUpHandler,
+      );
 
       if (mxClient.IS_TOUCH && !mxEvent.isMouseEvent(evt)) {
         this.eventSource = mxEvent.getSource(evt);
-        mxEvent.addGestureListeners(this.eventSource, null, this.mouseMoveHandler, this.mouseUpHandler);
+        mxEvent.addGestureListeners(
+          this.eventSource,
+          null,
+          this.mouseMoveHandler,
+          this.mouseUpHandler,
+        );
       }
     }
   }
 
   startDrag(evt) {
     this.dragElement = this.createDragElement(evt);
-    this.dragElement.style.position = 'absolute';
+    this.dragElement.style.position = "absolute";
     this.dragElement.style.zIndex = this.dragElementZIndex;
     mxUtils.setOpacity(this.dragElement, this.dragElementOpacity);
 
     if (this.checkEventSource && mxClient.IS_SVG) {
-      this.dragElement.style.pointerEvents = 'none';
+      this.dragElement.style.pointerEvents = "none";
     }
   }
 
@@ -141,7 +155,10 @@ export class mxDragSource {
 
   getElementForEvent(evt) {
     return mxEvent.isTouchEvent(evt) || mxEvent.isPenEvent(evt)
-      ? document.elementFromPoint(mxEvent.getClientX(evt), mxEvent.getClientY(evt))
+      ? document.elementFromPoint(
+          mxEvent.getClientX(evt),
+          mxEvent.getClientY(evt),
+        )
       : mxEvent.getSource(evt);
   }
 
@@ -192,7 +209,8 @@ export class mxDragSource {
 
     if (
       this.dragElement != null &&
-      (this.previewElement == null || this.previewElement.style.visibility != 'visible')
+      (this.previewElement == null ||
+        this.previewElement.style.visibility != "visible")
     ) {
       var x = mxEvent.getClientX(evt);
       var y = mxEvent.getClientY(evt);
@@ -201,7 +219,7 @@ export class mxDragSource {
         document.body.appendChild(this.dragElement);
       }
 
-      this.dragElement.style.visibility = 'visible';
+      this.dragElement.style.visibility = "visible";
 
       if (this.dragOffset != null) {
         x += this.dragOffset.x;
@@ -209,10 +227,10 @@ export class mxDragSource {
       }
 
       var offset = mxUtils.getDocumentScrollOrigin(document);
-      this.dragElement.style.left = x + offset.x + 'px';
-      this.dragElement.style.top = y + offset.y + 'px';
+      this.dragElement.style.left = x + offset.x + "px";
+      this.dragElement.style.top = y + offset.y + "px";
     } else if (this.dragElement != null) {
-      this.dragElement.style.visibility = 'hidden';
+      this.dragElement.style.visibility = "hidden";
     }
 
     mxEvent.consume(evt);
@@ -222,7 +240,8 @@ export class mxDragSource {
     if (this.currentGraph != null) {
       if (
         this.currentPoint != null &&
-        (this.previewElement == null || this.previewElement.style.visibility != 'hidden')
+        (this.previewElement == null ||
+          this.previewElement.style.visibility != "hidden")
       ) {
         var scale = this.currentGraph.view.scale;
         var tr = this.currentGraph.view.translate;
@@ -242,11 +261,21 @@ export class mxDragSource {
 
   removeListeners() {
     if (this.eventSource != null) {
-      mxEvent.removeGestureListeners(this.eventSource, null, this.mouseMoveHandler, this.mouseUpHandler);
+      mxEvent.removeGestureListeners(
+        this.eventSource,
+        null,
+        this.mouseMoveHandler,
+        this.mouseUpHandler,
+      );
       this.eventSource = null;
     }
 
-    mxEvent.removeGestureListeners(document, null, this.mouseMoveHandler, this.mouseUpHandler);
+    mxEvent.removeGestureListeners(
+      document,
+      null,
+      this.mouseMoveHandler,
+      this.mouseUpHandler,
+    );
     this.mouseMoveHandler = null;
     this.mouseUpHandler = null;
   }
@@ -256,16 +285,26 @@ export class mxDragSource {
     graph.isMouseTrigger = mxEvent.isMouseEvent(evt);
     this.previewElement = this.createPreviewElement(graph);
 
-    if (this.previewElement != null && this.checkEventSource && mxClient.IS_SVG) {
-      this.previewElement.style.pointerEvents = 'none';
+    if (
+      this.previewElement != null &&
+      this.checkEventSource &&
+      mxClient.IS_SVG
+    ) {
+      this.previewElement.style.pointerEvents = "none";
     }
 
     if (this.isGuidesEnabled() && this.previewElement != null) {
-      this.currentGuide = new mxGuide(graph, graph.graphHandler.getGuideStates());
+      this.currentGuide = new mxGuide(
+        graph,
+        graph.graphHandler.getGuideStates(),
+      );
     }
 
     if (this.highlightDropTargets) {
-      this.currentHighlight = new mxCellHighlight(graph, mxConstants.DROP_TARGET_COLOR);
+      this.currentHighlight = new mxCellHighlight(
+        graph,
+        mxConstants.DROP_TARGET_COLOR,
+      );
     }
 
     graph.addListener(mxEvent.FIRE_MOUSE_EVENT, this.eventConsumer);
@@ -315,14 +354,17 @@ export class mxDragSource {
     if (this.previewElement != null) {
       if (this.previewElement.parentNode == null) {
         graph.container.appendChild(this.previewElement);
-        this.previewElement.style.zIndex = '3';
-        this.previewElement.style.position = 'absolute';
+        this.previewElement.style.zIndex = "3";
+        this.previewElement.style.position = "absolute";
       }
 
       var gridEnabled = this.isGridEnabled() && graph.isGridEnabledEvent(evt);
       var hideGuide = true;
 
-      if (this.currentGuide != null && this.currentGuide.isEnabledForEvent(evt)) {
+      if (
+        this.currentGuide != null &&
+        this.currentGuide.isEnabledForEvent(evt)
+      ) {
         var w = parseInt(this.previewElement.style.width);
         var h = parseInt(this.previewElement.style.height);
         var bounds = new mxRectangle(0, 0, w, h);
@@ -348,9 +390,9 @@ export class mxDragSource {
         y += this.previewOffset.y;
       }
 
-      this.previewElement.style.left = Math.round(x) + 'px';
-      this.previewElement.style.top = Math.round(y) + 'px';
-      this.previewElement.style.visibility = 'visible';
+      this.previewElement.style.left = Math.round(x) + "px";
+      this.previewElement.style.top = Math.round(y) + "px";
+      this.previewElement.style.visibility = "visible";
     }
 
     this.currentPoint = new mxPoint(x, y);
@@ -359,7 +401,7 @@ export class mxDragSource {
   drop(graph, evt, dropTarget, x, y) {
     this.dropHandler.apply(this, arguments);
 
-    if (graph.container.style.visibility != 'hidden') {
+    if (graph.container.style.visibility != "hidden") {
       graph.container.focus();
     }
   }

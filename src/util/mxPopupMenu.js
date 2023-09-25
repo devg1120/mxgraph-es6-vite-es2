@@ -1,11 +1,11 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxClient } from '@mxgraph/mxClient';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxPopupMenu extends mxEventSource {
-  submenuImage = mxClient.imageBasePath + '/submenu.gif';
+  submenuImage = mxClient.imageBasePath + "/submenu.gif";
   zIndex = 10006;
   useLeftButtonForPopup = false;
   enabled = true;
@@ -24,13 +24,13 @@ export class mxPopupMenu extends mxEventSource {
   }
 
   init() {
-    this.table = document.createElement('table');
-    this.table.className = 'mxPopupMenu';
-    this.tbody = document.createElement('tbody');
+    this.table = document.createElement("table");
+    this.table.className = "mxPopupMenu";
+    this.tbody = document.createElement("tbody");
     this.table.appendChild(this.tbody);
-    this.div = document.createElement('div');
-    this.div.className = 'mxPopupMenu';
-    this.div.style.display = 'inline';
+    this.div = document.createElement("div");
+    this.div.className = "mxPopupMenu";
+    this.div.style.display = "inline";
     this.div.style.zIndex = this.zIndex;
     this.div.appendChild(this.table);
     mxEvent.disableContextMenu(this.div);
@@ -45,7 +45,10 @@ export class mxPopupMenu extends mxEventSource {
   }
 
   isPopupTrigger(me) {
-    return me.isPopupTrigger() || (this.useLeftButtonForPopup && mxEvent.isLeftMouseButton(me.getEvent()));
+    return (
+      me.isPopupTrigger() ||
+      (this.useLeftButtonForPopup && mxEvent.isLeftMouseButton(me.getEvent()))
+    );
   }
 
   addItem(title, image, funct, parent, iconCls, enabled, active, noHover) {
@@ -61,17 +64,17 @@ export class mxPopupMenu extends mxEventSource {
     }
 
     parent.containsItems = true;
-    var tr = document.createElement('tr');
-    tr.className = 'mxPopupMenuItem';
-    var col1 = document.createElement('td');
-    col1.className = 'mxPopupMenuIcon';
+    var tr = document.createElement("tr");
+    tr.className = "mxPopupMenuItem";
+    var col1 = document.createElement("td");
+    col1.className = "mxPopupMenuIcon";
 
     if (image != null) {
-      var img = document.createElement('img');
+      var img = document.createElement("img");
       img.src = image;
       col1.appendChild(img);
     } else if (iconCls != null) {
-      var div = document.createElement('div');
+      var div = document.createElement("div");
       div.className = iconCls;
       col1.appendChild(div);
     }
@@ -79,15 +82,17 @@ export class mxPopupMenu extends mxEventSource {
     tr.appendChild(col1);
 
     if (this.labels) {
-      var col2 = document.createElement('td');
-      col2.className = 'mxPopupMenuItem' + (enabled != null && !enabled ? ' mxDisabled' : '');
+      var col2 = document.createElement("td");
+      col2.className =
+        "mxPopupMenuItem" + (enabled != null && !enabled ? " mxDisabled" : "");
       mxUtils.write(col2, title);
-      col2.align = 'left';
+      col2.align = "left";
       tr.appendChild(col2);
-      var col3 = document.createElement('td');
-      col3.className = 'mxPopupMenuItem' + (enabled != null && !enabled ? ' mxDisabled' : '');
-      col3.style.paddingRight = '6px';
-      col3.style.textAlign = 'right';
+      var col3 = document.createElement("td");
+      col3.className =
+        "mxPopupMenuItem" + (enabled != null && !enabled ? " mxDisabled" : "");
+      col3.style.paddingRight = "6px";
+      col3.style.textAlign = "right";
       tr.appendChild(col3);
 
       if (parent.div == null) {
@@ -105,7 +110,10 @@ export class mxPopupMenu extends mxEventSource {
           this.eventReceiver = tr;
 
           if (parent.activeRow != tr && parent.activeRow != parent) {
-            if (parent.activeRow != null && parent.activeRow.div.parentNode != null) {
+            if (
+              parent.activeRow != null &&
+              parent.activeRow.div.parentNode != null
+            ) {
               this.hideSubmenu(parent);
             }
 
@@ -115,7 +123,10 @@ export class mxPopupMenu extends mxEventSource {
             }
           }
 
-          if (document.selection != null && (mxClient.IS_QUIRKS || document.documentMode == 8)) {
+          if (
+            document.selection != null &&
+            (mxClient.IS_QUIRKS || document.documentMode == 8)
+          ) {
             currentSelection = document.selection.createRange();
           }
 
@@ -123,7 +134,10 @@ export class mxPopupMenu extends mxEventSource {
         },
         (evt) => {
           if (parent.activeRow != tr && parent.activeRow != parent) {
-            if (parent.activeRow != null && parent.activeRow.div.parentNode != null) {
+            if (
+              parent.activeRow != null &&
+              parent.activeRow.div.parentNode != null
+            ) {
               this.hideSubmenu(parent);
             }
 
@@ -134,7 +148,7 @@ export class mxPopupMenu extends mxEventSource {
           }
 
           if (!noHover) {
-            tr.className = 'mxPopupMenuItemHover';
+            tr.className = "mxPopupMenuItemHover";
           }
         },
         (evt) => {
@@ -160,12 +174,12 @@ export class mxPopupMenu extends mxEventSource {
 
           this.eventReceiver = null;
           mxEvent.consume(evt);
-        }
+        },
       );
 
       if (!noHover) {
-        mxEvent.addListener(tr, 'mouseout', (evt) => {
-          tr.className = 'mxPopupMenuItem';
+        mxEvent.addListener(tr, "mouseout", (evt) => {
+          tr.className = "mxPopupMenuItem";
         });
       }
     }
@@ -176,31 +190,32 @@ export class mxPopupMenu extends mxEventSource {
   addCheckmark(item, img) {
     var td = item.firstChild.nextSibling;
     td.style.backgroundImage = "url('" + img + "')";
-    td.style.backgroundRepeat = 'no-repeat';
-    td.style.backgroundPosition = '2px 50%';
+    td.style.backgroundRepeat = "no-repeat";
+    td.style.backgroundPosition = "2px 50%";
   }
 
   createSubmenu(parent) {
-    parent.table = document.createElement('table');
-    parent.table.className = 'mxPopupMenu';
-    parent.tbody = document.createElement('tbody');
+    parent.table = document.createElement("table");
+    parent.table.className = "mxPopupMenu";
+    parent.tbody = document.createElement("tbody");
     parent.table.appendChild(parent.tbody);
-    parent.div = document.createElement('div');
-    parent.div.className = 'mxPopupMenu';
-    parent.div.style.position = 'absolute';
-    parent.div.style.display = 'inline';
+    parent.div = document.createElement("div");
+    parent.div.className = "mxPopupMenu";
+    parent.div.style.position = "absolute";
+    parent.div.style.display = "inline";
     parent.div.style.zIndex = this.zIndex;
     parent.div.appendChild(parent.table);
-    var img = document.createElement('img');
-    img.setAttribute('src', this.submenuImage);
+    var img = document.createElement("img");
+    img.setAttribute("src", this.submenuImage);
     var td = parent.firstChild.nextSibling.nextSibling;
     td.appendChild(img);
   }
 
   showSubmenu(parent, row) {
     if (row.div != null) {
-      row.div.style.left = parent.div.offsetLeft + row.offsetLeft + row.offsetWidth - 1 + 'px';
-      row.div.style.top = parent.div.offsetTop + row.offsetTop + 'px';
+      row.div.style.left =
+        parent.div.offsetLeft + row.offsetLeft + row.offsetWidth - 1 + "px";
+      row.div.style.top = parent.div.offsetTop + row.offsetTop + "px";
       document.body.appendChild(row.div);
       var left = parseInt(row.div.offsetLeft);
       var width = parseInt(row.div.offsetWidth);
@@ -210,7 +225,8 @@ export class mxPopupMenu extends mxEventSource {
       var right = offset.x + (b.clientWidth || d.clientWidth);
 
       if (left + width > right) {
-        row.div.style.left = Math.max(0, parent.div.offsetLeft - width + -6) + 'px';
+        row.div.style.left =
+          Math.max(0, parent.div.offsetLeft - width + -6) + "px";
       }
 
       mxUtils.fit(row.div);
@@ -224,16 +240,16 @@ export class mxPopupMenu extends mxEventSource {
       parent.willAddSeparator = true;
     } else if (parent.tbody != null) {
       parent.willAddSeparator = false;
-      var tr = document.createElement('tr');
-      var col1 = document.createElement('td');
-      col1.className = 'mxPopupMenuIcon';
-      col1.style.padding = '0 0 0 0px';
+      var tr = document.createElement("tr");
+      var col1 = document.createElement("td");
+      col1.className = "mxPopupMenuIcon";
+      col1.style.padding = "0 0 0 0px";
       tr.appendChild(col1);
-      var col2 = document.createElement('td');
-      col2.style.padding = '0 0 0 0px';
-      col2.setAttribute('colSpan', '2');
-      var hr = document.createElement('hr');
-      hr.setAttribute('size', '1');
+      var col2 = document.createElement("td");
+      col2.style.padding = "0 0 0 0px";
+      col2.setAttribute("colSpan", "2");
+      var hr = document.createElement("hr");
+      hr.setAttribute("size", "1");
       col2.appendChild(hr);
       tr.appendChild(col2);
       parent.tbody.appendChild(tr);
@@ -242,8 +258,8 @@ export class mxPopupMenu extends mxEventSource {
 
   popup(x, y, cell, evt) {
     if (this.div != null && this.tbody != null && this.factoryMethod != null) {
-      this.div.style.left = x + 'px';
-      this.div.style.top = y + 'px';
+      this.div.style.left = x + "px";
+      this.div.style.top = y + "px";
 
       while (this.tbody.firstChild != null) {
         mxEvent.release(this.tbody.firstChild);
@@ -266,7 +282,7 @@ export class mxPopupMenu extends mxEventSource {
 
   showMenu() {
     if (document.documentMode >= 9) {
-      this.div.style.filter = 'none';
+      this.div.style.filter = "none";
     }
 
     document.body.appendChild(this.div);

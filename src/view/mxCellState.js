@@ -1,5 +1,5 @@
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxPoint } from '@mxgraph/util/mxPoint';
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxPoint } from "@mxgraph/util/mxPoint";
 
 export class mxCellState extends mxRectangle {
   invalidStyle = false;
@@ -26,10 +26,23 @@ export class mxCellState extends mxRectangle {
 
   getPerimeterBounds(border, bounds) {
     border = border || 0;
-    bounds = bounds != null ? bounds : new mxRectangle(this.x, this.y, this.width, this.height);
+    bounds =
+      bounds != null
+        ? bounds
+        : new mxRectangle(this.x, this.y, this.width, this.height);
 
-    if (this.shape != null && this.shape.stencil != null && this.shape.stencil.aspect == 'fixed') {
-      var aspect = this.shape.stencil.computeAspect(this.style, bounds.x, bounds.y, bounds.width, bounds.height);
+    if (
+      this.shape != null &&
+      this.shape.stencil != null &&
+      this.shape.stencil.aspect == "fixed"
+    ) {
+      var aspect = this.shape.stencil.computeAspect(
+        this.style,
+        bounds.x,
+        bounds.y,
+        bounds.width,
+        bounds.height,
+      );
       bounds.x = aspect.x;
       bounds.y = aspect.y;
       bounds.width = this.shape.stencil.w0 * aspect.width;
@@ -105,7 +118,12 @@ export class mxCellState extends mxRectangle {
   updateCachedBounds() {
     var tr = this.view.translate;
     var s = this.view.scale;
-    this.cellBounds = new mxRectangle(this.x / s - tr.x, this.y / s - tr.y, this.width / s, this.height / s);
+    this.cellBounds = new mxRectangle(
+      this.x / s - tr.x,
+      this.y / s - tr.y,
+      this.width / s,
+      this.height / s,
+    );
     this.paintBounds = mxRectangle.fromRectangle(this.cellBounds);
 
     if (this.shape != null && this.shape.isPaintBoundsInverted()) {

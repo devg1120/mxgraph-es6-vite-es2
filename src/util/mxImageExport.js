@@ -1,4 +1,4 @@
-import { mxShape } from '@mxgraph/shape/mxShape';
+import { mxShape } from "@mxgraph/shape/mxShape";
 
 export class mxImageExport {
   includeOverlays = false;
@@ -26,7 +26,9 @@ export class mxImageExport {
       var childCount = graph.model.getChildCount(state.cell);
 
       for (var i = 0; i < childCount; i++) {
-        var childState = graph.view.getState(graph.model.getChildAt(state.cell, i));
+        var childState = graph.view.getState(
+          graph.model.getChildAt(state.cell, i),
+        );
         this.visitStatesRecursive(childState, canvas, visitor);
       }
     }

@@ -1,9 +1,9 @@
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxMouseEvent } from '@mxgraph/util/mxMouseEvent';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxMouseEvent } from "@mxgraph/util/mxMouseEvent";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxRubberband {
   defaultOpacity = 20;
@@ -20,8 +20,8 @@ export class mxRubberband {
       this.graph.addMouseListener(this);
 
       this.forceRubberbandHandler = (sender, evt) => {
-        var evtName = evt.getProperty('eventName');
-        var me = evt.getProperty('event');
+        var evtName = evt.getProperty("eventName");
+        var me = evt.getProperty("event");
 
         if (evtName == mxEvent.MOUSE_DOWN && this.isForceRubberbandEvent(me)) {
           var offset = mxUtils.getOffset(this.graph.container);
@@ -33,7 +33,10 @@ export class mxRubberband {
         }
       };
 
-      this.graph.addListener(mxEvent.FIRE_MOUSE_EVENT, this.forceRubberbandHandler);
+      this.graph.addListener(
+        mxEvent.FIRE_MOUSE_EVENT,
+        this.forceRubberbandHandler,
+      );
 
       this.panHandler = () => {
         this.repaint();
@@ -101,7 +104,12 @@ export class mxRubberband {
     };
 
     if (mxClient.IS_FF) {
-      mxEvent.addGestureListeners(document, null, this.dragHandler, this.dropHandler);
+      mxEvent.addGestureListeners(
+        document,
+        null,
+        this.dragHandler,
+        this.dropHandler,
+      );
     }
   }
 
@@ -131,8 +139,8 @@ export class mxRubberband {
 
   createShape() {
     if (this.sharedDiv == null) {
-      this.sharedDiv = document.createElement('div');
-      this.sharedDiv.className = 'mxRubberband';
+      this.sharedDiv = document.createElement("div");
+      this.sharedDiv.className = "mxRubberband";
       mxUtils.setOpacity(this.sharedDiv, this.defaultOpacity);
     }
 
@@ -147,7 +155,7 @@ export class mxRubberband {
   }
 
   isActive(sender, me) {
-    return this.div != null && this.div.style.display != 'none';
+    return this.div != null && this.div.style.display != "none";
   }
 
   mouseUp(sender, me) {
@@ -169,8 +177,8 @@ export class mxRubberband {
     if (this.div != null) {
       if (mxClient.IS_SVG && document.documentMode >= 10 && this.fadeOut) {
         var temp = this.div;
-        mxUtils.setPrefixedStyle(temp.style, 'transition', 'all 0.2s linear');
-        temp.style.pointerEvents = 'none';
+        mxUtils.setPrefixedStyle(temp.style, "transition", "all 0.2s linear");
+        temp.style.pointerEvents = "none";
         temp.style.opacity = 0;
         window.setTimeout(function () {
           temp.parentNode.removeChild(temp);
@@ -180,7 +188,12 @@ export class mxRubberband {
       }
     }
 
-    mxEvent.removeGestureListeners(document, null, this.dragHandler, this.dropHandler);
+    mxEvent.removeGestureListeners(
+      document,
+      null,
+      this.dragHandler,
+      this.dropHandler,
+    );
     this.dragHandler = null;
     this.dropHandler = null;
     this.currentX = 0;
@@ -205,10 +218,10 @@ export class mxRubberband {
       this.height = Math.max(this.first.y, y) - this.y;
       var dx = 0;
       var dy = 0;
-      this.div.style.left = this.x + dx + 'px';
-      this.div.style.top = this.y + dy + 'px';
-      this.div.style.width = Math.max(1, this.width) + 'px';
-      this.div.style.height = Math.max(1, this.height) + 'px';
+      this.div.style.left = this.x + dx + "px";
+      this.div.style.top = this.y + dy + "px";
+      this.div.style.width = Math.max(1, this.width) + "px";
+      this.div.style.height = Math.max(1, this.height) + "px";
     }
   }
 

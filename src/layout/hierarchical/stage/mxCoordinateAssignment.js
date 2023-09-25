@@ -1,10 +1,10 @@
-import { mxHierarchicalLayoutStage } from '@mxgraph/layout/hierarchical/stage/mxHierarchicalLayoutStage';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxHierarchicalEdgeStyle } from '@mxgraph/layout/hierarchical/mxHierarchicalEdgeStyle';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { WeightedCellSorter } from '@mxgraph/layout/WeightedCellSorter';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
-import { mxLog } from '@mxgraph/util/mxLog';
+import { mxHierarchicalLayoutStage } from "@mxgraph/layout/hierarchical/stage/mxHierarchicalLayoutStage";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxHierarchicalEdgeStyle } from "@mxgraph/layout/hierarchical/mxHierarchicalEdgeStyle";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { WeightedCellSorter } from "@mxgraph/layout/WeightedCellSorter";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
+import { mxLog } from "@mxgraph/util/mxLog";
 export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
   maxIterations = 8;
   prefHozEdgeSep = 5;
@@ -25,7 +25,14 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
   previousLayerConnectedCache = null;
   groupPadding = 10;
 
-  constructor(layout, intraCellSpacing, interRankCellSpacing, orientation, initialX, parallelEdgeSpacing) {
+  constructor(
+    layout,
+    intraCellSpacing,
+    interRankCellSpacing,
+    orientation,
+    initialX,
+    parallelEdgeSpacing,
+  ) {
     super();
     this.layout = layout;
     this.intraCellSpacing = intraCellSpacing;
@@ -38,21 +45,21 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
   printStatus() {
     var model = this.layout.getModel();
     mxLog.show();
-    mxLog.writeln('======Coord assignment debug=======');
+    mxLog.writeln("======Coord assignment debug=======");
 
     for (var j = 0; j < model.ranks.length; j++) {
-      mxLog.write('Rank ', j, ' : ');
+      mxLog.write("Rank ", j, " : ");
       var rank = model.ranks[j];
 
       for (var k = 0; k < rank.length; k++) {
         var cell = rank[k];
-        mxLog.write(cell.getGeneralPurposeVariable(j), '  ');
+        mxLog.write(cell.getGeneralPurposeVariable(j), "  ");
       }
 
       mxLog.writeln();
     }
 
-    mxLog.writeln('====================================');
+    mxLog.writeln("====================================");
   }
 
   execute(parent) {
@@ -132,18 +139,27 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
       var rankValue = cellWrapper.weightedValue;
       var rankIndex = parseInt(cellWrapper.rankIndex);
       var nextLayerConnectedCells = cell.getNextLayerConnectedCells(rankValue);
-      var previousLayerConnectedCells = cell.getPreviousLayerConnectedCells(rankValue);
+      var previousLayerConnectedCells =
+        cell.getPreviousLayerConnectedCells(rankValue);
       var numNextLayerConnected = nextLayerConnectedCells.length;
       var numPreviousLayerConnected = previousLayerConnectedCells.length;
-      var medianNextLevel = this.medianXValue(nextLayerConnectedCells, rankValue + 1);
-      var medianPreviousLevel = this.medianXValue(previousLayerConnectedCells, rankValue - 1);
-      var numConnectedNeighbours = numNextLayerConnected + numPreviousLayerConnected;
+      var medianNextLevel = this.medianXValue(
+        nextLayerConnectedCells,
+        rankValue + 1,
+      );
+      var medianPreviousLevel = this.medianXValue(
+        previousLayerConnectedCells,
+        rankValue - 1,
+      );
+      var numConnectedNeighbours =
+        numNextLayerConnected + numPreviousLayerConnected;
       var currentPosition = cell.getGeneralPurposeVariable(rankValue);
       var cellMedian = currentPosition;
 
       if (numConnectedNeighbours > 0) {
         cellMedian =
-          (medianNextLevel * numNextLayerConnected + medianPreviousLevel * numPreviousLayerConnected) /
+          (medianNextLevel * numNextLayerConnected +
+            medianPreviousLevel * numPreviousLayerConnected) /
           numConnectedNeighbours;
       }
 
@@ -156,12 +172,19 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
         } else {
           var leftCell = rank[rankValue][rankIndex - 1];
           var leftLimit = leftCell.getGeneralPurposeVariable(rankValue);
-          leftLimit = leftLimit + leftCell.width / 2 + this.intraCellSpacing + cell.width / 2;
+          leftLimit =
+            leftLimit +
+            leftCell.width / 2 +
+            this.intraCellSpacing +
+            cell.width / 2;
 
           if (leftLimit < cellMedian) {
             cell.setGeneralPurposeVariable(rankValue, cellMedian);
             positionChanged = true;
-          } else if (leftLimit < cell.getGeneralPurposeVariable(rankValue) - tolerance) {
+          } else if (
+            leftLimit <
+            cell.getGeneralPurposeVariable(rankValue) - tolerance
+          ) {
             cell.setGeneralPurposeVariable(rankValue, leftLimit);
             positionChanged = true;
           }
@@ -175,12 +198,19 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
         } else {
           var rightCell = rank[rankValue][rankIndex + 1];
           var rightLimit = rightCell.getGeneralPurposeVariable(rankValue);
-          rightLimit = rightLimit - rightCell.width / 2 - this.intraCellSpacing - cell.width / 2;
+          rightLimit =
+            rightLimit -
+            rightCell.width / 2 -
+            this.intraCellSpacing -
+            cell.width / 2;
 
           if (rightLimit > cellMedian) {
             cell.setGeneralPurposeVariable(rankValue, cellMedian);
             positionChanged = true;
-          } else if (rightLimit > cell.getGeneralPurposeVariable(rankValue) + tolerance) {
+          } else if (
+            rightLimit >
+            cell.getGeneralPurposeVariable(rankValue) + tolerance
+          ) {
             cell.setGeneralPurposeVariable(rankValue, rightLimit);
             positionChanged = true;
           }
@@ -246,12 +276,17 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
       var nextLayerConnectedCells = null;
 
       if (nextRankValue < rankValue) {
-        nextLayerConnectedCells = currentCell.getPreviousLayerConnectedCells(rankValue);
+        nextLayerConnectedCells =
+          currentCell.getPreviousLayerConnectedCells(rankValue);
       } else {
-        nextLayerConnectedCells = currentCell.getNextLayerConnectedCells(rankValue);
+        nextLayerConnectedCells =
+          currentCell.getNextLayerConnectedCells(rankValue);
       }
 
-      weightedValues[i].weightedValue = this.calculatedWeightedValue(currentCell, nextLayerConnectedCells);
+      weightedValues[i].weightedValue = this.calculatedWeightedValue(
+        currentCell,
+        nextLayerConnectedCells,
+      );
     }
 
     weightedValues.sort(WeightedCellSorter.compare);
@@ -263,16 +298,23 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
       var medianNextLevel = 0;
 
       if (nextRankValue < rankValue) {
-        nextLayerConnectedCells = cell.getPreviousLayerConnectedCells(rankValue).slice();
+        nextLayerConnectedCells = cell
+          .getPreviousLayerConnectedCells(rankValue)
+          .slice();
       } else {
-        nextLayerConnectedCells = cell.getNextLayerConnectedCells(rankValue).slice();
+        nextLayerConnectedCells = cell
+          .getNextLayerConnectedCells(rankValue)
+          .slice();
       }
 
       if (nextLayerConnectedCells != null) {
         numConnectionsNextLevel = nextLayerConnectedCells.length;
 
         if (numConnectionsNextLevel > 0) {
-          medianNextLevel = this.medianXValue(nextLayerConnectedCells, nextRankValue);
+          medianNextLevel = this.medianXValue(
+            nextLayerConnectedCells,
+            nextRankValue,
+          );
         } else {
           medianNextLevel = cell.getGeneralPurposeVariable(rankValue);
         }
@@ -305,7 +347,11 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
       var rightBuffer = 0.0;
       var rightLimit = 100000000.0;
 
-      for (var j = weightedValues[i].rankIndex + 1; j < weightedValues.length; ) {
+      for (
+        var j = weightedValues[i].rankIndex + 1;
+        j < weightedValues.length;
+
+      ) {
         var weightedValue = cellMap[rank[j].id];
 
         if (weightedValue != null) {
@@ -402,7 +448,8 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
   rankCoordinates(rankValue, graph, model) {
     var rank = model.ranks[rankValue];
     var maxY = 0.0;
-    var localX = this.initialX + (this.widestRankValue - this.rankWidths[rankValue]) / 2;
+    var localX =
+      this.initialX + (this.widestRankValue - this.rankWidths[rankValue]) / 2;
     var boundsWarning = false;
 
     for (var i = 0; i < rank.length; i++) {
@@ -412,7 +459,10 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
         var bounds = this.layout.getVertexBounds(node.cell);
 
         if (bounds != null) {
-          if (this.orientation == mxConstants.DIRECTION_NORTH || this.orientation == mxConstants.DIRECTION_SOUTH) {
+          if (
+            this.orientation == mxConstants.DIRECTION_NORTH ||
+            this.orientation == mxConstants.DIRECTION_SOUTH
+          ) {
             node.width = bounds.width;
             node.height = bounds.height;
           } else {
@@ -430,7 +480,7 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
         if (node.edges != null) {
           numEdges = node.edges.length;
         } else {
-          mxLog.warn('edge.edges is null');
+          mxLog.warn("edge.edges is null");
         }
 
         node.width = (numEdges - 1) * this.parallelEdgeSpacing;
@@ -444,7 +494,7 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
     }
 
     if (boundsWarning == true) {
-      mxLog.warn('At least one cell has no bounds');
+      mxLog.warn("At least one cell has no bounds");
     }
   }
 
@@ -467,7 +517,10 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
           var bounds = this.layout.getVertexBounds(node.cell);
 
           if (bounds != null) {
-            if (this.orientation == mxConstants.DIRECTION_NORTH || this.orientation == mxConstants.DIRECTION_SOUTH) {
+            if (
+              this.orientation == mxConstants.DIRECTION_NORTH ||
+              this.orientation == mxConstants.DIRECTION_SOUTH
+            ) {
               node.width = bounds.width;
               node.height = bounds.height;
             } else {
@@ -485,7 +538,7 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
           if (node.edges != null) {
             numEdges = node.edges.length;
           } else {
-            mxLog.warn('edge.edges is null');
+            mxLog.warn("edge.edges is null");
           }
 
           node.width = (numEdges - 1) * this.parallelEdgeSpacing;
@@ -506,14 +559,20 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
       }
 
       if (boundsWarning == true) {
-        mxLog.warn('At least one cell has no bounds');
+        mxLog.warn("At least one cell has no bounds");
       }
 
       this.rankY[rankValue] = y;
-      var distanceToNextRank = maxCellHeight / 2.0 + lastRankMaxCellHeight / 2.0 + this.interRankCellSpacing;
+      var distanceToNextRank =
+        maxCellHeight / 2.0 +
+        lastRankMaxCellHeight / 2.0 +
+        this.interRankCellSpacing;
       lastRankMaxCellHeight = maxCellHeight;
 
-      if (this.orientation == mxConstants.DIRECTION_NORTH || this.orientation == mxConstants.DIRECTION_WEST) {
+      if (
+        this.orientation == mxConstants.DIRECTION_NORTH ||
+        this.orientation == mxConstants.DIRECTION_WEST
+      ) {
         y += distanceToNextRank;
       } else {
         y -= distanceToNextRank;
@@ -631,7 +690,8 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
 
       var leftCell = rankArray[rankIndex - 1];
       var leftLimit = leftCell.getGeneralPurposeVariable(rank);
-      leftLimit = leftLimit + leftCell.width / 2 + this.intraCellSpacing + cell.width / 2;
+      leftLimit =
+        leftLimit + leftCell.width / 2 + this.intraCellSpacing + cell.width / 2;
 
       if (leftLimit <= position) {
         return true;
@@ -645,7 +705,11 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
 
       var rightCell = rankArray[rankIndex + 1];
       var rightLimit = rightCell.getGeneralPurposeVariable(rank);
-      rightLimit = rightLimit - rightCell.width / 2 - this.intraCellSpacing - cell.width / 2;
+      rightLimit =
+        rightLimit -
+        rightCell.width / 2 -
+        this.intraCellSpacing -
+        cell.width / 2;
 
       if (rightLimit >= position) {
         return true;
@@ -708,7 +772,10 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
               var sortedCells = [];
 
               for (var j = 0; j < currentCells.length; j++) {
-                var sorter = new WeightedCellSorter(currentCells[j], currentCells[j].getX(currentRank));
+                var sorter = new WeightedCellSorter(
+                  currentCells[j],
+                  currentCells[j].getX(currentRank),
+                );
                 sortedCells.push(sorter);
               }
 
@@ -730,8 +797,15 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
                     connections = cell.connectsAsTarget;
                   }
 
-                  for (var connIndex = 0; connIndex < connections.length; connIndex++) {
-                    if (connections[connIndex].source == innerCell || connections[connIndex].target == innerCell) {
+                  for (
+                    var connIndex = 0;
+                    connIndex < connections.length;
+                    connIndex++
+                  ) {
+                    if (
+                      connections[connIndex].source == innerCell ||
+                      connections[connIndex].target == innerCell
+                    ) {
                       connectedEdgeCount += connections[connIndex].edges.length;
                       connectedEdgeGroupCount++;
                       connectedEdges.push(connections[connIndex]);
@@ -744,7 +818,8 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
                 }
               }
 
-              var requiredWidth = (connectedEdgeCount + 1) * this.prefHozEdgeSep;
+              var requiredWidth =
+                (connectedEdgeCount + 1) * this.prefHozEdgeSep;
 
               if (cell.width > requiredWidth + 2 * this.prefHozEdgeSep) {
                 leftLimit += this.prefHozEdgeSep;
@@ -807,7 +882,8 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
       var source = cell.isReversed ? cell.target.cell : cell.source.cell;
       var graph = this.layout.graph;
       var layoutReversed =
-        this.orientation == mxConstants.DIRECTION_EAST || this.orientation == mxConstants.DIRECTION_SOUTH;
+        this.orientation == mxConstants.DIRECTION_EAST ||
+        this.orientation == mxConstants.DIRECTION_SOUTH;
 
       for (var i = 0; i < cell.edges.length; i++) {
         var realEdge = cell.edges[i];
@@ -838,17 +914,25 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
           var x = jettys[parallelEdgeCount * 4 + arrayOffset];
           var modelSource = graph.model.getTerminal(realEdge, true);
 
-          if (this.layout.isPort(modelSource) && graph.model.getParent(modelSource) == realSource) {
+          if (
+            this.layout.isPort(modelSource) &&
+            graph.model.getParent(modelSource) == realSource
+          ) {
             var state = graph.view.getState(modelSource);
 
             if (state != null) {
               x = state.x;
             } else {
-              x = realSource.geometry.x + cell.source.width * modelSource.geometry.x;
+              x =
+                realSource.geometry.x +
+                cell.source.width * modelSource.geometry.x;
             }
           }
 
-          if (this.orientation == mxConstants.DIRECTION_NORTH || this.orientation == mxConstants.DIRECTION_SOUTH) {
+          if (
+            this.orientation == mxConstants.DIRECTION_NORTH ||
+            this.orientation == mxConstants.DIRECTION_SOUTH
+          ) {
             newPoints.push(new mxPoint(x, y));
 
             if (this.layout.edgeStyle == mxHierarchicalEdgeStyle.CURVE) {
@@ -875,10 +959,18 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
           currentRank = cell.minRank + 1;
         }
 
-        for (var j = loopStart; cell.maxRank != cell.minRank && j != loopLimit; j += loopDelta) {
+        for (
+          var j = loopStart;
+          cell.maxRank != cell.minRank && j != loopLimit;
+          j += loopDelta
+        ) {
           var positionX = cell.x[j] + offsetX;
-          var topChannelY = (this.rankTopY[currentRank] + this.rankBottomY[currentRank + 1]) / 2.0;
-          var bottomChannelY = (this.rankTopY[currentRank - 1] + this.rankBottomY[currentRank]) / 2.0;
+          var topChannelY =
+            (this.rankTopY[currentRank] + this.rankBottomY[currentRank + 1]) /
+            2.0;
+          var bottomChannelY =
+            (this.rankTopY[currentRank - 1] + this.rankBottomY[currentRank]) /
+            2.0;
 
           if (reversed) {
             var tmp = topChannelY;
@@ -886,7 +978,10 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
             bottomChannelY = tmp;
           }
 
-          if (this.orientation == mxConstants.DIRECTION_NORTH || this.orientation == mxConstants.DIRECTION_SOUTH) {
+          if (
+            this.orientation == mxConstants.DIRECTION_NORTH ||
+            this.orientation == mxConstants.DIRECTION_SOUTH
+          ) {
             newPoints.push(new mxPoint(positionX, topChannelY));
             newPoints.push(new mxPoint(positionX, bottomChannelY));
           } else {
@@ -918,17 +1013,25 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
           var modelTarget = graph.model.getTerminal(realEdge, false);
           var realTarget = this.layout.getVisibleTerminal(realEdge, false);
 
-          if (this.layout.isPort(modelTarget) && graph.model.getParent(modelTarget) == realTarget) {
+          if (
+            this.layout.isPort(modelTarget) &&
+            graph.model.getParent(modelTarget) == realTarget
+          ) {
             var state = graph.view.getState(modelTarget);
 
             if (state != null) {
               x = state.x;
             } else {
-              x = realTarget.geometry.x + cell.target.width * modelTarget.geometry.x;
+              x =
+                realTarget.geometry.x +
+                cell.target.width * modelTarget.geometry.x;
             }
           }
 
-          if (this.orientation == mxConstants.DIRECTION_NORTH || this.orientation == mxConstants.DIRECTION_SOUTH) {
+          if (
+            this.orientation == mxConstants.DIRECTION_NORTH ||
+            this.orientation == mxConstants.DIRECTION_SOUTH
+          ) {
             if (this.layout.edgeStyle == mxHierarchicalEdgeStyle.CURVE) {
               newPoints.push(new mxPoint(x, y - jetty));
             }
@@ -968,10 +1071,19 @@ export class mxCoordinateAssignment extends mxHierarchicalLayoutStage {
     var realCell = cell.cell;
     var positionX = cell.x[0] - cell.width / 2;
     var positionY = cell.y[0] - cell.height / 2;
-    this.rankTopY[cell.minRank] = Math.min(this.rankTopY[cell.minRank], positionY);
-    this.rankBottomY[cell.minRank] = Math.max(this.rankBottomY[cell.minRank], positionY + cell.height);
+    this.rankTopY[cell.minRank] = Math.min(
+      this.rankTopY[cell.minRank],
+      positionY,
+    );
+    this.rankBottomY[cell.minRank] = Math.max(
+      this.rankBottomY[cell.minRank],
+      positionY + cell.height,
+    );
 
-    if (this.orientation == mxConstants.DIRECTION_NORTH || this.orientation == mxConstants.DIRECTION_SOUTH) {
+    if (
+      this.orientation == mxConstants.DIRECTION_NORTH ||
+      this.orientation == mxConstants.DIRECTION_SOUTH
+    ) {
       this.layout.setVertexLocation(realCell, positionX, positionY);
     } else {
       this.layout.setVertexLocation(realCell, positionY, positionX);

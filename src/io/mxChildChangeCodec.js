@@ -1,15 +1,19 @@
-import { mxObjectCodec } from '@mxgraph/io/mxObjectCodec';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxChildChange } from '@mxgraph/model/changes/mxChildChange';
+import { mxObjectCodec } from "@mxgraph/io/mxObjectCodec";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxChildChange } from "@mxgraph/model/changes/mxChildChange";
 
 export class mxChildChangeCodec extends mxObjectCodec {
   constructor() {
-    super(new mxChildChange(), ['model', 'child', 'previousIndex'], ['parent', 'previous']);
+    super(
+      new mxChildChange(),
+      ["model", "child", "previousIndex"],
+      ["parent", "previous"],
+    );
   }
 
   isReference(obj, attr, value, isWrite) {
-    if (attr == 'child' && (!isWrite || obj.model.contains(obj.previous))) {
+    if (attr == "child" && (!isWrite || obj.model.contains(obj.previous))) {
       return true;
     }
 
@@ -19,13 +23,16 @@ export class mxChildChangeCodec extends mxObjectCodec {
   isExcluded(obj, attr, value, write) {
     return (
       super.isExcluded(obj, attr, value, write) ||
-      (write && value != null && (attr == 'previous' || attr == 'parent') && !obj.model.contains(value))
+      (write &&
+        value != null &&
+        (attr == "previous" || attr == "parent") &&
+        !obj.model.contains(value))
     );
   }
 
   afterEncode(enc, obj, node) {
-    if (this.isReference(obj, 'child', obj.child, true)) {
-      node.setAttribute('child', enc.getId(obj.child));
+    if (this.isReference(obj, "child", obj.child, true)) {
+      node.setAttribute("child", enc.getId(obj.child));
     } else {
       enc.encodeCell(obj.child, node);
     }
@@ -34,7 +41,10 @@ export class mxChildChangeCodec extends mxObjectCodec {
   }
 
   beforeDecode(dec, node, obj) {
-    if (node.firstChild != null && node.firstChild.nodeType == mxConstants.NODETYPE_ELEMENT) {
+    if (
+      node.firstChild != null &&
+      node.firstChild.nodeType == mxConstants.NODETYPE_ELEMENT
+    ) {
       node = node.cloneNode(true);
       var tmp = node.firstChild;
       obj.child = dec.decodeCell(tmp, false);
@@ -46,7 +56,7 @@ export class mxChildChangeCodec extends mxObjectCodec {
         tmp2 = tmp.nextSibling;
 
         if (tmp.nodeType == mxConstants.NODETYPE_ELEMENT) {
-          var id = tmp.getAttribute('id');
+          var id = tmp.getAttribute("id");
 
           if (dec.lookup(id) == null) {
             dec.decodeCell(tmp);
@@ -57,7 +67,7 @@ export class mxChildChangeCodec extends mxObjectCodec {
         tmp = tmp2;
       }
     } else {
-      var childRef = node.getAttribute('child');
+      var childRef = node.getAttribute("child");
       obj.child = dec.getObject(childRef);
     }
 
@@ -66,7 +76,11 @@ export class mxChildChangeCodec extends mxObjectCodec {
 
   afterDecode(dec, node, obj) {
     if (obj.child != null) {
-      if (obj.child.parent != null && obj.previous != null && obj.child.parent != obj.previous) {
+      if (
+        obj.child.parent != null &&
+        obj.previous != null &&
+        obj.child.parent != obj.previous
+      ) {
         obj.previous = obj.child.parent;
       }
 

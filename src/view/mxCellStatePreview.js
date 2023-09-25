@@ -1,5 +1,5 @@
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
 
 export class mxCellStatePreview {
   count = 0;
@@ -21,7 +21,7 @@ export class mxCellStatePreview {
     if (delta == null) {
       delta = {
         point: new mxPoint(dx, dy),
-        state: state
+        state: state,
       };
       this.deltas.put(state.cell, delta);
       this.count++;
@@ -57,7 +57,11 @@ export class mxCellStatePreview {
         state.view.updateCellState(state);
         var geo = model.getGeometry(state.cell);
 
-        if ((dx != 0 || dy != 0) && geo != null && (!geo.relative || this.deltas.get(state.cell) != null)) {
+        if (
+          (dx != 0 || dy != 0) &&
+          geo != null &&
+          (!geo.relative || this.deltas.get(state.cell) != null)
+        ) {
           state.x += dx;
           state.y += dy;
         }
@@ -66,7 +70,11 @@ export class mxCellStatePreview {
       var childCount = model.getChildCount(state.cell);
 
       for (var i = 0; i < childCount; i++) {
-        this.translateState(state.view.getState(model.getChildAt(state.cell, i)), dx, dy);
+        this.translateState(
+          state.view.getState(model.getChildAt(state.cell, i)),
+          dx,
+          dy,
+        );
       }
     }
   }
@@ -87,7 +95,9 @@ export class mxCellStatePreview {
         geo != null &&
         geo.relative &&
         model.isVertex(state.cell) &&
-        (pState == null || model.isVertex(pState.cell) || this.deltas.get(state.cell) != null)
+        (pState == null ||
+          model.isVertex(pState.cell) ||
+          this.deltas.get(state.cell) != null)
       ) {
         state.x += dx;
         state.y += dy;
@@ -102,7 +112,12 @@ export class mxCellStatePreview {
       var childCount = model.getChildCount(state.cell);
 
       for (var i = 0; i < childCount; i++) {
-        this.revalidateState(this.graph.view.getState(model.getChildAt(state.cell, i)), dx, dy, visitor);
+        this.revalidateState(
+          this.graph.view.getState(model.getChildAt(state.cell, i)),
+          dx,
+          dy,
+          visitor,
+        );
       }
     }
   }

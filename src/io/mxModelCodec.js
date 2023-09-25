@@ -1,5 +1,5 @@
-import { mxObjectCodec } from '@mxgraph/io/mxObjectCodec';
-import { mxGraphModel } from '@mxgraph/model/mxGraphModel';
+import { mxObjectCodec } from "@mxgraph/io/mxObjectCodec";
+import { mxGraphModel } from "@mxgraph/model/mxGraphModel";
 
 export class mxModelCodec extends mxObjectCodec {
   constructor() {
@@ -7,13 +7,13 @@ export class mxModelCodec extends mxObjectCodec {
   }
 
   encodeObject(enc, obj, node) {
-    var rootNode = enc.document.createElement('root');
+    var rootNode = enc.document.createElement("root");
     enc.encodeCell(obj.getRoot(), rootNode);
     node.appendChild(rootNode);
   }
 
   decodeChild(dec, child, obj) {
-    if (child.nodeName == 'root') {
+    if (child.nodeName == "root") {
       this.decodeRoot(dec, child, obj);
     } else {
       super.decodeChild(dec, child, obj);

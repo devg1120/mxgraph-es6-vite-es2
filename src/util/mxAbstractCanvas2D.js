@@ -1,7 +1,7 @@
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUrlConverter } from '@mxgraph/util/mxUrlConverter';
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUrlConverter } from "@mxgraph/util/mxUrlConverter";
 
 export class mxAbstractCanvas2D {
   state = null;
@@ -10,11 +10,11 @@ export class mxAbstractCanvas2D {
   rotateHtml = true;
   lastX = 0;
   lastY = 0;
-  moveOp = 'M';
-  lineOp = 'L';
-  quadOp = 'Q';
-  curveOp = 'C';
-  closeOp = 'Z';
+  moveOp = "M";
+  lineOp = "L";
+  quadOp = "Q";
+  curveOp = "C";
+  closeOp = "Z";
   pointerEvents = false;
 
   constructor() {
@@ -47,12 +47,12 @@ export class mxAbstractCanvas2D {
       strokeColor: null,
       strokeWidth: 1,
       dashed: false,
-      dashPattern: '3 3',
+      dashPattern: "3 3",
       fixDash: false,
-      lineCap: 'flat',
-      lineJoin: 'miter',
+      lineCap: "flat",
+      lineJoin: "miter",
       miterLimit: 10,
-      fontColor: '#000000',
+      fontColor: "#000000",
       fontBackgroundColor: null,
       fontBorderColor: null,
       fontSize: mxConstants.DEFAULT_FONTSIZE,
@@ -65,7 +65,7 @@ export class mxAbstractCanvas2D {
       shadowDy: mxConstants.SHADOW_OFFSET_Y,
       rotation: 0,
       rotationCx: 0,
-      rotationCy: 0
+      rotationCy: 0,
     };
   }
 
@@ -92,7 +92,12 @@ export class mxAbstractCanvas2D {
 
   rotatePoint(x, y, theta, cx, cy) {
     var rad = theta * (Math.PI / 180);
-    return mxUtils.getRotatedPoint(new mxPoint(x, y), Math.cos(rad), Math.sin(rad), new mxPoint(cx, cy));
+    return mxUtils.getRotatedPoint(
+      new mxPoint(x, y),
+      Math.cos(rad),
+      Math.sin(rad),
+      new mxPoint(cx, cy),
+    );
   }
 
   save() {
@@ -267,11 +272,28 @@ export class mxAbstractCanvas2D {
   }
 
   arcTo(rx, ry, angle, largeArcFlag, sweepFlag, x, y) {
-    var curves = mxUtils.arcToCurves(this.lastX, this.lastY, rx, ry, angle, largeArcFlag, sweepFlag, x, y);
+    var curves = mxUtils.arcToCurves(
+      this.lastX,
+      this.lastY,
+      rx,
+      ry,
+      angle,
+      largeArcFlag,
+      sweepFlag,
+      x,
+      y,
+    );
 
     if (curves != null) {
       for (var i = 0; i < curves.length; i += 6) {
-        this.curveTo(curves[i], curves[i + 1], curves[i + 2], curves[i + 3], curves[i + 4], curves[i + 5]);
+        this.curveTo(
+          curves[i],
+          curves[i + 1],
+          curves[i + 2],
+          curves[i + 3],
+          curves[i + 4],
+          curves[i + 5],
+        );
       }
     }
   }

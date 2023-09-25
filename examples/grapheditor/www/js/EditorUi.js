@@ -19,7 +19,7 @@ export class EditorUi extends m.mxEventSource {
   /**
    * Global config that specifies if the compact UI elements should be used.
    */
-//   compactUi = true;
+  //   compactUi = true;
 
   constructor(editor, container, lightbox) {
     //m.mxEventSource.call(this);
@@ -1022,11 +1022,8 @@ export class EditorUi extends m.mxEventSource {
     if (!graph.standalone) {
       this.open();
     }
-
   } // end constructor
-
 } // end class
-
 
 /**
  * Global config that specifies if the compact UI elements should be used.

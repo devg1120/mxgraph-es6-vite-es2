@@ -1,9 +1,9 @@
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxStyleChange } from '@mxgraph/model/changes/mxStyleChange';
-import { mxChildChange } from '@mxgraph/model/changes/mxChildChange';
-import { mxValueChange } from '@mxgraph/model/changes/mxValueChange';
-import { mxTerminalChange } from '@mxgraph/model/changes/mxTerminalChange';
-import { mxGeometryChange } from '@mxgraph/model/changes/mxGeometryChange';
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxStyleChange } from "@mxgraph/model/changes/mxStyleChange";
+import { mxChildChange } from "@mxgraph/model/changes/mxChildChange";
+import { mxValueChange } from "@mxgraph/model/changes/mxValueChange";
+import { mxTerminalChange } from "@mxgraph/model/changes/mxTerminalChange";
+import { mxGeometryChange } from "@mxgraph/model/changes/mxGeometryChange";
 
 export class mxEffects {
   static animateChanges(graph, changes, done) {
@@ -23,19 +23,25 @@ export class mxEffects {
           change instanceof mxChildChange ||
           change instanceof mxStyleChange
         ) {
-          var state = graph.getView().getState(change.cell || change.child, false);
+          var state = graph
+            .getView()
+            .getState(change.cell || change.child, false);
 
           if (state != null) {
             isRequired = true;
 
-            if (change.constructor != mxGeometryChange || graph.model.isEdge(change.cell)) {
+            if (
+              change.constructor != mxGeometryChange ||
+              graph.model.isEdge(change.cell)
+            ) {
               mxUtils.setOpacity(state.shape.node, (100 * step) / maxStep);
             } else {
               var scale = graph.getView().scale;
               var dx = (change.geometry.x - change.previous.x) * scale;
               var dy = (change.geometry.y - change.previous.y) * scale;
               var sx = (change.geometry.width - change.previous.width) * scale;
-              var sy = (change.geometry.height - change.previous.height) * scale;
+              var sy =
+                (change.geometry.height - change.previous.height) * scale;
 
               if (step == 0) {
                 state.x -= dx;
@@ -50,7 +56,11 @@ export class mxEffects {
               }
 
               graph.cellRenderer.redraw(state);
-              mxEffects.cascadeOpacity(graph, change.cell, (100 * step) / maxStep);
+              mxEffects.cascadeOpacity(
+                graph,
+                change.cell,
+                (100 * step) / maxStep,
+              );
             }
           }
         }
@@ -108,7 +118,7 @@ export class mxEffects {
         if (opacity > 0) {
           window.setTimeout(f, delay);
         } else {
-          node.style.visibility = 'hidden';
+          node.style.visibility = "hidden";
 
           if (remove && node.parentNode) {
             node.parentNode.removeChild(node);
@@ -118,7 +128,7 @@ export class mxEffects {
 
       window.setTimeout(f, delay);
     } else {
-      node.style.visibility = 'hidden';
+      node.style.visibility = "hidden";
 
       if (remove && node.parentNode) {
         node.parentNode.removeChild(node);

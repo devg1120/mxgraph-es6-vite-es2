@@ -1,6 +1,6 @@
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxPoint } from '@mxgraph/util/mxPoint';
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxPoint } from "@mxgraph/util/mxPoint";
 
 export class mxCurrentRootChange {
   constructor(view, root) {
@@ -42,7 +42,15 @@ export class mxCurrentRootChange {
     }
 
     var name = this.isUp ? mxEvent.UP : mxEvent.DOWN;
-    this.view.fireEvent(new mxEventObject(name, 'root', this.view.currentRoot, 'previous', this.previous));
+    this.view.fireEvent(
+      new mxEventObject(
+        name,
+        "root",
+        this.view.currentRoot,
+        "previous",
+        this.previous,
+      ),
+    );
     this.isUp = !this.isUp;
   }
 }

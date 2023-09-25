@@ -1,6 +1,6 @@
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxPanningManager {
   damper = 1 / 6;
@@ -27,7 +27,7 @@ export class mxPanningManager {
         if (this.active) {
           this.stop();
         }
-      }
+      },
     };
     graph.addMouseListener(this.mouseListener);
 
@@ -37,7 +37,7 @@ export class mxPanningManager {
       }
     };
 
-    mxEvent.addListener(document, 'mouseup', this.mouseUpListener);
+    mxEvent.addListener(document, "mouseup", this.mouseUpListener);
 
     var createThread = () => {
       this.scrollbars = mxUtils.hasScrollbars(graph.container);
@@ -163,7 +163,10 @@ export class mxPanningManager {
 
           if (px != 0 || py != 0) {
             graph.panGraph(0, 0);
-            graph.view.setTranslate(this.t0x + px / graph.view.scale, this.t0y + py / graph.view.scale);
+            graph.view.setTranslate(
+              this.t0x + px / graph.view.scale,
+              this.t0y + py / graph.view.scale,
+            );
           }
         } else {
           graph.panDx = 0;
@@ -175,7 +178,7 @@ export class mxPanningManager {
 
     this.destroy = function () {
       graph.removeMouseListener(this.mouseListener);
-      mxEvent.removeListener(document, 'mouseup', this.mouseUpListener);
+      mxEvent.removeListener(document, "mouseup", this.mouseUpListener);
     };
   }
 }

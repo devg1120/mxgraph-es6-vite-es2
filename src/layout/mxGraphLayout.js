@@ -1,8 +1,8 @@
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxGeometry } from '@mxgraph/model/mxGeometry';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxGeometry } from "@mxgraph/model/mxGeometry";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
 
 export class mxGraphLayout {
   useBoundingBox = true;
@@ -75,7 +75,10 @@ export class mxGraphLayout {
   }
 
   isVertexIgnored(vertex) {
-    return !this.graph.getModel().isVertex(vertex) || !this.graph.isCellVisible(vertex);
+    return (
+      !this.graph.getModel().isVertex(vertex) ||
+      !this.graph.isCellVisible(vertex)
+    );
   }
 
   isEdgeIgnored(edge) {
@@ -89,11 +92,15 @@ export class mxGraphLayout {
   }
 
   setEdgeStyleEnabled(edge, value) {
-    this.graph.setCellStyles(mxConstants.STYLE_NOEDGESTYLE, value ? '0' : '1', [edge]);
+    this.graph.setCellStyles(mxConstants.STYLE_NOEDGESTYLE, value ? "0" : "1", [
+      edge,
+    ]);
   }
 
   setOrthogonalEdge(edge, value) {
-    this.graph.setCellStyles(mxConstants.STYLE_ORTHOGONAL, value ? '1' : '0', [edge]);
+    this.graph.setCellStyles(mxConstants.STYLE_ORTHOGONAL, value ? "1" : "0", [
+      edge,
+    ]);
   }
 
   getParentOffset(parent) {
@@ -155,7 +162,11 @@ export class mxGraphLayout {
       if (this.useBoundingBox) {
         var state = this.graph.getView().getState(cell);
 
-        if (state != null && state.text != null && state.text.boundingBox != null) {
+        if (
+          state != null &&
+          state.text != null &&
+          state.text.boundingBox != null
+        ) {
           var scale = this.graph.getView().scale;
           var box = state.text.boundingBox;
 
@@ -198,14 +209,25 @@ export class mxGraphLayout {
     if (this.useBoundingBox) {
       var state = this.graph.getView().getState(cell);
 
-      if (state != null && state.text != null && state.text.boundingBox != null) {
+      if (
+        state != null &&
+        state.text != null &&
+        state.text.boundingBox != null
+      ) {
         var scale = this.graph.getView().scale;
         var tmp = state.text.boundingBox;
         var dx0 = Math.max(state.x - tmp.x, 0) / scale;
         var dy0 = Math.max(state.y - tmp.y, 0) / scale;
-        var dx1 = Math.max(tmp.x + tmp.width - (state.x + state.width), 0) / scale;
-        var dy1 = Math.max(tmp.y + tmp.height - (state.y + state.height), 0) / scale;
-        geo = new mxRectangle(geo.x - dx0, geo.y - dy0, geo.width + dx0 + dx1, geo.height + dy0 + dy1);
+        var dx1 =
+          Math.max(tmp.x + tmp.width - (state.x + state.width), 0) / scale;
+        var dy1 =
+          Math.max(tmp.y + tmp.height - (state.y + state.height), 0) / scale;
+        geo = new mxRectangle(
+          geo.x - dx0,
+          geo.y - dy0,
+          geo.width + dx0 + dx1,
+          geo.height + dy0 + dy1,
+        );
       }
     }
 
@@ -223,7 +245,22 @@ export class mxGraphLayout {
     return new mxRectangle(geo.x, geo.y, geo.width, geo.height);
   }
 
-  arrangeGroups(cells, border, topBorder, rightBorder, bottomBorder, leftBorder) {
-    return this.graph.updateGroupBounds(cells, border, true, topBorder, rightBorder, bottomBorder, leftBorder);
+  arrangeGroups(
+    cells,
+    border,
+    topBorder,
+    rightBorder,
+    bottomBorder,
+    leftBorder,
+  ) {
+    return this.graph.updateGroupBounds(
+      cells,
+      border,
+      true,
+      topBorder,
+      rightBorder,
+      bottomBorder,
+      leftBorder,
+    );
   }
 }

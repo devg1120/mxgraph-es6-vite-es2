@@ -1,6 +1,6 @@
-import { mxObjectCodec } from '@mxgraph/io/mxObjectCodec';
-import { mxStyleRegistry } from '@mxgraph/view/mxStyleRegistry';
-import { mxGraphView } from '@mxgraph/view/mxGraphView';
+import { mxObjectCodec } from "@mxgraph/io/mxObjectCodec";
+import { mxStyleRegistry } from "@mxgraph/view/mxStyleRegistry";
+import { mxGraphView } from "@mxgraph/view/mxGraphView";
 
 export class mxGraphViewCodec extends mxObjectCodec {
   constructor() {
@@ -22,15 +22,15 @@ export class mxGraphViewCodec extends mxObjectCodec {
       var name = null;
 
       if (parent == model.getRoot()) {
-        name = 'layer';
+        name = "layer";
       } else if (parent == null) {
-        name = 'graph';
+        name = "graph";
       } else if (model.isEdge(cell)) {
-        name = 'edge';
+        name = "edge";
       } else if (childCount > 0 && geo != null) {
-        name = 'group';
+        name = "group";
       } else if (model.isVertex(cell)) {
-        name = 'vertex';
+        name = "vertex";
       }
 
       if (name != null) {
@@ -38,10 +38,10 @@ export class mxGraphViewCodec extends mxObjectCodec {
         var lab = view.graph.getLabel(cell);
 
         if (lab != null) {
-          node.setAttribute('label', view.graph.getLabel(cell));
+          node.setAttribute("label", view.graph.getLabel(cell));
 
           if (view.graph.isHtmlLabel(cell)) {
-            node.setAttribute('html', true);
+            node.setAttribute("html", true);
           }
         }
 
@@ -49,22 +49,26 @@ export class mxGraphViewCodec extends mxObjectCodec {
           var bounds = view.getGraphBounds();
 
           if (bounds != null) {
-            node.setAttribute('x', Math.round(bounds.x));
-            node.setAttribute('y', Math.round(bounds.y));
-            node.setAttribute('width', Math.round(bounds.width));
-            node.setAttribute('height', Math.round(bounds.height));
+            node.setAttribute("x", Math.round(bounds.x));
+            node.setAttribute("y", Math.round(bounds.y));
+            node.setAttribute("width", Math.round(bounds.width));
+            node.setAttribute("height", Math.round(bounds.height));
           }
 
-          node.setAttribute('scale', view.scale);
+          node.setAttribute("scale", view.scale);
         } else if (state != null && geo != null) {
           for (var i in state.style) {
             var value = state.style[i];
 
-            if (typeof value == 'function' && typeof value == 'object') {
+            if (typeof value == "function" && typeof value == "object") {
               value = mxStyleRegistry.getName(value);
             }
 
-            if (value != null && typeof value != 'function' && typeof value != 'object') {
+            if (
+              value != null &&
+              typeof value != "function" &&
+              typeof value != "object"
+            ) {
               node.setAttribute(i, value);
             }
           }
@@ -72,29 +76,29 @@ export class mxGraphViewCodec extends mxObjectCodec {
           var abs = state.absolutePoints;
 
           if (abs != null && abs.length > 0) {
-            var pts = Math.round(abs[0].x) + ',' + Math.round(abs[0].y);
+            var pts = Math.round(abs[0].x) + "," + Math.round(abs[0].y);
 
             for (var i = 1; i < abs.length; i++) {
-              pts += ' ' + Math.round(abs[i].x) + ',' + Math.round(abs[i].y);
+              pts += " " + Math.round(abs[i].x) + "," + Math.round(abs[i].y);
             }
 
-            node.setAttribute('points', pts);
+            node.setAttribute("points", pts);
           } else {
-            node.setAttribute('x', Math.round(state.x));
-            node.setAttribute('y', Math.round(state.y));
-            node.setAttribute('width', Math.round(state.width));
-            node.setAttribute('height', Math.round(state.height));
+            node.setAttribute("x", Math.round(state.x));
+            node.setAttribute("y", Math.round(state.y));
+            node.setAttribute("width", Math.round(state.width));
+            node.setAttribute("height", Math.round(state.height));
           }
 
           var offset = state.absoluteOffset;
 
           if (offset != null) {
             if (offset.x != 0) {
-              node.setAttribute('dx', Math.round(offset.x));
+              node.setAttribute("dx", Math.round(offset.x));
             }
 
             if (offset.y != 0) {
-              node.setAttribute('dy', Math.round(offset.y));
+              node.setAttribute("dy", Math.round(offset.y));
             }
           }
         }

@@ -1,5 +1,5 @@
-import { mxShape } from '@mxgraph/shape/mxShape';
-import { mxConstants } from '@mxgraph/util/mxConstants';
+import { mxShape } from "@mxgraph/shape/mxShape";
+import { mxConstants } from "@mxgraph/util/mxConstants";
 
 export class mxArrow extends mxShape {
   constructor(points, fill, stroke, strokewidth, arrowWidth, spacing, endSize) {

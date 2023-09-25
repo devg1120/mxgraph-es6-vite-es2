@@ -1,5 +1,5 @@
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
 
 export class mxKeyHandler {
   graph = null;
@@ -23,7 +23,7 @@ export class mxKeyHandler {
         this.keyDown(evt);
       };
 
-      mxEvent.addListener(this.target, 'keydown', this.keydownHandler);
+      mxEvent.addListener(this.target, "keydown", this.keydownHandler);
     }
   }
 
@@ -81,7 +81,8 @@ export class mxKeyHandler {
     if (
       source == this.target ||
       source.parentNode == this.target ||
-      (this.graph.cellEditor != null && this.graph.cellEditor.isEventSource(evt))
+      (this.graph.cellEditor != null &&
+        this.graph.cellEditor.isEventSource(evt))
     ) {
       return true;
     }
@@ -105,7 +106,12 @@ export class mxKeyHandler {
   }
 
   isEnabledForEvent(evt) {
-    return this.graph.isEnabled() && !mxEvent.isConsumed(evt) && this.isGraphEvent(evt) && this.isEnabled();
+    return (
+      this.graph.isEnabled() &&
+      !mxEvent.isConsumed(evt) &&
+      this.isGraphEvent(evt) &&
+      this.isEnabled()
+    );
   }
 
   isEventIgnored(evt) {
@@ -120,7 +126,7 @@ export class mxKeyHandler {
 
   destroy() {
     if (this.target != null && this.keydownHandler != null) {
-      mxEvent.removeListener(this.target, 'keydown', this.keydownHandler);
+      mxEvent.removeListener(this.target, "keydown", this.keydownHandler);
       this.keydownHandler = null;
     }
 

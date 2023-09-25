@@ -1,9 +1,9 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxCellHighlight } from '@mxgraph/handler/mxCellHighlight';
-import { mxConstants } from '@mxgraph/util/mxConstants';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxCellHighlight } from "@mxgraph/handler/mxCellHighlight";
+import { mxConstants } from "@mxgraph/util/mxConstants";
 
 export class mxCellMarker extends mxEventSource {
   graph = null;
@@ -21,8 +21,10 @@ export class mxCellMarker extends mxEventSource {
 
     if (graph != null) {
       this.graph = graph;
-      this.validColor = validColor != null ? validColor : mxConstants.DEFAULT_VALID_COLOR;
-      this.invalidColor = invalidColor != null ? invalidColor : mxConstants.DEFAULT_INVALID_COLOR;
+      this.validColor =
+        validColor != null ? validColor : mxConstants.DEFAULT_VALID_COLOR;
+      this.invalidColor =
+        invalidColor != null ? invalidColor : mxConstants.DEFAULT_INVALID_COLOR;
       this.hotspot = hotspot != null ? hotspot : mxConstants.DEFAULT_HOTSPOT;
       this.highlight = new mxCellHighlight(graph);
     }
@@ -86,7 +88,10 @@ export class mxCellMarker extends mxEventSource {
 
   setCurrentState(state, me, color) {
     var isValid = state != null ? this.isValidState(state) : false;
-    color = color != null ? color : this.getMarkerColor(me.getEvent(), state, isValid);
+    color =
+      color != null
+        ? color
+        : this.getMarkerColor(me.getEvent(), state, isValid);
 
     if (isValid) {
       this.validState = state;
@@ -120,7 +125,7 @@ export class mxCellMarker extends mxEventSource {
   mark() {
     this.highlight.setHighlightColor(this.currentColor);
     this.highlight.highlight(this.markedState);
-    this.fireEvent(new mxEventObject(mxEvent.MARK, 'state', this.markedState));
+    this.fireEvent(new mxEventObject(mxEvent.MARK, "state", this.markedState));
   }
 
   unmark() {
@@ -158,7 +163,7 @@ export class mxCellMarker extends mxEventSource {
         me.getGraphY(),
         this.hotspot,
         mxConstants.MIN_HOTSPOT_SIZE,
-        mxConstants.MAX_HOTSPOT_SIZE
+        mxConstants.MAX_HOTSPOT_SIZE,
       );
     }
 

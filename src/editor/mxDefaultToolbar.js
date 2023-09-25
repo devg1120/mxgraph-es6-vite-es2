@@ -1,8 +1,8 @@
-import { mxGeometry } from '@mxgraph/model/mxGeometry';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxToolbar } from '@mxgraph/util/mxToolbar';
+import { mxGeometry } from "@mxgraph/model/mxGeometry";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxToolbar } from "@mxgraph/util/mxToolbar";
 
 export class mxDefaultToolbar {
   toolbar = null;
@@ -22,7 +22,7 @@ export class mxDefaultToolbar {
     if (container != null) {
       this.toolbar = new mxToolbar(container);
       this.toolbar.addListener(mxEvent.SELECT, (sender, evt) => {
-        var funct = evt.getProperty('function');
+        var funct = evt.getProperty("function");
 
         if (funct != null) {
           this.editor.insertFunction = () => {
@@ -56,7 +56,7 @@ export class mxDefaultToolbar {
   }
 
   addSeparator(icon) {
-    icon = icon || mxClient.imageBasePath + '/separator.gif';
+    icon = icon || mxClient.imageBasePath + "/separator.gif";
     this.toolbar.addSeparator(icon);
   }
 
@@ -94,7 +94,7 @@ export class mxDefaultToolbar {
 
   addPrototype(title, icon, ptype, pressed, insert, toggle) {
     var factory = () => {
-      if (typeof ptype == 'function') {
+      if (typeof ptype == "function") {
         return ptype();
       } else if (ptype != null) {
         return this.editor.graph.cloneCell(ptype);
@@ -104,10 +104,10 @@ export class mxDefaultToolbar {
     };
 
     var clickHandler = (evt, cell) => {
-      if (typeof insert == 'function') {
+      if (typeof insert == "function") {
         insert(this.editor, factory(), evt, cell);
       } else {
-          let fac = factory();
+        let fac = factory();
         //this.drop(factory(), evt, cell);
         this.drop(fac, evt, cell);
       }
@@ -116,7 +116,14 @@ export class mxDefaultToolbar {
       mxEvent.consume(evt);
     };
 
-    var img = this.toolbar.addMode(title, icon, clickHandler, pressed, null, toggle);
+    var img = this.toolbar.addMode(
+      title,
+      icon,
+      clickHandler,
+      pressed,
+      null,
+      toggle,
+    );
 
     var dropHandler = function (graph, evt, cell) {
       clickHandler(evt, cell);
@@ -130,8 +137,16 @@ export class mxDefaultToolbar {
     var graph = this.editor.graph;
     var model = graph.getModel();
 
-    if (target == null || model.isEdge(target) || !this.connectOnDrop || !graph.isCellConnectable(target)) {
-      while (target != null && !graph.isValidDropTarget(target, [vertex], evt)) {
+    if (
+      target == null ||
+      model.isEdge(target) ||
+      !this.connectOnDrop ||
+      !graph.isCellConnectable(target)
+    ) {
+      while (
+        target != null &&
+        !graph.isValidDropTarget(target, [vertex], evt)
+      ) {
         target = model.getParent(target);
       }
 
@@ -149,7 +164,10 @@ export class mxDefaultToolbar {
       var y = mxEvent.getClientY(evt);
       var pt = mxUtils.convertPoint(graph.container, x, y);
 
-      if (graph.isSplitEnabled() && graph.isSplitTarget(target, [vertex], evt)) {
+      if (
+        graph.isSplitEnabled() &&
+        graph.isSplitTarget(target, [vertex], evt)
+      ) {
         return graph.splitEdge(target, [vertex], null, pt.x, pt.y);
       } else {
         return this.editor.addVertex(target, vertex, pt.x, pt.y);
@@ -163,7 +181,11 @@ export class mxDefaultToolbar {
     var graph = this.editor.graph;
     var model = graph.getModel();
 
-    if (source != null && graph.isCellConnectable(vertex) && graph.isEdgeValid(null, source, vertex)) {
+    if (
+      source != null &&
+      graph.isCellConnectable(vertex) &&
+      graph.isEdgeValid(null, source, vertex)
+    ) {
       var edge = null;
       model.beginUpdate();
 
@@ -204,23 +226,23 @@ export class mxDefaultToolbar {
   }
 
   installDropHandler(img, dropHandler) {
-    var sprite = document.createElement('img');
-    sprite.setAttribute('src', img.getAttribute('src'));
+    var sprite = document.createElement("img");
+    sprite.setAttribute("src", img.getAttribute("src"));
 
     var loader = (evt) => {
-      sprite.style.width = 2 * img.offsetWidth + 'px';
-      sprite.style.height = 2 * img.offsetHeight + 'px';
+      sprite.style.width = 2 * img.offsetWidth + "px";
+      sprite.style.height = 2 * img.offsetHeight + "px";
       mxUtils.makeDraggable(img, this.editor.graph, dropHandler, sprite);
-      mxEvent.removeListener(sprite, 'load', loader);
+      mxEvent.removeListener(sprite, "load", loader);
     };
 
-    mxEvent.addListener(sprite, 'load', loader);
+    mxEvent.addListener(sprite, "load", loader);
   }
 
   destroy() {
     if (this.resetHandler != null) {
-      this.editor.graph.removeListener('dblclick', this.resetHandler);
-      this.editor.removeListener('escape', this.resetHandler);
+      this.editor.graph.removeListener("dblclick", this.resetHandler);
+      this.editor.removeListener("escape", this.resetHandler);
       this.resetHandler = null;
     }
 

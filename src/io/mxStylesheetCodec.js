@@ -1,9 +1,9 @@
-import { mxObjectCodec } from '@mxgraph/io/mxObjectCodec';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxLog } from '@mxgraph/util/mxLog';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxStyleRegistry } from '@mxgraph/view/mxStyleRegistry';
-import { mxStylesheet } from '@mxgraph/view/mxStylesheet';
+import { mxObjectCodec } from "@mxgraph/io/mxObjectCodec";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxLog } from "@mxgraph/util/mxLog";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxStyleRegistry } from "@mxgraph/view/mxStyleRegistry";
+import { mxStylesheet } from "@mxgraph/view/mxStylesheet";
 
 export class mxStylesheetCodec extends mxObjectCodec {
   static allowEval = true;
@@ -17,18 +17,18 @@ export class mxStylesheetCodec extends mxObjectCodec {
 
     for (var i in obj.styles) {
       var style = obj.styles[i];
-      var styleNode = enc.document.createElement('add');
+      var styleNode = enc.document.createElement("add");
 
       if (i != null) {
-        styleNode.setAttribute('as', i);
+        styleNode.setAttribute("as", i);
 
         for (var j in style) {
           var value = this.getStringValue(j, style[j]);
 
           if (value != null) {
-            var entry = enc.document.createElement('add');
-            entry.setAttribute('value', value);
-            entry.setAttribute('as', j);
+            var entry = enc.document.createElement("add");
+            entry.setAttribute("value", value);
+            entry.setAttribute("as", j);
             styleNode.appendChild(entry);
           }
         }
@@ -45,9 +45,9 @@ export class mxStylesheetCodec extends mxObjectCodec {
   getStringValue(key, value) {
     var type = typeof value;
 
-    if (type == 'function') {
+    if (type == "function") {
       value = mxStyleRegistry.getName(value);
-    } else if (type == 'object') {
+    } else if (type == "object") {
       value = null;
     }
 
@@ -55,9 +55,8 @@ export class mxStylesheetCodec extends mxObjectCodec {
   }
 
   decode(dec, node, into) {
-
     var obj = into || new this.template.constructor();
-    var id = node.getAttribute('id');
+    var id = node.getAttribute("id");
 
     if (id != null) {
       dec.objects[id] = obj;
@@ -66,16 +65,20 @@ export class mxStylesheetCodec extends mxObjectCodec {
     node = node.firstChild;
 
     while (node != null) {
-      if (!this.processInclude(dec, node, obj) && node.nodeName == 'add') {
-        var as = node.getAttribute('as');
+      if (!this.processInclude(dec, node, obj) && node.nodeName == "add") {
+        var as = node.getAttribute("as");
 
         if (as != null) {
-          var extend = node.getAttribute('extend');
+          var extend = node.getAttribute("extend");
           var style = extend != null ? mxUtils.clone(obj.styles[extend]) : null;
 
           if (style == null) {
             if (extend != null) {
-              mxLog.warn('mxStylesheetCodec.decode: stylesheet ' + extend + ' not found to extend');
+              mxLog.warn(
+                "mxStylesheetCodec.decode: stylesheet " +
+                  extend +
+                  " not found to extend",
+              );
             }
 
             style = new Object();
@@ -85,16 +88,20 @@ export class mxStylesheetCodec extends mxObjectCodec {
 
           while (entry != null) {
             if (entry.nodeType == mxConstants.NODETYPE_ELEMENT) {
-              var key = entry.getAttribute('as');
+              var key = entry.getAttribute("as");
 
-              if (entry.nodeName == 'add') {
+              if (entry.nodeName == "add") {
                 var text = mxUtils.getTextContent(entry);
                 var value = null;
 
-                if (text != null && text.length > 0 && mxStylesheetCodec.allowEval) {
+                if (
+                  text != null &&
+                  text.length > 0 &&
+                  mxStylesheetCodec.allowEval
+                ) {
                   value = mxUtils.eval(text);
                 } else {
-                  value = entry.getAttribute('value');
+                  value = entry.getAttribute("value");
 
                   if (mxUtils.isNumeric(value)) {
                     value = parseFloat(value);
@@ -104,7 +111,7 @@ export class mxStylesheetCodec extends mxObjectCodec {
                 if (value != null) {
                   style[key] = value;
                 }
-              } else if (entry.nodeName == 'remove') {
+              } else if (entry.nodeName == "remove") {
                 delete style[key];
               }
             }

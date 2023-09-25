@@ -4,42 +4,36 @@
 
 //import * as m from "../../../../../dist/mxgraph.es.js";
 import {
-	mxUtils,
-	mxSwimlane,
-	mxCellRenderer,
-	mxCylinder,
-	mxActor,
-	mxShape,
-	mxRhombus,
-	mxRectangle,
-	mxRectangleShape,
-	mxHexagon,
-	mxEllipse,
-	mxPerimeter,
-	mxStyleRegistry,
-	mxDoubleEllipse,
-	mxArrowConnector,
-	mxConnector,
-	mxMarker,
-	mxPoint,
-	mxEdgeStyle,
-	mxConnectionConstraint,
-	mxImageShape,
-	mxLabel,
-	mxLine,
-	mxTriangle,
-	mxCloud,
-	mxArrow,
-	mxConstants,
+  mxUtils,
+  mxSwimlane,
+  mxCellRenderer,
+  mxCylinder,
+  mxActor,
+  mxShape,
+  mxRhombus,
+  mxRectangle,
+  mxRectangleShape,
+  mxHexagon,
+  mxEllipse,
+  mxPerimeter,
+  mxStyleRegistry,
+  mxDoubleEllipse,
+  mxArrowConnector,
+  mxConnector,
+  mxMarker,
+  mxPoint,
+  mxEdgeStyle,
+  mxConnectionConstraint,
+  mxImageShape,
+  mxLabel,
+  mxLine,
+  mxTriangle,
+  mxCloud,
+  mxArrow,
+  mxConstants,
+} from "../../../../../dist/mxgraph.es.js";
 
-
-
-
-
-
-       } from "../../../../../dist/mxgraph.es.js";
-
-import {Graph}  from "./Graph.js";
+import { Graph } from "./Graph.js";
 
 /**
  * Registers shapes.
@@ -153,7 +147,7 @@ import {Graph}  from "./Graph.js";
   }
 
   // Table Shape
-/*
+  /*
   function TableShape() {
     mxSwimlane.call(this);
   }
@@ -162,11 +156,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class TableShape extends mxSwimlane {
-        constructor(){
-		super();
-	}
+    constructor() {
+      super();
+    }
   }
-
 
   TableShape.prototype.getLabelBounds = function (rect) {
     var start = this.getTitleSize();
@@ -267,7 +260,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("table", TableShape);
 
   // Cube Shape, supports size style
-/*
+  /*
   function CubeShape() {
     mxCylinder.call(this);
   }
@@ -275,9 +268,9 @@ import {Graph}  from "./Graph.js";
 */
 
   class CubeShape extends mxCylinder {
-     constructor() {
-	     super();
-     }
+    constructor() {
+      super();
+    }
   }
 
   CubeShape.prototype.size = 20;
@@ -382,19 +375,17 @@ import {Graph}  from "./Graph.js";
   var tan30Dx = (0.5 - tan30) / 2;
 
   // Cube Shape, supports size style
-/*
+  /*
   function IsoRectangleShape() {
     mxActor.call(this);
   }
   mxUtils.extend(IsoRectangleShape, mxActor);
 */
   class IsoRectangleShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   IsoRectangleShape.prototype.size = 20;
   IsoRectangleShape.prototype.redrawPath = function (path, x, y, w, h) {
@@ -413,7 +404,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("isoRectangle", IsoRectangleShape);
 
   // Cube Shape, supports size style
-/*
+  /*
   function IsoCubeShape() {
     mxCylinder.call(this);
   }
@@ -421,11 +412,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class IsoCubeShape extends mxCylinder {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   IsoCubeShape.prototype.size = 20;
   IsoCubeShape.prototype.redrawPath = function (
@@ -461,7 +451,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("isoCube", IsoCubeShape);
 
   // DataStore Shape, supports size style
-/*
+  /*
   function DataStoreShape() {
     mxCylinder.call(this);
   }
@@ -469,11 +459,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class DataStoreShape extends mxCylinder {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   DataStoreShape.prototype.redrawPath = function (c, x, y, w, h, isForeground) {
     var dy = Math.min(h / 2, Math.round(h / 8) + this.strokewidth - 1);
@@ -538,7 +527,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("datastore", DataStoreShape);
 
   // Note Shape, supports size style
-/*
+  /*
   function NoteShape() {
     mxCylinder.call(this);
   }
@@ -546,11 +535,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class NoteShape extends mxCylinder {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   NoteShape.prototype.size = 30;
   NoteShape.prototype.darkOpacity = 0;
@@ -614,7 +602,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("note", NoteShape);
 
   // Note Shape, supports size style
-/*
+  /*
   function NoteShape2() {
     NoteShape.call(this);
   }
@@ -622,15 +610,15 @@ import {Graph}  from "./Graph.js";
 */
 
   class NoteShape2 extends NoteShape {
-	  constructor(){
-		  super()
-	  }
+    constructor() {
+      super();
+    }
   }
 
   mxCellRenderer.registerShape("note2", NoteShape2);
 
   // Flexible cube Shape
-/*
+  /*
   function IsoCubeShape2() {
     mxShape.call(this);
   }
@@ -638,12 +626,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class IsoCubeShape2 extends mxShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   IsoCubeShape2.prototype.isoAngle = 15;
 
@@ -686,7 +672,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("isoCube2", IsoCubeShape2);
 
   // (LEGACY) Flexible cylinder Shape
-/*
+  /*
   function CylinderShape() {
     mxShape.call(this);
   }
@@ -695,12 +681,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class CylinderShape extends mxShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   CylinderShape.prototype.size = 15;
 
@@ -742,7 +726,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("cylinder2", CylinderShape);
 
   // Flexible cylinder3 Shape with offset label
-/*
+  /*
   function CylinderShape3(bounds, fill, stroke, strokewidth) {
     mxShape.call(this);
     this.bounds = bounds;
@@ -756,15 +740,13 @@ import {Graph}  from "./Graph.js";
 
   class CylinderShape3 extends mxShape {
     constructor(bounds, fill, stroke, strokewidth) {
-         super();
-         this.bounds = bounds;
-         this.fill = fill;
-         this.stroke = stroke;
-         this.strokewidth = strokewidth != null ? strokewidth : 1;
+      super();
+      this.bounds = bounds;
+      this.fill = fill;
+      this.stroke = stroke;
+      this.strokewidth = strokewidth != null ? strokewidth : 1;
     }
   }
-
-
 
   CylinderShape3.prototype.size = 15;
 
@@ -817,19 +799,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("cylinder3", CylinderShape3);
 
   // Switch Shape, supports size style
-/*
+  /*
   function SwitchShape() {
     mxActor.call(this);
   }
   mxUtils.extend(SwitchShape, mxActor);
 */
   class SwitchShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   SwitchShape.prototype.redrawPath = function (c, x, y, w, h) {
     var curve = 0.5;
@@ -844,7 +824,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("switch", SwitchShape);
 
   // Folder Shape, supports tabWidth, tabHeight styles
-/*
+  /*
   function FolderShape() {
     mxCylinder.call(this);
   }
@@ -852,12 +832,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class FolderShape extends mxCylinder {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   FolderShape.prototype.tabWidth = 60;
   FolderShape.prototype.tabHeight = 20;
@@ -953,7 +931,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("folder", FolderShape);
 
   // Folder Shape, supports tabWidth, tabHeight styles
-/*
+  /*
   function UMLStateShape() {
     mxCylinder.call(this);
   }
@@ -961,12 +939,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class UMLStateShape extends mxCylinder {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   UMLStateShape.prototype.arcSize = 0.1;
 
@@ -1045,18 +1021,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("umlState", UMLStateShape);
 
   // Card shape
-/*
+  /*
   function CardShape() {
     mxActor.call(this);
   }
   mxUtils.extend(CardShape, mxActor);
 */
   class CardShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   CardShape.prototype.size = 30;
   CardShape.prototype.isRoundable = function () {
@@ -1098,7 +1073,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("card", CardShape);
 
   // Tape shape
-/*
+  /*
   function TapeShape() {
     mxActor.call(this);
   }
@@ -1106,11 +1081,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class TapeShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   TapeShape.prototype.size = 0.4;
   TapeShape.prototype.redrawPath = function (c, x, y, w, h) {
@@ -1163,7 +1137,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("tape", TapeShape);
 
   // Document shape
-/*
+  /*
   function DocumentShape() {
     mxActor.call(this);
   }
@@ -1171,9 +1145,9 @@ import {Graph}  from "./Graph.js";
 */
 
   class DocumentShape extends mxActor {
-	  constructor() {
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
 
   DocumentShape.prototype.size = 0.3;
@@ -1341,7 +1315,7 @@ import {Graph}  from "./Graph.js";
   };
 
   // Parallelogram shape
-/*
+  /*
   function ParallelogramShape() {
     mxActor.call(this);
   }
@@ -1349,9 +1323,9 @@ import {Graph}  from "./Graph.js";
 */
 
   class ParallelogramShape extends mxActor {
-        constructor() {
-		super();
-	}
+    constructor() {
+      super();
+    }
   }
 
   ParallelogramShape.prototype.size = 0.2;
@@ -1402,18 +1376,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("parallelogram", ParallelogramShape);
 
   // Trapezoid shape
-/*
+  /*
   function TrapezoidShape() {
     mxActor.call(this);
   }
   mxUtils.extend(TrapezoidShape, mxActor);
 */
   class TrapezoidShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   TrapezoidShape.prototype.size = 0.2;
   TrapezoidShape.prototype.fixedSize = 20;
@@ -1462,16 +1435,16 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("trapezoid", TrapezoidShape);
 
   // Curly Bracket shape
-/*
+  /*
   function CurlyBracketShape() {
     mxActor.call(this);
   }
   mxUtils.extend(CurlyBracketShape, mxActor);
 */
   class CurlyBracketShape extends mxActor {
-         constructor(){
-		 super();
-	 }
+    constructor() {
+      super();
+    }
   }
 
   CurlyBracketShape.prototype.size = 0.5;
@@ -1513,7 +1486,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("curlyBracket", CurlyBracketShape);
 
   // Parallel marker shape
-/*
+  /*
   function ParallelMarkerShape() {
     mxActor.call(this);
   }
@@ -1521,12 +1494,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class ParallelMarkerShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   ParallelMarkerShape.prototype.redrawPath = function (c, x, y, w, h) {
     c.setStrokeWidth(1);
@@ -1842,17 +1813,17 @@ import {Graph}  from "./Graph.js";
   // End of hand jiggle integration
 
   // Process Shape
-/*
+  /*
   function ProcessShape() {
     mxRectangleShape.call(this);
   }
   mxUtils.extend(ProcessShape, mxRectangleShape);
 */
 
-  class ProcessShape extends mxRectangleShape{
-     constructor() {
-        super();
-     }
+  class ProcessShape extends mxRectangleShape {
+    constructor() {
+      super();
+    }
   }
 
   ProcessShape.prototype.size = 0.1;
@@ -1936,21 +1907,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("process", ProcessShape);
 
   // Transparent Shape
-/*
+  /*
   function TransparentShape() {
     mxRectangleShape.call(this);
   }
   mxUtils.extend(TransparentShape, mxRectangleShape);
 */
   class TransparentShape extends mxRectangleShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
-
 
   TransparentShape.prototype.paintBackground = function (c, x, y, w, h) {
     c.setFillColor(mxConstants.NONE);
@@ -1962,7 +1929,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("transparent", TransparentShape);
 
   // Callout shape
-/*
+  /*
   function CalloutShape() {
     mxActor.call(this);
   }
@@ -1970,11 +1937,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class CalloutShape extends mxActor {
-	  constructor() {
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   CalloutShape.prototype.size = 30;
   CalloutShape.prototype.position = 0.5;
@@ -2046,7 +2012,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("callout", CalloutShape);
 
   // Step shape
-/*
+  /*
   function StepShape() {
     mxActor.call(this);
   }
@@ -2054,11 +2020,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class StepShape extends mxActor {
-	  constructor() {
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   StepShape.prototype.size = 0.2;
   StepShape.prototype.fixedSize = 20;
@@ -2109,7 +2074,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("step", StepShape);
 
   // Hexagon shape
-/*
+  /*
   function HexagonShape() {
     mxActor.call(this);
   }
@@ -2117,9 +2082,9 @@ import {Graph}  from "./Graph.js";
 */
 
   class HexagonShape extends mxActor {
-     constructor(){
-	     super();
-     }
+    constructor() {
+      super();
+    }
   }
   HexagonShape.prototype.size = 0.25;
   HexagonShape.prototype.fixedSize = 20;
@@ -2169,20 +2134,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("hexagon", HexagonShape);
 
   // Plus Shape
-/*
+  /*
   function PlusShape() {
     mxRectangleShape.call(this);
   }
   mxUtils.extend(PlusShape, mxRectangleShape);
 */
   class PlusShape extends mxRectangleShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
 
   PlusShape.prototype.isHtmlAllowed = function () {
     return false;
@@ -2244,7 +2206,7 @@ import {Graph}  from "./Graph.js";
   };
 
   // CompositeShape
-/*
+  /*
   function ExtendedShape() {
     mxRectangleShape.call(this);
   }
@@ -2252,12 +2214,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class ExtendedShape extends mxRectangleShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   ExtendedShape.prototype.isHtmlAllowed = function () {
     return false;
@@ -2364,7 +2324,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("ext", ExtendedShape);
 
   // Tape Shape, supports size style
-/*
+  /*
   function MessageShape() {
     mxCylinder.call(this);
   }
@@ -2372,12 +2332,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class MessageShape extends mxCylinder {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   MessageShape.prototype.redrawPath = function (
     path,
@@ -2404,7 +2362,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("message", MessageShape);
 
   // UML Actor Shape
-/*
+  /*
   function UmlActorShape() {
     mxShape.call(this);
   }
@@ -2412,11 +2370,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class UmlActorShape extends mxShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   UmlActorShape.prototype.paintBackground = function (c, x, y, w, h) {
     c.translate(x, y);
@@ -2449,19 +2406,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("umlActor", UmlActorShape);
 
   // UML Boundary Shape
-/*
+  /*
   function UmlBoundaryShape() {
     mxShape.call(this);
   }
   mxUtils.extend(UmlBoundaryShape, mxShape);
 */
   class UmlBoundaryShape extends mxShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   UmlBoundaryShape.prototype.getLabelMargins = function (rect) {
     return new mxRectangle(rect.width / 6, 0, 0, 0);
@@ -2492,18 +2447,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("umlBoundary", UmlBoundaryShape);
 
   // UML Entity Shape
-/*
+  /*
   function UmlEntityShape() {
     mxEllipse.call(this);
   }
   mxUtils.extend(UmlEntityShape, mxEllipse);
 */
   class UmlEntityShape extends mxEllipse {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   UmlEntityShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     mxEllipse.prototype.paintVertexShape.apply(this, arguments);
@@ -2518,7 +2472,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("umlEntity", UmlEntityShape);
 
   // UML Destroy Shape
-/*
+  /*
   function UmlDestroyShape() {
     mxShape.call(this);
   }
@@ -2526,12 +2480,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class UmlDestroyShape extends mxShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   UmlDestroyShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     c.translate(x, y);
@@ -2548,7 +2500,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("umlDestroy", UmlDestroyShape);
 
   // UML Control Shape
-/*
+  /*
   function UmlControlShape() {
     mxShape.call(this);
   }
@@ -2556,11 +2508,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class UmlControlShape extends mxShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   UmlControlShape.prototype.getLabelBounds = function (rect) {
     return new mxRectangle(
@@ -2597,19 +2548,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("umlControl", UmlControlShape);
 
   // UML Lifeline Shape
-/*
+  /*
   function UmlLifeline() {
     mxRectangleShape.call(this);
   }
   mxUtils.extend(UmlLifeline, mxRectangleShape);
 */
   class UmlLifeline extends mxRectangleShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   UmlLifeline.prototype.size = 40;
   UmlLifeline.prototype.isHtmlAllowed = function () {
@@ -2675,19 +2624,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("umlLifeline", UmlLifeline);
 
   // UML Frame Shape
-/*
+  /*
   function UmlFrame() {
     mxShape.call(this);
   }
   mxUtils.extend(UmlFrame, mxShape);
 */
   class UmlFrame extends mxShape {
-	  constructor() {
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   UmlFrame.prototype.width = 60;
   UmlFrame.prototype.height = 30;
@@ -3249,18 +3196,17 @@ import {Graph}  from "./Graph.js";
   mxStyleRegistry.putValue("hexagonPerimeter2", mxPerimeter.HexagonPerimeter2);
 
   // Provided Interface Shape (aka Lollipop)
-/*
+  /*
   function LollipopShape() {
     mxShape.call(this);
   }
   mxUtils.extend(LollipopShape, mxShape);
 */
   class LollipopShape extends mxShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   LollipopShape.prototype.size = 10;
   LollipopShape.prototype.paintBackground = function (c, x, y, w, h) {
@@ -3280,7 +3226,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("lollipop", LollipopShape);
 
   // Required Interface Shape
-/*
+  /*
   function RequiresShape() {
     mxShape.call(this);
   }
@@ -3288,14 +3234,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class RequiresShape extends mxShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
-
 
   RequiresShape.prototype.size = 10;
   RequiresShape.prototype.inset = 2;
@@ -3323,7 +3265,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("requires", RequiresShape);
 
   // Required Interface Shape
-/*
+  /*
   function RequiredInterfaceShape() {
     mxShape.call(this);
   }
@@ -3331,13 +3273,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class RequiredInterfaceShape extends mxShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
 
   RequiredInterfaceShape.prototype.paintBackground = function (c, x, y, w, h) {
     c.translate(x, y);
@@ -3353,7 +3292,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("requiredInterface", RequiredInterfaceShape);
 
   // Provided and Required Interface Shape
-/*
+  /*
   function ProvidedRequiredInterfaceShape() {
     mxShape.call(this);
   }
@@ -3361,11 +3300,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class ProvidedRequiredInterfaceShape extends mxShape {
-	  constructor() {
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   ProvidedRequiredInterfaceShape.prototype.inset = 2;
   ProvidedRequiredInterfaceShape.prototype.paintBackground = function (
@@ -3397,7 +3335,7 @@ import {Graph}  from "./Graph.js";
   );
 
   // Module shape
-/*
+  /*
   function ModuleShape() {
     mxCylinder.call(this);
   }
@@ -3405,12 +3343,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class ModuleShape extends mxCylinder {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   ModuleShape.prototype.jettyWidth = 20;
   ModuleShape.prototype.jettyHeight = 10;
@@ -3457,18 +3393,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("module", ModuleShape);
 
   // Component shape
-/*
+  /*
   function ComponentShape() {
     mxCylinder.call(this);
   }
   mxUtils.extend(ComponentShape, mxCylinder);
 */
   class ComponentShape extends mxCylinder {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   ComponentShape.prototype.jettyWidth = 32;
   ComponentShape.prototype.jettyHeight = 12;
@@ -3522,7 +3457,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("component", ComponentShape);
 
   // Associative entity derived from rectangle shape
-/*
+  /*
   function AssociativeEntity() {
     mxRectangleShape.call(this);
   }
@@ -3530,12 +3465,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class AssociativeEntity extends mxRectangleShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   AssociativeEntity.prototype.paintForeground = function (c, x, y, w, h) {
     var hw = w / 2;
@@ -3568,7 +3501,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("associativeEntity", AssociativeEntity);
 
   // State Shapes derives from double ellipse
-/*
+  /*
   function StateShape() {
     mxDoubleEllipse.call(this);
   }
@@ -3576,11 +3509,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class StateShape extends mxDoubleEllipse {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   StateShape.prototype.outerStroke = true;
   StateShape.prototype.paintVertexShape = function (c, x, y, w, h) {
@@ -3600,25 +3532,24 @@ import {Graph}  from "./Graph.js";
   };
 
   mxCellRenderer.registerShape("endState", StateShape);
-/*
+  /*
   function StartStateShape() {
     StateShape.call(this);
   }
   mxUtils.extend(StartStateShape, StateShape);
 */
   class StartStateShape extends StateShape {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   StartStateShape.prototype.outerStroke = false;
 
   mxCellRenderer.registerShape("startState", StartStateShape);
 
   // Link shape
-/*
+  /*
   function LinkShape() {
     mxArrowConnector.call(this);
     this.spacing = 0;
@@ -3627,11 +3558,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class LinkShape extends mxArrowConnector {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   LinkShape.prototype.defaultWidth = 4;
 
@@ -3654,7 +3584,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("link", LinkShape);
 
   // Generic arrow
-/*
+  /*
   function FlexArrowShape() {
     mxArrowConnector.call(this);
     this.spacing = 0;
@@ -3662,14 +3592,11 @@ import {Graph}  from "./Graph.js";
   mxUtils.extend(FlexArrowShape, mxArrowConnector);
 */
   class FlexArrowShape extends mxArrowConnector {
-	  constructor(){
-		  super();
-                  this.spacing = 0;
-	  }
+    constructor() {
+      super();
+      this.spacing = 0;
+    }
   }
-
-
-
 
   FlexArrowShape.prototype.defaultWidth = 10;
   FlexArrowShape.prototype.defaultArrowWidth = 20;
@@ -3699,18 +3626,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("flexArrow", FlexArrowShape);
 
   // Manual Input shape
-/*
+  /*
   function ManualInputShape() {
     mxActor.call(this);
   }
   mxUtils.extend(ManualInputShape, mxActor);
 */
   class ManualInputShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   ManualInputShape.prototype.size = 30;
   ManualInputShape.prototype.isRoundable = function () {
@@ -3745,21 +3671,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("manualInput", ManualInputShape);
 
   // Internal storage
-/*
+  /*
   function InternalStorageShape() {
     mxRectangleShape.call(this);
   }
   mxUtils.extend(InternalStorageShape, mxRectangleShape);
 */
   class InternalStorageShape extends mxRectangleShape {
-      constructor() {
-	      super();
-
-      }
-
+    constructor() {
+      super();
+    }
   }
-
-
 
   InternalStorageShape.prototype.dx = 20;
   InternalStorageShape.prototype.dy = 20;
@@ -3805,19 +3727,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("internalStorage", InternalStorageShape);
 
   // Internal storage
-/*
+  /*
   function CornerShape() {
     mxActor.call(this);
   }
   mxUtils.extend(CornerShape, mxActor);
 */
   class CornerShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   CornerShape.prototype.dx = 20;
   CornerShape.prototype.dy = 20;
@@ -3863,20 +3783,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("corner", CornerShape);
 
   // Crossbar shape
-/*
+  /*
   function CrossbarShape() {
     mxActor.call(this);
   }
   mxUtils.extend(CrossbarShape, mxActor);
 */
   class CrossbarShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
 
   CrossbarShape.prototype.redrawPath = function (c, x, y, w, h) {
     c.moveTo(0, 0);
@@ -3895,20 +3812,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("crossbar", CrossbarShape);
 
   // Internal storage
-/*
+  /*
   function TeeShape() {
     mxActor.call(this);
   }
   mxUtils.extend(TeeShape, mxActor);
 */
   class TeeShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
 
   TeeShape.prototype.dx = 20;
   TeeShape.prototype.dy = 20;
@@ -3957,21 +3871,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("tee", TeeShape);
 
   // Arrow
-/*
+  /*
   function SingleArrowShape() {
     mxActor.call(this);
   }
   mxUtils.extend(SingleArrowShape, mxActor);
 */
   class SingleArrowShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
-
 
   SingleArrowShape.prototype.arrowWidth = 0.3;
   SingleArrowShape.prototype.arrowSize = 0.2;
@@ -4026,20 +3936,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("singleArrow", SingleArrowShape);
 
   // Arrow
-/*
+  /*
   function DoubleArrowShape() {
     mxActor.call(this);
   }
   mxUtils.extend(DoubleArrowShape, mxActor);
 */
   class DoubleArrowShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
 
   DoubleArrowShape.prototype.redrawPath = function (c, x, y, w, h) {
     var aw =
@@ -4105,7 +4012,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("doubleArrow", DoubleArrowShape);
 
   // Data storage
-/*
+  /*
   function DataStorageShape() {
     mxActor.call(this);
   }
@@ -4113,13 +4020,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class DataStorageShape extends mxActor {
-	  constructor() {
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-  
-
 
   DataStorageShape.prototype.size = 0.1;
   DataStorageShape.prototype.fixedSize = 20;
@@ -4154,18 +4058,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("dataStorage", DataStorageShape);
 
   // Or
-/*
+  /*
   function OrShape() {
     mxActor.call(this);
   }
   mxUtils.extend(OrShape, mxActor);
 */
   class OrShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   OrShape.prototype.redrawPath = function (c, x, y, w, h) {
     c.moveTo(0, 0);
@@ -4178,7 +4081,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("or", OrShape);
 
   // Xor
-/*
+  /*
   function XorShape() {
     mxActor.call(this);
   }
@@ -4186,12 +4089,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class XorShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   XorShape.prototype.redrawPath = function (c, x, y, w, h) {
     c.moveTo(0, 0);
@@ -4205,20 +4106,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("xor", XorShape);
 
   // Loop limit
-/*
+  /*
   function LoopLimitShape() {
     mxActor.call(this);
   }
   mxUtils.extend(LoopLimitShape, mxActor);
 */
   class LoopLimitShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
 
   LoopLimitShape.prototype.size = 20;
   LoopLimitShape.prototype.isRoundable = function () {
@@ -4255,7 +4153,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("loopLimit", LoopLimitShape);
 
   // Off page connector
-/*
+  /*
   function OffPageConnectorShape() {
     mxActor.call(this);
   }
@@ -4263,11 +4161,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class OffPageConnectorShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   OffPageConnectorShape.prototype.size = 3 / 8;
   OffPageConnectorShape.prototype.isRoundable = function () {
@@ -4308,18 +4205,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("offPageConnector", OffPageConnectorShape);
 
   // Internal storage
-/*
+  /*
   function TapeDataShape() {
     mxEllipse.call(this);
   }
   mxUtils.extend(TapeDataShape, mxEllipse);
 */
   class TapeDataShape extends mxEllipse {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
 
   TapeDataShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     mxEllipse.prototype.paintVertexShape.apply(this, arguments);
@@ -4334,7 +4230,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("tapeData", TapeDataShape);
 
   // OrEllipseShape
-/*
+  /*
   function OrEllipseShape() {
     mxEllipse.call(this);
   }
@@ -4342,12 +4238,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class OrEllipseShape extends mxEllipse {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   OrEllipseShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     mxEllipse.prototype.paintVertexShape.apply(this, arguments);
@@ -4369,19 +4263,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("orEllipse", OrEllipseShape);
 
   // SumEllipseShape
-/*
+  /*
   function SumEllipseShape() {
     mxEllipse.call(this);
   }
   mxUtils.extend(SumEllipseShape, mxEllipse);
 */
   class SumEllipseShape extends mxEllipse {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   SumEllipseShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     mxEllipse.prototype.paintVertexShape.apply(this, arguments);
@@ -4404,20 +4296,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("sumEllipse", SumEllipseShape);
 
   // SortShape
-/*
+  /*
   function SortShape() {
     mxRhombus.call(this);
   }
   mxUtils.extend(SortShape, mxRhombus);
 */
   class SortShape extends mxRhombus {
-	  constructor() {
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
 
   SortShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     mxRhombus.prototype.paintVertexShape.apply(this, arguments);
@@ -4433,19 +4322,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("sortShape", SortShape);
 
   // CollateShape
-/*
+  /*
   function CollateShape() {
     mxEllipse.call(this);
   }
   mxUtils.extend(CollateShape, mxEllipse);
 */
   class CollateShape extends mxEllipse {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   CollateShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     c.begin();
@@ -4466,7 +4353,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("collate", CollateShape);
 
   // DimensionShape
-/*
+  /*
   function DimensionShape() {
     mxEllipse.call(this);
   }
@@ -4474,12 +4361,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class DimensionShape extends mxEllipse {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   DimensionShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     // Arrow size
@@ -4510,19 +4395,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("dimension", DimensionShape);
 
   // PartialRectangleShape
-/*
+  /*
   function PartialRectangleShape() {
     mxEllipse.call(this);
   }
   mxUtils.extend(PartialRectangleShape, mxEllipse);
 */
   class PartialRectangleShape extends mxEllipse {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-  
-
 
   PartialRectangleShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     if (!this.outline) {
@@ -4577,7 +4460,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("partialRectangle", PartialRectangleShape);
 
   // LineEllipseShape
-/*
+  /*
   function LineEllipseShape() {
     mxEllipse.call(this);
   }
@@ -4585,12 +4468,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class LineEllipseShape extends mxEllipse {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   LineEllipseShape.prototype.paintVertexShape = function (c, x, y, w, h) {
     mxEllipse.prototype.paintVertexShape.apply(this, arguments);
@@ -4613,19 +4494,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("lineEllipse", LineEllipseShape);
 
   // Delay
-/*
+  /*
   function DelayShape() {
     mxActor.call(this);
   }
   mxUtils.extend(DelayShape, mxActor);
 */
   class DelayShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   DelayShape.prototype.redrawPath = function (c, x, y, w, h) {
     var dx = Math.min(w, h / 2);
@@ -4641,7 +4520,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("delay", DelayShape);
 
   // Cross Shape
-/*
+  /*
   function CrossShape() {
     mxActor.call(this);
   }
@@ -4649,12 +4528,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class CrossShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   CrossShape.prototype.size = 0.2;
   CrossShape.prototype.redrawPath = function (c, x, y, w, h) {
@@ -4690,7 +4567,7 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("cross", CrossShape);
 
   // Display
-/*
+  /*
   function DisplayShape() {
     mxActor.call(this);
   }
@@ -4698,13 +4575,10 @@ import {Graph}  from "./Graph.js";
 */
 
   class DisplayShape extends mxActor {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
-
 
   DisplayShape.prototype.size = 0.25;
   DisplayShape.prototype.redrawPath = function (c, x, y, w, h) {
@@ -4728,19 +4602,17 @@ import {Graph}  from "./Graph.js";
   mxCellRenderer.registerShape("display", DisplayShape);
 
   // FilledEdge shape
-/*
+  /*
   function FilledEdge() {
     mxConnector.call(this);
   }
   mxUtils.extend(FilledEdge, mxConnector);
 */
   class FilledEdge extends mxConnector {
-	  constructor(){
-		  super();
-	  }
+    constructor() {
+      super();
+    }
   }
-
-
 
   FilledEdge.prototype.origPaintEdgeShape = FilledEdge.prototype.paintEdgeShape;
   FilledEdge.prototype.paintEdgeShape = function (c, pts, rounded) {

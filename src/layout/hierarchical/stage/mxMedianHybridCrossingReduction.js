@@ -1,5 +1,5 @@
-import { mxHierarchicalLayoutStage } from '@mxgraph/layout/hierarchical/stage/mxHierarchicalLayoutStage';
-import { MedianCellSorter } from '@mxgraph/layout/hierarchical/stage/MedianCellSorter';
+import { mxHierarchicalLayoutStage } from "@mxgraph/layout/hierarchical/stage/mxHierarchicalLayoutStage";
+import { MedianCellSorter } from "@mxgraph/layout/hierarchical/stage/MedianCellSorter";
 export class mxMedianHybridCrossingReduction extends mxHierarchicalLayoutStage {
   maxIterations = 24;
   nestedBestRanks = null;
@@ -23,7 +23,12 @@ export class mxMedianHybridCrossingReduction extends mxHierarchicalLayoutStage {
     var iterationsWithoutImprovement = 0;
     var currentBestCrossings = this.calculateCrossings(model);
 
-    for (var i = 0; i < this.maxIterations && iterationsWithoutImprovement < this.maxNoImprovementIterations; i++) {
+    for (
+      var i = 0;
+      i < this.maxIterations &&
+      iterationsWithoutImprovement < this.maxNoImprovementIterations;
+      i++
+    ) {
       this.weightedMedian(i, model);
       this.transpose(i, model);
       var candidateCrossings = this.calculateCrossings(model);
@@ -100,7 +105,9 @@ export class mxMedianHybridCrossingReduction extends mxHierarchicalLayoutStage {
 
       for (var k = 0; k < connectedCells.length; k++) {
         var connectedNode = connectedCells[k];
-        var otherCellRankPosition = connectedNode.getGeneralPurposeVariable(i - 1);
+        var otherCellRankPosition = connectedNode.getGeneralPurposeVariable(
+          i - 1,
+        );
         nodeIndices.push(otherCellRankPosition);
       }
 
@@ -187,16 +194,21 @@ export class mxMedianHybridCrossingReduction extends mxHierarchicalLayoutStage {
           if (j == 0) {
             leftCell = orderedCells[j];
             leftCellAboveConnections = leftCell.getNextLayerConnectedCells(i);
-            leftCellBelowConnections = leftCell.getPreviousLayerConnectedCells(i);
+            leftCellBelowConnections =
+              leftCell.getPreviousLayerConnectedCells(i);
             leftAbovePositions = [];
             leftBelowPositions = [];
 
             for (var k = 0; k < leftCellAboveConnections.length; k++) {
-              leftAbovePositions[k] = leftCellAboveConnections[k].getGeneralPurposeVariable(i + 1);
+              leftAbovePositions[k] = leftCellAboveConnections[
+                k
+              ].getGeneralPurposeVariable(i + 1);
             }
 
             for (var k = 0; k < leftCellBelowConnections.length; k++) {
-              leftBelowPositions[k] = leftCellBelowConnections[k].getGeneralPurposeVariable(i - 1);
+              leftBelowPositions[k] = leftCellBelowConnections[
+                k
+              ].getGeneralPurposeVariable(i - 1);
             }
           } else {
             leftCellAboveConnections = rightCellAboveConnections;
@@ -208,16 +220,21 @@ export class mxMedianHybridCrossingReduction extends mxHierarchicalLayoutStage {
 
           rightCell = orderedCells[j + 1];
           rightCellAboveConnections = rightCell.getNextLayerConnectedCells(i);
-          rightCellBelowConnections = rightCell.getPreviousLayerConnectedCells(i);
+          rightCellBelowConnections =
+            rightCell.getPreviousLayerConnectedCells(i);
           rightAbovePositions = [];
           rightBelowPositions = [];
 
           for (var k = 0; k < rightCellAboveConnections.length; k++) {
-            rightAbovePositions[k] = rightCellAboveConnections[k].getGeneralPurposeVariable(i + 1);
+            rightAbovePositions[k] = rightCellAboveConnections[
+              k
+            ].getGeneralPurposeVariable(i + 1);
           }
 
           for (var k = 0; k < rightCellBelowConnections.length; k++) {
-            rightBelowPositions[k] = rightCellBelowConnections[k].getGeneralPurposeVariable(i - 1);
+            rightBelowPositions[k] = rightCellBelowConnections[
+              k
+            ].getGeneralPurposeVariable(i - 1);
           }
 
           var totalCurrentCrossings = 0;
@@ -252,7 +269,10 @@ export class mxMedianHybridCrossingReduction extends mxHierarchicalLayoutStage {
             (totalSwitchedCrossings == totalCurrentCrossings && nudge)
           ) {
             var temp = leftCell.getGeneralPurposeVariable(i);
-            leftCell.setGeneralPurposeVariable(i, rightCell.getGeneralPurposeVariable(i));
+            leftCell.setGeneralPurposeVariable(
+              i,
+              rightCell.getGeneralPurposeVariable(i),
+            );
             rightCell.setGeneralPurposeVariable(i, temp);
             rightCellAboveConnections = leftCellAboveConnections;
             rightCellBelowConnections = leftCellBelowConnections;
@@ -297,7 +317,8 @@ export class mxMedianHybridCrossingReduction extends mxHierarchicalLayoutStage {
       if (downwardSweep) {
         nextLevelConnectedCells = cell.getNextLayerConnectedCells(rankValue);
       } else {
-        nextLevelConnectedCells = cell.getPreviousLayerConnectedCells(rankValue);
+        nextLevelConnectedCells =
+          cell.getPreviousLayerConnectedCells(rankValue);
       }
 
       var nextRankValue;
@@ -308,8 +329,14 @@ export class mxMedianHybridCrossingReduction extends mxHierarchicalLayoutStage {
         nextRankValue = rankValue - 1;
       }
 
-      if (nextLevelConnectedCells != null && nextLevelConnectedCells.length != 0) {
-        sorterEntry.medianValue = this.medianValue(nextLevelConnectedCells, nextRankValue);
+      if (
+        nextLevelConnectedCells != null &&
+        nextLevelConnectedCells.length != 0
+      ) {
+        sorterEntry.medianValue = this.medianValue(
+          nextLevelConnectedCells,
+          nextRankValue,
+        );
         medianValues.push(sorterEntry);
       } else {
         reservedPositions[cell.getGeneralPurposeVariable(rankValue)] = true;
@@ -346,9 +373,11 @@ export class mxMedianHybridCrossingReduction extends mxHierarchicalLayoutStage {
     } else {
       var medianPoint = arrayCount / 2;
       var leftMedian = medianValues[medianPoint - 1] - medianValues[0];
-      var rightMedian = medianValues[arrayCount - 1] - medianValues[medianPoint];
+      var rightMedian =
+        medianValues[arrayCount - 1] - medianValues[medianPoint];
       return (
-        (medianValues[medianPoint - 1] * rightMedian + medianValues[medianPoint] * leftMedian) /
+        (medianValues[medianPoint - 1] * rightMedian +
+          medianValues[medianPoint] * leftMedian) /
         (leftMedian + rightMedian)
       );
     }

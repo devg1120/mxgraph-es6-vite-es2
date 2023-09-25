@@ -1,6 +1,6 @@
-import { mxShape } from '@mxgraph/shape/mxShape';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxShape } from "@mxgraph/shape/mxShape";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxRectangleShape extends mxShape {
   constructor(bounds, fill, stroke, strokewidth) {
@@ -15,7 +15,9 @@ export class mxRectangleShape extends mxShape {
     var events = true;
 
     if (this.style != null) {
-      events = mxUtils.getValue(this.style, mxConstants.STYLE_POINTER_EVENTS, '1') == '1';
+      events =
+        mxUtils.getValue(this.style, mxConstants.STYLE_POINTER_EVENTS, "1") ==
+        "1";
     }
 
     return (
@@ -30,7 +32,9 @@ export class mxRectangleShape extends mxShape {
     var events = true;
 
     if (this.style != null) {
-      events = mxUtils.getValue(this.style, mxConstants.STYLE_POINTER_EVENTS, '1') == '1';
+      events =
+        mxUtils.getValue(this.style, mxConstants.STYLE_POINTER_EVENTS, "1") ==
+        "1";
     }
 
     if (
@@ -45,14 +49,28 @@ export class mxRectangleShape extends mxShape {
       if (this.isRounded) {
         var r = 0;
 
-        if (mxUtils.getValue(this.style, mxConstants.STYLE_ABSOLUTE_ARCSIZE, 0) == '1') {
+        if (
+          mxUtils.getValue(this.style, mxConstants.STYLE_ABSOLUTE_ARCSIZE, 0) ==
+          "1"
+        ) {
           r = Math.min(
             w / 2,
-            Math.min(h / 2, mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants.LINE_ARCSIZE) / 2)
+            Math.min(
+              h / 2,
+              mxUtils.getValue(
+                this.style,
+                mxConstants.STYLE_ARCSIZE,
+                mxConstants.LINE_ARCSIZE,
+              ) / 2,
+            ),
           );
         } else {
           var f =
-            mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants.RECTANGLE_ROUNDING_FACTOR * 100) / 100;
+            mxUtils.getValue(
+              this.style,
+              mxConstants.STYLE_ARCSIZE,
+              mxConstants.RECTANGLE_ROUNDING_FACTOR * 100,
+            ) / 100;
           r = Math.min(w * f, h * f);
         }
 
@@ -70,8 +88,20 @@ export class mxRectangleShape extends mxShape {
   }
 
   paintForeground(c, x, y, w, h) {
-    if (this.glass && !this.outline && this.fill != null && this.fill != mxConstants.NONE) {
-      this.paintGlassEffect(c, x, y, w, h, this.getArcSize(w + this.strokewidth, h + this.strokewidth));
+    if (
+      this.glass &&
+      !this.outline &&
+      this.fill != null &&
+      this.fill != mxConstants.NONE
+    ) {
+      this.paintGlassEffect(
+        c,
+        x,
+        y,
+        w,
+        h,
+        this.getArcSize(w + this.strokewidth, h + this.strokewidth),
+      );
     }
   }
 }

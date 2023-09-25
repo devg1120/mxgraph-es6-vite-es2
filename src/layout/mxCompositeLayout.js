@@ -1,4 +1,4 @@
-import { mxGraphLayout } from '@mxgraph/layout/mxGraphLayout';
+import { mxGraphLayout } from "@mxgraph/layout/mxGraphLayout";
 
 export class mxCompositeLayout extends mxGraphLayout {
   constructor(graph, layouts, master) {

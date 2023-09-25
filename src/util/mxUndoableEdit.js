@@ -1,5 +1,5 @@
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
 
 export class mxUndoableEdit {
   undone = false;
@@ -41,7 +41,9 @@ export class mxUndoableEdit {
           change.undo();
         }
 
-        this.source.fireEvent(new mxEventObject(mxEvent.EXECUTED, 'change', change));
+        this.source.fireEvent(
+          new mxEventObject(mxEvent.EXECUTED, "change", change),
+        );
       }
 
       this.undone = true;
@@ -66,7 +68,9 @@ export class mxUndoableEdit {
           change.redo();
         }
 
-        this.source.fireEvent(new mxEventObject(mxEvent.EXECUTED, 'change', change));
+        this.source.fireEvent(
+          new mxEventObject(mxEvent.EXECUTED, "change", change),
+        );
       }
 
       this.undone = false;

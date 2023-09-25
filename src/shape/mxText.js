@@ -1,11 +1,11 @@
-import { mxShape } from '@mxgraph/shape/mxShape';
-import { mxSvgCanvas2D } from '@mxgraph/util/mxSvgCanvas2D';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxVmlCanvas2D } from '@mxgraph/util/mxVmlCanvas2D';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxClient } from '@mxgraph/mxClient';
+import { mxShape } from "@mxgraph/shape/mxShape";
+import { mxSvgCanvas2D } from "@mxgraph/util/mxSvgCanvas2D";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxVmlCanvas2D } from "@mxgraph/util/mxVmlCanvas2D";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxText extends mxShape {
   static baseSpacingTop = 0;
@@ -41,17 +41,18 @@ export class mxText extends mxShape {
     clipped,
     overflow,
     labelPadding,
-    textDirection
+    textDirection,
   ) {
     super();
     this.value = value;
     this.bounds = bounds;
-    this.color = color != null ? color : 'black';
+    this.color = color != null ? color : "black";
     this.align = align != null ? align : mxConstants.ALIGN_CENTER;
     this.valign = valign != null ? valign : mxConstants.ALIGN_MIDDLE;
     this.family = family != null ? family : mxConstants.DEFAULT_FONTFAMILY;
     this.size = size != null ? size : mxConstants.DEFAULT_FONTSIZE;
-    this.fontStyle = fontStyle != null ? fontStyle : mxConstants.DEFAULT_FONTSTYLE;
+    this.fontStyle =
+      fontStyle != null ? fontStyle : mxConstants.DEFAULT_FONTSTYLE;
     this.spacing = parseInt(spacing || 2);
     this.spacingTop = this.spacing + parseInt(spacingTop || 0);
     this.spacingRight = this.spacing + parseInt(spacingRight || 0);
@@ -62,7 +63,7 @@ export class mxText extends mxShape {
     this.border = border;
     this.wrap = wrap != null ? wrap : false;
     this.clipped = clipped != null ? clipped : false;
-    this.overflow = overflow != null ? overflow : 'visible';
+    this.overflow = overflow != null ? overflow : "visible";
     this.labelPadding = labelPadding != null ? labelPadding : 0;
     this.textDirection = textDirection;
     this.rotation = 0;
@@ -115,29 +116,37 @@ export class mxText extends mxShape {
         this.overflow,
         this.clipped,
         this.getTextRotation(),
-        this.node
+        this.node,
       );
     } else {
-      var realHtml = mxUtils.isNode(this.value) || this.dialect == mxConstants.DIALECT_STRICTHTML;
-      var fmt = realHtml || c instanceof mxVmlCanvas2D ? 'html' : '';
+      var realHtml =
+        mxUtils.isNode(this.value) ||
+        this.dialect == mxConstants.DIALECT_STRICTHTML;
+      var fmt = realHtml || c instanceof mxVmlCanvas2D ? "html" : "";
       var val = this.value;
 
-      if (!realHtml && fmt == 'html') {
+      if (!realHtml && fmt == "html") {
         val = mxUtils.htmlEntities(val, false);
       }
 
-      if (fmt == 'html' && !mxUtils.isNode(this.value)) {
-        val = mxUtils.replaceTrailingNewlines(val, '<div><br></div>');
+      if (fmt == "html" && !mxUtils.isNode(this.value)) {
+        val = mxUtils.replaceTrailingNewlines(val, "<div><br></div>");
       }
 
-      val = !mxUtils.isNode(this.value) && this.replaceLinefeeds && fmt == 'html' ? val.replace(/\n/g, '<br/>') : val;
+      val =
+        !mxUtils.isNode(this.value) && this.replaceLinefeeds && fmt == "html"
+          ? val.replace(/\n/g, "<br/>")
+          : val;
       var dir = this.textDirection;
 
       if (dir == mxConstants.TEXT_DIRECTION_AUTO && !realHtml) {
         dir = this.getAutoDirection();
       }
 
-      if (dir != mxConstants.TEXT_DIRECTION_LTR && dir != mxConstants.TEXT_DIRECTION_RTL) {
+      if (
+        dir != mxConstants.TEXT_DIRECTION_LTR &&
+        dir != mxConstants.TEXT_DIRECTION_RTL
+      ) {
         dir = null;
       }
 
@@ -154,7 +163,7 @@ export class mxText extends mxShape {
         this.overflow,
         this.clipped,
         this.getTextRotation(),
-        dir
+        dir,
       );
     }
   }
@@ -165,13 +174,17 @@ export class mxText extends mxShape {
       this.checkBounds() &&
       this.cacheEnabled &&
       this.lastValue == this.value &&
-      (mxUtils.isNode(this.value) || this.dialect == mxConstants.DIALECT_STRICTHTML)
+      (mxUtils.isNode(this.value) ||
+        this.dialect == mxConstants.DIALECT_STRICTHTML)
     ) {
-      if (this.node.nodeName == 'DIV' && this.isHtmlAllowed()) {
+      if (this.node.nodeName == "DIV" && this.isHtmlAllowed()) {
         if (mxClient.IS_SVG) {
           this.redrawHtmlShapeWithCss3();
         } else {
-          this.updateSize(this.node, this.state == null || this.state.view.textDiv == null);
+          this.updateSize(
+            this.node,
+            this.state == null || this.state.view.textDiv == null,
+          );
           this.updateHtmlTransform();
         }
 
@@ -191,7 +204,10 @@ export class mxText extends mxShape {
     } else {
       super.redraw();
 
-      if (mxUtils.isNode(this.value) || this.dialect == mxConstants.DIALECT_STRICTHTML) {
+      if (
+        mxUtils.isNode(this.value) ||
+        this.dialect == mxConstants.DIALECT_STRICTHTML
+      ) {
         this.lastValue = this.value;
       } else {
         this.lastValue = null;
@@ -201,7 +217,7 @@ export class mxText extends mxShape {
 
   resetStyles() {
     super.resetStyles();
-    this.color = 'black';
+    this.color = "black";
     this.align = mxConstants.ALIGN_CENTER;
     this.valign = mxConstants.ALIGN_MIDDLE;
     this.family = mxConstants.DEFAULT_FONTFAMILY;
@@ -224,31 +240,96 @@ export class mxText extends mxShape {
     super.apply(state);
 
     if (this.style != null) {
-      this.fontStyle = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSTYLE, this.fontStyle);
-      this.family = mxUtils.getValue(this.style, mxConstants.STYLE_FONTFAMILY, this.family);
-      this.size = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, this.size);
-      this.color = mxUtils.getValue(this.style, mxConstants.STYLE_FONTCOLOR, this.color);
-      this.align = mxUtils.getValue(this.style, mxConstants.STYLE_ALIGN, this.align);
-      this.valign = mxUtils.getValue(this.style, mxConstants.STYLE_VERTICAL_ALIGN, this.valign);
-      this.spacing = parseInt(mxUtils.getValue(this.style, mxConstants.STYLE_SPACING, this.spacing));
+      this.fontStyle = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_FONTSTYLE,
+        this.fontStyle,
+      );
+      this.family = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_FONTFAMILY,
+        this.family,
+      );
+      this.size = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_FONTSIZE,
+        this.size,
+      );
+      this.color = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_FONTCOLOR,
+        this.color,
+      );
+      this.align = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_ALIGN,
+        this.align,
+      );
+      this.valign = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_VERTICAL_ALIGN,
+        this.valign,
+      );
+      this.spacing = parseInt(
+        mxUtils.getValue(this.style, mxConstants.STYLE_SPACING, this.spacing),
+      );
       this.spacingTop =
-        parseInt(mxUtils.getValue(this.style, mxConstants.STYLE_SPACING_TOP, this.spacingTop - old)) + this.spacing;
+        parseInt(
+          mxUtils.getValue(
+            this.style,
+            mxConstants.STYLE_SPACING_TOP,
+            this.spacingTop - old,
+          ),
+        ) + this.spacing;
       this.spacingRight =
-        parseInt(mxUtils.getValue(this.style, mxConstants.STYLE_SPACING_RIGHT, this.spacingRight - old)) + this.spacing;
+        parseInt(
+          mxUtils.getValue(
+            this.style,
+            mxConstants.STYLE_SPACING_RIGHT,
+            this.spacingRight - old,
+          ),
+        ) + this.spacing;
       this.spacingBottom =
-        parseInt(mxUtils.getValue(this.style, mxConstants.STYLE_SPACING_BOTTOM, this.spacingBottom - old)) +
-        this.spacing;
+        parseInt(
+          mxUtils.getValue(
+            this.style,
+            mxConstants.STYLE_SPACING_BOTTOM,
+            this.spacingBottom - old,
+          ),
+        ) + this.spacing;
       this.spacingLeft =
-        parseInt(mxUtils.getValue(this.style, mxConstants.STYLE_SPACING_LEFT, this.spacingLeft - old)) + this.spacing;
-      this.horizontal = mxUtils.getValue(this.style, mxConstants.STYLE_HORIZONTAL, this.horizontal);
-      this.background = mxUtils.getValue(this.style, mxConstants.STYLE_LABEL_BACKGROUNDCOLOR, this.background);
-      this.border = mxUtils.getValue(this.style, mxConstants.STYLE_LABEL_BORDERCOLOR, this.border);
+        parseInt(
+          mxUtils.getValue(
+            this.style,
+            mxConstants.STYLE_SPACING_LEFT,
+            this.spacingLeft - old,
+          ),
+        ) + this.spacing;
+      this.horizontal = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_HORIZONTAL,
+        this.horizontal,
+      );
+      this.background = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_LABEL_BACKGROUNDCOLOR,
+        this.background,
+      );
+      this.border = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_LABEL_BORDERCOLOR,
+        this.border,
+      );
       this.textDirection = mxUtils.getValue(
         this.style,
         mxConstants.STYLE_TEXT_DIRECTION,
-        mxConstants.DEFAULT_TEXT_DIRECTION
+        mxConstants.DEFAULT_TEXT_DIRECTION,
       );
-      this.opacity = mxUtils.getValue(this.style, mxConstants.STYLE_TEXT_OPACITY, 100);
+      this.opacity = mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_TEXT_OPACITY,
+        100,
+      );
       this.updateMargin();
     }
 
@@ -257,8 +338,11 @@ export class mxText extends mxShape {
   }
 
   getAutoDirection() {
-    var tmp = /[A-Za-z\u05d0-\u065f\u066a-\u06ef\u06fa-\u07ff\ufb1d-\ufdff\ufe70-\ufefc]/.exec(this.value);
-    return tmp != null && tmp.length > 0 && tmp[0] > 'z'
+    var tmp =
+      /[A-Za-z\u05d0-\u065f\u066a-\u06ef\u06fa-\u07ff\ufb1d-\ufdff\ufe70-\ufefc]/.exec(
+        this.value,
+      );
+    return tmp != null && tmp.length > 0 && tmp[0] > "z"
       ? mxConstants.TEXT_DIRECTION_RTL
       : mxConstants.TEXT_DIRECTION_LTR;
   }
@@ -283,18 +367,29 @@ export class mxText extends mxShape {
     var rot = this.getTextRotation();
     var h =
       this.style != null
-        ? mxUtils.getValue(this.style, mxConstants.STYLE_LABEL_POSITION, mxConstants.ALIGN_CENTER)
+        ? mxUtils.getValue(
+            this.style,
+            mxConstants.STYLE_LABEL_POSITION,
+            mxConstants.ALIGN_CENTER,
+          )
         : null;
     var v =
       this.style != null
-        ? mxUtils.getValue(this.style, mxConstants.STYLE_VERTICAL_LABEL_POSITION, mxConstants.ALIGN_MIDDLE)
+        ? mxUtils.getValue(
+            this.style,
+            mxConstants.STYLE_VERTICAL_LABEL_POSITION,
+            mxConstants.ALIGN_MIDDLE,
+          )
         : null;
 
     if (
       !this.ignoreStringSize &&
       node != null &&
-      this.overflow != 'fill' &&
-      (!this.clipped || !this.ignoreClippedStringSize || h != mxConstants.ALIGN_CENTER || v != mxConstants.ALIGN_MIDDLE)
+      this.overflow != "fill" &&
+      (!this.clipped ||
+        !this.ignoreClippedStringSize ||
+        h != mxConstants.ALIGN_CENTER ||
+        v != mxConstants.ALIGN_MIDDLE)
     ) {
       var ow = null;
       var oh = null;
@@ -303,12 +398,12 @@ export class mxText extends mxShape {
         if (
           node.firstChild != null &&
           node.firstChild.firstChild != null &&
-          node.firstChild.firstChild.nodeName == 'foreignObject'
+          node.firstChild.firstChild.nodeName == "foreignObject"
         ) {
           node = node.firstChild.firstChild.firstChild.firstChild;
           oh = node.offsetHeight * this.scale;
 
-          if (this.overflow == 'width') {
+          if (this.overflow == "width") {
             ow = this.boundingBox.width;
           } else {
             ow = node.offsetWidth * this.scale;
@@ -317,7 +412,10 @@ export class mxText extends mxShape {
           try {
             var b = node.getBBox();
 
-            if (typeof this.value == 'string' && mxUtils.trim(this.value) == 0) {
+            if (
+              typeof this.value == "string" &&
+              mxUtils.trim(this.value) == 0
+            ) {
               this.boundingBox = null;
             } else if (b.width == 0 && b.height == 0) {
               this.boundingBox = null;
@@ -351,30 +449,33 @@ export class mxText extends mxShape {
 
             if (this.wrap && w > 0) {
               node.style.wordWrap = mxConstants.WORD_WRAP;
-              node.style.whiteSpace = 'normal';
+              node.style.whiteSpace = "normal";
 
-              if (node.style.wordWrap != 'break-word') {
-                var divs = sizeDiv.getElementsByTagName('div');
+              if (node.style.wordWrap != "break-word") {
+                var divs = sizeDiv.getElementsByTagName("div");
 
                 if (divs.length > 0) {
                   sizeDiv = divs[divs.length - 1];
                 }
 
                 ow = sizeDiv.offsetWidth + 2;
-                divs = this.node.getElementsByTagName('div');
+                divs = this.node.getElementsByTagName("div");
 
                 if (this.clipped) {
                   ow = Math.min(w, ow);
                 }
 
                 if (divs.length > 1) {
-                  divs[divs.length - 2].style.width = ow + 'px';
+                  divs[divs.length - 2].style.width = ow + "px";
                 }
               }
             } else {
-              node.style.whiteSpace = 'nowrap';
+              node.style.whiteSpace = "nowrap";
             }
-          } else if (sizeDiv.firstChild != null && sizeDiv.firstChild.nodeName == 'DIV') {
+          } else if (
+            sizeDiv.firstChild != null &&
+            sizeDiv.firstChild.nodeName == "DIV"
+          ) {
             sizeDiv = sizeDiv.firstChild;
           }
 
@@ -386,7 +487,12 @@ export class mxText extends mxShape {
       }
 
       if (ow != null && oh != null) {
-        this.boundingBox = new mxRectangle(this.bounds.x, this.bounds.y, ow, oh);
+        this.boundingBox = new mxRectangle(
+          this.bounds.x,
+          this.bounds.y,
+          ow,
+          oh,
+        );
       }
     }
 
@@ -397,14 +503,16 @@ export class mxText extends mxShape {
             this.margin.x * this.boundingBox.width,
             this.margin.y * this.boundingBox.height,
             this.boundingBox.width,
-            this.boundingBox.height
+            this.boundingBox.height,
           ),
           rot,
-          new mxPoint(0, 0)
+          new mxPoint(0, 0),
         );
         this.unrotatedBoundingBox = mxRectangle.fromRectangle(this.boundingBox);
-        this.unrotatedBoundingBox.x += this.margin.x * this.unrotatedBoundingBox.width;
-        this.unrotatedBoundingBox.y += this.margin.y * this.unrotatedBoundingBox.height;
+        this.unrotatedBoundingBox.x +=
+          this.margin.x * this.unrotatedBoundingBox.width;
+        this.unrotatedBoundingBox.y +=
+          this.margin.y * this.unrotatedBoundingBox.height;
         this.boundingBox.x += bbox.x;
         this.boundingBox.y += bbox.y;
         this.boundingBox.width = bbox.width;
@@ -422,11 +530,17 @@ export class mxText extends mxShape {
   }
 
   getTextRotation() {
-    return this.state != null && this.state.shape != null ? this.state.shape.getTextRotation() : 0;
+    return this.state != null && this.state.shape != null
+      ? this.state.shape.getTextRotation()
+      : 0;
   }
 
   isPaintBoundsInverted() {
-    return !this.horizontal && this.state != null && this.state.view.graph.model.isVertex(this.state.cell);
+    return (
+      !this.horizontal &&
+      this.state != null &&
+      this.state.view.graph.model.isVertex(this.state.cell)
+    );
   }
 
   configureCanvas(c, x, y, w, h) {
@@ -440,11 +554,11 @@ export class mxText extends mxShape {
   }
 
   updateVmlContainer() {
-    this.node.style.left = Math.round(this.bounds.x) + 'px';
-    this.node.style.top = Math.round(this.bounds.y) + 'px';
-    this.node.style.width = '1px';
-    this.node.style.height = '1px';
-    this.node.style.overflow = 'visible';
+    this.node.style.left = Math.round(this.bounds.x) + "px";
+    this.node.style.top = Math.round(this.bounds.y) + "px";
+    this.node.style.width = "1px";
+    this.node.style.height = "1px";
+    this.node.style.overflow = "visible";
   }
 
   getHtmlValue() {
@@ -454,47 +568,55 @@ export class mxText extends mxShape {
       val = mxUtils.htmlEntities(val, false);
     }
 
-    val = mxUtils.replaceTrailingNewlines(val, '<div><br></div>');
-    val = this.replaceLinefeeds ? val.replace(/\n/g, '<br/>') : val;
+    val = mxUtils.replaceTrailingNewlines(val, "<div><br></div>");
+    val = this.replaceLinefeeds ? val.replace(/\n/g, "<br/>") : val;
     return val;
   }
 
   getTextCss() {
-    var lh = mxConstants.ABSOLUTE_LINE_HEIGHT ? this.size * mxConstants.LINE_HEIGHT + 'px' : mxConstants.LINE_HEIGHT;
+    var lh = mxConstants.ABSOLUTE_LINE_HEIGHT
+      ? this.size * mxConstants.LINE_HEIGHT + "px"
+      : mxConstants.LINE_HEIGHT;
     var css =
-      'display: inline-block; font-size: ' +
+      "display: inline-block; font-size: " +
       this.size +
-      'px; ' +
-      'font-family: ' +
+      "px; " +
+      "font-family: " +
       this.family +
-      '; color: ' +
+      "; color: " +
       this.color +
-      '; line-height: ' +
+      "; line-height: " +
       lh +
-      '; pointer-events: ' +
-      (this.pointerEvents ? 'all' : 'none') +
-      '; ';
+      "; pointer-events: " +
+      (this.pointerEvents ? "all" : "none") +
+      "; ";
 
     if ((this.fontStyle & mxConstants.FONT_BOLD) == mxConstants.FONT_BOLD) {
-      css += 'font-weight: bold; ';
+      css += "font-weight: bold; ";
     }
 
     if ((this.fontStyle & mxConstants.FONT_ITALIC) == mxConstants.FONT_ITALIC) {
-      css += 'font-style: italic; ';
+      css += "font-style: italic; ";
     }
 
     var deco = [];
 
-    if ((this.fontStyle & mxConstants.FONT_UNDERLINE) == mxConstants.FONT_UNDERLINE) {
-      deco.push('underline');
+    if (
+      (this.fontStyle & mxConstants.FONT_UNDERLINE) ==
+      mxConstants.FONT_UNDERLINE
+    ) {
+      deco.push("underline");
     }
 
-    if ((this.fontStyle & mxConstants.FONT_STRIKETHROUGH) == mxConstants.FONT_STRIKETHROUGH) {
-      deco.push('line-through');
+    if (
+      (this.fontStyle & mxConstants.FONT_STRIKETHROUGH) ==
+      mxConstants.FONT_STRIKETHROUGH
+    ) {
+      deco.push("line-through");
     }
 
     if (deco.length > 0) {
-      css += 'text-decoration: ' + deco.join(' ') + '; ';
+      css += "text-decoration: " + deco.join(" ") + "; ";
     }
 
     return css;
@@ -505,13 +627,16 @@ export class mxText extends mxShape {
       this.redrawHtmlShapeWithCss3();
     } else {
       var style = this.node.style;
-      style.whiteSpace = 'normal';
-      style.overflow = '';
-      style.width = '';
-      style.height = '';
+      style.whiteSpace = "normal";
+      style.overflow = "";
+      style.width = "";
+      style.height = "";
       this.updateValue();
       this.updateFont(this.node);
-      this.updateSize(this.node, this.state == null || this.state.view.textDiv == null);
+      this.updateSize(
+        this.node,
+        this.state == null || this.state.view.textDiv == null,
+      );
       this.offsetWidth = null;
       this.offsetHeight = null;
       this.updateHtmlTransform();
@@ -522,12 +647,12 @@ export class mxText extends mxShape {
     var w = Math.max(0, Math.round(this.bounds.width / this.scale));
     var h = Math.max(0, Math.round(this.bounds.height / this.scale));
     var flex =
-      'position: absolute; left: ' +
+      "position: absolute; left: " +
       Math.round(this.bounds.x) +
-      'px; ' +
-      'top: ' +
+      "px; " +
+      "top: " +
       Math.round(this.bounds.y) +
-      'px; pointer-events: none; ';
+      "px; pointer-events: none; ";
     var block = this.getTextCss();
     mxSvgCanvas2D.createCss(
       w + 2,
@@ -545,37 +670,43 @@ export class mxText extends mxShape {
       (dx, dy, flex, item, block, ofl) => {
         var r = this.getTextRotation();
         var tr =
-          (this.scale != 1 ? 'scale(' + this.scale + ') ' : '') +
-          (r != 0 ? 'rotate(' + r + 'deg) ' : '') +
+          (this.scale != 1 ? "scale(" + this.scale + ") " : "") +
+          (r != 0 ? "rotate(" + r + "deg) " : "") +
           (this.margin.x != 0 || this.margin.y != 0
-            ? 'translate(' + this.margin.x * 100 + '%,' + this.margin.y * 100 + '%)'
-            : '');
+            ? "translate(" +
+              this.margin.x * 100 +
+              "%," +
+              this.margin.y * 100 +
+              "%)"
+            : "");
 
-        if (tr != '') {
-          tr = 'transform-origin: 0 0; transform: ' + tr + '; ';
+        if (tr != "") {
+          tr = "transform-origin: 0 0; transform: " + tr + "; ";
         }
 
-        if (ofl == '') {
+        if (ofl == "") {
           flex += item;
-          item = 'display:inline-block; min-width: 100%; ' + tr;
+          item = "display:inline-block; min-width: 100%; " + tr;
         } else {
           item += tr;
         }
 
         if (this.opacity < 100) {
-          block += 'opacity: ' + this.opacity / 100 + '; ';
+          block += "opacity: " + this.opacity / 100 + "; ";
         }
 
-        this.node.setAttribute('style', flex);
-        var html = mxUtils.isNode(this.value) ? this.value.outerHTML : this.getHtmlValue();
+        this.node.setAttribute("style", flex);
+        var html = mxUtils.isNode(this.value)
+          ? this.value.outerHTML
+          : this.getHtmlValue();
 
         if (this.node.firstChild == null) {
-          this.node.innerHTML = '<div><div>' + html + '</div></div>';
+          this.node.innerHTML = "<div><div>" + html + "</div></div>";
         }
 
-        this.node.firstChild.firstChild.setAttribute('style', block);
-        this.node.firstChild.setAttribute('style', item);
-      }
+        this.node.firstChild.firstChild.setAttribute("style", block);
+        this.node.firstChild.setAttribute("style", item);
+      },
     );
   }
 
@@ -586,29 +717,57 @@ export class mxText extends mxShape {
     var dy = this.margin.y;
 
     if (theta != 0) {
-      mxUtils.setPrefixedStyle(style, 'transformOrigin', -dx * 100 + '%' + ' ' + -dy * 100 + '%');
       mxUtils.setPrefixedStyle(
         style,
-        'transform',
-        'translate(' + dx * 100 + '%' + ',' + dy * 100 + '%) ' + 'scale(' + this.scale + ') rotate(' + theta + 'deg)'
+        "transformOrigin",
+        -dx * 100 + "%" + " " + -dy * 100 + "%",
+      );
+      mxUtils.setPrefixedStyle(
+        style,
+        "transform",
+        "translate(" +
+          dx * 100 +
+          "%" +
+          "," +
+          dy * 100 +
+          "%) " +
+          "scale(" +
+          this.scale +
+          ") rotate(" +
+          theta +
+          "deg)",
       );
     } else {
-      mxUtils.setPrefixedStyle(style, 'transformOrigin', '0% 0%');
+      mxUtils.setPrefixedStyle(style, "transformOrigin", "0% 0%");
       mxUtils.setPrefixedStyle(
         style,
-        'transform',
-        'scale(' + this.scale + ') ' + 'translate(' + dx * 100 + '%' + ',' + dy * 100 + '%)'
+        "transform",
+        "scale(" +
+          this.scale +
+          ") " +
+          "translate(" +
+          dx * 100 +
+          "%" +
+          "," +
+          dy * 100 +
+          "%)",
       );
     }
 
     style.left =
-      Math.round(this.bounds.x - Math.ceil(dx * (this.overflow != 'fill' && this.overflow != 'width' ? 3 : 1))) + 'px';
-    style.top = Math.round(this.bounds.y - dy * (this.overflow != 'fill' ? 3 : 1)) + 'px';
+      Math.round(
+        this.bounds.x -
+          Math.ceil(
+            dx * (this.overflow != "fill" && this.overflow != "width" ? 3 : 1),
+          ),
+      ) + "px";
+    style.top =
+      Math.round(this.bounds.y - dy * (this.overflow != "fill" ? 3 : 1)) + "px";
 
     if (this.opacity < 100) {
       style.opacity = this.opacity / 100;
     } else {
-      style.opacity = '';
+      style.opacity = "";
     }
   }
 
@@ -622,9 +781,10 @@ export class mxText extends mxShape {
         val = mxUtils.htmlEntities(val, false);
       }
 
-      val = mxUtils.replaceTrailingNewlines(val, '<div>&nbsp;</div>');
-      val = this.replaceLinefeeds ? val.replace(/\n/g, '<br/>') : val;
-      val = '<div style="display:inline-block;_display:inline;">' + val + '</div>';
+      val = mxUtils.replaceTrailingNewlines(val, "<div>&nbsp;</div>");
+      val = this.replaceLinefeeds ? val.replace(/\n/g, "<br/>") : val;
+      val =
+        '<div style="display:inline-block;_display:inline;">' + val + "</div>";
       elt.innerHTML = val;
     }
   }
@@ -641,16 +801,16 @@ export class mxText extends mxShape {
     var sizeDiv = this.node;
 
     if (td != null) {
-      td.style.overflow = '';
-      td.style.height = '';
-      td.style.width = '';
+      td.style.overflow = "";
+      td.style.height = "";
+      td.style.width = "";
       this.updateFont(td);
       this.updateSize(td, false);
       this.updateInnerHtml(td);
       var w = Math.round(this.bounds.width / this.scale);
 
       if (this.wrap && w > 0) {
-        td.style.whiteSpace = 'normal';
+        td.style.whiteSpace = "normal";
         td.style.wordWrap = mxConstants.WORD_WRAP;
         ow = w;
 
@@ -658,32 +818,39 @@ export class mxText extends mxShape {
           ow = Math.min(ow, this.bounds.width);
         }
 
-        td.style.width = ow + 'px';
+        td.style.width = ow + "px";
       } else {
-        td.style.whiteSpace = 'nowrap';
+        td.style.whiteSpace = "nowrap";
       }
 
       sizeDiv = td;
 
-      if (sizeDiv.firstChild != null && sizeDiv.firstChild.nodeName == 'DIV') {
+      if (sizeDiv.firstChild != null && sizeDiv.firstChild.nodeName == "DIV") {
         sizeDiv = sizeDiv.firstChild;
 
-        if (this.wrap && td.style.wordWrap == 'break-word') {
-          sizeDiv.style.width = '100%';
+        if (this.wrap && td.style.wordWrap == "break-word") {
+          sizeDiv.style.width = "100%";
         }
       }
 
       if (!this.clipped && this.wrap && w > 0) {
         ow = sizeDiv.offsetWidth + this.textWidthPadding;
-        td.style.width = ow + 'px';
+        td.style.width = ow + "px";
       }
 
       oh = sizeDiv.offsetHeight + 2;
 
-      if (mxClient.IS_QUIRKS && this.border != null && this.border != mxConstants.NONE) {
+      if (
+        mxClient.IS_QUIRKS &&
+        this.border != null &&
+        this.border != mxConstants.NONE
+      ) {
         oh += 3;
       }
-    } else if (sizeDiv.firstChild != null && sizeDiv.firstChild.nodeName == 'DIV') {
+    } else if (
+      sizeDiv.firstChild != null &&
+      sizeDiv.firstChild.nodeName == "DIV"
+    ) {
       sizeDiv = sizeDiv.firstChild;
       oh = sizeDiv.offsetHeight;
     }
@@ -697,10 +864,10 @@ export class mxText extends mxShape {
     var w = this.bounds.width / s;
     var h = this.bounds.height / s;
 
-    if (this.overflow == 'fill') {
+    if (this.overflow == "fill") {
       oh = h;
       ow = w;
-    } else if (this.overflow == 'width') {
+    } else if (this.overflow == "width") {
       oh = sizeDiv.scrollHeight;
       ow = w;
     }
@@ -708,14 +875,17 @@ export class mxText extends mxShape {
     this.offsetWidth = ow;
     this.offsetHeight = oh;
 
-    if (mxClient.IS_QUIRKS && (this.clipped || (this.overflow == 'width' && h > 0))) {
+    if (
+      mxClient.IS_QUIRKS &&
+      (this.clipped || (this.overflow == "width" && h > 0))
+    ) {
       h = Math.min(h, oh);
-      style.height = Math.round(h) + 'px';
+      style.height = Math.round(h) + "px";
     } else {
       h = oh;
     }
 
-    if (this.overflow != 'fill' && this.overflow != 'width') {
+    if (this.overflow != "fill" && this.overflow != "width") {
       if (this.clipped) {
         ow = Math.min(w, ow);
       }
@@ -723,7 +893,7 @@ export class mxText extends mxShape {
       w = ow;
 
       if ((mxClient.IS_QUIRKS && this.clipped) || this.wrap) {
-        style.width = Math.round(w) + 'px';
+        style.width = Math.round(w) + "px";
       }
     }
 
@@ -753,18 +923,18 @@ export class mxText extends mxShape {
 
     if (rad != 0) {
       var f =
-        'progid:DXImageTransform.Microsoft.Matrix(M11=' +
+        "progid:DXImageTransform.Microsoft.Matrix(M11=" +
         real_cos +
-        ', M12=' +
+        ", M12=" +
         real_sin +
-        ', M21=' +
+        ", M21=" +
         -real_sin +
-        ', M22=' +
+        ", M22=" +
         real_cos +
         ", sizingMethod='auto expand')";
 
       if (style.filter != null && style.filter.length > 0) {
-        style.filter += ' ' + f;
+        style.filter += " " + f;
       } else {
         style.filter = f;
       }
@@ -772,7 +942,7 @@ export class mxText extends mxShape {
 
     var dy = 0;
 
-    if (this.overflow != 'fill' && mxClient.IS_QUIRKS) {
+    if (this.overflow != "fill" && mxClient.IS_QUIRKS) {
       if (this.valign == mxConstants.ALIGN_TOP) {
         dy -= 1;
       } else if (this.valign == mxConstants.ALIGN_BOTTOM) {
@@ -783,13 +953,13 @@ export class mxText extends mxShape {
     }
 
     style.zoom = s;
-    style.left = Math.round(this.bounds.x + left_fix - w / 2) + 'px';
-    style.top = Math.round(this.bounds.y + top_fix - h / 2 + dy) + 'px';
+    style.left = Math.round(this.bounds.x + left_fix - w / 2) + "px";
+    style.top = Math.round(this.bounds.y + top_fix - h / 2 + dy) + "px";
   }
 
   updateValue() {
     if (mxUtils.isNode(this.value)) {
-      this.node.innerHTML = '';
+      this.node.innerHTML = "";
       this.node.appendChild(this.value);
     } else {
       var val = this.value;
@@ -798,58 +968,70 @@ export class mxText extends mxShape {
         val = mxUtils.htmlEntities(val, false);
       }
 
-      val = mxUtils.replaceTrailingNewlines(val, '<div><br></div>');
-      val = this.replaceLinefeeds ? val.replace(/\n/g, '<br/>') : val;
-      var bg = this.background != null && this.background != mxConstants.NONE ? this.background : null;
-      var bd = this.border != null && this.border != mxConstants.NONE ? this.border : null;
+      val = mxUtils.replaceTrailingNewlines(val, "<div><br></div>");
+      val = this.replaceLinefeeds ? val.replace(/\n/g, "<br/>") : val;
+      var bg =
+        this.background != null && this.background != mxConstants.NONE
+          ? this.background
+          : null;
+      var bd =
+        this.border != null && this.border != mxConstants.NONE
+          ? this.border
+          : null;
 
-      if (this.overflow == 'fill' || this.overflow == 'width') {
+      if (this.overflow == "fill" || this.overflow == "width") {
         if (bg != null) {
           this.node.style.backgroundColor = bg;
         }
 
         if (bd != null) {
-          this.node.style.border = '1px solid ' + bd;
+          this.node.style.border = "1px solid " + bd;
         }
       } else {
-        var css = '';
+        var css = "";
 
         if (bg != null) {
-          css += 'background-color:' + mxUtils.htmlEntities(bg) + ';';
+          css += "background-color:" + mxUtils.htmlEntities(bg) + ";";
         }
 
         if (bd != null) {
-          css += 'border:1px solid ' + mxUtils.htmlEntities(bd) + ';';
+          css += "border:1px solid " + mxUtils.htmlEntities(bd) + ";";
         }
 
         var lh = mxConstants.ABSOLUTE_LINE_HEIGHT
-          ? this.size * mxConstants.LINE_HEIGHT + 'px'
+          ? this.size * mxConstants.LINE_HEIGHT + "px"
           : mxConstants.LINE_HEIGHT;
         val =
           '<div style="zoom:1;' +
           css +
-          'display:inline-block;_display:inline;text-decoration:inherit;' +
-          'padding-bottom:1px;padding-right:1px;line-height:' +
+          "display:inline-block;_display:inline;text-decoration:inherit;" +
+          "padding-bottom:1px;padding-right:1px;line-height:" +
           lh +
           '">' +
           val +
-          '</div>';
+          "</div>";
       }
 
       this.node.innerHTML = val;
-      var divs = this.node.getElementsByTagName('div');
+      var divs = this.node.getElementsByTagName("div");
 
       if (divs.length > 0) {
         var dir = this.textDirection;
 
-        if (dir == mxConstants.TEXT_DIRECTION_AUTO && this.dialect != mxConstants.DIALECT_STRICTHTML) {
+        if (
+          dir == mxConstants.TEXT_DIRECTION_AUTO &&
+          this.dialect != mxConstants.DIALECT_STRICTHTML
+        ) {
           dir = this.getAutoDirection();
         }
 
-        if (dir == mxConstants.TEXT_DIRECTION_LTR || dir == mxConstants.TEXT_DIRECTION_RTL) {
-          divs[divs.length - 1].setAttribute('dir', dir);
+        if (
+          dir == mxConstants.TEXT_DIRECTION_LTR ||
+          dir == mxConstants.TEXT_DIRECTION_RTL
+        ) {
+          divs[divs.length - 1].setAttribute("dir", dir);
         } else {
-          divs[divs.length - 1].removeAttribute('dir');
+          divs[divs.length - 1].removeAttribute("dir");
         }
       }
     }
@@ -858,43 +1040,49 @@ export class mxText extends mxShape {
   updateFont(node) {
     var style = node.style;
     style.lineHeight = mxConstants.ABSOLUTE_LINE_HEIGHT
-      ? this.size * mxConstants.LINE_HEIGHT + 'px'
+      ? this.size * mxConstants.LINE_HEIGHT + "px"
       : mxConstants.LINE_HEIGHT;
-    style.fontSize = this.size + 'px';
+    style.fontSize = this.size + "px";
     style.fontFamily = this.family;
-    style.verticalAlign = 'top';
+    style.verticalAlign = "top";
     style.color = this.color;
 
     if ((this.fontStyle & mxConstants.FONT_BOLD) == mxConstants.FONT_BOLD) {
-      style.fontWeight = 'bold';
+      style.fontWeight = "bold";
     } else {
-      style.fontWeight = '';
+      style.fontWeight = "";
     }
 
     if ((this.fontStyle & mxConstants.FONT_ITALIC) == mxConstants.FONT_ITALIC) {
-      style.fontStyle = 'italic';
+      style.fontStyle = "italic";
     } else {
-      style.fontStyle = '';
+      style.fontStyle = "";
     }
 
     var txtDecor = [];
 
-    if ((this.fontStyle & mxConstants.FONT_UNDERLINE) == mxConstants.FONT_UNDERLINE) {
-      txtDecor.push('underline');
+    if (
+      (this.fontStyle & mxConstants.FONT_UNDERLINE) ==
+      mxConstants.FONT_UNDERLINE
+    ) {
+      txtDecor.push("underline");
     }
 
-    if ((this.fontStyle & mxConstants.FONT_STRIKETHROUGH) == mxConstants.FONT_STRIKETHROUGH) {
-      txtDecor.push('line-through');
+    if (
+      (this.fontStyle & mxConstants.FONT_STRIKETHROUGH) ==
+      mxConstants.FONT_STRIKETHROUGH
+    ) {
+      txtDecor.push("line-through");
     }
 
-    style.textDecoration = txtDecor.join(' ');
+    style.textDecoration = txtDecor.join(" ");
 
     if (this.align == mxConstants.ALIGN_CENTER) {
-      style.textAlign = 'center';
+      style.textAlign = "center";
     } else if (this.align == mxConstants.ALIGN_RIGHT) {
-      style.textAlign = 'right';
+      style.textAlign = "right";
     } else {
-      style.textAlign = 'left';
+      style.textAlign = "left";
     }
   }
 
@@ -904,37 +1092,40 @@ export class mxText extends mxShape {
     var style = node.style;
 
     if (this.clipped) {
-      style.overflow = 'hidden';
+      style.overflow = "hidden";
 
       if (!mxClient.IS_QUIRKS) {
-        style.maxHeight = h + 'px';
-        style.maxWidth = w + 'px';
+        style.maxHeight = h + "px";
+        style.maxWidth = w + "px";
       } else {
-        style.width = w + 'px';
+        style.width = w + "px";
       }
-    } else if (this.overflow == 'fill') {
-      style.width = w + 1 + 'px';
-      style.height = h + 1 + 'px';
-      style.overflow = 'hidden';
-    } else if (this.overflow == 'width') {
-      style.width = w + 1 + 'px';
-      style.maxHeight = h + 1 + 'px';
-      style.overflow = 'hidden';
+    } else if (this.overflow == "fill") {
+      style.width = w + 1 + "px";
+      style.height = h + 1 + "px";
+      style.overflow = "hidden";
+    } else if (this.overflow == "width") {
+      style.width = w + 1 + "px";
+      style.maxHeight = h + 1 + "px";
+      style.overflow = "hidden";
     }
 
     if (this.wrap && w > 0) {
       style.wordWrap = mxConstants.WORD_WRAP;
-      style.whiteSpace = 'normal';
-      style.width = w + 'px';
+      style.whiteSpace = "normal";
+      style.width = w + "px";
 
-      if (enableWrap && this.overflow != 'fill' && this.overflow != 'width') {
+      if (enableWrap && this.overflow != "fill" && this.overflow != "width") {
         var sizeDiv = node;
 
-        if (sizeDiv.firstChild != null && sizeDiv.firstChild.nodeName == 'DIV') {
+        if (
+          sizeDiv.firstChild != null &&
+          sizeDiv.firstChild.nodeName == "DIV"
+        ) {
           sizeDiv = sizeDiv.firstChild;
 
-          if (node.style.wordWrap == 'break-word') {
-            sizeDiv.style.width = '100%';
+          if (node.style.wordWrap == "break-word") {
+            sizeDiv.style.width = "100%";
           }
         }
 
@@ -942,10 +1133,10 @@ export class mxText extends mxShape {
 
         if (tmp == 0) {
           var prev = node.parentNode;
-          node.style.visibility = 'hidden';
+          node.style.visibility = "hidden";
           document.body.appendChild(node);
           tmp = sizeDiv.offsetWidth;
-          node.style.visibility = '';
+          node.style.visibility = "";
           prev.appendChild(node);
         }
 
@@ -955,10 +1146,10 @@ export class mxText extends mxShape {
           tmp = Math.min(tmp, w);
         }
 
-        style.width = tmp + 'px';
+        style.width = tmp + "px";
       }
     } else {
-      style.whiteSpace = 'nowrap';
+      style.whiteSpace = "nowrap";
     }
   }
 

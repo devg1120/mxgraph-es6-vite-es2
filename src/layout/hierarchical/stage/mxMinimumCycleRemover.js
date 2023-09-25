@@ -1,5 +1,5 @@
-import { mxHierarchicalLayoutStage } from '@mxgraph/layout/hierarchical/stage/mxHierarchicalLayoutStage';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxHierarchicalLayoutStage } from "@mxgraph/layout/hierarchical/stage/mxHierarchicalLayoutStage";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 export class mxMinimumCycleRemover extends mxHierarchicalLayoutStage {
   constructor(layout) {
     super();
@@ -42,7 +42,7 @@ export class mxMinimumCycleRemover extends mxHierarchicalLayoutStage {
       },
       rootsArray,
       true,
-      null
+      null,
     );
     var seenNodesCopy = mxUtils.clone(seenNodes, null, true);
     model.visit(
@@ -60,7 +60,7 @@ export class mxMinimumCycleRemover extends mxHierarchicalLayoutStage {
       },
       unseenNodes,
       true,
-      seenNodesCopy
+      seenNodesCopy,
     );
   }
 }

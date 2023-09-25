@@ -1,4 +1,4 @@
-import { mxCellMarker } from '@mxgraph/handler/mxCellMarker';
+import { mxCellMarker } from "@mxgraph/handler/mxCellMarker";
 
 export class ConnectionCellMarker extends mxCellMarker {
   constructor(connectionHandler, hotspotEnabled, graph) {
@@ -11,7 +11,7 @@ export class ConnectionCellMarker extends mxCellMarker {
     var cell = super.getCell(me);
 
     /*GSBF*/ if (this.connectionHandler == undefined) {
-       return cell;
+      return cell;
     }
 
     this.connectionHandler.error = null;
@@ -19,7 +19,7 @@ export class ConnectionCellMarker extends mxCellMarker {
     if (cell == null && this.connectionHandler.currentPoint != null) {
       cell = this.connectionHandler.graph.getCellAt(
         this.connectionHandler.currentPoint.x,
-        this.connectionHandler.currentPoint.y
+        this.connectionHandler.currentPoint.y,
       );
     }
 
@@ -40,7 +40,7 @@ export class ConnectionCellMarker extends mxCellMarker {
         this.connectionHandler.graph.hitsSwimlaneContent(
           cell,
           this.connectionHandler.currentPoint.x,
-          this.connectionHandler.currentPoint.y
+          this.connectionHandler.currentPoint.y,
         )) ||
       !this.connectionHandler.isConnectableCell(cell)
     ) {
@@ -50,12 +50,16 @@ export class ConnectionCellMarker extends mxCellMarker {
     if (cell != null) {
       if (this.connectionHandler.isConnecting()) {
         if (this.connectionHandler.previous != null) {
-          this.connectionHandler.error = this.connectionHandler.validateConnection(
-            this.connectionHandler.previous.cell,
-            cell
-          );
+          this.connectionHandler.error =
+            this.connectionHandler.validateConnection(
+              this.connectionHandler.previous.cell,
+              cell,
+            );
 
-          if (this.connectionHandler.error != null && this.connectionHandler.error.length == 0) {
+          if (
+            this.connectionHandler.error != null &&
+            this.connectionHandler.error.length == 0
+          ) {
             cell = null;
 
             if (this.connectionHandler.isCreateTarget(me.getEvent())) {
@@ -71,7 +75,7 @@ export class ConnectionCellMarker extends mxCellMarker {
       !this.connectionHandler.isCreateTarget(me.getEvent()) &&
       !this.connectionHandler.graph.allowDanglingEdges
     ) {
-      this.connectionHandler.error = '';
+      this.connectionHandler.error = "";
     }
 
     return cell;
@@ -86,13 +90,17 @@ export class ConnectionCellMarker extends mxCellMarker {
   }
 
   getMarkerColor(evt, state, isValid) {
-    return this.connectionHandler.connectImage == null || this.connectionHandler.isConnecting()
+    return this.connectionHandler.connectImage == null ||
+      this.connectionHandler.isConnecting()
       ? super.getMarkerColor(evt, state, isValid)
       : null;
   }
 
   intersects(state, evt) {
-    if (this.connectionHandler.connectImage != null || this.connectionHandler.isConnecting()) {
+    if (
+      this.connectionHandler.connectImage != null ||
+      this.connectionHandler.isConnecting()
+    ) {
       return true;
     }
 

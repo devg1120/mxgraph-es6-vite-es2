@@ -1,9 +1,9 @@
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxGeometry } from '@mxgraph/model/mxGeometry';
-import { mxLog } from '@mxgraph/util/mxLog';
-import { mxObjectIdentity } from '@mxgraph/util/mxObjectIdentity';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxGeometry } from "@mxgraph/model/mxGeometry";
+import { mxLog } from "@mxgraph/util/mxLog";
+import { mxObjectIdentity } from "@mxgraph/util/mxObjectIdentity";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxObjectCodec {
   static allowEval = false;
@@ -53,7 +53,10 @@ export class mxObjectCodec {
   }
 
   isExcluded(obj, attr, value, write) {
-    return attr == mxObjectIdentity.FIELD_NAME || mxUtils.indexOf(this.exclude, attr) >= 0;
+    return (
+      attr == mxObjectIdentity.FIELD_NAME ||
+      mxUtils.indexOf(this.exclude, attr) >= 0
+    );
   }
 
   isReference(obj, attr, value, write) {
@@ -68,7 +71,7 @@ export class mxObjectCodec {
   }
 
   encodeObject(enc, obj, node) {
-    enc.setAttribute(node, 'id', enc.getId(obj));
+    enc.setAttribute(node, "id", enc.getId(obj));
 
     for (var i in obj) {
       var name = i;
@@ -90,7 +93,14 @@ export class mxObjectCodec {
         var tmp = enc.getId(value);
 
         if (tmp == null) {
-          mxLog.warn('mxObjectCodec.encode: No ID for ' + this.getName() + '.' + name + '=' + value);
+          mxLog.warn(
+            "mxObjectCodec.encode: No ID for " +
+              this.getName() +
+              "." +
+              name +
+              "=" +
+              value,
+          );
           return;
         }
 
@@ -107,7 +117,7 @@ export class mxObjectCodec {
   }
 
   writeAttribute(enc, obj, name, value, node) {
-    if (typeof value != 'object') {
+    if (typeof value != "object") {
       this.writePrimitiveAttribute(enc, obj, name, value, node);
     } else {
       this.writeComplexAttribute(enc, obj, name, value, node);
@@ -118,16 +128,16 @@ export class mxObjectCodec {
     value = this.convertAttributeToXml(enc, obj, name, value, node);
 
     if (name == null) {
-      var child = enc.document.createElement('add');
+      var child = enc.document.createElement("add");
 
-      if (typeof value == 'function') {
+      if (typeof value == "function") {
         child.appendChild(enc.document.createTextNode(value));
       } else {
-        enc.setAttribute(child, 'value', value);
+        enc.setAttribute(child, "value", value);
       }
 
       node.appendChild(child);
-    } else if (typeof value != 'function') {
+    } else if (typeof value != "function") {
       enc.setAttribute(node, name, value);
     }
   }
@@ -137,25 +147,34 @@ export class mxObjectCodec {
 
     if (child != null) {
       if (name != null) {
-        child.setAttribute('as', name);
+        child.setAttribute("as", name);
       }
 
       node.appendChild(child);
     } else {
-      mxLog.warn('mxObjectCodec.encode: No node for ' + this.getName() + '.' + name + ': ' + value);
+      mxLog.warn(
+        "mxObjectCodec.encode: No node for " +
+          this.getName() +
+          "." +
+          name +
+          ": " +
+          value,
+      );
     }
   }
 
   convertAttributeToXml(enc, obj, name, value) {
     if (this.isBooleanAttribute(enc, obj, name, value)) {
-      value = value == true ? '1' : '0';
+      value = value == true ? "1" : "0";
     }
 
     return value;
   }
 
   isBooleanAttribute(enc, obj, name, value) {
-    return typeof value.length == 'undefined' && (value == true || value == false);
+    return (
+      typeof value.length == "undefined" && (value == true || value == false)
+    );
   }
 
   convertAttributeFromXml(dec, attr, obj) {
@@ -175,8 +194,11 @@ export class mxObjectCodec {
   isNumericAttribute(dec, attr, obj) {
     var result =
       (obj.constructor == mxGeometry &&
-        (attr.name == 'x' || attr.name == 'y' || attr.name == 'width' || attr.name == 'height')) ||
-      (obj.constructor == mxPoint && (attr.name == 'x' || attr.name == 'y')) ||
+        (attr.name == "x" ||
+          attr.name == "y" ||
+          attr.name == "width" ||
+          attr.name == "height")) ||
+      (obj.constructor == mxPoint && (attr.name == "x" || attr.name == "y")) ||
       mxUtils.isNumeric(attr.value);
     return result;
   }
@@ -190,7 +212,7 @@ export class mxObjectCodec {
   }
 
   decode(dec, node, into) {
-    var id = node.getAttribute('id');
+    var id = node.getAttribute("id");
     var obj = dec.objects[id];
 
     if (obj == null) {
@@ -224,7 +246,7 @@ export class mxObjectCodec {
   }
 
   isIgnoredAttribute(dec, attr, obj) {
-    return attr.nodeName == 'as' || attr.nodeName == 'id';
+    return attr.nodeName == "as" || attr.nodeName == "id";
   }
 
   decodeAttribute(dec, attr, obj) {
@@ -237,7 +259,14 @@ export class mxObjectCodec {
         var tmp = dec.getObject(value);
 
         if (tmp == null) {
-          mxLog.warn('mxObjectCodec.decode: No object for ' + this.getName() + '.' + name + '=' + value);
+          mxLog.warn(
+            "mxObjectCodec.decode: No object for " +
+              this.getName() +
+              "." +
+              name +
+              "=" +
+              value,
+          );
           return;
         }
 
@@ -255,7 +284,10 @@ export class mxObjectCodec {
     while (child != null) {
       var tmp = child.nextSibling;
 
-      if (child.nodeType == mxConstants.NODETYPE_ELEMENT && !this.processInclude(dec, child, obj)) {
+      if (
+        child.nodeType == mxConstants.NODETYPE_ELEMENT &&
+        !this.processInclude(dec, child, obj)
+      ) {
         this.decodeChild(dec, child, obj);
       }
 
@@ -264,18 +296,17 @@ export class mxObjectCodec {
   }
 
   decodeChild(dec, child, obj) {
-    var fieldname = this.getFieldName(child.getAttribute('as'));
+    var fieldname = this.getFieldName(child.getAttribute("as"));
 
     if (fieldname == null || !this.isExcluded(obj, fieldname, child, false)) {
       var template = this.getFieldTemplate(obj, fieldname, child);
       var value = null;
-   
 
-      if (child.nodeName == 'add') {
-        value = child.getAttribute('value');
+      if (child.nodeName == "add") {
+        value = child.getAttribute("value");
 
         if (value == null && mxObjectCodec.allowEval) {
-            value = mxUtils.eval(mxUtils.getTextContent(child));
+          value = mxUtils.eval(mxUtils.getTextContent(child));
         }
       } else {
         value = dec.decode(child, template);
@@ -284,7 +315,7 @@ export class mxObjectCodec {
       try {
         this.addObjectValue(obj, fieldname, value, template);
       } catch (e) {
-        throw new Error(e.message + ' for ' + child.nodeName);
+        throw new Error(e.message + " for " + child.nodeName);
       }
     }
   }
@@ -310,8 +341,8 @@ export class mxObjectCodec {
   }
 
   processInclude(dec, node, into) {
-    if (node.nodeName == 'include') {
-      var name = node.getAttribute('name');
+    if (node.nodeName == "include") {
+      var name = node.getAttribute("name");
       if (name != null) {
         try {
           var xml = mxUtils.load(name).getDocumentElement();

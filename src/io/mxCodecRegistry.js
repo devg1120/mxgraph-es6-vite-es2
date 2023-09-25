@@ -1,5 +1,5 @@
-import { mxObjectCodec } from '@mxgraph/io/mxObjectCodec';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxObjectCodec } from "@mxgraph/io/mxObjectCodec";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxCodecRegistry {
   static codecs = [];

@@ -1,21 +1,21 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxObjectIdentity } from '@mxgraph/util/mxObjectIdentity';
-import { mxUndoableEdit } from '@mxgraph/util/mxUndoableEdit';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxVisibleChange } from '@mxgraph/model/changes/mxVisibleChange';
-import { mxCollapseChange } from '@mxgraph/model/changes/mxCollapseChange';
-import { mxStyleChange } from '@mxgraph/model/changes/mxStyleChange';
-import { mxGeometryChange } from '@mxgraph/model/changes/mxGeometryChange';
-import { mxValueChange } from '@mxgraph/model/changes/mxValueChange';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
-import { mxTerminalChange } from '@mxgraph/model/changes/mxTerminalChange';
-import { mxCellPath } from '@mxgraph/model/mxCellPath';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxChildChange } from '@mxgraph/model/changes/mxChildChange';
-import { mxRootChange } from '@mxgraph/model/changes/mxRootChange';
-import { mxCell } from '@mxgraph/model/mxCell';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxObjectIdentity } from "@mxgraph/util/mxObjectIdentity";
+import { mxUndoableEdit } from "@mxgraph/util/mxUndoableEdit";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxVisibleChange } from "@mxgraph/model/changes/mxVisibleChange";
+import { mxCollapseChange } from "@mxgraph/model/changes/mxCollapseChange";
+import { mxStyleChange } from "@mxgraph/model/changes/mxStyleChange";
+import { mxGeometryChange } from "@mxgraph/model/changes/mxGeometryChange";
+import { mxValueChange } from "@mxgraph/model/changes/mxValueChange";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
+import { mxTerminalChange } from "@mxgraph/model/changes/mxTerminalChange";
+import { mxCellPath } from "@mxgraph/model/mxCellPath";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxChildChange } from "@mxgraph/model/changes/mxChildChange";
+import { mxRootChange } from "@mxgraph/model/changes/mxRootChange";
+import { mxCell } from "@mxgraph/model/mxCell";
 
 export class mxGraphModel extends mxEventSource {
   root = null;
@@ -23,8 +23,8 @@ export class mxGraphModel extends mxEventSource {
   maintainEdgeParent = true;
   ignoreRelativeEdgeParent = true;
   createIds = true;
-  prefix = '';
-  postfix = '';
+  prefix = "";
+  postfix = "";
   nextId = 0;
   updateLevel = 0;
   endingUpdate = false;
@@ -239,7 +239,12 @@ export class mxGraphModel extends mxEventSource {
     var target = this.getTerminal(edge, false);
     var cell = null;
 
-    while (source != null && !this.isEdge(source) && source.geometry != null && source.geometry.relative) {
+    while (
+      source != null &&
+      !this.isEdge(source) &&
+      source.geometry != null &&
+      source.geometry.relative
+    ) {
       source = this.getParent(source);
     }
 
@@ -321,7 +326,10 @@ export class mxGraphModel extends mxEventSource {
         while (cell != null) {
           var parent = this.getParent(cell);
 
-          if (path.indexOf(current + mxCellPath.PATH_SEPARATOR) == 0 && parent != null) {
+          if (
+            path.indexOf(current + mxCellPath.PATH_SEPARATOR) == 0 &&
+            parent != null
+          ) {
             return cell;
           }
 
@@ -411,7 +419,11 @@ export class mxGraphModel extends mxEventSource {
     for (var i = 0; i < childCount; i++) {
       var child = this.getChildAt(parent, i);
 
-      if ((!edges && !vertices) || (edges && this.isEdge(child)) || (vertices && this.isVertex(child))) {
+      if (
+        (!edges && !vertices) ||
+        (edges && this.isEdge(child)) ||
+        (vertices && this.isVertex(child))
+      ) {
         result.push(child);
       }
     }
@@ -506,7 +518,8 @@ export class mxGraphModel extends mxEventSource {
 
       if (
         (includeLoops && source == target) ||
-        (source != target && ((incoming && target == cell) || (outgoing && source == cell)))
+        (source != target &&
+          ((incoming && target == cell) || (outgoing && source == cell)))
       ) {
         result.push(edge);
       }
@@ -554,9 +567,19 @@ export class mxGraphModel extends mxEventSource {
         var source = this.getTerminal(edges[i], true);
         var target = this.getTerminal(edges[i], false);
 
-        if (source == terminal && target != null && target != terminal && targets) {
+        if (
+          source == terminal &&
+          target != null &&
+          target != terminal &&
+          targets
+        ) {
           terminals.push(target);
-        } else if (target == terminal && source != null && source != terminal && sources) {
+        } else if (
+          target == terminal &&
+          source != null &&
+          source != terminal &&
+          sources
+        ) {
           terminals.push(source);
         }
       }
@@ -696,8 +719,8 @@ export class mxGraphModel extends mxEventSource {
     change.execute();
     this.beginUpdate();
     this.currentEdit.add(change);
-    this.fireEvent(new mxEventObject(mxEvent.EXECUTE, 'change', change));
-    this.fireEvent(new mxEventObject(mxEvent.EXECUTED, 'change', change));
+    this.fireEvent(new mxEventObject(mxEvent.EXECUTE, "change", change));
+    this.fireEvent(new mxEventObject(mxEvent.EXECUTED, "change", change));
     this.endUpdate();
   }
 
@@ -719,15 +742,19 @@ export class mxGraphModel extends mxEventSource {
 
     if (!this.endingUpdate) {
       this.endingUpdate = this.updateLevel == 0;
-      this.fireEvent(new mxEventObject(mxEvent.END_UPDATE, 'edit', this.currentEdit));
+      this.fireEvent(
+        new mxEventObject(mxEvent.END_UPDATE, "edit", this.currentEdit),
+      );
 
       try {
         if (this.endingUpdate && !this.currentEdit.isEmpty()) {
-          this.fireEvent(new mxEventObject(mxEvent.BEFORE_UNDO, 'edit', this.currentEdit));
+          this.fireEvent(
+            new mxEventObject(mxEvent.BEFORE_UNDO, "edit", this.currentEdit),
+          );
           var tmp = this.currentEdit;
           this.currentEdit = this.createUndoableEdit();
           tmp.notify();
-          this.fireEvent(new mxEventObject(mxEvent.UNDO, 'edit', tmp));
+          this.fireEvent(new mxEventObject(mxEvent.UNDO, "edit", tmp));
         }
       } finally {
         this.endingUpdate = false;
@@ -736,11 +763,30 @@ export class mxGraphModel extends mxEventSource {
   }
 
   createUndoableEdit(significant) {
-    var edit = new mxUndoableEdit(this, significant != null ? significant : true);
+    var edit = new mxUndoableEdit(
+      this,
+      significant != null ? significant : true,
+    );
 
     edit.notify = function () {
-      edit.source.fireEvent(new mxEventObject(mxEvent.CHANGE, 'edit', edit, 'changes', edit.changes));
-      edit.source.fireEvent(new mxEventObject(mxEvent.NOTIFY, 'edit', edit, 'changes', edit.changes));
+      edit.source.fireEvent(
+        new mxEventObject(
+          mxEvent.CHANGE,
+          "edit",
+          edit,
+          "changes",
+          edit.changes,
+        ),
+      );
+      edit.source.fireEvent(
+        new mxEventObject(
+          mxEvent.NOTIFY,
+          "edit",
+          edit,
+          "changes",
+          edit.changes,
+        ),
+      );
     };
 
     return edit;
@@ -784,9 +830,12 @@ export class mxGraphModel extends mxEventSource {
       for (var i = 0; i < childCount; i++) {
         var cell = from.getChildAt(i);
 
-        if (typeof cell.getId == 'function') {
+        if (typeof cell.getId == "function") {
           var id = cell.getId();
-          var target = id != null && (!this.isEdge(cell) || !cloneAllEdges) ? this.getCell(id) : null;
+          var target =
+            id != null && (!this.isEdge(cell) || !cloneAllEdges)
+              ? this.getCell(id)
+              : null;
 
           if (target == null) {
             var clone = cell.clone();
@@ -867,7 +916,11 @@ export class mxGraphModel extends mxEventSource {
         var childCount = this.getChildCount(cell);
 
         for (var i = 0; i < childCount; i++) {
-          var cloneChild = this.cloneCellImpl(this.getChildAt(cell, i), mapping, true);
+          var cloneChild = this.cloneCellImpl(
+            this.getChildAt(cell, i),
+            mapping,
+            true,
+          );
           clone.insert(cloneChild);
         }
       }
@@ -904,7 +957,11 @@ export class mxGraphModel extends mxEventSource {
     var childCount = this.getChildCount(clone);
 
     for (var i = 0; i < childCount; i++) {
-      this.restoreClone(this.getChildAt(clone, i), this.getChildAt(cell, i), mapping);
+      this.restoreClone(
+        this.getChildAt(clone, i),
+        this.getChildAt(cell, i),
+        mapping,
+      );
     }
   }
 }

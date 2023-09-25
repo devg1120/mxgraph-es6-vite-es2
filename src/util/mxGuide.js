@@ -1,6 +1,6 @@
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxPolyline } from '@mxgraph/shape/mxPolyline';
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxPolyline } from "@mxgraph/shape/mxPolyline";
 
 export class mxGuide {
   states = null;
@@ -25,11 +25,17 @@ export class mxGuide {
   }
 
   getGuideTolerance(gridEnabled) {
-    return gridEnabled && this.graph.gridEnabled ? this.graph.gridSize / 2 : this.tolerance;
+    return gridEnabled && this.graph.gridEnabled
+      ? this.graph.gridSize / 2
+      : this.tolerance;
   }
 
   createGuideShape(horizontal) {
-    var guide = new mxPolyline([], mxConstants.GUIDE_COLOR, mxConstants.GUIDE_STROKEWIDTH);
+    var guide = new mxPolyline(
+      [],
+      mxConstants.GUIDE_COLOR,
+      mxConstants.GUIDE_STROKEWIDTH,
+    );
     guide.isDashed = true;
     return guide;
   }
@@ -39,7 +45,12 @@ export class mxGuide {
   }
 
   move(bounds, delta, gridEnabled, clone) {
-    if (this.states != null && (this.horizontal || this.vertical) && bounds != null && delta != null) {
+    if (
+      this.states != null &&
+      (this.horizontal || this.vertical) &&
+      bounds != null &&
+      delta != null
+    ) {
       var scale = this.graph.getView().scale;
       var tt = this.getGuideTolerance(gridEnabled) * scale;
       var b = bounds.clone();
@@ -86,7 +97,9 @@ export class mxGuide {
           if (this.guideX == null) {
             this.guideX = this.createGuideShape(true);
             this.guideX.dialect =
-              this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_VML : mxConstants.DIALECT_SVG;
+              this.graph.dialect != mxConstants.DIALECT_SVG
+                ? mxConstants.DIALECT_VML
+                : mxConstants.DIALECT_SVG;
             this.guideX.pointerEvents = false;
             this.guideX.init(this.graph.getView().getOverlayPane());
           }
@@ -121,7 +134,9 @@ export class mxGuide {
           if (this.guideY == null) {
             this.guideY = this.createGuideShape(false);
             this.guideY.dialect =
-              this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_VML : mxConstants.DIALECT_SVG;
+              this.graph.dialect != mxConstants.DIALECT_SVG
+                ? mxConstants.DIALECT_VML
+                : mxConstants.DIALECT_SVG;
             this.guideY.pointerEvents = false;
             this.guideY.init(this.graph.getView().getOverlayPane());
           }
@@ -161,52 +176,64 @@ export class mxGuide {
       var c = this.graph.container;
 
       if (!overrideX && this.guideX != null) {
-        this.guideX.node.style.visibility = 'hidden';
+        this.guideX.node.style.visibility = "hidden";
       } else if (this.guideX != null) {
         var minY = null;
         var maxY = null;
 
         if (stateX != null && bounds != null) {
           minY = Math.min(bounds.y + delta.y - this.graph.panDy, stateX.y);
-          maxY = Math.max(bounds.y + bounds.height + delta.y - this.graph.panDy, stateX.y + stateX.height);
+          maxY = Math.max(
+            bounds.y + bounds.height + delta.y - this.graph.panDy,
+            stateX.y + stateX.height,
+          );
         }
 
         if (minY != null && maxY != null) {
-          this.guideX.points = [new mxPoint(valueX, minY), new mxPoint(valueX, maxY)];
+          this.guideX.points = [
+            new mxPoint(valueX, minY),
+            new mxPoint(valueX, maxY),
+          ];
         } else {
           this.guideX.points = [
             new mxPoint(valueX, -this.graph.panDy),
-            new mxPoint(valueX, c.scrollHeight - 3 - this.graph.panDy)
+            new mxPoint(valueX, c.scrollHeight - 3 - this.graph.panDy),
           ];
         }
 
         this.guideX.stroke = this.getGuideColor(stateX, true);
-        this.guideX.node.style.visibility = 'visible';
+        this.guideX.node.style.visibility = "visible";
         this.guideX.redraw();
       }
 
       if (!overrideY && this.guideY != null) {
-        this.guideY.node.style.visibility = 'hidden';
+        this.guideY.node.style.visibility = "hidden";
       } else if (this.guideY != null) {
         var minX = null;
         var maxX = null;
 
         if (stateY != null && bounds != null) {
           minX = Math.min(bounds.x + delta.x - this.graph.panDx, stateY.x);
-          maxX = Math.max(bounds.x + bounds.width + delta.x - this.graph.panDx, stateY.x + stateY.width);
+          maxX = Math.max(
+            bounds.x + bounds.width + delta.x - this.graph.panDx,
+            stateY.x + stateY.width,
+          );
         }
 
         if (minX != null && maxX != null) {
-          this.guideY.points = [new mxPoint(minX, valueY), new mxPoint(maxX, valueY)];
+          this.guideY.points = [
+            new mxPoint(minX, valueY),
+            new mxPoint(maxX, valueY),
+          ];
         } else {
           this.guideY.points = [
             new mxPoint(-this.graph.panDx, valueY),
-            new mxPoint(c.scrollWidth - 3 - this.graph.panDx, valueY)
+            new mxPoint(c.scrollWidth - 3 - this.graph.panDx, valueY),
           ];
         }
 
         this.guideY.stroke = this.getGuideColor(stateY, false);
-        this.guideY.node.style.visibility = 'visible';
+        this.guideY.node.style.visibility = "visible";
         this.guideY.redraw();
       }
     }
@@ -238,11 +265,11 @@ export class mxGuide {
 
   setVisible(visible) {
     if (this.guideX != null) {
-      this.guideX.node.style.visibility = visible ? 'visible' : 'hidden';
+      this.guideX.node.style.visibility = visible ? "visible" : "hidden";
     }
 
     if (this.guideY != null) {
-      this.guideY.node.style.visibility = visible ? 'visible' : 'hidden';
+      this.guideY.node.style.visibility = visible ? "visible" : "hidden";
     }
   }
 

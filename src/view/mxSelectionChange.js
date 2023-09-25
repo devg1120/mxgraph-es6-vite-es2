@@ -1,7 +1,7 @@
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxResources } from '@mxgraph/util/mxResources';
-import { mxLog } from '@mxgraph/util/mxLog';
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxResources } from "@mxgraph/util/mxResources";
+import { mxLog } from "@mxgraph/util/mxLog";
 
 export class mxSelectionChange {
   constructor(selectionModel, added, removed) {
@@ -11,9 +11,10 @@ export class mxSelectionChange {
   }
 
   execute() {
-    var t0 = mxLog.enter('mxSelectionChange.execute');
+    var t0 = mxLog.enter("mxSelectionChange.execute");
     window.status =
-      mxResources.get(this.selectionModel.updatingSelectionResource) || this.selectionModel.updatingSelectionResource;
+      mxResources.get(this.selectionModel.updatingSelectionResource) ||
+      this.selectionModel.updatingSelectionResource;
 
     if (this.removed != null) {
       for (var i = 0; i < this.removed.length; i++) {
@@ -30,8 +31,18 @@ export class mxSelectionChange {
     var tmp = this.added;
     this.added = this.removed;
     this.removed = tmp;
-    window.status = mxResources.get(this.selectionModel.doneResource) || this.selectionModel.doneResource;
-    mxLog.leave('mxSelectionChange.execute', t0);
-    this.selectionModel.fireEvent(new mxEventObject(mxEvent.CHANGE, 'added', this.added, 'removed', this.removed));
+    window.status =
+      mxResources.get(this.selectionModel.doneResource) ||
+      this.selectionModel.doneResource;
+    mxLog.leave("mxSelectionChange.execute", t0);
+    this.selectionModel.fireEvent(
+      new mxEventObject(
+        mxEvent.CHANGE,
+        "added",
+        this.added,
+        "removed",
+        this.removed,
+      ),
+    );
   }
 }

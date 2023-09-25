@@ -17,7 +17,11 @@ export class mxChildChange {
         this.connect(this.child, false);
       }
 
-      tmp = this.model.parentForCellChanged(this.child, this.previous, this.previousIndex);
+      tmp = this.model.parentForCellChanged(
+        this.child,
+        this.previous,
+        this.previousIndex,
+      );
 
       if (this.previous != null) {
         this.connect(this.child, true);

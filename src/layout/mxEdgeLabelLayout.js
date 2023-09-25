@@ -1,6 +1,6 @@
-import { mxGraphLayout } from '@mxgraph/layout/mxGraphLayout';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxGraphLayout } from "@mxgraph/layout/mxGraphLayout";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxEdgeLabelLayout extends mxGraphLayout {
   constructor(graph, radius) {
@@ -38,7 +38,11 @@ export class mxEdgeLabelLayout extends mxGraphLayout {
       for (var i = 0; i < e.length; i++) {
         var edge = e[i];
 
-        if (edge != null && edge.text != null && edge.text.boundingBox != null) {
+        if (
+          edge != null &&
+          edge.text != null &&
+          edge.text.boundingBox != null
+        ) {
           for (var j = 0; j < v.length; j++) {
             var vertex = v[j];
 

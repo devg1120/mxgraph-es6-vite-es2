@@ -1,7 +1,7 @@
-import { mxGraphLayout } from '@mxgraph/layout/mxGraphLayout';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
+import { mxGraphLayout } from "@mxgraph/layout/mxGraphLayout";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
 
 export class mxStackLayout extends mxGraphLayout {
   marginTop = 0;
@@ -56,7 +56,9 @@ export class mxStackLayout extends mxGraphLayout {
           var bounds = model.getGeometry(child);
 
           if (bounds != null) {
-            var tmp = horizontal ? bounds.x + bounds.width / 2 : bounds.y + bounds.height / 2;
+            var tmp = horizontal
+              ? bounds.x + bounds.width / 2
+              : bounds.y + bounds.height / 2;
 
             if (last <= value && tmp > value) {
               break;
@@ -79,7 +81,8 @@ export class mxStackLayout extends mxGraphLayout {
 
     if (
       this.graph.container != null &&
-      ((pgeo == null && model.isLayer(parent)) || parent == this.graph.getView().currentRoot)
+      ((pgeo == null && model.isLayer(parent)) ||
+        parent == this.graph.getView().currentRoot)
     ) {
       var width = this.graph.container.offsetWidth - 1;
       var height = this.graph.container.offsetHeight - 1;
@@ -145,8 +148,13 @@ export class mxStackLayout extends mxGraphLayout {
 
       if (this.graph.isSwimlane(parent)) {
         var style = this.graph.getCellStyle(parent);
-        var start = mxUtils.getNumber(style, mxConstants.STYLE_STARTSIZE, mxConstants.DEFAULT_STARTSIZE);
-        var horz = mxUtils.getValue(style, mxConstants.STYLE_HORIZONTAL, true) == 1;
+        var start = mxUtils.getNumber(
+          style,
+          mxConstants.STYLE_STARTSIZE,
+          mxConstants.DEFAULT_STARTSIZE,
+        );
+        var horz =
+          mxUtils.getValue(style, mxConstants.STYLE_HORIZONTAL, true) == 1;
 
         if (pgeo != null) {
           if (horz) {
@@ -185,8 +193,12 @@ export class mxStackLayout extends mxGraphLayout {
 
             if (this.wrap != null && last != null) {
               if (
-                (horizontal && last.x + last.width + geo.width + 2 * this.spacing > this.wrap) ||
-                (!horizontal && last.y + last.height + geo.height + 2 * this.spacing > this.wrap)
+                (horizontal &&
+                  last.x + last.width + geo.width + 2 * this.spacing >
+                    this.wrap) ||
+                (!horizontal &&
+                  last.y + last.height + geo.height + 2 * this.spacing >
+                    this.wrap)
               ) {
                 last = null;
 
@@ -205,26 +217,46 @@ export class mxStackLayout extends mxGraphLayout {
 
             if (!this.borderCollapse) {
               var childStyle = this.graph.getCellStyle(child);
-              sw = mxUtils.getNumber(childStyle, mxConstants.STYLE_STROKEWIDTH, 1);
+              sw = mxUtils.getNumber(
+                childStyle,
+                mxConstants.STYLE_STROKEWIDTH,
+                1,
+              );
             }
 
             if (last != null) {
               var temp = lastValue + this.spacing + Math.floor(sw / 2);
 
               if (horizontal) {
-                geo.x = this.snap((this.allowGaps ? Math.max(temp, geo.x) : temp) - this.marginLeft) + this.marginLeft;
+                geo.x =
+                  this.snap(
+                    (this.allowGaps ? Math.max(temp, geo.x) : temp) -
+                      this.marginLeft,
+                  ) + this.marginLeft;
               } else {
-                geo.y = this.snap((this.allowGaps ? Math.max(temp, geo.y) : temp) - this.marginTop) + this.marginTop;
+                geo.y =
+                  this.snap(
+                    (this.allowGaps ? Math.max(temp, geo.y) : temp) -
+                      this.marginTop,
+                  ) + this.marginTop;
               }
             } else if (!this.keepFirstLocation) {
               if (horizontal) {
                 geo.x =
                   this.allowGaps && geo.x > x0
-                    ? Math.max(this.snap(geo.x - this.marginLeft) + this.marginLeft, x0)
+                    ? Math.max(
+                        this.snap(geo.x - this.marginLeft) + this.marginLeft,
+                        x0,
+                      )
                     : x0;
               } else {
                 geo.y =
-                  this.allowGaps && geo.y > y0 ? Math.max(this.snap(geo.y - this.marginTop) + this.marginTop, y0) : y0;
+                  this.allowGaps && geo.y > y0
+                    ? Math.max(
+                        this.snap(geo.y - this.marginTop) + this.marginTop,
+                        y0,
+                      )
+                    : y0;
               }
             }
 
@@ -260,13 +292,29 @@ export class mxStackLayout extends mxGraphLayout {
           }
         }
 
-        if (this.resizeParent && pgeo != null && last != null && !this.graph.isCellCollapsed(parent)) {
+        if (
+          this.resizeParent &&
+          pgeo != null &&
+          last != null &&
+          !this.graph.isCellCollapsed(parent)
+        ) {
           this.updateParentGeometry(parent, pgeo, last);
-        } else if (this.resizeLast && pgeo != null && last != null && lastChild != null) {
+        } else if (
+          this.resizeLast &&
+          pgeo != null &&
+          last != null &&
+          lastChild != null
+        ) {
           if (horizontal) {
-            last.width = pgeo.width - last.x - this.spacing - this.marginRight - this.marginLeft;
+            last.width =
+              pgeo.width -
+              last.x -
+              this.spacing -
+              this.marginRight -
+              this.marginLeft;
           } else {
-            last.height = pgeo.height - last.y - this.spacing - this.marginBottom;
+            last.height =
+              pgeo.height - last.y - this.spacing - this.marginBottom;
           }
 
           this.setChildGeometry(lastChild, last);
@@ -280,7 +328,13 @@ export class mxStackLayout extends mxGraphLayout {
   setChildGeometry(child, geo) {
     var geo2 = this.graph.getCellGeometry(child);
 
-    if (geo2 == null || geo.x != geo2.x || geo.y != geo2.y || geo.width != geo2.width || geo.height != geo2.height) {
+    if (
+      geo2 == null ||
+      geo.x != geo2.x ||
+      geo.y != geo2.y ||
+      geo.width != geo2.width ||
+      geo.height != geo2.height
+    ) {
       this.graph.getModel().setGeometry(child, geo);
     }
   }
@@ -308,7 +362,12 @@ export class mxStackLayout extends mxGraphLayout {
       }
     }
 
-    if (pgeo.x != pgeo2.x || pgeo.y != pgeo2.y || pgeo.width != pgeo2.width || pgeo.height != pgeo2.height) {
+    if (
+      pgeo.x != pgeo2.x ||
+      pgeo.y != pgeo2.y ||
+      pgeo.width != pgeo2.width ||
+      pgeo.height != pgeo2.height
+    ) {
       model.setGeometry(parent, pgeo2);
     }
   }

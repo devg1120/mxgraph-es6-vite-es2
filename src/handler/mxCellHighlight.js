@@ -1,7 +1,7 @@
-import { mxClient } from '@mxgraph/mxClient';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxConstants } from '@mxgraph/util/mxConstants';
+import { mxClient } from "@mxgraph/mxClient";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxConstants } from "@mxgraph/util/mxConstants";
 
 export class mxCellHighlight {
   keepOnTop = false;
@@ -13,8 +13,12 @@ export class mxCellHighlight {
   constructor(graph, highlightColor, strokeWidth, dashed) {
     if (graph != null) {
       this.graph = graph;
-      this.highlightColor = highlightColor != null ? highlightColor : mxConstants.DEFAULT_VALID_COLOR;
-      this.strokeWidth = strokeWidth != null ? strokeWidth : mxConstants.HIGHLIGHT_STROKEWIDTH;
+      this.highlightColor =
+        highlightColor != null
+          ? highlightColor
+          : mxConstants.DEFAULT_VALID_COLOR;
+      this.strokeWidth =
+        strokeWidth != null ? strokeWidth : mxConstants.HIGHLIGHT_STROKEWIDTH;
       this.dashed = dashed != null ? dashed : false;
       this.opacity = mxConstants.HIGHLIGHT_OPACITY;
 
@@ -33,7 +37,9 @@ export class mxCellHighlight {
 
       this.graph.getView().addListener(mxEvent.SCALE, this.repaintHandler);
       this.graph.getView().addListener(mxEvent.TRANSLATE, this.repaintHandler);
-      this.graph.getView().addListener(mxEvent.SCALE_AND_TRANSLATE, this.repaintHandler);
+      this.graph
+        .getView()
+        .addListener(mxEvent.SCALE_AND_TRANSLATE, this.repaintHandler);
       this.graph.getModel().addListener(mxEvent.CHANGE, this.repaintHandler);
 
       this.resetHandler = () => {
@@ -57,8 +63,14 @@ export class mxCellHighlight {
     this.shape = this.createShape();
     this.repaint();
 
-    if (!this.keepOnTop && this.shape.node.parentNode.firstChild != this.shape.node) {
-      this.shape.node.parentNode.insertBefore(this.shape.node, this.shape.node.parentNode.firstChild);
+    if (
+      !this.keepOnTop &&
+      this.shape.node.parentNode.firstChild != this.shape.node
+    ) {
+      this.shape.node.parentNode.insertBefore(
+        this.shape.node,
+        this.shape.node.parentNode.firstChild,
+      );
     }
   }
 
@@ -71,14 +83,17 @@ export class mxCellHighlight {
     shape.opacity = this.opacity;
     shape.isDashed = this.dashed;
     shape.isShadow = false;
-    shape.dialect = this.graph.dialect != mxConstants.DIALECT_SVG ? mxConstants.DIALECT_VML : mxConstants.DIALECT_SVG;
+    shape.dialect =
+      this.graph.dialect != mxConstants.DIALECT_SVG
+        ? mxConstants.DIALECT_VML
+        : mxConstants.DIALECT_SVG;
     shape.init(this.graph.getView().getOverlayPane());
     mxEvent.redirectMouseEvents(shape.node, this.graph, this.state);
 
     if (this.graph.dialect != mxConstants.DIALECT_SVG) {
       shape.pointerEvents = false;
     } else {
-      shape.svgPointerEvents = 'stroke';
+      shape.svgPointerEvents = "stroke";
     }
 
     return shape;
@@ -101,9 +116,11 @@ export class mxCellHighlight {
           this.state.x - this.spacing,
           this.state.y - this.spacing,
           this.state.width + 2 * this.spacing,
-          this.state.height + 2 * this.spacing
+          this.state.height + 2 * this.spacing,
         );
-        this.shape.rotation = Number(this.state.style[mxConstants.STYLE_ROTATION] || '0');
+        this.shape.rotation = Number(
+          this.state.style[mxConstants.STYLE_ROTATION] || "0",
+        );
         this.shape.strokewidth = this.getStrokeWidth() / this.state.view.scale;
         this.shape.outline = true;
       }
@@ -113,8 +130,8 @@ export class mxCellHighlight {
       }
 
       if (mxClient.IS_QUIRKS || document.documentMode == 8) {
-        if (this.shape.stroke == 'transparent') {
-          this.shape.stroke = 'white';
+        if (this.shape.stroke == "transparent") {
+          this.shape.stroke = "white";
           this.shape.opacity = 1;
         } else {
           this.shape.opacity = this.opacity;
@@ -147,7 +164,11 @@ export class mxCellHighlight {
   isHighlightAt(x, y) {
     var hit = false;
 
-    if (this.shape != null && document.elementFromPoint != null && !mxClient.IS_QUIRKS) {
+    if (
+      this.shape != null &&
+      document.elementFromPoint != null &&
+      !mxClient.IS_QUIRKS
+    ) {
       var elt = document.elementFromPoint(x, y);
 
       while (elt != null) {

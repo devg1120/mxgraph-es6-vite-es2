@@ -10,9 +10,8 @@ export class mxPoint {
 
   clone() {
     //return cloneObj(this);
-    let  clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);    
+    let clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
     return clone;
-
   }
 }
 
@@ -20,12 +19,15 @@ function cloneObj(obj, transients, shallow) {
   shallow = shallow != null ? shallow : false;
   var clone = null;
 
-  if (obj != null && typeof obj.constructor == 'function') {
+  if (obj != null && typeof obj.constructor == "function") {
     clone = new obj.constructor();
 
     for (var i in obj) {
-      if (i != 'mxObjectId' && (transients == null || transients.indexOf(i) < 0)) {
-        if (!shallow && typeof obj[i] == 'object') {
+      if (
+        i != "mxObjectId" &&
+        (transients == null || transients.indexOf(i) < 0)
+      ) {
+        if (!shallow && typeof obj[i] == "object") {
           clone[i] = cloneObj(obj[i]);
         } else {
           clone[i] = obj[i];

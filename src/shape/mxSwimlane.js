@@ -1,7 +1,7 @@
-import { mxShape } from '@mxgraph/shape/mxShape';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxShape } from "@mxgraph/shape/mxShape";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 
 export class mxSwimlane extends mxShape {
   imageSize = 16;
@@ -19,7 +19,14 @@ export class mxSwimlane extends mxShape {
   }
 
   getTitleSize() {
-    return Math.max(0, mxUtils.getValue(this.style, mxConstants.STYLE_STARTSIZE, mxConstants.DEFAULT_STARTSIZE));
+    return Math.max(
+      0,
+      mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_STARTSIZE,
+        mxConstants.DEFAULT_STARTSIZE,
+      ),
+    );
   }
 
   getLabelBounds(rect) {
@@ -28,14 +35,20 @@ export class mxSwimlane extends mxShape {
     var horizontal = this.isHorizontal();
     var flipH = mxUtils.getValue(this.style, mxConstants.STYLE_FLIPH, 0) == 1;
     var flipV = mxUtils.getValue(this.style, mxConstants.STYLE_FLIPV, 0) == 1;
-    var shapeVertical = this.direction == mxConstants.DIRECTION_NORTH || this.direction == mxConstants.DIRECTION_SOUTH;
+    var shapeVertical =
+      this.direction == mxConstants.DIRECTION_NORTH ||
+      this.direction == mxConstants.DIRECTION_SOUTH;
     var realHorizontal = horizontal == !shapeVertical;
     var realFlipH =
       !realHorizontal &&
-      flipH != (this.direction == mxConstants.DIRECTION_SOUTH || this.direction == mxConstants.DIRECTION_WEST);
+      flipH !=
+        (this.direction == mxConstants.DIRECTION_SOUTH ||
+          this.direction == mxConstants.DIRECTION_WEST);
     var realFlipV =
       realHorizontal &&
-      flipV != (this.direction == mxConstants.DIRECTION_SOUTH || this.direction == mxConstants.DIRECTION_WEST);
+      flipV !=
+        (this.direction == mxConstants.DIRECTION_SOUTH ||
+          this.direction == mxConstants.DIRECTION_WEST);
 
     if (!shapeVertical) {
       var tmp = Math.min(bounds.height, start * this.scale);
@@ -71,14 +84,27 @@ export class mxSwimlane extends mxShape {
   }
 
   getSwimlaneArcSize(w, h, start) {
-    if (mxUtils.getValue(this.style, mxConstants.STYLE_ABSOLUTE_ARCSIZE, 0) == '1') {
+    if (
+      mxUtils.getValue(this.style, mxConstants.STYLE_ABSOLUTE_ARCSIZE, 0) == "1"
+    ) {
       return Math.min(
         w / 2,
-        Math.min(h / 2, mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants.LINE_ARCSIZE) / 2)
+        Math.min(
+          h / 2,
+          mxUtils.getValue(
+            this.style,
+            mxConstants.STYLE_ARCSIZE,
+            mxConstants.LINE_ARCSIZE,
+          ) / 2,
+        ),
       );
     } else {
       var f =
-        mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants.RECTANGLE_ROUNDING_FACTOR * 100) / 100;
+        mxUtils.getValue(
+          this.style,
+          mxConstants.STYLE_ARCSIZE,
+          mxConstants.RECTANGLE_ROUNDING_FACTOR * 100,
+        ) / 100;
       return start * f * 3;
     }
   }
@@ -89,8 +115,13 @@ export class mxSwimlane extends mxShape {
 
   paintVertexShape(c, x, y, w, h) {
     var start = this.getTitleSize();
-    var fill = mxUtils.getValue(this.style, mxConstants.STYLE_SWIMLANE_FILLCOLOR, mxConstants.NONE);
-    var swimlaneLine = mxUtils.getValue(this.style, mxConstants.STYLE_SWIMLANE_LINE, 1) == 1;
+    var fill = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_SWIMLANE_FILLCOLOR,
+      mxConstants.NONE,
+    );
+    var swimlaneLine =
+      mxUtils.getValue(this.style, mxConstants.STYLE_SWIMLANE_LINE, 1) == 1;
     var r = 0;
 
     if (this.isHorizontal()) {
@@ -109,12 +140,25 @@ export class mxSwimlane extends mxShape {
       this.paintRoundedSwimlane(c, x, y, w, h, start, r, fill, swimlaneLine);
     }
 
-    var sep = mxUtils.getValue(this.style, mxConstants.STYLE_SEPARATORCOLOR, mxConstants.NONE);
+    var sep = mxUtils.getValue(
+      this.style,
+      mxConstants.STYLE_SEPARATORCOLOR,
+      mxConstants.NONE,
+    );
     this.paintSeparator(c, x, y, w, h, start, sep);
 
     if (this.image != null) {
       var bounds = this.getImageBounds(x, y, w, h);
-      c.image(bounds.x - x, bounds.y - y, bounds.width, bounds.height, this.image, false, false, false);
+      c.image(
+        bounds.x - x,
+        bounds.y - y,
+        bounds.width,
+        bounds.height,
+        this.image,
+        false,
+        false,
+        false,
+      );
     }
 
     if (this.glass) {
@@ -128,7 +172,9 @@ export class mxSwimlane extends mxShape {
     var events = true;
 
     if (this.style != null) {
-      events = mxUtils.getValue(this.style, mxConstants.STYLE_POINTER_EVENTS, '1') == '1';
+      events =
+        mxUtils.getValue(this.style, mxConstants.STYLE_POINTER_EVENTS, "1") ==
+        "1";
     }
 
     if (!events && (this.fill == null || this.fill == mxConstants.NONE)) {
@@ -203,7 +249,9 @@ export class mxSwimlane extends mxShape {
     var events = true;
 
     if (this.style != null) {
-      events = mxUtils.getValue(this.style, mxConstants.STYLE_POINTER_EVENTS, '1') == '1';
+      events =
+        mxUtils.getValue(this.style, mxConstants.STYLE_POINTER_EVENTS, "1") ==
+        "1";
     }
 
     if (!events && (this.fill == null || this.fill == mxConstants.NONE)) {
@@ -320,7 +368,12 @@ export class mxSwimlane extends mxShape {
 
   getImageBounds(x, y, w, h) {
     if (this.isHorizontal()) {
-      return new mxRectangle(x + w - this.imageSize, y, this.imageSize, this.imageSize);
+      return new mxRectangle(
+        x + w - this.imageSize,
+        y,
+        this.imageSize,
+        this.imageSize,
+      );
     } else {
       return new mxRectangle(x, y, this.imageSize, this.imageSize);
     }

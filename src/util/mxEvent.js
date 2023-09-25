@@ -1,5 +1,5 @@
-import { mxMouseEvent } from '@mxgraph/util/mxMouseEvent';
-import { mxClient } from '@mxgraph/mxClient';
+import { mxMouseEvent } from "@mxgraph/util/mxMouseEvent";
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxEvent {
   static addListener = (function () {
@@ -10,7 +10,7 @@ export class mxEvent {
 
       var entry = {
         name: eventName,
-        f: funct
+        f: funct,
       };
       element.mxListenerList.push(entry);
     };
@@ -22,7 +22,7 @@ export class mxEvent {
       };
     } else {
       return function (element, eventName, funct) {
-        element.attachEvent('on' + eventName, funct);
+        element.attachEvent("on" + eventName, funct);
         updateListenerList(element, eventName, funct);
       };
     }
@@ -54,7 +54,7 @@ export class mxEvent {
       };
     } else {
       return function (element, eventName, funct) {
-        element.detachEvent('on' + eventName, funct);
+        element.detachEvent("on" + eventName, funct);
         updateListener(element, eventName, funct);
       };
     }
@@ -73,63 +73,92 @@ export class mxEvent {
 
   static addGestureListeners(node, startListener, moveListener, endListener) {
     if (startListener != null) {
-      mxEvent.addListener(node, mxClient.IS_POINTER ? 'pointerdown' : 'mousedown', startListener);
+      mxEvent.addListener(
+        node,
+        mxClient.IS_POINTER ? "pointerdown" : "mousedown",
+        startListener,
+      );
     }
 
     if (moveListener != null) {
-      mxEvent.addListener(node, mxClient.IS_POINTER ? 'pointermove' : 'mousemove', moveListener);
+      mxEvent.addListener(
+        node,
+        mxClient.IS_POINTER ? "pointermove" : "mousemove",
+        moveListener,
+      );
     }
 
     if (endListener != null) {
-      mxEvent.addListener(node, mxClient.IS_POINTER ? 'pointerup' : 'mouseup', endListener);
+      mxEvent.addListener(
+        node,
+        mxClient.IS_POINTER ? "pointerup" : "mouseup",
+        endListener,
+      );
     }
 
     if (!mxClient.IS_POINTER && mxClient.IS_TOUCH) {
       if (startListener != null) {
-        mxEvent.addListener(node, 'touchstart', startListener);
+        mxEvent.addListener(node, "touchstart", startListener);
       }
 
       if (moveListener != null) {
-        mxEvent.addListener(node, 'touchmove', moveListener);
+        mxEvent.addListener(node, "touchmove", moveListener);
       }
 
       if (endListener != null) {
-        mxEvent.addListener(node, 'touchend', endListener);
+        mxEvent.addListener(node, "touchend", endListener);
       }
     }
   }
 
-  static removeGestureListeners(node, startListener, moveListener, endListener) {
+  static removeGestureListeners(
+    node,
+    startListener,
+    moveListener,
+    endListener,
+  ) {
     if (startListener != null) {
-      mxEvent.removeListener(node, mxClient.IS_POINTER ? 'pointerdown' : 'mousedown', startListener);
+      mxEvent.removeListener(
+        node,
+        mxClient.IS_POINTER ? "pointerdown" : "mousedown",
+        startListener,
+      );
     }
 
     if (moveListener != null) {
-      mxEvent.removeListener(node, mxClient.IS_POINTER ? 'pointermove' : 'mousemove', moveListener);
+      mxEvent.removeListener(
+        node,
+        mxClient.IS_POINTER ? "pointermove" : "mousemove",
+        moveListener,
+      );
     }
 
     if (endListener != null) {
-      mxEvent.removeListener(node, mxClient.IS_POINTER ? 'pointerup' : 'mouseup', endListener);
+      mxEvent.removeListener(
+        node,
+        mxClient.IS_POINTER ? "pointerup" : "mouseup",
+        endListener,
+      );
     }
 
     if (!mxClient.IS_POINTER && mxClient.IS_TOUCH) {
       if (startListener != null) {
-        mxEvent.removeListener(node, 'touchstart', startListener);
+        mxEvent.removeListener(node, "touchstart", startListener);
       }
 
       if (moveListener != null) {
-        mxEvent.removeListener(node, 'touchmove', moveListener);
+        mxEvent.removeListener(node, "touchmove", moveListener);
       }
 
       if (endListener != null) {
-        mxEvent.removeListener(node, 'touchend', endListener);
+        mxEvent.removeListener(node, "touchend", endListener);
       }
     }
   }
 
   static redirectMouseEvents(node, graph, state, down, move, up, dblClick) {
     var getState = function (evt) {
-      return typeof state == 'function' ? state(evt) : state;
+      return typeof state == "function" ? state(evt) : state;
     };
 
     mxEvent.addGestureListeners(
@@ -138,25 +167,34 @@ export class mxEvent {
         if (down != null) {
           down(evt);
         } else if (!mxEvent.isConsumed(evt)) {
-          graph.fireMouseEvent(mxEvent.MOUSE_DOWN, new mxMouseEvent(evt, getState(evt)));
+          graph.fireMouseEvent(
+            mxEvent.MOUSE_DOWN,
+            new mxMouseEvent(evt, getState(evt)),
+          );
         }
       },
       function (evt) {
         if (move != null) {
           move(evt);
         } else if (!mxEvent.isConsumed(evt)) {
-          graph.fireMouseEvent(mxEvent.MOUSE_MOVE, new mxMouseEvent(evt, getState(evt)));
+          graph.fireMouseEvent(
+            mxEvent.MOUSE_MOVE,
+            new mxMouseEvent(evt, getState(evt)),
+          );
         }
       },
       function (evt) {
         if (up != null) {
           up(evt);
         } else if (!mxEvent.isConsumed(evt)) {
-          graph.fireMouseEvent(mxEvent.MOUSE_UP, new mxMouseEvent(evt, getState(evt)));
+          graph.fireMouseEvent(
+            mxEvent.MOUSE_UP,
+            new mxMouseEvent(evt, getState(evt)),
+          );
         }
-      }
+      },
     );
-    mxEvent.addListener(node, 'dblclick', function (evt) {
+    mxEvent.addListener(node, "dblclick", function (evt) {
       if (dblClick != null) {
         dblClick(evt);
       } else if (!mxEvent.isConsumed(evt)) {
@@ -207,11 +245,11 @@ export class mxEvent {
 
       if (mxClient.IS_SF && !mxClient.IS_TOUCH) {
         var scale = 1;
-        mxEvent.addListener(target, 'gesturestart', function (evt) {
+        mxEvent.addListener(target, "gesturestart", function (evt) {
           mxEvent.consume(evt);
           scale = 1;
         });
-        mxEvent.addListener(target, 'gesturechange', function (evt) {
+        mxEvent.addListener(target, "gesturechange", function (evt) {
           mxEvent.consume(evt);
           var diff = scale - evt.scale;
 
@@ -220,17 +258,17 @@ export class mxEvent {
             scale = evt.scale;
           }
         });
-        mxEvent.addListener(target, 'gestureend', function (evt) {
+        mxEvent.addListener(target, "gestureend", function (evt) {
           mxEvent.consume(evt);
         });
       }
 
-      mxEvent.addListener(target, 'wheel', wheelHandler);
+      mxEvent.addListener(target, "wheel", wheelHandler);
     }
   }
 
   static disableContextMenu(element) {
-    mxEvent.addListener(element, 'contextmenu', function (evt) {
+    mxEvent.addListener(element, "contextmenu", function (evt) {
       if (evt.preventDefault) {
         evt.preventDefault();
       }
@@ -249,36 +287,46 @@ export class mxEvent {
 
   static isTouchEvent(evt) {
     return evt.pointerType != null
-      ? evt.pointerType == 'touch' || evt.pointerType === evt.MSPOINTER_TYPE_TOUCH
+      ? evt.pointerType == "touch" ||
+          evt.pointerType === evt.MSPOINTER_TYPE_TOUCH
       : evt.mozInputSource != null
       ? evt.mozInputSource == 5
-      : evt.type.indexOf('touch') == 0;
+      : evt.type.indexOf("touch") == 0;
   }
 
   static isPenEvent(evt) {
     return evt.pointerType != null
-      ? evt.pointerType == 'pen' || evt.pointerType === evt.MSPOINTER_TYPE_PEN
+      ? evt.pointerType == "pen" || evt.pointerType === evt.MSPOINTER_TYPE_PEN
       : evt.mozInputSource != null
       ? evt.mozInputSource == 2
-      : evt.type.indexOf('pen') == 0;
+      : evt.type.indexOf("pen") == 0;
   }
 
   static isMultiTouchEvent(evt) {
-    return evt.type != null && evt.type.indexOf('touch') == 0 && evt.touches != null && evt.touches.length > 1;
+    return (
+      evt.type != null &&
+      evt.type.indexOf("touch") == 0 &&
+      evt.touches != null &&
+      evt.touches.length > 1
+    );
   }
 
   static isMouseEvent(evt) {
     return evt.pointerType != null
-      ? evt.pointerType == 'mouse' || evt.pointerType === evt.MSPOINTER_TYPE_MOUSE
+      ? evt.pointerType == "mouse" ||
+          evt.pointerType === evt.MSPOINTER_TYPE_MOUSE
       : evt.mozInputSource != null
       ? evt.mozInputSource == 1
-      : evt.type.indexOf('mouse') == 0;
+      : evt.type.indexOf("mouse") == 0;
   }
 
   static isLeftMouseButton(evt) {
-    if ('buttons' in evt && (evt.type == 'mousedown' || evt.type == 'mousemove')) {
+    if (
+      "buttons" in evt &&
+      (evt.type == "mousedown" || evt.type == "mousemove")
+    ) {
       return evt.buttons == 1;
-    } else if ('which' in evt) {
+    } else if ("which" in evt) {
       return evt.which === 1;
     } else {
       return evt.button === 1;
@@ -286,7 +334,7 @@ export class mxEvent {
   }
 
   static isMiddleMouseButton(evt) {
-    if ('which' in evt) {
+    if ("which" in evt) {
       return evt.which === 2;
     } else {
       return evt.button === 4;
@@ -294,7 +342,7 @@ export class mxEvent {
   }
 
   static isRightMouseButton(evt) {
-    if ('which' in evt) {
+    if ("which" in evt) {
       return evt.which === 3;
     } else {
       return evt.button === 2;
@@ -329,9 +377,17 @@ export class mxEvent {
   }
 
   static getMainEvent(e) {
-    if ((e.type == 'touchstart' || e.type == 'touchmove') && e.touches != null && e.touches[0] != null) {
+    if (
+      (e.type == "touchstart" || e.type == "touchmove") &&
+      e.touches != null &&
+      e.touches[0] != null
+    ) {
       e = e.touches[0];
-    } else if (e.type == 'touchend' && e.changedTouches != null && e.changedTouches[0] != null) {
+    } else if (
+      e.type == "touchend" &&
+      e.changedTouches != null &&
+      e.changedTouches[0] != null
+    ) {
       e = e.changedTouches[0];
     }
 
@@ -379,9 +435,10 @@ export class mxEvent {
           evt.stopPropagation();
         }
         //console.dir(evt.type);
-        if (evt.type != 'wheel' ) {   /*GS*/
-             evt.preventDefault();
-	}
+        if (evt.type != "wheel") {
+          /*GS*/
+          evt.preventDefault();
+        }
       } else if (stopPropagation) {
         evt.cancelBubble = true;
       }
@@ -397,100 +454,100 @@ export class mxEvent {
   static ROTATION_HANDLE = -2;
   static CUSTOM_HANDLE = -100;
   static VIRTUAL_HANDLE = -100000;
-  static MOUSE_DOWN = 'mouseDown';
-  static MOUSE_MOVE = 'mouseMove';
-  static MOUSE_UP = 'mouseUp';
-  static ACTIVATE = 'activate';
-  static RESIZE_START = 'resizeStart';
-  static RESIZE = 'resize';
-  static RESIZE_END = 'resizeEnd';
-  static MOVE_START = 'moveStart';
-  static MOVE = 'move';
-  static MOVE_END = 'moveEnd';
-  static PAN_START = 'panStart';
-  static PAN = 'pan';
-  static PAN_END = 'panEnd';
-  static MINIMIZE = 'minimize';
-  static NORMALIZE = 'normalize';
-  static MAXIMIZE = 'maximize';
-  static HIDE = 'hide';
-  static SHOW = 'show';
-  static CLOSE = 'close';
-  static DESTROY = 'destroy';
-  static REFRESH = 'refresh';
-  static SIZE = 'size';
-  static SELECT = 'select';
-  static FIRED = 'fired';
-  static FIRE_MOUSE_EVENT = 'fireMouseEvent';
-  static GESTURE = 'gesture';
-  static TAP_AND_HOLD = 'tapAndHold';
-  static GET = 'get';
-  static RECEIVE = 'receive';
-  static CONNECT = 'connect';
-  static DISCONNECT = 'disconnect';
-  static SUSPEND = 'suspend';
-  static RESUME = 'resume';
-  static MARK = 'mark';
-  static ROOT = 'root';
-  static POST = 'post';
-  static OPEN = 'open';
-  static SAVE = 'save';
-  static BEFORE_ADD_VERTEX = 'beforeAddVertex';
-  static ADD_VERTEX = 'addVertex';
-  static AFTER_ADD_VERTEX = 'afterAddVertex';
-  static DONE = 'done';
-  static EXECUTE = 'execute';
-  static EXECUTED = 'executed';
-  static BEGIN_UPDATE = 'beginUpdate';
-  static START_EDIT = 'startEdit';
-  static END_UPDATE = 'endUpdate';
-  static END_EDIT = 'endEdit';
-  static BEFORE_UNDO = 'beforeUndo';
-  static UNDO = 'undo';
-  static REDO = 'redo';
-  static CHANGE = 'change';
-  static NOTIFY = 'notify';
-  static LAYOUT_CELLS = 'layoutCells';
-  static CLICK = 'click';
-  static SCALE = 'scale';
-  static TRANSLATE = 'translate';
-  static SCALE_AND_TRANSLATE = 'scaleAndTranslate';
-  static UP = 'up';
-  static DOWN = 'down';
-  static ADD = 'add';
-  static REMOVE = 'remove';
-  static CLEAR = 'clear';
-  static ADD_CELLS = 'addCells';
-  static CELLS_ADDED = 'cellsAdded';
-  static MOVE_CELLS = 'moveCells';
-  static CELLS_MOVED = 'cellsMoved';
-  static RESIZE_CELLS = 'resizeCells';
-  static CELLS_RESIZED = 'cellsResized';
-  static TOGGLE_CELLS = 'toggleCells';
-  static CELLS_TOGGLED = 'cellsToggled';
-  static ORDER_CELLS = 'orderCells';
-  static CELLS_ORDERED = 'cellsOrdered';
-  static REMOVE_CELLS = 'removeCells';
-  static CELLS_REMOVED = 'cellsRemoved';
-  static GROUP_CELLS = 'groupCells';
-  static UNGROUP_CELLS = 'ungroupCells';
-  static REMOVE_CELLS_FROM_PARENT = 'removeCellsFromParent';
-  static FOLD_CELLS = 'foldCells';
-  static CELLS_FOLDED = 'cellsFolded';
-  static ALIGN_CELLS = 'alignCells';
-  static LABEL_CHANGED = 'labelChanged';
-  static CONNECT_CELL = 'connectCell';
-  static CELL_CONNECTED = 'cellConnected';
-  static SPLIT_EDGE = 'splitEdge';
-  static FLIP_EDGE = 'flipEdge';
-  static START_EDITING = 'startEditing';
-  static EDITING_STARTED = 'editingStarted';
-  static EDITING_STOPPED = 'editingStopped';
-  static ADD_OVERLAY = 'addOverlay';
-  static REMOVE_OVERLAY = 'removeOverlay';
-  static UPDATE_CELL_SIZE = 'updateCellSize';
-  static ESCAPE = 'escape';
-  static DOUBLE_CLICK = 'doubleClick';
-  static START = 'start';
-  static RESET = 'reset';
+  static MOUSE_DOWN = "mouseDown";
+  static MOUSE_MOVE = "mouseMove";
+  static MOUSE_UP = "mouseUp";
+  static ACTIVATE = "activate";
+  static RESIZE_START = "resizeStart";
+  static RESIZE = "resize";
+  static RESIZE_END = "resizeEnd";
+  static MOVE_START = "moveStart";
+  static MOVE = "move";
+  static MOVE_END = "moveEnd";
+  static PAN_START = "panStart";
+  static PAN = "pan";
+  static PAN_END = "panEnd";
+  static MINIMIZE = "minimize";
+  static NORMALIZE = "normalize";
+  static MAXIMIZE = "maximize";
+  static HIDE = "hide";
+  static SHOW = "show";
+  static CLOSE = "close";
+  static DESTROY = "destroy";
+  static REFRESH = "refresh";
+  static SIZE = "size";
+  static SELECT = "select";
+  static FIRED = "fired";
+  static FIRE_MOUSE_EVENT = "fireMouseEvent";
+  static GESTURE = "gesture";
+  static TAP_AND_HOLD = "tapAndHold";
+  static GET = "get";
+  static RECEIVE = "receive";
+  static CONNECT = "connect";
+  static DISCONNECT = "disconnect";
+  static SUSPEND = "suspend";
+  static RESUME = "resume";
+  static MARK = "mark";
+  static ROOT = "root";
+  static POST = "post";
+  static OPEN = "open";
+  static SAVE = "save";
+  static BEFORE_ADD_VERTEX = "beforeAddVertex";
+  static ADD_VERTEX = "addVertex";
+  static AFTER_ADD_VERTEX = "afterAddVertex";
+  static DONE = "done";
+  static EXECUTE = "execute";
+  static EXECUTED = "executed";
+  static BEGIN_UPDATE = "beginUpdate";
+  static START_EDIT = "startEdit";
+  static END_UPDATE = "endUpdate";
+  static END_EDIT = "endEdit";
+  static BEFORE_UNDO = "beforeUndo";
+  static UNDO = "undo";
+  static REDO = "redo";
+  static CHANGE = "change";
+  static NOTIFY = "notify";
+  static LAYOUT_CELLS = "layoutCells";
+  static CLICK = "click";
+  static SCALE = "scale";
+  static TRANSLATE = "translate";
+  static SCALE_AND_TRANSLATE = "scaleAndTranslate";
+  static UP = "up";
+  static DOWN = "down";
+  static ADD = "add";
+  static REMOVE = "remove";
+  static CLEAR = "clear";
+  static ADD_CELLS = "addCells";
+  static CELLS_ADDED = "cellsAdded";
+  static MOVE_CELLS = "moveCells";
+  static CELLS_MOVED = "cellsMoved";
+  static RESIZE_CELLS = "resizeCells";
+  static CELLS_RESIZED = "cellsResized";
+  static TOGGLE_CELLS = "toggleCells";
+  static CELLS_TOGGLED = "cellsToggled";
+  static ORDER_CELLS = "orderCells";
+  static CELLS_ORDERED = "cellsOrdered";
+  static REMOVE_CELLS = "removeCells";
+  static CELLS_REMOVED = "cellsRemoved";
+  static GROUP_CELLS = "groupCells";
+  static UNGROUP_CELLS = "ungroupCells";
+  static REMOVE_CELLS_FROM_PARENT = "removeCellsFromParent";
+  static FOLD_CELLS = "foldCells";
+  static CELLS_FOLDED = "cellsFolded";
+  static ALIGN_CELLS = "alignCells";
+  static LABEL_CHANGED = "labelChanged";
+  static CONNECT_CELL = "connectCell";
+  static CELL_CONNECTED = "cellConnected";
+  static SPLIT_EDGE = "splitEdge";
+  static FLIP_EDGE = "flipEdge";
+  static START_EDITING = "startEditing";
+  static EDITING_STARTED = "editingStarted";
+  static EDITING_STOPPED = "editingStopped";
+  static ADD_OVERLAY = "addOverlay";
+  static REMOVE_OVERLAY = "removeOverlay";
+  static UPDATE_CELL_SIZE = "updateCellSize";
+  static ESCAPE = "escape";
+  static DOUBLE_CLICK = "doubleClick";
+  static START = "start";
+  static RESET = "reset";
 }

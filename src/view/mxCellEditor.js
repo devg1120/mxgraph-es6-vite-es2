@@ -1,9 +1,9 @@
-import { mxText } from '@mxgraph/shape/mxText';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxClient } from '@mxgraph/mxClient';
+import { mxText } from "@mxgraph/shape/mxText";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxCellEditor {
   textarea = null;
@@ -12,9 +12,9 @@ export class mxCellEditor {
   modified = false;
   autoSize = true;
   selectText = true;
-  emptyLabelText = mxClient.IS_FF ? '<br>' : '';
+  emptyLabelText = mxClient.IS_FF ? "<br>" : "";
   escapeCancelsEditing = true;
-  textNode = '';
+  textNode = "";
   zIndex = 5;
   minResize = new mxRectangle(0, 20);
   wordWrapPadding = mxClient.IS_QUIRKS ? 2 : !mxClient.IS_IE11 ? 1 : 0;
@@ -35,7 +35,10 @@ export class mxCellEditor {
     this.graph.view.addListener(mxEvent.SCALE_AND_TRANSLATE, this.zoomHandler);
 
     this.changeHandler = (sender) => {
-      if (this.editingCell != null && this.graph.getView().getState(this.editingCell) == null) {
+      if (
+        this.editingCell != null &&
+        this.graph.getView().getState(this.editingCell) == null
+      ) {
         this.stopEditing(true);
       }
     };
@@ -44,15 +47,17 @@ export class mxCellEditor {
   }
 
   init() {
-    this.textarea = document.createElement('div');
-    this.textarea.className = 'mxCellEditor mxPlainTextEditor';
+    this.textarea = document.createElement("div");
+    this.textarea.className = "mxCellEditor mxPlainTextEditor";
     this.textarea.contentEditable = true;
 
     if (mxClient.IS_GC) {
-      this.textarea.style.minHeight = '1em';
+      this.textarea.style.minHeight = "1em";
     }
 
-    this.textarea.style.position = this.isLegacyEditor() ? 'absolute' : 'relative';
+    this.textarea.style.position = this.isLegacyEditor()
+      ? "absolute"
+      : "relative";
     this.installListeners(this.textarea);
   }
 
@@ -70,7 +75,10 @@ export class mxCellEditor {
   }
 
   getInitialValue(state, trigger) {
-    var result = mxUtils.htmlEntities(this.graph.getEditingValue(state.cell, trigger), false);
+    var result = mxUtils.htmlEntities(
+      this.graph.getEditingValue(state.cell, trigger),
+      false,
+    );
 
     if (
       !mxClient.IS_QUIRKS &&
@@ -78,10 +86,10 @@ export class mxCellEditor {
       document.documentMode != 9 &&
       document.documentMode != 10
     ) {
-      result = mxUtils.replaceTrailingNewlines(result, '<div><br></div>');
+      result = mxUtils.replaceTrailingNewlines(result, "<div><br></div>");
     }
 
-    return result.replace(/\n/g, '<br>');
+    return result.replace(/\n/g, "<br>");
   }
 
   getCurrentValue(state) {
@@ -90,21 +98,24 @@ export class mxCellEditor {
 
   isCancelEditingKeyEvent(evt) {
     return (
-      this.escapeCancelsEditing || mxEvent.isShiftDown(evt) || mxEvent.isControlDown(evt) || mxEvent.isMetaDown(evt)
+      this.escapeCancelsEditing ||
+      mxEvent.isShiftDown(evt) ||
+      mxEvent.isControlDown(evt) ||
+      mxEvent.isMetaDown(evt)
     );
   }
 
   installListeners(elt) {
-    mxEvent.addListener(elt, 'dragstart', (evt) => {
+    mxEvent.addListener(elt, "dragstart", (evt) => {
       this.graph.stopEditing(false);
       mxEvent.consume(evt);
     });
-    mxEvent.addListener(elt, 'blur', (evt) => {
+    mxEvent.addListener(elt, "blur", (evt) => {
       if (this.blurEnabled) {
         this.focusLost(evt);
       }
     });
-    mxEvent.addListener(elt, 'keydown', (evt) => {
+    mxEvent.addListener(elt, "keydown", (evt) => {
       if (!mxEvent.isConsumed(evt)) {
         if (this.isStopEditingEvent(evt)) {
           this.graph.stopEditing(false);
@@ -124,17 +135,20 @@ export class mxCellEditor {
           (!mxClient.IS_FF || (evt.keyCode != 8 && evt.keyCode != 46))
         ) {
           this.clearOnChange = false;
-          elt.innerHTML = '';
+          elt.innerHTML = "";
         }
       }
     };
 
-    mxEvent.addListener(elt, 'keypress', keypressHandler);
-    mxEvent.addListener(elt, 'paste', keypressHandler);
+    mxEvent.addListener(elt, "keypress", keypressHandler);
+    mxEvent.addListener(elt, "paste", keypressHandler);
 
     var keyupHandler = (evt) => {
       if (this.editingCell != null) {
-        if (this.textarea.innerHTML.length == 0 || this.textarea.innerHTML == '<br>') {
+        if (
+          this.textarea.innerHTML.length == 0 ||
+          this.textarea.innerHTML == "<br>"
+        ) {
           this.textarea.innerHTML = this.getEmptyLabelText();
           this.clearOnChange = this.textarea.innerHTML.length > 0;
         } else {
@@ -143,13 +157,21 @@ export class mxCellEditor {
       }
     };
 
-    mxEvent.addListener(elt, !mxClient.IS_IE11 ? 'input' : 'keyup', keyupHandler);
-    mxEvent.addListener(elt, 'cut', keyupHandler);
-    mxEvent.addListener(elt, 'paste', keyupHandler);
-    var evtName = !mxClient.IS_IE11 ? 'input' : 'keydown';
+    mxEvent.addListener(
+      elt,
+      !mxClient.IS_IE11 ? "input" : "keyup",
+      keyupHandler,
+    );
+    mxEvent.addListener(elt, "cut", keyupHandler);
+    mxEvent.addListener(elt, "paste", keyupHandler);
+    var evtName = !mxClient.IS_IE11 ? "input" : "keydown";
 
     var resizeHandler = (evt) => {
-      if (this.editingCell != null && this.autoSize && !mxEvent.isConsumed(evt)) {
+      if (
+        this.editingCell != null &&
+        this.autoSize &&
+        !mxEvent.isConsumed(evt)
+      ) {
         if (this.resizeThread != null) {
           window.clearTimeout(this.resizeThread);
         }
@@ -162,14 +184,14 @@ export class mxCellEditor {
     };
 
     mxEvent.addListener(elt, evtName, resizeHandler);
-    mxEvent.addListener(window, 'resize', resizeHandler);
+    mxEvent.addListener(window, "resize", resizeHandler);
 
     if (document.documentMode >= 9) {
-      mxEvent.addListener(elt, 'DOMNodeRemoved', resizeHandler);
-      mxEvent.addListener(elt, 'DOMNodeInserted', resizeHandler);
+      mxEvent.addListener(elt, "DOMNodeRemoved", resizeHandler);
+      mxEvent.addListener(elt, "DOMNodeInserted", resizeHandler);
     } else {
-      mxEvent.addListener(elt, 'cut', resizeHandler);
-      mxEvent.addListener(elt, 'paste', resizeHandler);
+      mxEvent.addListener(elt, "cut", resizeHandler);
+      mxEvent.addListener(elt, "paste", resizeHandler);
     }
   }
 
@@ -197,17 +219,21 @@ export class mxCellEditor {
       var scale = this.graph.getView().scale;
       var m = null;
 
-      if (!this.autoSize || state.style[mxConstants.STYLE_OVERFLOW] == 'fill') {
+      if (!this.autoSize || state.style[mxConstants.STYLE_OVERFLOW] == "fill") {
         this.bounds = this.getEditorBounds(state);
-        this.textarea.style.width = Math.round(this.bounds.width / scale) + 'px';
-        this.textarea.style.height = Math.round(this.bounds.height / scale) + 'px';
+        this.textarea.style.width =
+          Math.round(this.bounds.width / scale) + "px";
+        this.textarea.style.height =
+          Math.round(this.bounds.height / scale) + "px";
 
         if (document.documentMode == 8 || mxClient.IS_QUIRKS) {
-          this.textarea.style.left = Math.round(this.bounds.x) + 'px';
-          this.textarea.style.top = Math.round(this.bounds.y) + 'px';
+          this.textarea.style.left = Math.round(this.bounds.x) + "px";
+          this.textarea.style.top = Math.round(this.bounds.y) + "px";
         } else {
-          this.textarea.style.left = Math.max(0, Math.round(this.bounds.x + 1)) + 'px';
-          this.textarea.style.top = Math.max(0, Math.round(this.bounds.y + 1)) + 'px';
+          this.textarea.style.left =
+            Math.max(0, Math.round(this.bounds.x + 1)) + "px";
+          this.textarea.style.top =
+            Math.max(0, Math.round(this.bounds.y + 1)) + "px";
         }
 
         if (
@@ -216,31 +242,52 @@ export class mxCellEditor {
           this.textarea.innerHTML != this.getEmptyLabelText()
         ) {
           this.textarea.style.wordWrap = mxConstants.WORD_WRAP;
-          this.textarea.style.whiteSpace = 'normal';
+          this.textarea.style.whiteSpace = "normal";
 
-          if (state.style[mxConstants.STYLE_OVERFLOW] != 'fill') {
-            this.textarea.style.width = Math.round(this.bounds.width / scale) + this.wordWrapPadding + 'px';
+          if (state.style[mxConstants.STYLE_OVERFLOW] != "fill") {
+            this.textarea.style.width =
+              Math.round(this.bounds.width / scale) +
+              this.wordWrapPadding +
+              "px";
           }
         } else {
-          this.textarea.style.whiteSpace = 'nowrap';
+          this.textarea.style.whiteSpace = "nowrap";
 
-          if (state.style[mxConstants.STYLE_OVERFLOW] != 'fill') {
-            this.textarea.style.width = '';
+          if (state.style[mxConstants.STYLE_OVERFLOW] != "fill") {
+            this.textarea.style.width = "";
           }
         }
       } else {
-        var lw = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_WIDTH, null);
+        var lw = mxUtils.getValue(
+          state.style,
+          mxConstants.STYLE_LABEL_WIDTH,
+          null,
+        );
         m = state.text != null && this.align == null ? state.text.margin : null;
 
         if (m == null) {
           m = mxUtils.getAlignmentAsPoint(
-            this.align || mxUtils.getValue(state.style, mxConstants.STYLE_ALIGN, mxConstants.ALIGN_CENTER),
-            mxUtils.getValue(state.style, mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_MIDDLE)
+            this.align ||
+              mxUtils.getValue(
+                state.style,
+                mxConstants.STYLE_ALIGN,
+                mxConstants.ALIGN_CENTER,
+              ),
+            mxUtils.getValue(
+              state.style,
+              mxConstants.STYLE_VERTICAL_ALIGN,
+              mxConstants.ALIGN_MIDDLE,
+            ),
           );
         }
 
         if (isEdge) {
-          this.bounds = new mxRectangle(state.absoluteOffset.x, state.absoluteOffset.y, 0, 0);
+          this.bounds = new mxRectangle(
+            state.absoluteOffset.x,
+            state.absoluteOffset.y,
+            0,
+            0,
+          );
 
           if (lw != null) {
             var tmp = (parseFloat(lw) + 2) * scale;
@@ -249,10 +296,20 @@ export class mxCellEditor {
           }
         } else {
           var bds = mxRectangle.fromRectangle(state);
-          var hpos = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_POSITION, mxConstants.ALIGN_CENTER);
-          var vpos = mxUtils.getValue(state.style, mxConstants.STYLE_VERTICAL_LABEL_POSITION, mxConstants.ALIGN_MIDDLE);
+          var hpos = mxUtils.getValue(
+            state.style,
+            mxConstants.STYLE_LABEL_POSITION,
+            mxConstants.ALIGN_CENTER,
+          );
+          var vpos = mxUtils.getValue(
+            state.style,
+            mxConstants.STYLE_VERTICAL_LABEL_POSITION,
+            mxConstants.ALIGN_MIDDLE,
+          );
           bds =
-            state.shape != null && hpos == mxConstants.ALIGN_CENTER && vpos == mxConstants.ALIGN_MIDDLE
+            state.shape != null &&
+            hpos == mxConstants.ALIGN_CENTER &&
+            vpos == mxConstants.ALIGN_MIDDLE
               ? state.shape.getLabelBounds(bds)
               : bds;
 
@@ -260,28 +317,53 @@ export class mxCellEditor {
             bds.width = parseFloat(lw) * scale;
           }
 
-          if (!state.view.graph.cellRenderer.legacySpacing || state.style[mxConstants.STYLE_OVERFLOW] != 'width') {
-            var spacing = parseInt(state.style[mxConstants.STYLE_SPACING] || 2) * scale;
+          if (
+            !state.view.graph.cellRenderer.legacySpacing ||
+            state.style[mxConstants.STYLE_OVERFLOW] != "width"
+          ) {
+            var spacing =
+              parseInt(state.style[mxConstants.STYLE_SPACING] || 2) * scale;
             var spacingTop =
-              (parseInt(state.style[mxConstants.STYLE_SPACING_TOP] || 0) + mxText.baseSpacingTop) * scale + spacing;
+              (parseInt(state.style[mxConstants.STYLE_SPACING_TOP] || 0) +
+                mxText.baseSpacingTop) *
+                scale +
+              spacing;
             var spacingRight =
-              (parseInt(state.style[mxConstants.STYLE_SPACING_RIGHT] || 0) + mxText.baseSpacingRight) * scale + spacing;
+              (parseInt(state.style[mxConstants.STYLE_SPACING_RIGHT] || 0) +
+                mxText.baseSpacingRight) *
+                scale +
+              spacing;
             var spacingBottom =
-              (parseInt(state.style[mxConstants.STYLE_SPACING_BOTTOM] || 0) + mxText.baseSpacingBottom) * scale +
+              (parseInt(state.style[mxConstants.STYLE_SPACING_BOTTOM] || 0) +
+                mxText.baseSpacingBottom) *
+                scale +
               spacing;
             var spacingLeft =
-              (parseInt(state.style[mxConstants.STYLE_SPACING_LEFT] || 0) + mxText.baseSpacingLeft) * scale + spacing;
-            var hpos = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_POSITION, mxConstants.ALIGN_CENTER);
+              (parseInt(state.style[mxConstants.STYLE_SPACING_LEFT] || 0) +
+                mxText.baseSpacingLeft) *
+                scale +
+              spacing;
+            var hpos = mxUtils.getValue(
+              state.style,
+              mxConstants.STYLE_LABEL_POSITION,
+              mxConstants.ALIGN_CENTER,
+            );
             var vpos = mxUtils.getValue(
               state.style,
               mxConstants.STYLE_VERTICAL_LABEL_POSITION,
-              mxConstants.ALIGN_MIDDLE
+              mxConstants.ALIGN_MIDDLE,
             );
             bds = new mxRectangle(
               bds.x + spacingLeft,
               bds.y + spacingTop,
-              bds.width - (hpos == mxConstants.ALIGN_CENTER && lw == null ? spacingLeft + spacingRight : 0),
-              bds.height - (vpos == mxConstants.ALIGN_MIDDLE ? spacingTop + spacingBottom : 0)
+              bds.width -
+                (hpos == mxConstants.ALIGN_CENTER && lw == null
+                  ? spacingLeft + spacingRight
+                  : 0),
+              bds.height -
+                (vpos == mxConstants.ALIGN_MIDDLE
+                  ? spacingTop + spacingBottom
+                  : 0),
             );
           }
 
@@ -289,7 +371,7 @@ export class mxCellEditor {
             bds.x + state.absoluteOffset.x,
             bds.y + state.absoluteOffset.y,
             bds.width,
-            bds.height
+            bds.height,
           );
         }
 
@@ -299,26 +381,29 @@ export class mxCellEditor {
           this.textarea.innerHTML != this.getEmptyLabelText()
         ) {
           this.textarea.style.wordWrap = mxConstants.WORD_WRAP;
-          this.textarea.style.whiteSpace = 'normal';
-          var tmp = Math.round(this.bounds.width / (document.documentMode == 8 ? scale : scale)) + this.wordWrapPadding;
+          this.textarea.style.whiteSpace = "normal";
+          var tmp =
+            Math.round(
+              this.bounds.width / (document.documentMode == 8 ? scale : scale),
+            ) + this.wordWrapPadding;
 
-          if (this.textarea.style.position != 'relative') {
-            this.textarea.style.width = tmp + 'px';
+          if (this.textarea.style.position != "relative") {
+            this.textarea.style.width = tmp + "px";
 
             if (this.textarea.scrollWidth > tmp) {
-              this.textarea.style.width = this.textarea.scrollWidth + 'px';
+              this.textarea.style.width = this.textarea.scrollWidth + "px";
             }
           } else {
-            this.textarea.style.maxWidth = tmp + 'px';
+            this.textarea.style.maxWidth = tmp + "px";
           }
         } else {
-          this.textarea.style.whiteSpace = 'nowrap';
-          this.textarea.style.width = '';
+          this.textarea.style.whiteSpace = "nowrap";
+          this.textarea.style.width = "";
         }
 
         if (document.documentMode == 8) {
-          this.textarea.style.zoom = '1';
-          this.textarea.style.height = 'auto';
+          this.textarea.style.zoom = "1";
+          this.textarea.style.height = "auto";
         }
 
         var ow = this.textarea.scrollWidth;
@@ -333,9 +418,9 @@ export class mxCellEditor {
                   m.x * (this.bounds.width - (ow + 1) * scale) +
                   ow * (scale - 1) * 0 +
                   (m.x + 0.5) * 2) /
-                  scale
-              )
-            ) + 'px';
+                  scale,
+              ),
+            ) + "px";
           this.textarea.style.top =
             Math.max(
               0,
@@ -344,19 +429,22 @@ export class mxCellEditor {
                   m.y * (this.bounds.height - (oh + 0.5) * scale) +
                   oh * (scale - 1) * 0 +
                   Math.abs(m.y + 0.5) * 1) /
-                  scale
-              )
-            ) + 'px';
-          this.textarea.style.width = Math.round(ow * scale) + 'px';
-          this.textarea.style.height = Math.round(oh * scale) + 'px';
+                  scale,
+              ),
+            ) + "px";
+          this.textarea.style.width = Math.round(ow * scale) + "px";
+          this.textarea.style.height = Math.round(oh * scale) + "px";
         } else if (mxClient.IS_QUIRKS) {
           this.textarea.style.left =
             Math.max(
               0,
               Math.ceil(
-                this.bounds.x - m.x * (this.bounds.width - (ow + 1) * scale) + ow * (scale - 1) * 0 + (m.x + 0.5) * 2
-              )
-            ) + 'px';
+                this.bounds.x -
+                  m.x * (this.bounds.width - (ow + 1) * scale) +
+                  ow * (scale - 1) * 0 +
+                  (m.x + 0.5) * 2,
+              ),
+            ) + "px";
           this.textarea.style.top =
             Math.max(
               0,
@@ -364,21 +452,43 @@ export class mxCellEditor {
                 this.bounds.y -
                   m.y * (this.bounds.height - (oh + 0.5) * scale) +
                   oh * (scale - 1) * 0 +
-                  Math.abs(m.y + 0.5) * 1
-              )
-            ) + 'px';
+                  Math.abs(m.y + 0.5) * 1,
+              ),
+            ) + "px";
         } else {
-          this.textarea.style.left = Math.max(0, Math.round(this.bounds.x - m.x * (this.bounds.width - 2)) + 1) + 'px';
+          this.textarea.style.left =
+            Math.max(
+              0,
+              Math.round(this.bounds.x - m.x * (this.bounds.width - 2)) + 1,
+            ) + "px";
           this.textarea.style.top =
-            Math.max(0, Math.round(this.bounds.y - m.y * (this.bounds.height - 4) + (m.y == -1 ? 3 : 0)) + 1) + 'px';
+            Math.max(
+              0,
+              Math.round(
+                this.bounds.y -
+                  m.y * (this.bounds.height - 4) +
+                  (m.y == -1 ? 3 : 0),
+              ) + 1,
+            ) + "px";
         }
       }
 
-      mxUtils.setPrefixedStyle(this.textarea.style, 'transformOrigin', '0px 0px');
       mxUtils.setPrefixedStyle(
         this.textarea.style,
-        'transform',
-        'scale(' + scale + ',' + scale + ')' + (m == null ? '' : ' translate(' + m.x * 100 + '%,' + m.y * 100 + '%)')
+        "transformOrigin",
+        "0px 0px",
+      );
+      mxUtils.setPrefixedStyle(
+        this.textarea.style,
+        "transform",
+        "scale(" +
+          scale +
+          "," +
+          scale +
+          ")" +
+          (m == null
+            ? ""
+            : " translate(" + m.x * 100 + "%," + m.y * 100 + "%)"),
       );
     }
   }
@@ -401,7 +511,7 @@ export class mxCellEditor {
         var css = mxUtils.getCurrentStyle(root);
 
         if (css != null) {
-          absoluteRoot = css.position == 'absolute';
+          absoluteRoot = css.position == "absolute";
         }
       }
     }
@@ -425,49 +535,69 @@ export class mxCellEditor {
 
     if (state != null) {
       var scale = this.graph.getView().scale;
-      var size = mxUtils.getValue(state.style, mxConstants.STYLE_FONTSIZE, mxConstants.DEFAULT_FONTSIZE);
-      var family = mxUtils.getValue(state.style, mxConstants.STYLE_FONTFAMILY, mxConstants.DEFAULT_FONTFAMILY);
-      var color = mxUtils.getValue(state.style, mxConstants.STYLE_FONTCOLOR, 'black');
-      var align = mxUtils.getValue(state.style, mxConstants.STYLE_ALIGN, mxConstants.ALIGN_LEFT);
+      var size = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_FONTSIZE,
+        mxConstants.DEFAULT_FONTSIZE,
+      );
+      var family = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_FONTFAMILY,
+        mxConstants.DEFAULT_FONTFAMILY,
+      );
+      var color = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_FONTCOLOR,
+        "black",
+      );
+      var align = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_ALIGN,
+        mxConstants.ALIGN_LEFT,
+      );
       var bold =
-        (mxUtils.getValue(state.style, mxConstants.STYLE_FONTSTYLE, 0) & mxConstants.FONT_BOLD) ==
+        (mxUtils.getValue(state.style, mxConstants.STYLE_FONTSTYLE, 0) &
+          mxConstants.FONT_BOLD) ==
         mxConstants.FONT_BOLD;
       var italic =
-        (mxUtils.getValue(state.style, mxConstants.STYLE_FONTSTYLE, 0) & mxConstants.FONT_ITALIC) ==
+        (mxUtils.getValue(state.style, mxConstants.STYLE_FONTSTYLE, 0) &
+          mxConstants.FONT_ITALIC) ==
         mxConstants.FONT_ITALIC;
       var txtDecor = [];
 
       if (
-        (mxUtils.getValue(state.style, mxConstants.STYLE_FONTSTYLE, 0) & mxConstants.FONT_UNDERLINE) ==
+        (mxUtils.getValue(state.style, mxConstants.STYLE_FONTSTYLE, 0) &
+          mxConstants.FONT_UNDERLINE) ==
         mxConstants.FONT_UNDERLINE
       ) {
-        txtDecor.push('underline');
+        txtDecor.push("underline");
       }
 
       if (
-        (mxUtils.getValue(state.style, mxConstants.STYLE_FONTSTYLE, 0) & mxConstants.FONT_STRIKETHROUGH) ==
+        (mxUtils.getValue(state.style, mxConstants.STYLE_FONTSTYLE, 0) &
+          mxConstants.FONT_STRIKETHROUGH) ==
         mxConstants.FONT_STRIKETHROUGH
       ) {
-        txtDecor.push('line-through');
+        txtDecor.push("line-through");
       }
 
       this.textarea.style.lineHeight = mxConstants.ABSOLUTE_LINE_HEIGHT
-        ? Math.round(size * mxConstants.LINE_HEIGHT) + 'px'
+        ? Math.round(size * mxConstants.LINE_HEIGHT) + "px"
         : mxConstants.LINE_HEIGHT;
       this.textarea.style.backgroundColor = this.getBackgroundColor(state);
-      this.textarea.style.textDecoration = txtDecor.join(' ');
-      this.textarea.style.fontWeight = bold ? 'bold' : 'normal';
-      this.textarea.style.fontStyle = italic ? 'italic' : '';
-      this.textarea.style.fontSize = Math.round(size) + 'px';
+      this.textarea.style.textDecoration = txtDecor.join(" ");
+      this.textarea.style.fontWeight = bold ? "bold" : "normal";
+      this.textarea.style.fontStyle = italic ? "italic" : "";
+      this.textarea.style.fontSize = Math.round(size) + "px";
       this.textarea.style.zIndex = this.zIndex;
       this.textarea.style.fontFamily = family;
       this.textarea.style.textAlign = align;
-      this.textarea.style.outline = 'none';
+      this.textarea.style.outline = "none";
       this.textarea.style.color = color;
       var dir = (this.textDirection = mxUtils.getValue(
         state.style,
         mxConstants.STYLE_TEXT_DIRECTION,
-        mxConstants.DEFAULT_TEXT_DIRECTION
+        mxConstants.DEFAULT_TEXT_DIRECTION,
       ));
 
       if (dir == mxConstants.TEXT_DIRECTION_AUTO) {
@@ -481,20 +611,27 @@ export class mxCellEditor {
         }
       }
 
-      if (dir == mxConstants.TEXT_DIRECTION_LTR || dir == mxConstants.TEXT_DIRECTION_RTL) {
-        this.textarea.setAttribute('dir', dir);
+      if (
+        dir == mxConstants.TEXT_DIRECTION_LTR ||
+        dir == mxConstants.TEXT_DIRECTION_RTL
+      ) {
+        this.textarea.setAttribute("dir", dir);
       } else {
-        this.textarea.removeAttribute('dir');
+        this.textarea.removeAttribute("dir");
       }
 
-      this.textarea.innerHTML = this.getInitialValue(state, trigger) || '';
+      this.textarea.innerHTML = this.getInitialValue(state, trigger) || "";
       this.initialValue = this.textarea.innerHTML;
 
-      if (this.textarea.innerHTML.length == 0 || this.textarea.innerHTML == '<br>') {
+      if (
+        this.textarea.innerHTML.length == 0 ||
+        this.textarea.innerHTML == "<br>"
+      ) {
         this.textarea.innerHTML = this.getEmptyLabelText();
         this.clearOnChange = true;
       } else {
-        this.clearOnChange = this.textarea.innerHTML == this.getEmptyLabelText();
+        this.clearOnChange =
+          this.textarea.innerHTML == this.getEmptyLabelText();
       }
 
       this.graph.container.appendChild(this.textarea);
@@ -504,10 +641,14 @@ export class mxCellEditor {
 
       if (state.text != null && this.isHideLabel(state)) {
         this.textNode = state.text.node;
-        this.textNode.style.visibility = 'hidden';
+        this.textNode.style.visibility = "hidden";
       }
 
-      if (this.autoSize && (this.graph.model.isEdge(state.cell) || state.style[mxConstants.STYLE_OVERFLOW] != 'fill')) {
+      if (
+        this.autoSize &&
+        (this.graph.model.isEdge(state.cell) ||
+          state.style[mxConstants.STYLE_OVERFLOW] != "fill")
+      ) {
         window.setTimeout(() => {
           this.resize();
         }, 0);
@@ -521,9 +662,10 @@ export class mxCellEditor {
         if (
           this.isSelectText() &&
           this.textarea.innerHTML.length > 0 &&
-          (this.textarea.innerHTML != this.getEmptyLabelText() || !this.clearOnChange)
+          (this.textarea.innerHTML != this.getEmptyLabelText() ||
+            !this.clearOnChange)
         ) {
-          document.execCommand('selectAll', false, null);
+          document.execCommand("selectAll", false, null);
         }
       } catch (e) {
         /* ignore */
@@ -558,7 +700,7 @@ export class mxCellEditor {
 
     if (this.editingCell != null) {
       if (this.textNode != null) {
-        this.textNode.style.visibility = 'visible';
+        this.textNode.style.visibility = "visible";
         this.textNode = null;
       }
 
@@ -575,12 +717,18 @@ export class mxCellEditor {
         this.textarea.parentNode.removeChild(this.textarea);
       }
 
-      if (this.clearOnChange && this.textarea.innerHTML == this.getEmptyLabelText()) {
-        this.textarea.innerHTML = '';
+      if (
+        this.clearOnChange &&
+        this.textarea.innerHTML == this.getEmptyLabelText()
+      ) {
+        this.textarea.innerHTML = "";
         this.clearOnChange = false;
       }
 
-      if (state != null && (this.textarea.innerHTML != initial || this.align != null)) {
+      if (
+        state != null &&
+        (this.textarea.innerHTML != initial || this.align != null)
+      ) {
         this.prepareTextarea();
         var value = this.getCurrentValue(state);
         this.graph.getModel().beginUpdate();
@@ -591,7 +739,9 @@ export class mxCellEditor {
           }
 
           if (this.align != null) {
-            this.graph.setCellStyles(mxConstants.STYLE_ALIGN, this.align, [state.cell]);
+            this.graph.setCellStyles(mxConstants.STYLE_ALIGN, this.align, [
+              state.cell,
+            ]);
           }
         } finally {
           this.graph.getModel().endUpdate();
@@ -605,7 +755,10 @@ export class mxCellEditor {
   }
 
   prepareTextarea() {
-    if (this.textarea.lastChild != null && this.textarea.lastChild.nodeName == 'BR') {
+    if (
+      this.textarea.lastChild != null &&
+      this.textarea.lastChild.nodeName == "BR"
+    ) {
       this.textarea.removeChild(this.textarea.lastChild);
     }
   }
@@ -620,7 +773,7 @@ export class mxCellEditor {
       0,
       0,
       state.text == null ? 30 : state.text.size * scale + 20,
-      this.textarea.style.textAlign == 'left' ? 120 : 40
+      this.textarea.style.textAlign == "left" ? 120 : 40,
     );
   }
 
@@ -632,28 +785,55 @@ export class mxCellEditor {
     var minHeight = minSize.height;
     var result = null;
 
-    if (!isEdge && state.view.graph.cellRenderer.legacySpacing && state.style[mxConstants.STYLE_OVERFLOW] == 'fill') {
+    if (
+      !isEdge &&
+      state.view.graph.cellRenderer.legacySpacing &&
+      state.style[mxConstants.STYLE_OVERFLOW] == "fill"
+    ) {
       result = state.shape.getLabelBounds(mxRectangle.fromRectangle(state));
     } else {
-      var spacing = parseInt(state.style[mxConstants.STYLE_SPACING] || 0) * scale;
+      var spacing =
+        parseInt(state.style[mxConstants.STYLE_SPACING] || 0) * scale;
       var spacingTop =
-        (parseInt(state.style[mxConstants.STYLE_SPACING_TOP] || 0) + mxText.baseSpacingTop) * scale + spacing;
+        (parseInt(state.style[mxConstants.STYLE_SPACING_TOP] || 0) +
+          mxText.baseSpacingTop) *
+          scale +
+        spacing;
       var spacingRight =
-        (parseInt(state.style[mxConstants.STYLE_SPACING_RIGHT] || 0) + mxText.baseSpacingRight) * scale + spacing;
+        (parseInt(state.style[mxConstants.STYLE_SPACING_RIGHT] || 0) +
+          mxText.baseSpacingRight) *
+          scale +
+        spacing;
       var spacingBottom =
-        (parseInt(state.style[mxConstants.STYLE_SPACING_BOTTOM] || 0) + mxText.baseSpacingBottom) * scale + spacing;
+        (parseInt(state.style[mxConstants.STYLE_SPACING_BOTTOM] || 0) +
+          mxText.baseSpacingBottom) *
+          scale +
+        spacing;
       var spacingLeft =
-        (parseInt(state.style[mxConstants.STYLE_SPACING_LEFT] || 0) + mxText.baseSpacingLeft) * scale + spacing;
+        (parseInt(state.style[mxConstants.STYLE_SPACING_LEFT] || 0) +
+          mxText.baseSpacingLeft) *
+          scale +
+        spacing;
       result = new mxRectangle(
         state.x,
         state.y,
         Math.max(minWidth, state.width - spacingLeft - spacingRight),
-        Math.max(minHeight, state.height - spacingTop - spacingBottom)
+        Math.max(minHeight, state.height - spacingTop - spacingBottom),
       );
-      var hpos = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_POSITION, mxConstants.ALIGN_CENTER);
-      var vpos = mxUtils.getValue(state.style, mxConstants.STYLE_VERTICAL_LABEL_POSITION, mxConstants.ALIGN_MIDDLE);
+      var hpos = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_LABEL_POSITION,
+        mxConstants.ALIGN_CENTER,
+      );
+      var vpos = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_VERTICAL_LABEL_POSITION,
+        mxConstants.ALIGN_MIDDLE,
+      );
       result =
-        state.shape != null && hpos == mxConstants.ALIGN_CENTER && vpos == mxConstants.ALIGN_MIDDLE
+        state.shape != null &&
+        hpos == mxConstants.ALIGN_CENTER &&
+        vpos == mxConstants.ALIGN_MIDDLE
           ? state.shape.getLabelBounds(result)
           : result;
 
@@ -681,7 +861,10 @@ export class mxCellEditor {
       if (state.text != null && state.text.boundingBox != null) {
         if (!isEdge) {
           result.width = Math.max(result.width, state.text.boundingBox.width);
-          result.height = Math.max(result.height, state.text.boundingBox.height);
+          result.height = Math.max(
+            result.height,
+            state.text.boundingBox.height,
+          );
         } else {
           result.width = Math.max(minWidth, state.text.boundingBox.width);
           result.height = Math.max(minHeight, state.text.boundingBox.height);
@@ -689,7 +872,11 @@ export class mxCellEditor {
       }
 
       if (this.graph.getModel().isVertex(state.cell)) {
-        var horizontal = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_POSITION, mxConstants.ALIGN_CENTER);
+        var horizontal = mxUtils.getValue(
+          state.style,
+          mxConstants.STYLE_LABEL_POSITION,
+          mxConstants.ALIGN_CENTER,
+        );
 
         if (horizontal == mxConstants.ALIGN_LEFT) {
           result.x -= state.width;
@@ -700,7 +887,7 @@ export class mxCellEditor {
         var vertical = mxUtils.getValue(
           state.style,
           mxConstants.STYLE_VERTICAL_LABEL_POSITION,
-          mxConstants.ALIGN_MIDDLE
+          mxConstants.ALIGN_MIDDLE,
         );
 
         if (vertical == mxConstants.ALIGN_TOP) {
@@ -715,7 +902,7 @@ export class mxCellEditor {
       Math.round(result.x),
       Math.round(result.y),
       Math.round(result.width),
-      Math.round(result.height)
+      Math.round(result.height),
     );
   }
 

@@ -1,6 +1,6 @@
-import { mxHierarchicalLayoutStage } from '@mxgraph/layout/hierarchical/stage/mxHierarchicalLayoutStage';
-import { mxCellPath } from '@mxgraph/model/mxCellPath';
-import { mxUtils } from '@mxgraph/util/mxUtils';
+import { mxHierarchicalLayoutStage } from "@mxgraph/layout/hierarchical/stage/mxHierarchicalLayoutStage";
+import { mxCellPath } from "@mxgraph/model/mxCellPath";
+import { mxUtils } from "@mxgraph/util/mxUtils";
 export class mxSwimlaneOrdering extends mxHierarchicalLayoutStage {
   constructor(layout) {
     super();
@@ -24,7 +24,10 @@ export class mxSwimlaneOrdering extends mxHierarchicalLayoutStage {
 
     model.visit(
       function (parent, node, connectingEdge, layer, seen) {
-        var isAncestor = parent != null && parent.swimlaneIndex == node.swimlaneIndex && node.isAncestor(parent);
+        var isAncestor =
+          parent != null &&
+          parent.swimlaneIndex == node.swimlaneIndex &&
+          node.isAncestor(parent);
         var reversedOverSwimlane =
           parent != null &&
           connectingEdge != null &&
@@ -51,7 +54,7 @@ export class mxSwimlaneOrdering extends mxHierarchicalLayoutStage {
       },
       rootsArray,
       true,
-      null
+      null,
     );
   }
 }

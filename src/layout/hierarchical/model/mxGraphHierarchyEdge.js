@@ -1,5 +1,5 @@
-import { mxGraphAbstractHierarchyCell } from '@mxgraph/layout/hierarchical/model/mxGraphAbstractHierarchyCell';
-import { mxObjectIdentity } from '@mxgraph/util/mxObjectIdentity';
+import { mxGraphAbstractHierarchyCell } from "@mxgraph/layout/hierarchical/model/mxGraphAbstractHierarchyCell";
+import { mxObjectIdentity } from "@mxgraph/util/mxObjectIdentity";
 
 export class mxGraphHierarchyEdge extends mxGraphAbstractHierarchyCell {
   source = null;

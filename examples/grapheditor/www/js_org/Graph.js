@@ -5,7 +5,7 @@
 // see https://code.google.com/p/google-caja/issues/detail?can=2&q=&colspec=ID%20Type%20Status%20Priority%20Owner%20Summary&groupby=&sort=&id=1296
 //
 
-import * as m   from "../../../../../dist/mxgraph.es.js";
+import * as m from "../../../../../dist/mxgraph.es.js";
 
 if (typeof html4 !== "undefined") {
   html4.ATTRIBS["a::target"] = 0;
@@ -161,7 +161,7 @@ m.mxShape.prototype.getConstraints = function (style, w, h) {
  * Defines graph class.
  */
 //Graph = function (
-export function Graph  (
+export function Graph(
   container,
   model,
   renderHint,
@@ -298,7 +298,12 @@ export function Graph  (
                       ) ||
                       (m.mxUtils.intersects(
                         box,
-                        new m.mxRectangle(state.x - 2, state.y, 2, state.height),
+                        new m.mxRectangle(
+                          state.x - 2,
+                          state.y,
+                          2,
+                          state.height,
+                        ),
                       ) &&
                         this.model.getChildAt(row, 0) != state.cell) ||
                       m.mxUtils.intersects(
@@ -655,7 +660,12 @@ export function Graph  (
                     if (
                       (m.mxUtils.intersects(
                         box,
-                        new m.mxRectangle(state.x - 2, state.y, 2, state.height),
+                        new m.mxRectangle(
+                          state.x - 2,
+                          state.y,
+                          2,
+                          state.height,
+                        ),
                       ) &&
                         this.model.getChildAt(row, 0) != state.cell) ||
                       m.mxUtils.intersects(
@@ -761,7 +771,10 @@ export function Graph  (
 
   // HTML entities are displayed as plain text in wrapped plain text labels
   this.cellRenderer.getLabelValue = function (state) {
-    var result = m.mxCellRenderer.prototype.getLabelValue.apply(this, arguments);
+    var result = m.mxCellRenderer.prototype.getLabelValue.apply(
+      this,
+      arguments,
+    );
 
     if (state.view.graph.isHtmlLabel(state.cell)) {
       if (state.style["html"] != 1) {
@@ -870,7 +883,10 @@ export function Graph  (
           ? "#ffffff"
           : m.mxGraphHandler.prototype.previewColor;
 
-      return m.mxGraphHandler.prototype.createPreviewShape.apply(this, arguments);
+      return m.mxGraphHandler.prototype.createPreviewShape.apply(
+        this,
+        arguments,
+      );
     };
 
     // Handles parts of cells by checking if part=1 is in the style and returning the parent
@@ -1296,7 +1312,7 @@ export function Graph  (
 
   //Create a unique offset object for each graph instance.
   this.currentTranslate = new m.mxPoint(0, 0);
-};
+}
 
 /**
  * Specifies if the touch UI should be used (cannot detect touch in FF so always on for Windows/Linux)
@@ -1828,7 +1844,10 @@ Graph.prototype.init = function (container) {
 
     var down = m.mxUtils.bind(this, function (evt) {
       handleClick = true;
-      first = new m.mxPoint(m.mxEvent.getClientX(evt), m.mxEvent.getClientY(evt));
+      first = new m.mxPoint(
+        m.mxEvent.getClientX(evt),
+        m.mxEvent.getClientY(evt),
+      );
     });
 
     var move = m.mxUtils.bind(this, function (evt) {
@@ -1921,7 +1940,9 @@ Graph.prototype.init = function (container) {
       cell = this.model.getChildAt(cell, 0);
 
       style = this.getCellStyle(cell);
-      size = parseInt(m.mxUtils.getValue(style, m.mxConstants.STYLE_STARTSIZE, 0));
+      size = parseInt(
+        m.mxUtils.getValue(style, m.mxConstants.STYLE_STARTSIZE, 0),
+      );
     }
 
     // Redirect editing for table rows
@@ -2582,7 +2603,11 @@ Graph.prototype.initLayoutManager = function () {
           m.mxUtils.getValue(style, "horizontalTree", "1") == "1";
         treeLayout.resizeParent =
           m.mxUtils.getValue(style, "resizeParent", "1") == "1";
-        treeLayout.groupPadding = m.mxUtils.getValue(style, "parentPadding", 20);
+        treeLayout.groupPadding = m.mxUtils.getValue(
+          style,
+          "parentPadding",
+          20,
+        );
         treeLayout.levelDistance = m.mxUtils.getValue(
           style,
           "treeLevelDistance",
@@ -2604,7 +2629,11 @@ Graph.prototype.initLayoutManager = function () {
         );
         flowLayout.resizeParent =
           m.mxUtils.getValue(style, "resizeParent", "1") == "1";
-        flowLayout.parentBorder = m.mxUtils.getValue(style, "parentPadding", 20);
+        flowLayout.parentBorder = m.mxUtils.getValue(
+          style,
+          "parentPadding",
+          20,
+        );
         flowLayout.maintainParentLocation = true;
 
         // Special undocumented styles for changing the hierarchical
@@ -2759,7 +2788,8 @@ Graph.prototype.isScrollWheelEvent = function (evt) {
  */
 Graph.prototype.isTransparentClickEvent = function (evt) {
   return (
-    m.mxEvent.isAltDown(evt) || (m.mxClient.IS_CHROMEOS && m.mxEvent.isShiftDown(evt))
+    m.mxEvent.isAltDown(evt) ||
+    (m.mxClient.IS_CHROMEOS && m.mxEvent.isShiftDown(evt))
   );
 };
 
@@ -4323,7 +4353,10 @@ HoverIcons.prototype.init = function () {
 
   this.graph.selectionModel.addListener(m.mxEvent.CHANGE, this.resetHandler);
   this.graph.model.addListener(m.mxEvent.CHANGE, this.repaintHandler);
-  this.graph.view.addListener(m.mxEvent.SCALE_AND_TRANSLATE, this.repaintHandler);
+  this.graph.view.addListener(
+    m.mxEvent.SCALE_AND_TRANSLATE,
+    this.repaintHandler,
+  );
   this.graph.view.addListener(m.mxEvent.TRANSLATE, this.repaintHandler);
   this.graph.view.addListener(m.mxEvent.SCALE, this.repaintHandler);
   this.graph.view.addListener(m.mxEvent.DOWN, this.repaintHandler);
@@ -5027,7 +5060,8 @@ HoverIcons.prototype.getState = function (state) {
 HoverIcons.prototype.update = function (state, x, y) {
   if (
     !this.graph.connectionArrowsEnabled ||
-    (state != null && m.mxUtils.getValue(state.style, "allowArrows", "1") == "0")
+    (state != null &&
+      m.mxUtils.getValue(state.style, "allowArrows", "1") == "0")
   ) {
     this.reset();
   } else {
@@ -6188,7 +6222,11 @@ TableLayout.prototype.execute = function (parent) {
   var mxCellRendererCreateShape = m.mxCellRenderer.prototype.createShape;
   m.mxCellRenderer.prototype.createShape = function (state) {
     if (state.style != null && typeof pako !== "undefined") {
-      var shape = m.mxUtils.getValue(state.style, m.mxConstants.STYLE_SHAPE, null);
+      var shape = m.mxUtils.getValue(
+        state.style,
+        m.mxConstants.STYLE_SHAPE,
+        null,
+      );
 
       // Extracts and decodes stencil XML if shape has the form shape=stencil(value)
       if (
@@ -6417,7 +6455,11 @@ m.mxStencilRegistry.parseStencilSets = function (stencils) {
 };
 
 // Parses the given stencil set
-m.mxStencilRegistry.parseStencilSet = function (root, postStencilLoad, install) {
+m.mxStencilRegistry.parseStencilSet = function (
+  root,
+  postStencilLoad,
+  install,
+) {
   if (root.nodeName == "stencils") {
     var shapes = root.firstChild;
 
@@ -6530,7 +6572,12 @@ if (typeof m.mxVertexHandler != "undefined") {
 
     // Overrides highlight shape for connection points
     m.mxConstraintHandler.prototype.createHighlightShape = function () {
-      var hl = new m.mxEllipse(null, this.highlightColor, this.highlightColor, 0);
+      var hl = new m.mxEllipse(
+        null,
+        this.highlightColor,
+        this.highlightColor,
+        0,
+      );
       hl.opacity = m.mxConstants.HIGHLIGHT_OPACITY;
 
       return hl;
@@ -8209,7 +8256,12 @@ if (typeof m.mxVertexHandler != "undefined") {
               links[i].setAttribute("href", href);
 
               if (beforeClick != null) {
-                m.mxEvent.addGestureListeners(links[i], null, null, beforeClick);
+                m.mxEvent.addGestureListeners(
+                  links[i],
+                  null,
+                  null,
+                  beforeClick,
+                );
               }
             }
           }
@@ -8227,7 +8279,9 @@ if (typeof m.mxVertexHandler != "undefined") {
         currentState: null,
         currentLink: null,
         highlight:
-          highlight != null && highlight != "" && highlight != m.mxConstants.NONE
+          highlight != null &&
+          highlight != "" &&
+          highlight != m.mxConstants.NONE
             ? new m.mxCellHighlight(graph, highlight, 4)
             : null,
         startX: 0,
@@ -8578,7 +8632,8 @@ if (typeof m.mxVertexHandler != "undefined") {
         !this.isTableCell(cell) &&
         !this.isTableRow(cell) &&
         (result ||
-          (m.mxUtils.getValue(style, m.mxConstants.STYLE_RESIZABLE, "1") != "0" &&
+          (m.mxUtils.getValue(style, m.mxConstants.STYLE_RESIZABLE, "1") !=
+            "0" &&
             style[m.mxConstants.STYLE_WHITE_SPACE] == "wrap"))
       );
     };
@@ -9656,23 +9711,26 @@ if (typeof m.mxVertexHandler != "undefined") {
       // Shows popup menu if cell was selected or selection was empty and background was clicked
       // FIXME: Conflicts with mxPopupMenuHandler.prototype.getCellForPopupEvent in Editor.js by
       // selecting parent for selected children in groups before this check can be made.
-      this.popupMenuHandler.mouseUp = m.mxUtils.bind(this, function (sender, me) {
-        this.popupMenuHandler.popupTrigger =
-          !this.isEditing() &&
-          this.isEnabled() &&
-          (me.getState() == null || !me.isSource(me.getState().control)) &&
-          (this.popupMenuHandler.popupTrigger ||
-            (!menuShowing &&
-              !m.mxEvent.isMouseEvent(me.getEvent()) &&
-              ((selectionEmpty &&
-                me.getCell() == null &&
-                this.isSelectionEmpty()) ||
-                (cellSelected && this.isCellSelected(me.getCell())))));
-        m.mxPopupMenuHandler.prototype.mouseUp.apply(
-          this.popupMenuHandler,
-          arguments,
-        );
-      });
+      this.popupMenuHandler.mouseUp = m.mxUtils.bind(
+        this,
+        function (sender, me) {
+          this.popupMenuHandler.popupTrigger =
+            !this.isEditing() &&
+            this.isEnabled() &&
+            (me.getState() == null || !me.isSource(me.getState().control)) &&
+            (this.popupMenuHandler.popupTrigger ||
+              (!menuShowing &&
+                !m.mxEvent.isMouseEvent(me.getEvent()) &&
+                ((selectionEmpty &&
+                  me.getCell() == null &&
+                  this.isSelectionEmpty()) ||
+                  (cellSelected && this.isCellSelected(me.getCell())))));
+          m.mxPopupMenuHandler.prototype.mouseUp.apply(
+            this.popupMenuHandler,
+            arguments,
+          );
+        },
+      );
     };
 
     /**
@@ -10320,8 +10378,10 @@ if (typeof m.mxVertexHandler != "undefined") {
         (color == null || color == m.mxConstants.NONE) &&
         state.cell.geometry != null &&
         state.cell.geometry.width > 0 &&
-        (m.mxUtils.getValue(state.style, m.mxConstants.STYLE_ROTATION, 0) != 0 ||
-          m.mxUtils.getValue(state.style, m.mxConstants.STYLE_HORIZONTAL, 1) == 0)
+        (m.mxUtils.getValue(state.style, m.mxConstants.STYLE_ROTATION, 0) !=
+          0 ||
+          m.mxUtils.getValue(state.style, m.mxConstants.STYLE_HORIZONTAL, 1) ==
+            0)
       ) {
         color = m.mxUtils.getValue(
           state.style,
@@ -10791,7 +10851,11 @@ if (typeof m.mxVertexHandler != "undefined") {
             m.mxUtils.bind(this, function (index) {
               var rowState = rows[index];
 
-              var shape = new m.mxLine(new m.mxRectangle(), m.mxConstants.NONE, 1);
+              var shape = new m.mxLine(
+                new m.mxRectangle(),
+                m.mxConstants.NONE,
+                1,
+              );
               shape.isDashed = sel.isDashed;
               shape.svgStrokeTolerance++;
 
@@ -11173,7 +11237,8 @@ if (typeof m.mxVertexHandler != "undefined") {
     /**
      * Updates the hint for the current operation.
      */
-    m.mxEdgeHandler.prototype.removeHint = m.mxVertexHandler.prototype.removeHint;
+    m.mxEdgeHandler.prototype.removeHint =
+      m.mxVertexHandler.prototype.removeHint;
 
     /**
      * Defines the handles for the UI. Uses data-URIs to speed-up loading time where supported.
@@ -11244,7 +11309,8 @@ if (typeof m.mxVertexHandler != "undefined") {
     m.mxEdgeHandler.prototype.handleImage = HoverIcons.prototype.mainHandle;
     m.mxEdgeHandler.prototype.terminalHandleImage =
       HoverIcons.prototype.terminalHandle;
-    m.mxEdgeHandler.prototype.fixedHandleImage = HoverIcons.prototype.fixedHandle;
+    m.mxEdgeHandler.prototype.fixedHandleImage =
+      HoverIcons.prototype.fixedHandle;
     m.mxEdgeHandler.prototype.labelHandleImage =
       HoverIcons.prototype.secondaryHandle;
     m.mxOutline.prototype.sizerImage = HoverIcons.prototype.mainHandle;
@@ -11439,7 +11505,12 @@ if (typeof m.mxVertexHandler != "undefined") {
             m.mxEvent.isAltDown(me.getEvent()) &&
             this.graph.isToggleEvent(me.getEvent())
           ) {
-            var rect = new m.mxRectangle(this.x, this.y, this.width, this.height);
+            var rect = new m.mxRectangle(
+              this.x,
+              this.y,
+              this.width,
+              this.height,
+            );
             var cells = this.graph.getCells(
               rect.x,
               rect.y,
@@ -11475,7 +11546,12 @@ if (typeof m.mxVertexHandler != "undefined") {
               this.graph.model.endUpdate();
             }
           } else {
-            var rect = new m.mxRectangle(this.x, this.y, this.width, this.height);
+            var rect = new m.mxRectangle(
+              this.x,
+              this.y,
+              this.width,
+              this.height,
+            );
             this.graph.selectRegion(rect, me.getEvent());
           }
 
@@ -11700,7 +11776,8 @@ if (typeof m.mxVertexHandler != "undefined") {
     };
 
     // Special case for single edge label handle moving in which case the text bounding box is used
-    var mxGraphHandlerGetBoundingBox = m.mxGraphHandler.prototype.getBoundingBox;
+    var mxGraphHandlerGetBoundingBox =
+      m.mxGraphHandler.prototype.getBoundingBox;
     m.mxGraphHandler.prototype.getBoundingBox = function (cells) {
       if (cells != null && cells.length == 1) {
         var model = this.graph.getModel();
@@ -11726,7 +11803,8 @@ if (typeof m.mxVertexHandler != "undefined") {
     };
 
     // Ignores child cells with part style as guides
-    var mxGraphHandlerGetGuideStates = m.mxGraphHandler.prototype.getGuideStates;
+    var mxGraphHandlerGetGuideStates =
+      m.mxGraphHandler.prototype.getGuideStates;
 
     m.mxGraphHandler.prototype.getGuideStates = function () {
       var states = m.mxGraphHandlerGetGuideStates.apply(this, arguments);
@@ -11800,7 +11878,7 @@ if (typeof m.mxVertexHandler != "undefined") {
     m.mxVertexHandler.prototype.rotateClick = function () {
       var stroke = m.mxUtils.getValue(
         this.state.style,
-        m.mxConstants.STYLE_STROKECOLOR,      
+        m.mxConstants.STYLE_STROKECOLOR,
         m.mxConstants.NONE,
       );
       var fill = m.mxUtils.getValue(
@@ -11815,13 +11893,18 @@ if (typeof m.mxVertexHandler != "undefined") {
         fill == m.mxConstants.NONE
       ) {
         var angle = m.mxUtils.mod(
-          m.mxUtils.getValue(this.state.style, m.mxConstants.STYLE_ROTATION, 0) +
-            90,
+          m.mxUtils.getValue(
+            this.state.style,
+            m.mxConstants.STYLE_ROTATION,
+            0,
+          ) + 90,
           360,
         );
-        this.state.view.graph.setCellStyles(m.mxConstants.STYLE_ROTATION, angle, [
-          this.state.cell,
-        ]);
+        this.state.view.graph.setCellStyles(
+          m.mxConstants.STYLE_ROTATION,
+          angle,
+          [this.state.cell],
+        );
       } else {
         this.state.view.graph.turnShapes([this.state.cell]);
       }

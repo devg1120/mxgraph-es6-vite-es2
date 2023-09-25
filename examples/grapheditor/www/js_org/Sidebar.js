@@ -5,7 +5,7 @@
  * Construcs a new sidebar for the given editor.
  */
 
-import * as m   from "../../../../../dist/mxgraph.es.js";
+import * as m from "../../../../../dist/mxgraph.es.js";
 
 export function Sidebar(editorUi, container) {
   this.editorUi = editorUi;
@@ -4334,7 +4334,12 @@ Sidebar.prototype.addUmlPalette = function (expand) {
     ),
   ];
 
-  this.addPaletteFunctions("uml", m.mxResources.get("uml"), expand || false, fns);
+  this.addPaletteFunctions(
+    "uml",
+    m.mxResources.get("uml"),
+    expand || false,
+    fns,
+  );
   this.setCurrentSearchEntryLibrary();
 };
 
@@ -5954,10 +5959,16 @@ Sidebar.prototype.createDragSource = function (
   var activeTarget = false;
 
   var arrowUp = createArrow(this.triangleUp, m.mxResources.get("connect"));
-  var arrowRight = createArrow(this.triangleRight, m.mxResources.get("connect"));
+  var arrowRight = createArrow(
+    this.triangleRight,
+    m.mxResources.get("connect"),
+  );
   var arrowDown = createArrow(this.triangleDown, m.mxResources.get("connect"));
   var arrowLeft = createArrow(this.triangleLeft, m.mxResources.get("connect"));
-  var styleTarget = createArrow(this.refreshTarget, m.mxResources.get("replace"));
+  var styleTarget = createArrow(
+    this.refreshTarget,
+    m.mxResources.get("replace"),
+  );
   // Workaround for actual parentNode not being updated in old IE
   var styleTargetParent = null;
   var roundSource = createArrow(this.roundDrop);
@@ -6205,7 +6216,8 @@ Sidebar.prototype.createDragSource = function (
             m.mxConstants.STYLE_GRADIENTCOLOR,
             m.mxConstants.NONE,
           ) != m.mxConstants.NONE)) ||
-        m.mxUtils.getValue(sourceCellStyle, m.mxConstants.STYLE_SHAPE) == "image" ||
+        m.mxUtils.getValue(sourceCellStyle, m.mxConstants.STYLE_SHAPE) ==
+          "image" ||
         timeOnTarget > 1500 ||
         graph.model.isEdge(state.cell)) &&
       timeOnTarget > this.dropTargetDelay &&
@@ -6317,7 +6329,9 @@ Sidebar.prototype.createDragSource = function (
           currentTargetState.shape != null &&
           currentTargetState.shape.boundingBox != null
         ) {
-          bds = m.mxRectangle.fromRectangle(currentTargetState.shape.boundingBox);
+          bds = m.mxRectangle.fromRectangle(
+            currentTargetState.shape.boundingBox,
+          );
         }
 
         bds.grow(this.graph.tolerance);
@@ -7268,7 +7282,10 @@ Sidebar.prototype.addStencilPalette = function (
           m.mxUtils.bind(
             this,
             function (packageName, stencilName, displayName, w, h) {
-              if (ignore == null || m.mxUtils.indexOf(ignore, stencilName) < 0) {
+              if (
+                ignore == null ||
+                m.mxUtils.indexOf(ignore, stencilName) < 0
+              ) {
                 content.appendChild(
                   this.createVertexTemplate(
                     "shape=" + packageName + stencilName.toLowerCase() + style,

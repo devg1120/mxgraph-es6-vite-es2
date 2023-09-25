@@ -7,7 +7,7 @@ export class mxImageBundle {
   putImage(key, value, fallback) {
     this.images[key] = {
       value: value,
-      fallback: fallback
+      fallback: fallback,
     };
   }
 

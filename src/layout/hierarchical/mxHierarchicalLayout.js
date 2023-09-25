@@ -1,12 +1,12 @@
-import { mxGraphLayout } from '@mxgraph/layout/mxGraphLayout';
-import { mxCoordinateAssignment } from '@mxgraph/layout/hierarchical/stage/mxCoordinateAssignment';
-import { mxMedianHybridCrossingReduction } from '@mxgraph/layout/hierarchical/stage/mxMedianHybridCrossingReduction';
-import { mxMinimumCycleRemover } from '@mxgraph/layout/hierarchical/stage/mxMinimumCycleRemover';
-import { mxObjectIdentity } from '@mxgraph/util/mxObjectIdentity';
-import { mxGraphHierarchyModel } from '@mxgraph/layout/hierarchical/model/mxGraphHierarchyModel';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxHierarchicalEdgeStyle } from '@mxgraph/layout/hierarchical/mxHierarchicalEdgeStyle';
+import { mxGraphLayout } from "@mxgraph/layout/mxGraphLayout";
+import { mxCoordinateAssignment } from "@mxgraph/layout/hierarchical/stage/mxCoordinateAssignment";
+import { mxMedianHybridCrossingReduction } from "@mxgraph/layout/hierarchical/stage/mxMedianHybridCrossingReduction";
+import { mxMinimumCycleRemover } from "@mxgraph/layout/hierarchical/stage/mxMinimumCycleRemover";
+import { mxObjectIdentity } from "@mxgraph/util/mxObjectIdentity";
+import { mxGraphHierarchyModel } from "@mxgraph/layout/hierarchical/model/mxGraphHierarchyModel";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxHierarchicalEdgeStyle } from "@mxgraph/layout/hierarchical/mxHierarchicalEdgeStyle";
 
 export class mxHierarchicalLayout extends mxGraphLayout {
   roots = null;
@@ -30,7 +30,8 @@ export class mxHierarchicalLayout extends mxGraphLayout {
 
   constructor(graph, orientation, deterministic) {
     super(graph);
-    this.orientation = orientation != null ? orientation : mxConstants.DIRECTION_NORTH;
+    this.orientation =
+      orientation != null ? orientation : mxConstants.DIRECTION_NORTH;
     this.deterministic = deterministic != null ? deterministic : true;
   }
 
@@ -56,7 +57,11 @@ export class mxHierarchicalLayout extends mxGraphLayout {
     this.parentX = null;
     this.parentY = null;
 
-    if (parent != this.root && model.isVertex(parent) != null && this.maintainParentLocation) {
+    if (
+      parent != this.root &&
+      model.isVertex(parent) != null &&
+      this.maintainParentLocation
+    ) {
       var geo = this.graph.getCellGeometry(parent);
 
       if (geo != null) {
@@ -69,7 +74,8 @@ export class mxHierarchicalLayout extends mxGraphLayout {
       var rootsCopy = [];
 
       for (var i = 0; i < roots.length; i++) {
-        var ancestor = parent != null ? model.isAncestor(parent, roots[i]) : true;
+        var ancestor =
+          parent != null ? model.isAncestor(parent, roots[i]) : true;
 
         if (ancestor && model.isVertex(roots[i])) {
           rootsCopy.push(roots[i]);
@@ -85,7 +91,11 @@ export class mxHierarchicalLayout extends mxGraphLayout {
       this.run(parent);
 
       if (this.resizeParent && !this.graph.isCellCollapsed(parent)) {
-        this.graph.updateGroupBounds([parent], this.parentBorder, this.moveParent);
+        this.graph.updateGroupBounds(
+          [parent],
+          this.parentBorder,
+          this.moveParent,
+        );
       }
 
       if (this.parentX != null && this.parentY != null) {
@@ -182,8 +192,12 @@ export class mxHierarchicalLayout extends mxGraphLayout {
       if (
         source == target ||
         (source != target &&
-          ((target == cell && (this.parent == null || this.isAncestor(this.parent, source, this.traverseAncestors))) ||
-            (source == cell && (this.parent == null || this.isAncestor(this.parent, target, this.traverseAncestors)))))
+          ((target == cell &&
+            (this.parent == null ||
+              this.isAncestor(this.parent, source, this.traverseAncestors))) ||
+            (source == cell &&
+              (this.parent == null ||
+                this.isAncestor(this.parent, target, this.traverseAncestors)))))
       ) {
         result.push(edges[i]);
       }
@@ -207,10 +221,16 @@ export class mxHierarchicalLayout extends mxGraphLayout {
     }
 
     var state = this.graph.view.getState(edge);
-    var terminal = state != null ? state.getVisibleTerminal(source) : this.graph.view.getVisibleTerminal(edge, source);
+    var terminal =
+      state != null
+        ? state.getVisibleTerminal(source)
+        : this.graph.view.getVisibleTerminal(edge, source);
 
     if (terminal == null) {
-      terminal = state != null ? state.getVisibleTerminal(source) : this.graph.view.getVisibleTerminal(edge, source);
+      terminal =
+        state != null
+          ? state.getVisibleTerminal(source)
+          : this.graph.view.getVisibleTerminal(edge, source);
     }
 
     if (terminal != null) {
@@ -247,7 +267,15 @@ export class mxHierarchicalLayout extends mxGraphLayout {
         for (var i = 0; i < candidateRoots.length; i++) {
           var vertexSet = Object();
           hierarchyVertices.push(vertexSet);
-          this.traverse(candidateRoots[i], true, null, allVertexSet, vertexSet, hierarchyVertices, filledVertexSet);
+          this.traverse(
+            candidateRoots[i],
+            true,
+            null,
+            allVertexSet,
+            vertexSet,
+            hierarchyVertices,
+            filledVertexSet,
+          );
         }
 
         for (var i = 0; i < candidateRoots.length; i++) {
@@ -267,7 +295,15 @@ export class mxHierarchicalLayout extends mxGraphLayout {
       for (var i = 0; i < this.roots.length; i++) {
         var vertexSet = Object();
         hierarchyVertices.push(vertexSet);
-        this.traverse(this.roots[i], true, null, allVertexSet, vertexSet, hierarchyVertices, null);
+        this.traverse(
+          this.roots[i],
+          true,
+          null,
+          allVertexSet,
+          vertexSet,
+          hierarchyVertices,
+          null,
+        );
       }
     }
 
@@ -281,7 +317,13 @@ export class mxHierarchicalLayout extends mxGraphLayout {
         tmp.push(vertexSet[key]);
       }
 
-      this.model = new mxGraphHierarchyModel(this, tmp, this.roots, parent, this.tightenToSource);
+      this.model = new mxGraphHierarchyModel(
+        this,
+        tmp,
+        this.roots,
+        parent,
+        this.tightenToSource,
+      );
       this.cycleStage(parent);
       this.layeringStage();
       this.crossingStage(parent);
@@ -292,11 +334,18 @@ export class mxHierarchicalLayout extends mxGraphLayout {
   filterDescendants(cell, result) {
     var model = this.graph.model;
 
-    if (model.isVertex(cell) && cell != this.parent && this.graph.isCellVisible(cell)) {
+    if (
+      model.isVertex(cell) &&
+      cell != this.parent &&
+      this.graph.isCellVisible(cell)
+    ) {
       result[mxObjectIdentity.get(cell)] = cell;
     }
 
-    if (this.traverseAncestors || (cell == this.parent && this.graph.isCellVisible(cell))) {
+    if (
+      this.traverseAncestors ||
+      (cell == this.parent && this.graph.isCellVisible(cell))
+    ) {
       var childCount = model.getChildCount(cell);
 
       for (var i = 0; i < childCount; i++) {
@@ -326,7 +375,10 @@ export class mxHierarchicalLayout extends mxGraphLayout {
       var src = this.getVisibleTerminal(edges[i], true);
       var trg = this.getVisibleTerminal(edges[i], false);
 
-      if ((src == source && trg == target) || (!directed && src == target && trg == source)) {
+      if (
+        (src == source && trg == target) ||
+        (!directed && src == target && trg == source)
+      ) {
         result.push(edges[i]);
       }
     }
@@ -334,11 +386,22 @@ export class mxHierarchicalLayout extends mxGraphLayout {
     return result;
   }
 
-  traverse(vertex, directed, edge, allVertices, currentComp, hierarchyVertices, filledVertexSet) {
+  traverse(
+    vertex,
+    directed,
+    edge,
+    allVertices,
+    currentComp,
+    hierarchyVertices,
+    filledVertexSet,
+  ) {
     if (vertex != null && allVertices != null) {
       var vertexID = mxObjectIdentity.get(vertex);
 
-      if (allVertices[vertexID] == null && (filledVertexSet == null ? true : filledVertexSet[vertexID] != null)) {
+      if (
+        allVertices[vertexID] == null &&
+        (filledVertexSet == null ? true : filledVertexSet[vertexID] != null)
+      ) {
         if (currentComp[vertexID] == null) {
           currentComp[vertexID] = vertex;
         }
@@ -388,7 +451,7 @@ export class mxHierarchicalLayout extends mxGraphLayout {
                 allVertices,
                 currentComp,
                 hierarchyVertices,
-                filledVertexSet
+                filledVertexSet,
               );
             }
           }
@@ -436,7 +499,7 @@ export class mxHierarchicalLayout extends mxGraphLayout {
       this.interRankCellSpacing,
       this.orientation,
       initialX,
-      this.parallelEdgeSpacing
+      this.parallelEdgeSpacing,
     );
     placementStage.fineTuning = this.fineTuning;
     placementStage.execute(parent);

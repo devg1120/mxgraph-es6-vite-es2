@@ -1,6 +1,6 @@
-import { mxShape } from '@mxgraph/shape/mxShape';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxConstants } from '@mxgraph/util/mxConstants';
+import { mxShape } from "@mxgraph/shape/mxShape";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxConstants } from "@mxgraph/util/mxConstants";
 
 export class mxPolyline extends mxShape {
   constructor(points, stroke, strokewidth) {
@@ -24,7 +24,7 @@ export class mxPolyline extends mxShape {
 
   paintEdgeShape(c, pts) {
     var prev = c.pointerEventsValue;
-    c.pointerEventsValue = 'stroke';
+    c.pointerEventsValue = "stroke";
 
     if (this.style == null || this.style[mxConstants.STYLE_CURVED] != 1) {
       this.paintLine(c, pts, this.isRounded);
@@ -36,7 +36,12 @@ export class mxPolyline extends mxShape {
   }
 
   paintLine(c, pts, rounded) {
-    var arcSize = mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants.LINE_ARCSIZE) / 2;
+    var arcSize =
+      mxUtils.getValue(
+        this.style,
+        mxConstants.STYLE_ARCSIZE,
+        mxConstants.LINE_ARCSIZE,
+      ) / 2;
     c.begin();
     this.addPoints(c, pts, rounded, arcSize, false);
     c.stroke();

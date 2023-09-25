@@ -1,26 +1,27 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxCellState } from '@mxgraph/view/mxCellState';
-import { mxStyleRegistry } from '@mxgraph/view/mxStyleRegistry';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxMouseEvent } from '@mxgraph/util/mxMouseEvent';
-import { mxImageShape } from '@mxgraph/shape/mxImageShape';
-import { mxRectangleShape } from '@mxgraph/shape/mxRectangleShape';
-import { mxResources } from '@mxgraph/util/mxResources';
-import { mxLog } from '@mxgraph/util/mxLog';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxUndoableEdit } from '@mxgraph/util/mxUndoableEdit';
-import { mxCurrentRootChange } from '@mxgraph/view/mxCurrentRootChange';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxClient } from '@mxgraph/mxClient';
-import { mxPoint } from '@mxgraph/util/mxPoint';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxCellState } from "@mxgraph/view/mxCellState";
+import { mxStyleRegistry } from "@mxgraph/view/mxStyleRegistry";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxMouseEvent } from "@mxgraph/util/mxMouseEvent";
+import { mxImageShape } from "@mxgraph/shape/mxImageShape";
+import { mxRectangleShape } from "@mxgraph/shape/mxRectangleShape";
+import { mxResources } from "@mxgraph/util/mxResources";
+import { mxLog } from "@mxgraph/util/mxLog";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxUndoableEdit } from "@mxgraph/util/mxUndoableEdit";
+import { mxCurrentRootChange } from "@mxgraph/view/mxCurrentRootChange";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxClient } from "@mxgraph/mxClient";
+import { mxPoint } from "@mxgraph/util/mxPoint";
 
 export class mxGraphView extends mxEventSource {
   EMPTY_POINT = new mxPoint();
-  doneResource = mxClient.language != 'none' ? 'done' : '';
-  updatingDocumentResource = mxClient.language != 'none' ? 'updatingDocument' : '';
+  doneResource = mxClient.language != "none" ? "done" : "";
+  updatingDocumentResource =
+    mxClient.language != "none" ? "updatingDocument" : "";
   allowEval = false;
   captureDocumentGesture = true;
   optimizeVmlReflows = true;
@@ -79,7 +80,7 @@ export class mxGraphView extends mxEventSource {
       change.execute();
       var edit = new mxUndoableEdit(this, true);
       edit.add(change);
-      this.fireEvent(new mxEventObject(mxEvent.UNDO, 'edit', edit));
+      this.fireEvent(new mxEventObject(mxEvent.UNDO, "edit", edit));
       this.graph.sizeDidChange();
     }
 
@@ -90,7 +91,11 @@ export class mxGraphView extends mxEventSource {
     var previousScale = this.scale;
     var previousTranslate = new mxPoint(this.translate.x, this.translate.y);
 
-    if (this.scale != scale || this.translate.x != dx || this.translate.y != dy) {
+    if (
+      this.scale != scale ||
+      this.translate.x != dx ||
+      this.translate.y != dy
+    ) {
       this.scale = scale;
       this.translate.x = dx;
       this.translate.y = dy;
@@ -103,15 +108,15 @@ export class mxGraphView extends mxEventSource {
     this.fireEvent(
       new mxEventObject(
         mxEvent.SCALE_AND_TRANSLATE,
-        'scale',
+        "scale",
         scale,
-        'previousScale',
+        "previousScale",
         previousScale,
-        'translate',
+        "translate",
         this.translate,
-        'previousTranslate',
-        previousTranslate
-      )
+        "previousTranslate",
+        previousTranslate,
+      ),
     );
   }
 
@@ -130,7 +135,15 @@ export class mxGraphView extends mxEventSource {
       }
     }
 
-    this.fireEvent(new mxEventObject(mxEvent.SCALE, 'scale', value, 'previousScale', previousScale));
+    this.fireEvent(
+      new mxEventObject(
+        mxEvent.SCALE,
+        "scale",
+        value,
+        "previousScale",
+        previousScale,
+      ),
+    );
   }
 
   getTranslate() {
@@ -150,7 +163,13 @@ export class mxGraphView extends mxEventSource {
     }
 
     this.fireEvent(
-      new mxEventObject(mxEvent.TRANSLATE, 'translate', this.translate, 'previousTranslate', previousTranslate)
+      new mxEventObject(
+        mxEvent.TRANSLATE,
+        "translate",
+        this.translate,
+        "previousTranslate",
+        previousTranslate,
+      ),
     );
   }
 
@@ -226,8 +245,10 @@ export class mxGraphView extends mxEventSource {
   }
 
   validate(cell) {
-    var t0 = mxLog.enter('mxGraphView.validate');
-    window.status = mxResources.get(this.updatingDocumentResource) || this.updatingDocumentResource;
+    var t0 = mxLog.enter("mxGraphView.validate");
+    window.status =
+      mxResources.get(this.updatingDocumentResource) ||
+      this.updatingDocumentResource;
     this.resetValidationState();
     var prevDisplay = null;
 
@@ -237,28 +258,37 @@ export class mxGraphView extends mxEventSource {
       this.textDiv == null &&
       ((document.documentMode == 8 && !mxClient.IS_EM) || mxClient.IS_QUIRKS)
     ) {
-      this.placeholder = document.createElement('div');
-      this.placeholder.style.position = 'absolute';
-      this.placeholder.style.width = this.canvas.clientWidth + 'px';
-      this.placeholder.style.height = this.canvas.clientHeight + 'px';
+      this.placeholder = document.createElement("div");
+      this.placeholder.style.position = "absolute";
+      this.placeholder.style.width = this.canvas.clientWidth + "px";
+      this.placeholder.style.height = this.canvas.clientHeight + "px";
       this.canvas.parentNode.appendChild(this.placeholder);
       prevDisplay = this.drawPane.style.display;
-      this.canvas.style.display = 'none';
-      this.textDiv = document.createElement('div');
-      this.textDiv.style.position = 'absolute';
-      this.textDiv.style.whiteSpace = 'nowrap';
-      this.textDiv.style.visibility = 'hidden';
-      this.textDiv.style.display = mxClient.IS_QUIRKS ? 'inline' : 'inline-block';
-      this.textDiv.style.zoom = '1';
+      this.canvas.style.display = "none";
+      this.textDiv = document.createElement("div");
+      this.textDiv.style.position = "absolute";
+      this.textDiv.style.whiteSpace = "nowrap";
+      this.textDiv.style.visibility = "hidden";
+      this.textDiv.style.display = mxClient.IS_QUIRKS
+        ? "inline"
+        : "inline-block";
+      this.textDiv.style.zoom = "1";
       document.body.appendChild(this.textDiv);
     }
 
     var graphBounds = this.getBoundingBox(
       this.validateCellState(
-        this.validateCell(cell || (this.currentRoot != null ? this.currentRoot : this.graph.getModel().getRoot()))
-      )
+        this.validateCell(
+          cell ||
+            (this.currentRoot != null
+              ? this.currentRoot
+              : this.graph.getModel().getRoot()),
+        ),
+      ),
     );
-    this.setGraphBounds(graphBounds != null ? graphBounds : this.getEmptyBounds());
+    this.setGraphBounds(
+      graphBounds != null ? graphBounds : this.getEmptyBounds(),
+    );
     this.validateBackground();
 
     if (prevDisplay != null) {
@@ -274,11 +304,14 @@ export class mxGraphView extends mxEventSource {
 
     this.resetValidationState();
     window.status = mxResources.get(this.doneResource) || this.doneResource;
-    mxLog.leave('mxGraphView.validate', t0);
+    mxLog.leave("mxGraphView.validate", t0);
   }
 
   getEmptyBounds() {
-    return new mxRectangle(this.translate.x * this.scale, this.translate.y * this.scale);
+    return new mxRectangle(
+      this.translate.x * this.scale,
+      this.translate.y * this.scale,
+    );
   }
 
   getBoundingBox(state, recurse) {
@@ -303,7 +336,9 @@ export class mxGraphView extends mxEventSource {
         var childCount = model.getChildCount(state.cell);
 
         for (var i = 0; i < childCount; i++) {
-          var bounds = this.getBoundingBox(this.getState(model.getChildAt(state.cell, i)));
+          var bounds = this.getBoundingBox(
+            this.getState(model.getChildAt(state.cell, i)),
+          );
 
           if (bounds != null) {
             if (bbox == null) {
@@ -320,7 +355,7 @@ export class mxGraphView extends mxEventSource {
   }
 
   createBackgroundPageShape(bounds) {
-    return new mxRectangleShape(bounds, 'white', 'black');
+    return new mxRectangleShape(bounds, "white", "black");
   }
 
   validateBackground() {
@@ -332,7 +367,10 @@ export class mxGraphView extends mxEventSource {
     var bg = this.graph.getBackgroundImage();
 
     if (bg != null) {
-      if (this.backgroundImage == null || this.backgroundImage.image != bg.src) {
+      if (
+        this.backgroundImage == null ||
+        this.backgroundImage.image != bg.src
+      ) {
         if (this.backgroundImage != null) {
           this.backgroundImage.destroy();
         }
@@ -347,14 +385,23 @@ export class mxGraphView extends mxEventSource {
           mxEvent.addGestureListeners(
             this.backgroundImage.node,
             (evt) => {
-              this.graph.fireMouseEvent(mxEvent.MOUSE_DOWN, new mxMouseEvent(evt));
+              this.graph.fireMouseEvent(
+                mxEvent.MOUSE_DOWN,
+                new mxMouseEvent(evt),
+              );
             },
             (evt) => {
-              this.graph.fireMouseEvent(mxEvent.MOUSE_MOVE, new mxMouseEvent(evt));
+              this.graph.fireMouseEvent(
+                mxEvent.MOUSE_MOVE,
+                new mxMouseEvent(evt),
+              );
             },
             (evt) => {
-              this.graph.fireMouseEvent(mxEvent.MOUSE_UP, new mxMouseEvent(evt));
-            }
+              this.graph.fireMouseEvent(
+                mxEvent.MOUSE_UP,
+                new mxMouseEvent(evt),
+              );
+            },
           );
         }
       }
@@ -379,28 +426,41 @@ export class mxGraphView extends mxEventSource {
         this.backgroundPageShape.redraw();
 
         if (this.graph.nativeDblClickEnabled) {
-          mxEvent.addListener(this.backgroundPageShape.node, 'dblclick', (evt) => {
-            this.graph.dblClick(evt);
-          });
+          mxEvent.addListener(
+            this.backgroundPageShape.node,
+            "dblclick",
+            (evt) => {
+              this.graph.dblClick(evt);
+            },
+          );
         }
 
         mxEvent.addGestureListeners(
           this.backgroundPageShape.node,
           (evt) => {
-            this.graph.fireMouseEvent(mxEvent.MOUSE_DOWN, new mxMouseEvent(evt));
+            this.graph.fireMouseEvent(
+              mxEvent.MOUSE_DOWN,
+              new mxMouseEvent(evt),
+            );
           },
           (evt) => {
-            if (this.graph.tooltipHandler != null && this.graph.tooltipHandler.isHideOnHover()) {
+            if (
+              this.graph.tooltipHandler != null &&
+              this.graph.tooltipHandler.isHideOnHover()
+            ) {
               this.graph.tooltipHandler.hide();
             }
 
             if (this.graph.isMouseDown && !mxEvent.isConsumed(evt)) {
-              this.graph.fireMouseEvent(mxEvent.MOUSE_MOVE, new mxMouseEvent(evt));
+              this.graph.fireMouseEvent(
+                mxEvent.MOUSE_MOVE,
+                new mxMouseEvent(evt),
+              );
             }
           },
           (evt) => {
             this.graph.fireMouseEvent(mxEvent.MOUSE_UP, new mxMouseEvent(evt));
-          }
+          },
         );
       } else {
         this.backgroundPageShape.scale = this.scale;
@@ -420,7 +480,7 @@ export class mxGraphView extends mxEventSource {
       this.scale * this.translate.x,
       this.scale * this.translate.y,
       fmt.width * ps,
-      fmt.height * ps
+      fmt.height * ps,
     );
     return bounds;
   }
@@ -450,7 +510,8 @@ export class mxGraphView extends mxEventSource {
         for (var i = 0; i < childCount; i++) {
           this.validateCell(
             model.getChildAt(cell, i),
-            visible && (!this.isCellCollapsed(cell) || cell == this.currentRoot)
+            visible &&
+              (!this.isCellCollapsed(cell) || cell == this.currentRoot),
           );
         }
       }
@@ -465,7 +526,6 @@ export class mxGraphView extends mxEventSource {
 
     if (cell != null) {
       state = this.getState(cell);
-	    //console.log(cell, state)
 
       if (state != null) {
         var model = this.graph.getModel();
@@ -482,8 +542,14 @@ export class mxGraphView extends mxEventSource {
             this.validateCellState(model.getParent(cell), false);
           }
 
-          state.setVisibleTerminalState(this.validateCellState(this.getVisibleTerminal(cell, true), false), true);
-          state.setVisibleTerminalState(this.validateCellState(this.getVisibleTerminal(cell, false), false), false);
+          state.setVisibleTerminalState(
+            this.validateCellState(this.getVisibleTerminal(cell, true), false),
+            true,
+          );
+          state.setVisibleTerminalState(
+            this.validateCellState(this.getVisibleTerminal(cell, false), false),
+            false,
+          );
           this.updateCellState(state);
 
           if (cell != this.currentRoot && !state.invalid) {
@@ -543,8 +609,10 @@ export class mxGraphView extends mxEventSource {
               var origin = this.getPoint(pState, geo);
 
               if (origin != null) {
-                state.origin.x += origin.x / this.scale - pState.origin.x - this.translate.x;
-                state.origin.y += origin.y / this.scale - pState.origin.y - this.translate.y;
+                state.origin.x +=
+                  origin.x / this.scale - pState.origin.x - this.translate.x;
+                state.origin.y +=
+                  origin.y / this.scale - pState.origin.y - this.translate.y;
               }
             } else {
               state.origin.x += geo.x * pState.unscaledWidth + offset.x;
@@ -587,7 +655,9 @@ export class mxGraphView extends mxEventSource {
     var pState = this.getState(model.getParent(state.cell));
 
     if (geo.relative && pState != null && !model.isEdge(pState.cell)) {
-      var alpha = mxUtils.toRadians(pState.style[mxConstants.STYLE_ROTATION] || '0');
+      var alpha = mxUtils.toRadians(
+        pState.style[mxConstants.STYLE_ROTATION] || "0",
+      );
 
       if (alpha != 0) {
         var cos = Math.cos(alpha);
@@ -608,9 +678,11 @@ export class mxGraphView extends mxEventSource {
     var target = state.getVisibleTerminalState(false);
 
     if (
-      (this.graph.model.getTerminal(state.cell, true) != null && source == null) ||
+      (this.graph.model.getTerminal(state.cell, true) != null &&
+        source == null) ||
       (source == null && geo.getTerminalPoint(true) == null) ||
-      (this.graph.model.getTerminal(state.cell, false) != null && target == null) ||
+      (this.graph.model.getTerminal(state.cell, false) != null &&
+        target == null) ||
       (target == null && geo.getTerminalPoint(false) == null)
     ) {
       this.clear(state.cell, true);
@@ -622,7 +694,10 @@ export class mxGraphView extends mxEventSource {
 
       if (
         state.cell != this.currentRoot &&
-        (pts == null || pts.length < 2 || pts[0] == null || pts[pts.length - 1] == null)
+        (pts == null ||
+          pts.length < 2 ||
+          pts[0] == null ||
+          pts[pts.length - 1] == null)
       ) {
         this.clear(state.cell, true);
       } else {
@@ -633,10 +708,18 @@ export class mxGraphView extends mxEventSource {
   }
 
   updateVertexLabelOffset(state) {
-    var h = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_POSITION, mxConstants.ALIGN_CENTER);
+    var h = mxUtils.getValue(
+      state.style,
+      mxConstants.STYLE_LABEL_POSITION,
+      mxConstants.ALIGN_CENTER,
+    );
 
     if (h == mxConstants.ALIGN_LEFT) {
-      var lw = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_WIDTH, null);
+      var lw = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_LABEL_WIDTH,
+        null,
+      );
 
       if (lw != null) {
         lw *= this.scale;
@@ -648,10 +731,18 @@ export class mxGraphView extends mxEventSource {
     } else if (h == mxConstants.ALIGN_RIGHT) {
       state.absoluteOffset.x += state.width;
     } else if (h == mxConstants.ALIGN_CENTER) {
-      var lw = mxUtils.getValue(state.style, mxConstants.STYLE_LABEL_WIDTH, null);
+      var lw = mxUtils.getValue(
+        state.style,
+        mxConstants.STYLE_LABEL_WIDTH,
+        null,
+      );
 
       if (lw != null) {
-        var align = mxUtils.getValue(state.style, mxConstants.STYLE_ALIGN, mxConstants.ALIGN_CENTER);
+        var align = mxUtils.getValue(
+          state.style,
+          mxConstants.STYLE_ALIGN,
+          mxConstants.ALIGN_CENTER,
+        );
         var dx = 0;
 
         if (align == mxConstants.ALIGN_CENTER) {
@@ -666,7 +757,11 @@ export class mxGraphView extends mxEventSource {
       }
     }
 
-    var v = mxUtils.getValue(state.style, mxConstants.STYLE_VERTICAL_LABEL_POSITION, mxConstants.ALIGN_MIDDLE);
+    var v = mxUtils.getValue(
+      state.style,
+      mxConstants.STYLE_VERTICAL_LABEL_POSITION,
+      mxConstants.ALIGN_MIDDLE,
+    );
 
     if (v == mxConstants.ALIGN_TOP) {
       state.absoluteOffset.y -= state.height;
@@ -684,11 +779,19 @@ export class mxGraphView extends mxEventSource {
 
   stateValidated(state) {
     var fg =
-      (this.graph.getModel().isEdge(state.cell) && this.graph.keepEdgesInForeground) ||
-      (this.graph.getModel().isVertex(state.cell) && this.graph.keepEdgesInBackground);
-    var htmlNode = fg ? this.lastForegroundHtmlNode || this.lastHtmlNode : this.lastHtmlNode;
+      (this.graph.getModel().isEdge(state.cell) &&
+        this.graph.keepEdgesInForeground) ||
+      (this.graph.getModel().isVertex(state.cell) &&
+        this.graph.keepEdgesInBackground);
+    var htmlNode = fg
+      ? this.lastForegroundHtmlNode || this.lastHtmlNode
+      : this.lastHtmlNode;
     var node = fg ? this.lastForegroundNode || this.lastNode : this.lastNode;
-    var result = this.graph.cellRenderer.insertStateAfter(state, node, htmlNode);
+    var result = this.graph.cellRenderer.insertStateAfter(
+      state,
+      node,
+      htmlNode,
+    );
 
     if (fg) {
       this.lastForegroundHtmlNode = result[1];
@@ -700,12 +803,25 @@ export class mxGraphView extends mxEventSource {
   }
 
   updateFixedTerminalPoints(edge, source, target) {
-    this.updateFixedTerminalPoint(edge, source, true, this.graph.getConnectionConstraint(edge, source, true));
-    this.updateFixedTerminalPoint(edge, target, false, this.graph.getConnectionConstraint(edge, target, false));
+    this.updateFixedTerminalPoint(
+      edge,
+      source,
+      true,
+      this.graph.getConnectionConstraint(edge, source, true),
+    );
+    this.updateFixedTerminalPoint(
+      edge,
+      target,
+      false,
+      this.graph.getConnectionConstraint(edge, target, false),
+    );
   }
 
   updateFixedTerminalPoint(edge, terminal, source, constraint) {
-    edge.setAbsoluteTerminalPoint(this.getFixedTerminalPoint(edge, terminal, source, constraint), source);
+    edge.setAbsoluteTerminalPoint(
+      this.getFixedTerminalPoint(edge, terminal, source, constraint),
+      source,
+    );
   }
 
   getFixedTerminalPoint(edge, terminal, source, constraint) {
@@ -723,7 +839,10 @@ export class mxGraphView extends mxEventSource {
       pt = geo.getTerminalPoint(source);
 
       if (pt != null) {
-        pt = new mxPoint(s * (tr.x + pt.x + orig.x), s * (tr.y + pt.y + orig.y));
+        pt = new mxPoint(
+          s * (tr.x + pt.x + orig.x),
+          s * (tr.y + pt.y + orig.y),
+        );
       }
     }
 
@@ -733,10 +852,26 @@ export class mxGraphView extends mxEventSource {
   updateBoundsFromStencil(state) {
     var previous = null;
 
-    if (state != null && state.shape != null && state.shape.stencil != null && state.shape.stencil.aspect == 'fixed') {
+    if (
+      state != null &&
+      state.shape != null &&
+      state.shape.stencil != null &&
+      state.shape.stencil.aspect == "fixed"
+    ) {
       previous = mxRectangle.fromRectangle(state);
-      var asp = state.shape.stencil.computeAspect(state.style, state.x, state.y, state.width, state.height);
-      state.setRect(asp.x, asp.y, state.shape.stencil.w0 * asp.width, state.shape.stencil.h0 * asp.height);
+      var asp = state.shape.stencil.computeAspect(
+        state.style,
+        state.x,
+        state.y,
+        state.width,
+        state.height,
+      );
+      state.setRect(
+        asp.x,
+        asp.y,
+        state.shape.stencil.w0 * asp.width,
+        state.shape.stencil.h0 * asp.height,
+      );
     }
 
     return previous;
@@ -756,11 +891,21 @@ export class mxGraphView extends mxEventSource {
         edgeStyle(edge, src, trg, points, pts);
 
         if (srcBounds != null) {
-          src.setRect(srcBounds.x, srcBounds.y, srcBounds.width, srcBounds.height);
+          src.setRect(
+            srcBounds.x,
+            srcBounds.y,
+            srcBounds.width,
+            srcBounds.height,
+          );
         }
 
         if (trgBounds != null) {
-          trg.setRect(trgBounds.x, trgBounds.y, trgBounds.width, trgBounds.height);
+          trg.setRect(
+            trgBounds.x,
+            trgBounds.y,
+            trgBounds.width,
+            trgBounds.height,
+          );
         }
       } else if (points != null) {
         for (var i = 0; i < points.length; i++) {
@@ -781,7 +926,10 @@ export class mxGraphView extends mxEventSource {
     if (state != null && pt != null) {
       var orig = state.origin;
       var scale = ignoreScale ? 1 : this.scale;
-      return new mxPoint(scale * (pt.x + this.translate.x + orig.x), scale * (pt.y + this.translate.y + orig.y));
+      return new mxPoint(
+        scale * (pt.x + this.translate.x + orig.x),
+        scale * (pt.y + this.translate.y + orig.y),
+      );
     }
 
     return null;
@@ -793,7 +941,11 @@ export class mxGraphView extends mxEventSource {
 
     if (
       (points == null || points.length < 2) &&
-      (!mxUtils.getValue(edge.style, mxConstants.STYLE_ORTHOGONAL_LOOP, false) ||
+      (!mxUtils.getValue(
+        edge.style,
+        mxConstants.STYLE_ORTHOGONAL_LOOP,
+        false,
+      ) ||
         ((sc == null || sc.point == null) && (tc == null || tc.point == null)))
     ) {
       return source != null && source == target;
@@ -804,12 +956,16 @@ export class mxGraphView extends mxEventSource {
 
   getEdgeStyle(edge, points, source, target) {
     var edgeStyle = this.isLoopStyleEnabled(edge, points, source, target)
-      ? mxUtils.getValue(edge.style, mxConstants.STYLE_LOOP, this.graph.defaultLoopStyle)
+      ? mxUtils.getValue(
+          edge.style,
+          mxConstants.STYLE_LOOP,
+          this.graph.defaultLoopStyle,
+        )
       : !mxUtils.getValue(edge.style, mxConstants.STYLE_NOEDGESTYLE, false)
       ? edge.style[mxConstants.STYLE_EDGE]
       : null;
 
-    if (typeof edgeStyle == 'string') {
+    if (typeof edgeStyle == "string") {
       var tmp = mxStyleRegistry.getValue(edgeStyle);
 
       if (tmp == null && this.isAllowEval()) {
@@ -819,7 +975,7 @@ export class mxGraphView extends mxEventSource {
       edgeStyle = tmp;
     }
 
-    if (typeof edgeStyle == 'function') {
+    if (typeof edgeStyle == "function") {
       return edgeStyle;
     }
 
@@ -841,14 +997,19 @@ export class mxGraphView extends mxEventSource {
   }
 
   updateFloatingTerminalPoint(edge, start, end, source) {
-    edge.setAbsoluteTerminalPoint(this.getFloatingTerminalPoint(edge, start, end, source), source);
+    edge.setAbsoluteTerminalPoint(
+      this.getFloatingTerminalPoint(edge, start, end, source),
+      source,
+    );
   }
 
   getFloatingTerminalPoint(edge, start, end, source) {
     start = this.getTerminalPort(edge, start, source);
     var next = this.getNextPoint(edge, end, source);
     var orth = this.graph.isOrthogonal(edge);
-    var alpha = mxUtils.toRadians(Number(start.style[mxConstants.STYLE_ROTATION] || '0'));
+    var alpha = mxUtils.toRadians(
+      Number(start.style[mxConstants.STYLE_ROTATION] || "0"),
+    );
     var center = new mxPoint(start.getCenterX(), start.getCenterY());
 
     if (alpha != 0) {
@@ -857,9 +1018,15 @@ export class mxGraphView extends mxEventSource {
       next = mxUtils.getRotatedPoint(next, cos, sin, center);
     }
 
-    var border = parseFloat(edge.style[mxConstants.STYLE_PERIMETER_SPACING] || 0);
+    var border = parseFloat(
+      edge.style[mxConstants.STYLE_PERIMETER_SPACING] || 0,
+    );
     border += parseFloat(
-      edge.style[source ? mxConstants.STYLE_SOURCE_PERIMETER_SPACING : mxConstants.STYLE_TARGET_PERIMETER_SPACING] || 0
+      edge.style[
+        source
+          ? mxConstants.STYLE_SOURCE_PERIMETER_SPACING
+          : mxConstants.STYLE_TARGET_PERIMETER_SPACING
+      ] || 0,
     );
     var pt = this.getPerimeterPoint(start, next, alpha == 0 && orth, border);
 
@@ -873,7 +1040,9 @@ export class mxGraphView extends mxEventSource {
   }
 
   getTerminalPort(state, terminal, source) {
-    var key = source ? mxConstants.STYLE_SOURCE_PORT : mxConstants.STYLE_TARGET_PORT;
+    var key = source
+      ? mxConstants.STYLE_SOURCE_PORT
+      : mxConstants.STYLE_TARGET_PORT;
     var id = mxUtils.getValue(state.style, key);
 
     if (id != null) {
@@ -902,12 +1071,18 @@ export class mxGraphView extends mxEventSource {
           var flipV = false;
 
           if (this.graph.model.isVertex(terminal.cell)) {
-            flipH = mxUtils.getValue(terminal.style, mxConstants.STYLE_FLIPH, 0) == 1;
-            flipV = mxUtils.getValue(terminal.style, mxConstants.STYLE_FLIPV, 0) == 1;
+            flipH =
+              mxUtils.getValue(terminal.style, mxConstants.STYLE_FLIPH, 0) == 1;
+            flipV =
+              mxUtils.getValue(terminal.style, mxConstants.STYLE_FLIPV, 0) == 1;
 
             if (terminal.shape != null && terminal.shape.stencil != null) {
-              flipH = mxUtils.getValue(terminal.style, 'stencilFlipH', 0) == 1 || flipH;
-              flipV = mxUtils.getValue(terminal.style, 'stencilFlipV', 0) == 1 || flipV;
+              flipH =
+                mxUtils.getValue(terminal.style, "stencilFlipH", 0) == 1 ||
+                flipH;
+              flipV =
+                mxUtils.getValue(terminal.style, "stencilFlipV", 0) == 1 ||
+                flipV;
             }
 
             if (flipH) {
@@ -942,12 +1117,18 @@ export class mxGraphView extends mxEventSource {
   }
 
   getRoutingCenterX(state) {
-    var f = state.style != null ? parseFloat(state.style[mxConstants.STYLE_ROUTING_CENTER_X]) || 0 : 0;
+    var f =
+      state.style != null
+        ? parseFloat(state.style[mxConstants.STYLE_ROUTING_CENTER_X]) || 0
+        : 0;
     return state.getCenterX() + f * state.width;
   }
 
   getRoutingCenterY(state) {
-    var f = state.style != null ? parseFloat(state.style[mxConstants.STYLE_ROUTING_CENTER_Y]) || 0 : 0;
+    var f =
+      state.style != null
+        ? parseFloat(state.style[mxConstants.STYLE_ROUTING_CENTER_Y]) || 0
+        : 0;
     return state.getCenterY() + f * state.height;
   }
 
@@ -955,7 +1136,9 @@ export class mxGraphView extends mxEventSource {
     border = border != null ? border : 0;
 
     if (terminal != null) {
-      border += parseFloat(terminal.style[mxConstants.STYLE_PERIMETER_SPACING] || 0);
+      border += parseFloat(
+        terminal.style[mxConstants.STYLE_PERIMETER_SPACING] || 0,
+      );
     }
 
     return terminal.getPerimeterBounds(border * this.scale);
@@ -964,7 +1147,7 @@ export class mxGraphView extends mxEventSource {
   getPerimeterFunction(state) {
     var perimeter = state.style[mxConstants.STYLE_PERIMETER];
 
-    if (typeof perimeter == 'string') {
+    if (typeof perimeter == "string") {
       var tmp = mxStyleRegistry.getValue(perimeter);
 
       if (tmp == null && this.isAllowEval()) {
@@ -974,7 +1157,7 @@ export class mxGraphView extends mxEventSource {
       perimeter = tmp;
     }
 
-    if (typeof perimeter == 'function') {
+    if (typeof perimeter == "function") {
       return perimeter;
     }
 
@@ -1012,7 +1195,9 @@ export class mxGraphView extends mxEventSource {
 
     if (
       best != null &&
-      (!model.contains(best) || model.getParent(best) == model.getRoot() || best == this.currentRoot)
+      (!model.contains(best) ||
+        model.getParent(best) == model.getRoot() ||
+        best == this.currentRoot)
     ) {
       best = null;
     }
@@ -1177,7 +1362,8 @@ export class mxGraphView extends mxEventSource {
         if (dotprod <= 0.0) {
           projlenSq = 0;
         } else {
-          projlenSq = (dotprod * dotprod) / (xSegment * xSegment + ySegment * ySegment);
+          projlenSq =
+            (dotprod * dotprod) / (xSegment * xSegment + ySegment * ySegment);
         }
 
         var projlen = Math.sqrt(projlenSq);
@@ -1186,14 +1372,19 @@ export class mxGraphView extends mxEventSource {
           projlen = seg;
         }
 
-        var yDistance = Math.sqrt(mxUtils.ptSegDistSq(p0.x, p0.y, pe.x, pe.y, x, y));
+        var yDistance = Math.sqrt(
+          mxUtils.ptSegDistSq(p0.x, p0.y, pe.x, pe.y, x, y),
+        );
         var direction = mxUtils.relativeCcw(p0.x, p0.y, pe.x, pe.y, x, y);
 
         if (direction == -1) {
           yDistance = -yDistance;
         }
 
-        return new mxPoint(((totalLength / 2 - length - projlen) / totalLength) * -2, yDistance / this.scale);
+        return new mxPoint(
+          ((totalLength / 2 - length - projlen) / totalLength) * -2,
+          yDistance / this.scale,
+        );
       }
     }
 
@@ -1246,7 +1437,11 @@ export class mxGraphView extends mxEventSource {
     if (cell != null) {
       state = this.states.get(cell);
 
-      if (create && (state == null || this.updateStyle) && this.graph.isCellVisible(cell)) {
+      if (
+        create &&
+        (state == null || this.updateStyle) &&
+        this.graph.isCellVisible(cell)
+      ) {
         if (state == null) {
           state = this.createState(cell);
           this.states.put(cell, state);
@@ -1346,7 +1541,8 @@ export class mxGraphView extends mxEventSource {
     return (
       source == this.graph.container ||
       source.parentNode == this.backgroundPane ||
-      (source.parentNode != null && source.parentNode.parentNode == this.backgroundPane) ||
+      (source.parentNode != null &&
+        source.parentNode.parentNode == this.backgroundPane) ||
       source == this.canvas.parentNode ||
       source == this.canvas ||
       source == this.backgroundPane ||
@@ -1395,15 +1591,15 @@ export class mxGraphView extends mxEventSource {
 
     if (container != null) {
       if (mxClient.IS_TOUCH) {
-        mxEvent.addListener(container, 'gesturestart', (evt) => {
+        mxEvent.addListener(container, "gesturestart", (evt) => {
           graph.fireGestureEvent(evt);
           mxEvent.consume(evt);
         });
-        mxEvent.addListener(container, 'gesturechange', (evt) => {
+        mxEvent.addListener(container, "gesturechange", (evt) => {
           graph.fireGestureEvent(evt);
           mxEvent.consume(evt);
         });
-        mxEvent.addListener(container, 'gestureend', (evt) => {
+        mxEvent.addListener(container, "gestureend", (evt) => {
           graph.fireGestureEvent(evt);
           mxEvent.consume(evt);
         });
@@ -1414,7 +1610,11 @@ export class mxGraphView extends mxEventSource {
         (evt) => {
           if (
             this.isContainerEvent(evt) &&
-            ((!mxClient.IS_IE11 && !mxClient.IS_GC && !mxClient.IS_OP && !mxClient.IS_SF) || !this.isScrollEvent(evt))
+            ((!mxClient.IS_IE11 &&
+              !mxClient.IS_GC &&
+              !mxClient.IS_OP &&
+              !mxClient.IS_SF) ||
+              !this.isScrollEvent(evt))
           ) {
             graph.fireMouseEvent(mxEvent.MOUSE_DOWN, new mxMouseEvent(evt));
           }
@@ -1428,9 +1628,9 @@ export class mxGraphView extends mxEventSource {
           if (this.isContainerEvent(evt)) {
             graph.fireMouseEvent(mxEvent.MOUSE_UP, new mxMouseEvent(evt));
           }
-        }
+        },
       );
-      mxEvent.addListener(container, 'dblclick', (evt) => {
+      mxEvent.addListener(container, "dblclick", (evt) => {
         if (this.isContainerEvent(evt)) {
           graph.dblClick(evt);
         }
@@ -1454,11 +1654,14 @@ export class mxGraphView extends mxEventSource {
           graph.popupMenuHandler.hideMenu();
         },
         mouseMove: function () {},
-        mouseUp: function () {}
+        mouseUp: function () {},
       });
 
       this.moveHandler = (evt) => {
-        if (graph.tooltipHandler != null && graph.tooltipHandler.isHideOnHover()) {
+        if (
+          graph.tooltipHandler != null &&
+          graph.tooltipHandler.isHideOnHover()
+        ) {
           graph.tooltipHandler.hide();
         }
 
@@ -1467,11 +1670,14 @@ export class mxGraphView extends mxEventSource {
           graph.isMouseDown &&
           graph.container != null &&
           !this.isContainerEvent(evt) &&
-          graph.container.style.display != 'none' &&
-          graph.container.style.visibility != 'hidden' &&
+          graph.container.style.display != "none" &&
+          graph.container.style.visibility != "hidden" &&
           !mxEvent.isConsumed(evt)
         ) {
-          graph.fireMouseEvent(mxEvent.MOUSE_MOVE, new mxMouseEvent(evt, getState(evt)));
+          graph.fireMouseEvent(
+            mxEvent.MOUSE_MOVE,
+            new mxMouseEvent(evt, getState(evt)),
+          );
         }
       };
 
@@ -1481,14 +1687,19 @@ export class mxGraphView extends mxEventSource {
           graph.isMouseDown &&
           graph.container != null &&
           !this.isContainerEvent(evt) &&
-          graph.container.style.display != 'none' &&
-          graph.container.style.visibility != 'hidden'
+          graph.container.style.display != "none" &&
+          graph.container.style.visibility != "hidden"
         ) {
           graph.fireMouseEvent(mxEvent.MOUSE_UP, new mxMouseEvent(evt));
         }
       };
 
-      mxEvent.addGestureListeners(document, null, this.moveHandler, this.endHandler);
+      mxEvent.addGestureListeners(
+        document,
+        null,
+        this.moveHandler,
+        this.endHandler,
+      );
     }
   }
 
@@ -1496,12 +1707,12 @@ export class mxGraphView extends mxEventSource {
     var container = this.graph.container;
 
     if (container != null) {
-      this.canvas = this.createHtmlPane('100%', '100%');
-      this.canvas.style.overflow = 'hidden';
-      this.backgroundPane = this.createHtmlPane('1px', '1px');
-      this.drawPane = this.createHtmlPane('1px', '1px');
-      this.overlayPane = this.createHtmlPane('1px', '1px');
-      this.decoratorPane = this.createHtmlPane('1px', '1px');
+      this.canvas = this.createHtmlPane("100%", "100%");
+      this.canvas.style.overflow = "hidden";
+      this.backgroundPane = this.createHtmlPane("1px", "1px");
+      this.drawPane = this.createHtmlPane("1px", "1px");
+      this.overlayPane = this.createHtmlPane("1px", "1px");
+      this.decoratorPane = this.createHtmlPane("1px", "1px");
       this.canvas.appendChild(this.backgroundPane);
       this.canvas.appendChild(this.drawPane);
       this.canvas.appendChild(this.overlayPane);
@@ -1517,7 +1728,7 @@ export class mxGraphView extends mxEventSource {
           this.updateHtmlCanvasSize(width, height);
         };
 
-        mxEvent.addListener(window, 'resize', onResize);
+        mxEvent.addListener(window, "resize", onResize);
       }
     }
   }
@@ -1528,30 +1739,30 @@ export class mxGraphView extends mxEventSource {
       var oh = this.graph.container.offsetHeight;
 
       if (ow < width) {
-        this.canvas.style.width = width + 'px';
+        this.canvas.style.width = width + "px";
       } else {
-        this.canvas.style.width = '100%';
+        this.canvas.style.width = "100%";
       }
 
       if (oh < height) {
-        this.canvas.style.height = height + 'px';
+        this.canvas.style.height = height + "px";
       } else {
-        this.canvas.style.height = '100%';
+        this.canvas.style.height = "100%";
       }
     }
   }
 
   createHtmlPane(width, height) {
-    var pane = document.createElement('DIV');
+    var pane = document.createElement("DIV");
 
     if (width != null && height != null) {
-      pane.style.position = 'absolute';
-      pane.style.left = '0px';
-      pane.style.top = '0px';
+      pane.style.position = "absolute";
+      pane.style.left = "0px";
+      pane.style.top = "0px";
       pane.style.width = width;
       pane.style.height = height;
     } else {
-      pane.style.position = 'relative';
+      pane.style.position = "relative";
     }
 
     return pane;
@@ -1564,7 +1775,7 @@ export class mxGraphView extends mxEventSource {
       var width = container.offsetWidth;
       var height = container.offsetHeight;
       this.canvas = this.createVmlPane(width, height);
-      this.canvas.style.overflow = 'hidden';
+      this.canvas.style.overflow = "hidden";
       this.backgroundPane = this.createVmlPane(width, height);
       this.drawPane = this.createVmlPane(width, height);
       this.overlayPane = this.createVmlPane(width, height);
@@ -1578,38 +1789,38 @@ export class mxGraphView extends mxEventSource {
   }
 
   createVmlPane(width, height) {
-    var pane = document.createElement(mxClient.VML_PREFIX + ':group');
-    pane.style.position = 'absolute';
-    pane.style.left = '0px';
-    pane.style.top = '0px';
-    pane.style.width = width + 'px';
-    pane.style.height = height + 'px';
-    pane.setAttribute('coordsize', width + ',' + height);
-    pane.setAttribute('coordorigin', '0,0');
+    var pane = document.createElement(mxClient.VML_PREFIX + ":group");
+    pane.style.position = "absolute";
+    pane.style.left = "0px";
+    pane.style.top = "0px";
+    pane.style.width = width + "px";
+    pane.style.height = height + "px";
+    pane.setAttribute("coordsize", width + "," + height);
+    pane.setAttribute("coordorigin", "0,0");
     return pane;
   }
 
   createSvg() {
     var container = this.graph.container;
-    this.canvas = document.createElementNS(mxConstants.NS_SVG, 'g');
-    this.backgroundPane = document.createElementNS(mxConstants.NS_SVG, 'g');
+    this.canvas = document.createElementNS(mxConstants.NS_SVG, "g");
+    this.backgroundPane = document.createElementNS(mxConstants.NS_SVG, "g");
     this.canvas.appendChild(this.backgroundPane);
-    this.drawPane = document.createElementNS(mxConstants.NS_SVG, 'g');
+    this.drawPane = document.createElementNS(mxConstants.NS_SVG, "g");
     this.canvas.appendChild(this.drawPane);
-    this.overlayPane = document.createElementNS(mxConstants.NS_SVG, 'g');
+    this.overlayPane = document.createElementNS(mxConstants.NS_SVG, "g");
     this.canvas.appendChild(this.overlayPane);
-    this.decoratorPane = document.createElementNS(mxConstants.NS_SVG, 'g');
+    this.decoratorPane = document.createElementNS(mxConstants.NS_SVG, "g");
     this.canvas.appendChild(this.decoratorPane);
-    var root = document.createElementNS(mxConstants.NS_SVG, 'svg');
-    root.style.left = '0px';
-    root.style.top = '0px';
-    root.style.width = '100%';
-    root.style.height = '100%';
-    root.style.display = 'block';
+    var root = document.createElementNS(mxConstants.NS_SVG, "svg");
+    root.style.left = "0px";
+    root.style.top = "0px";
+    root.style.width = "100%";
+    root.style.height = "100%";
+    root.style.display = "block";
     root.appendChild(this.canvas);
 
     if (mxClient.IS_IE11) {
-      root.style.overflow = 'hidden';
+      root.style.overflow = "hidden";
     }
 
     if (container != null) {
@@ -1621,12 +1832,12 @@ export class mxGraphView extends mxEventSource {
   updateContainerStyle(container) {
     var style = mxUtils.getCurrentStyle(container);
 
-    if (style != null && style.position == 'static') {
-      container.style.position = 'relative';
+    if (style != null && style.position == "static") {
+      container.style.position = "relative";
     }
 
     if (mxClient.IS_POINTER) {
-      container.style.touchAction = 'none';
+      container.style.touchAction = "none";
     }
   }
 
@@ -1639,7 +1850,12 @@ export class mxGraphView extends mxEventSource {
 
     if (root != null && root.parentNode != null) {
       this.clear(this.currentRoot, true);
-      mxEvent.removeGestureListeners(document, null, this.moveHandler, this.endHandler);
+      mxEvent.removeGestureListeners(
+        document,
+        null,
+        this.moveHandler,
+        this.endHandler,
+      );
       mxEvent.release(this.graph.container);
       root.parentNode.removeChild(root);
       this.moveHandler = null;

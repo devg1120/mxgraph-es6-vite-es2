@@ -6,9 +6,9 @@ export class mxUrlConverter {
   constructor() {}
 
   updateBaseUrl() {
-    this.baseDomain = location.protocol + '//' + location.host;
+    this.baseDomain = location.protocol + "//" + location.host;
     this.baseUrl = this.baseDomain + location.pathname;
-    var tmp = this.baseUrl.lastIndexOf('/');
+    var tmp = this.baseUrl.lastIndexOf("/");
 
     if (tmp > 0) {
       this.baseUrl = this.baseUrl.substring(0, tmp + 1);
@@ -42,11 +42,11 @@ export class mxUrlConverter {
   isRelativeUrl(url) {
     return (
       url != null &&
-      url.substring(0, 2) != '//' &&
-      url.substring(0, 7) != 'http://' &&
-      url.substring(0, 8) != 'https://' &&
-      url.substring(0, 10) != 'data:image' &&
-      url.substring(0, 7) != 'file://'
+      url.substring(0, 2) != "//" &&
+      url.substring(0, 7) != "http://" &&
+      url.substring(0, 8) != "https://" &&
+      url.substring(0, 10) != "data:image" &&
+      url.substring(0, 7) != "file://"
     );
   }
 
@@ -56,7 +56,7 @@ export class mxUrlConverter {
         this.updateBaseUrl();
       }
 
-      if (url.charAt(0) == '/') {
+      if (url.charAt(0) == "/") {
         url = this.getBaseDomain() + url;
       } else {
         url = this.getBaseUrl() + url;

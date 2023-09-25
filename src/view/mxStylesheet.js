@@ -1,6 +1,6 @@
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxPerimeter } from '@mxgraph/view/mxPerimeter';
-import { mxConstants } from '@mxgraph/util/mxConstants';
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxPerimeter } from "@mxgraph/view/mxPerimeter";
+import { mxConstants } from "@mxgraph/util/mxConstants";
 
 export class mxStylesheet {
   constructor() {
@@ -15,9 +15,9 @@ export class mxStylesheet {
     style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
     style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
     style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
-    style[mxConstants.STYLE_FILLCOLOR] = '#C3D9FF';
-    style[mxConstants.STYLE_STROKECOLOR] = '#6482B9';
-    style[mxConstants.STYLE_FONTCOLOR] = '#774400';
+    style[mxConstants.STYLE_FILLCOLOR] = "#C3D9FF";
+    style[mxConstants.STYLE_STROKECOLOR] = "#6482B9";
+    style[mxConstants.STYLE_FONTCOLOR] = "#774400";
     return style;
   }
 
@@ -27,29 +27,28 @@ export class mxStylesheet {
     style[mxConstants.STYLE_ENDARROW] = mxConstants.ARROW_CLASSIC;
     style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
     style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
-    style[mxConstants.STYLE_STROKECOLOR] = '#6482B9';
-    style[mxConstants.STYLE_FONTCOLOR] = '#446299';
+    style[mxConstants.STYLE_STROKECOLOR] = "#6482B9";
+    style[mxConstants.STYLE_FONTCOLOR] = "#446299";
     return style;
   }
 
   putDefaultVertexStyle(style) {
-    this.putCellStyle('defaultVertex', style);
+    this.putCellStyle("defaultVertex", style);
   }
 
   putDefaultEdgeStyle(style) {
-    this.putCellStyle('defaultEdge', style);
+    this.putCellStyle("defaultEdge", style);
   }
 
   getDefaultVertexStyle() {
-    return this.styles['defaultVertex'];
+    return this.styles["defaultVertex"];
   }
 
   getDefaultEdgeStyle() {
-    return this.styles['defaultEdge'];
+    return this.styles["defaultEdge"];
   }
 
   putCellStyle(name, style) {
-      console.log("putCellStyle", name, style);
     this.styles[name] = style;
   }
 
@@ -57,19 +56,18 @@ export class mxStylesheet {
     var style = defaultStyle;
 
     if (name != null && name.length > 0) {
-      var pairs = name.split(';');
+      var pairs = name.split(";");
 
-      if (style != null && name.charAt(0) != ';') {
+      if (style != null && name.charAt(0) != ";") {
         style = mxUtils.clone(style);
         //style = Object.assign( {}, style);
-
       } else {
         style = new Object();
       }
 
       for (var i = 0; i < pairs.length; i++) {
         var tmp = pairs[i];
-        var pos = tmp.indexOf('=');
+        var pos = tmp.indexOf("=");
 
         if (pos >= 0) {
           var key = tmp.substring(0, pos);
@@ -83,7 +81,7 @@ export class mxStylesheet {
           }
         } else {
           var tmpStyle = this.styles[tmp];
-          
+
           if (tmpStyle != null) {
             for (var key in tmpStyle) {
               style[key] = tmpStyle[key];

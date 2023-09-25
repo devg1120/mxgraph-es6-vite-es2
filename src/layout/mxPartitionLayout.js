@@ -1,5 +1,5 @@
-import { mxGraphLayout } from '@mxgraph/layout/mxGraphLayout';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
+import { mxGraphLayout } from "@mxgraph/layout/mxGraphLayout";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
 
 export class mxPartitionLayout extends mxGraphLayout {
   resizeVertices = true;
@@ -52,7 +52,8 @@ export class mxPartitionLayout extends mxGraphLayout {
 
     if (
       this.graph.container != null &&
-      ((pgeo == null && model.isLayer(parent)) || parent == this.graph.getView().currentRoot)
+      ((pgeo == null && model.isLayer(parent)) ||
+        parent == this.graph.getView().currentRoot)
     ) {
       var width = this.graph.container.offsetWidth - 1;
       var height = this.graph.container.offsetHeight - 1;
@@ -78,12 +79,16 @@ export class mxPartitionLayout extends mxGraphLayout {
         var y0 = this.border;
         var other = horizontal ? pgeo.height : pgeo.width;
         other -= 2 * this.border;
-        var size = this.graph.isSwimlane(parent) ? this.graph.getStartSize(parent) : new mxRectangle();
+        var size = this.graph.isSwimlane(parent)
+          ? this.graph.getStartSize(parent)
+          : new mxRectangle();
         other -= horizontal ? size.height : size.width;
         x0 = x0 + size.width;
         y0 = y0 + size.height;
         var tmp = this.border + (n - 1) * this.spacing;
-        var value = horizontal ? (pgeo.width - x0 - tmp) / n : (pgeo.height - y0 - tmp) / n;
+        var value = horizontal
+          ? (pgeo.width - x0 - tmp) / n
+          : (pgeo.height - y0 - tmp) / n;
 
         if (value > 0) {
           model.beginUpdate();

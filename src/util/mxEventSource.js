@@ -1,4 +1,4 @@
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
 
 export class mxEventSource {
   eventListeners = null;

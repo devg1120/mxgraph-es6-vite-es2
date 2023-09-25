@@ -1,6 +1,6 @@
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
 
 export class mxGeometry extends mxRectangle {
   TRANSLATE_CONTROL_POINTS = true;
@@ -14,7 +14,7 @@ export class mxGeometry extends mxRectangle {
   constructor(x, y, width, height) {
     super(x, y, width, height);
   }
-	/*
+  /*
   getName() {
 	  return("geo");
   }
@@ -149,17 +149,22 @@ export class mxGeometry extends mxRectangle {
       super.equals(obj) &&
       this.relative == obj.relative &&
       ((this.sourcePoint == null && obj.sourcePoint == null) ||
-        (this.sourcePoint != null && this.sourcePoint.equals(obj.sourcePoint))) &&
+        (this.sourcePoint != null &&
+          this.sourcePoint.equals(obj.sourcePoint))) &&
       ((this.targetPoint == null && obj.targetPoint == null) ||
-        (this.targetPoint != null && this.targetPoint.equals(obj.targetPoint))) &&
+        (this.targetPoint != null &&
+          this.targetPoint.equals(obj.targetPoint))) &&
       ((this.points == null && obj.points == null) ||
-        (this.points != null && mxUtils.equalPoints(this.points, obj.points))) &&
+        (this.points != null &&
+          mxUtils.equalPoints(this.points, obj.points))) &&
       ((this.alternateBounds == null && obj.alternateBounds == null) ||
-        (this.alternateBounds != null && this.alternateBounds.equals(obj.alternateBounds))) &&
-      ((this.offset == null && obj.offset == null) || (this.offset != null && this.offset.equals(obj.offset)))
+        (this.alternateBounds != null &&
+          this.alternateBounds.equals(obj.alternateBounds))) &&
+      ((this.offset == null && obj.offset == null) ||
+        (this.offset != null && this.offset.equals(obj.offset)))
     );
   }
-/*
+  /*
   clone() {
     let  clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);    
     return clone;

@@ -1,6 +1,6 @@
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxPoint } from '@mxgraph/util/mxPoint';
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxPoint } from "@mxgraph/util/mxPoint";
 
 export class mxPerimeter {
   static RectanglePerimeter(bounds, vertex, next, orthogonal) {
@@ -169,8 +169,11 @@ export class mxPerimeter {
   }
 
   static TrianglePerimeter(bounds, vertex, next, orthogonal) {
-    var direction = vertex != null ? vertex.style[mxConstants.STYLE_DIRECTION] : null;
-    var vertical = direction == mxConstants.DIRECTION_NORTH || direction == mxConstants.DIRECTION_SOUTH;
+    var direction =
+      vertex != null ? vertex.style[mxConstants.STYLE_DIRECTION] : null;
+    var vertical =
+      direction == mxConstants.DIRECTION_NORTH ||
+      direction == mxConstants.DIRECTION_SOUTH;
     var x = bounds.x;
     var y = bounds.y;
     var w = bounds.width;
@@ -200,7 +203,10 @@ export class mxPerimeter {
     var t = vertical ? Math.atan2(w, h) : Math.atan2(h, w);
     var base = false;
 
-    if (direction == mxConstants.DIRECTION_NORTH || direction == mxConstants.DIRECTION_WEST) {
+    if (
+      direction == mxConstants.DIRECTION_NORTH ||
+      direction == mxConstants.DIRECTION_WEST
+    ) {
       base = alpha > -t && alpha < t;
     } else {
       base = alpha < -Math.PI + t || alpha > Math.PI - t;
@@ -211,7 +217,8 @@ export class mxPerimeter {
     if (base) {
       if (
         orthogonal &&
-        ((vertical && next.x >= start.x && next.x <= end.x) || (!vertical && next.y >= start.y && next.y <= end.y))
+        ((vertical && next.x >= start.x && next.x <= end.x) ||
+          (!vertical && next.y >= start.y && next.y <= end.y))
       ) {
         if (vertical) {
           result = new mxPoint(next.x, start.y);
@@ -234,11 +241,19 @@ export class mxPerimeter {
         var pt = new mxPoint(cx, cy);
 
         if (next.y >= y && next.y <= y + h) {
-          pt.x = vertical ? cx : direction == mxConstants.DIRECTION_WEST ? x + w : x;
+          pt.x = vertical
+            ? cx
+            : direction == mxConstants.DIRECTION_WEST
+            ? x + w
+            : x;
           pt.y = next.y;
         } else if (next.x >= x && next.x <= x + w) {
           pt.x = next.x;
-          pt.y = !vertical ? cy : direction == mxConstants.DIRECTION_NORTH ? y + h : y;
+          pt.y = !vertical
+            ? cy
+            : direction == mxConstants.DIRECTION_NORTH
+            ? y + h
+            : y;
         }
 
         dx = next.x - pt.x;
@@ -247,10 +262,31 @@ export class mxPerimeter {
         cy = pt.y;
       }
 
-      if ((vertical && next.x <= x + w / 2) || (!vertical && next.y <= y + h / 2)) {
-        result = mxUtils.intersection(next.x, next.y, cx, cy, start.x, start.y, corner.x, corner.y);
+      if (
+        (vertical && next.x <= x + w / 2) ||
+        (!vertical && next.y <= y + h / 2)
+      ) {
+        result = mxUtils.intersection(
+          next.x,
+          next.y,
+          cx,
+          cy,
+          start.x,
+          start.y,
+          corner.x,
+          corner.y,
+        );
       } else {
-        result = mxUtils.intersection(next.x, next.y, cx, cy, corner.x, corner.y, end.x, end.y);
+        result = mxUtils.intersection(
+          next.x,
+          next.y,
+          cx,
+          cy,
+          corner.x,
+          corner.y,
+          end.x,
+          end.y,
+        );
       }
     }
 
@@ -278,13 +314,24 @@ export class mxPerimeter {
     var result = new mxPoint(cx, cy);
     var direction =
       vertex != null
-        ? mxUtils.getValue(vertex.style, mxConstants.STYLE_DIRECTION, mxConstants.DIRECTION_EAST)
+        ? mxUtils.getValue(
+            vertex.style,
+            mxConstants.STYLE_DIRECTION,
+            mxConstants.DIRECTION_EAST,
+          )
         : mxConstants.DIRECTION_EAST;
-    var vertical = direction == mxConstants.DIRECTION_NORTH || direction == mxConstants.DIRECTION_SOUTH;
+    var vertical =
+      direction == mxConstants.DIRECTION_NORTH ||
+      direction == mxConstants.DIRECTION_SOUTH;
     var a = new mxPoint();
     var b = new mxPoint();
 
-    if ((px < x && py < y) || (px < x && py > y + h) || (px > x + w && py < y) || (px > x + w && py > y + h)) {
+    if (
+      (px < x && py < y) ||
+      (px < x && py > y + h) ||
+      (px > x + w && py < y) ||
+      (px > x + w && py > y + h)
+    ) {
       orthogonal = false;
     }
 
@@ -464,7 +511,10 @@ export class mxPerimeter {
         } else if (alpha > pi2 && alpha < pi - beta) {
           a = new mxPoint(x - Math.floor(0.5 * w), y + Math.floor(0.5 * h));
           b = new mxPoint(x + w, y - Math.floor(0.25 * h));
-        } else if ((alpha > pi - beta && alpha <= pi) || (alpha < -pi + beta && alpha >= -pi)) {
+        } else if (
+          (alpha > pi - beta && alpha <= pi) ||
+          (alpha < -pi + beta && alpha >= -pi)
+        ) {
           a = new mxPoint(x, y);
           b = new mxPoint(x, y + h);
         } else if (alpha < -beta && alpha > -pi2) {

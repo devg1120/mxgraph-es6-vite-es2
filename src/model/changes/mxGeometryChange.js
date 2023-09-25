@@ -9,7 +9,10 @@ export class mxGeometryChange {
   execute() {
     if (this.cell != null) {
       this.geometry = this.previous;
-      this.previous = this.model.geometryForCellChanged(this.cell, this.previous);
+      this.previous = this.model.geometryForCellChanged(
+        this.cell,
+        this.previous,
+      );
     }
   }
 }

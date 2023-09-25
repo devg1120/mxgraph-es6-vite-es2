@@ -1,16 +1,17 @@
-import { mxEdgeHandler } from '@mxgraph/handler/mxEdgeHandler';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxRectangle } from '@mxgraph/util/mxRectangle';
-import { mxResources } from '@mxgraph/util/mxResources';
-import { mxEdgeStyle } from '@mxgraph/view/mxEdgeStyle';
-import { mxPoint } from '@mxgraph/util/mxPoint';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxConstants } from '@mxgraph/util/mxConstants';
-import { mxClient } from '@mxgraph/mxClient';
+import { mxEdgeHandler } from "@mxgraph/handler/mxEdgeHandler";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxRectangle } from "@mxgraph/util/mxRectangle";
+import { mxResources } from "@mxgraph/util/mxResources";
+import { mxEdgeStyle } from "@mxgraph/view/mxEdgeStyle";
+import { mxPoint } from "@mxgraph/util/mxPoint";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxConstants } from "@mxgraph/util/mxConstants";
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxElbowEdgeHandler extends mxEdgeHandler {
   flipEnabled = true;
-  doubleClickOrientationResource = mxClient.language != 'none' ? 'doubleClickOrientation' : '';
+  doubleClickOrientationResource =
+    mxClient.language != "none" ? "doubleClickOrientation" : "";
 
   constructor(state) {
     super(state);
@@ -28,7 +29,7 @@ export class mxElbowEdgeHandler extends mxEdgeHandler {
           this.graph.flipEdge(this.state.cell, evt);
           mxEvent.consume(evt);
         }
-      })
+      }),
     );
     this.points.push(new mxPoint(0, 0));
     bend = this.createHandleShape(2);
@@ -44,20 +45,24 @@ export class mxElbowEdgeHandler extends mxEdgeHandler {
     bend.setCursor(this.getCursorForBend());
 
     if (!this.graph.isCellBendable(this.state.cell)) {
-      bend.node.style.display = 'none';
+      bend.node.style.display = "none";
     }
 
     return bend;
   }
 
   getCursorForBend() {
-    return this.state.style[mxConstants.STYLE_EDGE] == mxEdgeStyle.TopToBottom ||
-      this.state.style[mxConstants.STYLE_EDGE] == mxConstants.EDGESTYLE_TOPTOBOTTOM ||
-      ((this.state.style[mxConstants.STYLE_EDGE] == mxEdgeStyle.ElbowConnector ||
-        this.state.style[mxConstants.STYLE_EDGE] == mxConstants.EDGESTYLE_ELBOW) &&
+    return this.state.style[mxConstants.STYLE_EDGE] ==
+      mxEdgeStyle.TopToBottom ||
+      this.state.style[mxConstants.STYLE_EDGE] ==
+        mxConstants.EDGESTYLE_TOPTOBOTTOM ||
+      ((this.state.style[mxConstants.STYLE_EDGE] ==
+        mxEdgeStyle.ElbowConnector ||
+        this.state.style[mxConstants.STYLE_EDGE] ==
+          mxConstants.EDGESTYLE_ELBOW) &&
         this.state.style[mxConstants.STYLE_ELBOW] == mxConstants.ELBOW_VERTICAL)
-      ? 'row-resize'
-      : 'col-resize';
+      ? "row-resize"
+      : "col-resize";
   }
 
   getTooltipForNode(node) {
@@ -106,15 +111,22 @@ export class mxElbowEdgeHandler extends mxEdgeHandler {
       pt = new mxPoint(p0.x + (pe.x - p0.x) / 2, p0.y + (pe.y - p0.y) / 2);
     } else {
       pt = new mxPoint(
-        this.graph.getView().scale * (pt.x + this.graph.getView().translate.x + this.state.origin.x),
-        this.graph.getView().scale * (pt.y + this.graph.getView().translate.y + this.state.origin.y)
+        this.graph.getView().scale *
+          (pt.x + this.graph.getView().translate.x + this.state.origin.x),
+        this.graph.getView().scale *
+          (pt.y + this.graph.getView().translate.y + this.state.origin.y),
       );
     }
 
     var b = this.bends[1].bounds;
     var w = b.width;
     var h = b.height;
-    var bounds = new mxRectangle(Math.round(pt.x - w / 2), Math.round(pt.y - h / 2), w, h);
+    var bounds = new mxRectangle(
+      Math.round(pt.x - w / 2),
+      Math.round(pt.y - h / 2),
+      w,
+      h,
+    );
 
     if (this.manageLabelHandle) {
       this.checkLabelHandle(bounds);
@@ -125,7 +137,12 @@ export class mxElbowEdgeHandler extends mxEdgeHandler {
     ) {
       w = mxConstants.HANDLE_SIZE + 3;
       h = mxConstants.HANDLE_SIZE + 3;
-      bounds = new mxRectangle(Math.floor(pt.x - w / 2), Math.floor(pt.y - h / 2), w, h);
+      bounds = new mxRectangle(
+        Math.floor(pt.x - w / 2),
+        Math.floor(pt.y - h / 2),
+        w,
+        h,
+      );
     }
 
     this.bends[1].bounds = bounds;

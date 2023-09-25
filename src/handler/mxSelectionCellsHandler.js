@@ -1,8 +1,8 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxDictionary } from '@mxgraph/util/mxDictionary';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxDictionary } from "@mxgraph/util/mxDictionary";
 
 export class mxSelectionCellsHandler extends mxEventSource {
   enabled = true;
@@ -20,11 +20,15 @@ export class mxSelectionCellsHandler extends mxEventSource {
       }
     };
 
-    this.graph.getSelectionModel().addListener(mxEvent.CHANGE, this.refreshHandler);
+    this.graph
+      .getSelectionModel()
+      .addListener(mxEvent.CHANGE, this.refreshHandler);
     this.graph.getModel().addListener(mxEvent.CHANGE, this.refreshHandler);
     this.graph.getView().addListener(mxEvent.SCALE, this.refreshHandler);
     this.graph.getView().addListener(mxEvent.TRANSLATE, this.refreshHandler);
-    this.graph.getView().addListener(mxEvent.SCALE_AND_TRANSLATE, this.refreshHandler);
+    this.graph
+      .getView()
+      .addListener(mxEvent.SCALE_AND_TRANSLATE, this.refreshHandler);
     this.graph.getView().addListener(mxEvent.DOWN, this.refreshHandler);
     this.graph.getView().addListener(mxEvent.UP, this.refreshHandler);
   }
@@ -81,7 +85,7 @@ export class mxSelectionCellsHandler extends mxEventSource {
 
         if (handler == null) {
           handler = this.graph.createHandler(state);
-          this.fireEvent(new mxEventObject(mxEvent.ADD, 'state', state));
+          this.fireEvent(new mxEventObject(mxEvent.ADD, "state", state));
         }
 
         if (handler != null) {
@@ -91,7 +95,7 @@ export class mxSelectionCellsHandler extends mxEventSource {
     }
 
     oldHandlers.visit((key, handler) => {
-      this.fireEvent(new mxEventObject(mxEvent.REMOVE, 'state', handler.state));
+      this.fireEvent(new mxEventObject(mxEvent.REMOVE, "state", handler.state));
       handler.destroy();
     });
   }

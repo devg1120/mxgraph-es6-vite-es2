@@ -1,22 +1,34 @@
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxResources } from '@mxgraph/util/mxResources';
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxResources } from "@mxgraph/util/mxResources";
 
 export class mxMultiplicity {
-  constructor(source, type, attr, value, min, max, validNeighbors, countError, typeError, validNeighborsAllowed) {
+  constructor(
+    source,
+    type,
+    attr,
+    value,
+    min,
+    max,
+    validNeighbors,
+    countError,
+    typeError,
+    validNeighborsAllowed,
+  ) {
     this.source = source;
     this.type = type;
     this.attr = attr;
     this.value = value;
     this.min = min != null ? min : 0;
-    this.max = max != null ? max : 'n';
+    this.max = max != null ? max : "n";
     this.validNeighbors = validNeighbors;
     this.countError = mxResources.get(countError) || countError;
     this.typeError = mxResources.get(typeError) || typeError;
-    this.validNeighborsAllowed = validNeighborsAllowed != null ? validNeighborsAllowed : true;
+    this.validNeighborsAllowed =
+      validNeighborsAllowed != null ? validNeighborsAllowed : true;
   }
 
   check(graph, edge, source, target, sourceOut, targetIn) {
-    var error = '';
+    var error = "";
 
     if (
       (this.source && this.checkTerminal(graph, source, edge)) ||
@@ -27,14 +39,18 @@ export class mxMultiplicity {
         ((this.source && (this.max == 0 || sourceOut >= this.max)) ||
           (!this.source && (this.max == 0 || targetIn >= this.max)))
       ) {
-        error += this.countError + '\n';
+        error += this.countError + "\n";
       }
 
-      if (this.validNeighbors != null && this.typeError != null && this.validNeighbors.length > 0) {
+      if (
+        this.validNeighbors != null &&
+        this.typeError != null &&
+        this.validNeighbors.length > 0
+      ) {
         var isValid = this.checkNeighbors(graph, edge, source, target);
 
         if (!isValid) {
-          error += this.typeError + '\n';
+          error += this.typeError + "\n";
         }
       }
     }

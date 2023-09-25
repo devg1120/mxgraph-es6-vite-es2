@@ -1,14 +1,15 @@
-import { mxEventSource } from '@mxgraph/util/mxEventSource';
-import { mxEvent } from '@mxgraph/util/mxEvent';
-import { mxEventObject } from '@mxgraph/util/mxEventObject';
-import { mxUndoableEdit } from '@mxgraph/util/mxUndoableEdit';
-import { mxSelectionChange } from '@mxgraph/view/mxSelectionChange';
-import { mxUtils } from '@mxgraph/util/mxUtils';
-import { mxClient } from '@mxgraph/mxClient';
+import { mxEventSource } from "@mxgraph/util/mxEventSource";
+import { mxEvent } from "@mxgraph/util/mxEvent";
+import { mxEventObject } from "@mxgraph/util/mxEventObject";
+import { mxUndoableEdit } from "@mxgraph/util/mxUndoableEdit";
+import { mxSelectionChange } from "@mxgraph/view/mxSelectionChange";
+import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxClient } from "@mxgraph/mxClient";
 
 export class mxGraphSelectionModel extends mxEventSource {
-  doneResource = mxClient.language != 'none' ? 'done' : '';
-  updatingSelectionResource = mxClient.language != 'none' ? 'updatingSelection' : '';
+  doneResource = mxClient.language != "none" ? "done" : "";
+  updatingSelectionResource =
+    mxClient.language != "none" ? "updatingSelection" : "";
   singleSelection = false;
 
   constructor(graph) {
@@ -95,7 +96,10 @@ export class mxGraphSelectionModel extends mxEventSource {
       var tmp = [];
 
       for (var i = 0; i < cells.length; i++) {
-        if (!this.isSelected(cells[i]) && this.graph.isCellSelectable(cells[i])) {
+        if (
+          !this.isSelected(cells[i]) &&
+          this.graph.isCellSelectable(cells[i])
+        ) {
           tmp.push(cells[i]);
         }
       }
@@ -133,7 +137,7 @@ export class mxGraphSelectionModel extends mxEventSource {
       change.execute();
       var edit = new mxUndoableEdit(this, false);
       edit.add(change);
-      this.fireEvent(new mxEventObject(mxEvent.UNDO, 'edit', edit));
+      this.fireEvent(new mxEventObject(mxEvent.UNDO, "edit", edit));
     }
   }
 
