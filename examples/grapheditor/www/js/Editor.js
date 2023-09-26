@@ -2032,7 +2032,7 @@ PageSetupDialog.getFormats = function () {
 /**
  * Constructs a new filename dialog.
  */
-var FilenameDialog = function (
+export function FilenameDialog(
   editorUi,
   filename,
   buttonText,

@@ -6,6 +6,7 @@
  */
 
 import * as m from "../../../../../dist/mxgraph.es.js";
+import { Editor } from "./Editor.js";
 import { Dialog } from "./Editor.js";
 import {mxJSColor} from "../jscolor/jscolor.js";
 

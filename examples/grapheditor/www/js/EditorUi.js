@@ -12,9 +12,13 @@ import { Graph } from "./Graph.js";
 import { HoverIcons } from "./Graph.js";
 import { Format } from "./Format.js";
 import { Toolbar } from "./Toolbar.js";
+import { Editor } from "./Editor.js";
 import { Dialog } from "./Editor.js";
 import { ErrorDialog } from "./Editor.js";
+import { OpenFile } from "./Editor.js";
+import { FilenameDialog } from "./Editor.js";
 import { ColorDialog } from "./Dialogs.js";
+import { OpenDialog } from "./Dialogs.js";
 //import { Menus } from "./Menus.js";
 
 export class EditorUi extends m.mxEventSource {
@@ -30,6 +34,10 @@ export class EditorUi extends m.mxEventSource {
     //	 m.mxUtils.gtest("gtest TEST OK");
     this.destroyFunctions = [];
     this.editor = editor || new Editor();
+    window.parent.Editor = this.editor;    /* GS-PD */
+    window.parent.mxResources = m.mxResources;    /* GS-PD */
+    window.parent.Graph = this.editor.graph;    /* GS-PD */
+
     this.container = container || document.body;
 
     var graph = this.editor.graph;
@@ -3081,6 +3089,7 @@ EditorUi.prototype.onBeforeUnload = function () {
 EditorUi.prototype.open = function () {
   // Cross-domain window access is not allowed in FF, so if we
   // were opened from another domain then this will fail.
+
   try {
     if (window.opener != null && window.opener.openFile != null) {
       window.opener.openFile.setConsumer(
@@ -3108,6 +3117,7 @@ EditorUi.prototype.open = function () {
   } catch (e) {
     // ignore
   }
+
 
   // Fires as the last step if no file was loaded
   this.editor.graph.view.validate();
@@ -4475,6 +4485,8 @@ EditorUi.prototype.pickColor = function (color, apply) {
  * Adds the label menu items to the given menu and parent.
  */
 EditorUi.prototype.openFile = function () {
+   console.log("EditorUi.prototype.openFile");
+
   // Closes dialog after open
   window.openFile = new OpenFile(
     m.mxUtils.bind(this, function (cancel) {
@@ -4585,6 +4597,10 @@ EditorUi.prototype.isCompatibleString = function (data) {
  * Adds the label menu items to the given menu and parent.
  */
 EditorUi.prototype.saveFile = function (forceDialog) {
+
+   console.log("EditorUi.prototype.saveFile ");
+
+
   if (!forceDialog && this.editor.filename != null) {
     this.save(this.editor.getOrCreateFilename());
   } else {
@@ -4615,6 +4631,7 @@ EditorUi.prototype.saveFile = function (forceDialog) {
  * Saves the current graph under the given filename.
  */
 EditorUi.prototype.save = function (name) {
+   console.log("EditorUi.prototype.save ");
   if (name != null) {
     if (this.editor.graph.isEditing()) {
       this.editor.graph.stopEditing();
@@ -4622,6 +4639,18 @@ EditorUi.prototype.save = function (name) {
 
     var xml = m.mxUtils.getXml(this.editor.getGraphXml());
 
+console.log(xml);
+
+const blob = new Blob([xml], {type: 'text/plain'});
+//const name = 'test.txt';
+
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.target = '_blank';
+    a.download = name;
+    a.click();
+   
+/*                                  GS-PD    SAVE
     try {
       if (Editor.useLocalStorage) {
         if (
@@ -4660,6 +4689,7 @@ EditorUi.prototype.save = function (name) {
         m.mxUtils.htmlEntities(m.mxResources.get("errorSavingFile")),
       );
     }
+ */
   }
 };
 
