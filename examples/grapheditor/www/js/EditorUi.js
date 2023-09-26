@@ -3095,6 +3095,7 @@ EditorUi.prototype.open = function () {
       window.opener.openFile.setConsumer(
         m.mxUtils.bind(this, function (xml, filename) {
           try {
+		  console.log("open file:", xml);
             var doc = m.mxUtils.parseXml(xml);
             this.editor.setGraphXml(doc.documentElement);
             this.editor.setModified(false);
