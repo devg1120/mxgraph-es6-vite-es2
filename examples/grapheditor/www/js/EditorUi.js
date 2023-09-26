@@ -3467,7 +3467,7 @@ ChangeGridColor.prototype.execute = function () {
 /**
  * Change types
  */
-function ChangePageSetup(ui, color, image, format, pageScale) {
+export function ChangePageSetup(ui, color, image, format, pageScale) {
   this.ui = ui;
   this.color = color;
   this.previousColor = color;

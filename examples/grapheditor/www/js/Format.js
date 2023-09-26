@@ -7,6 +7,7 @@ import { Editor } from "./Editor.js";
 import { Dialog } from "./Editor.js";
 import { Graph } from "./Graph.js";
 import { PageSetupDialog } from "./Editor.js";
+import { ChangePageSetup  } from "./EditorUi.js";
 
 //Format = function (editorUi, container) {
 export function Format(editorUi, container) {
@@ -3092,7 +3093,7 @@ TextFormatPanel.prototype.addFont = function (container) {
   if (graph.cellEditor.isContentEditing()) {
     var strike = this.editorUi.toolbar.addButton(
       "geSprite-removeformat",
-      mxResources.get("strikethrough"),
+      m.mxResources.get("strikethrough"),
       function () {
         document.execCommand("strikeThrough", false, null);
       },

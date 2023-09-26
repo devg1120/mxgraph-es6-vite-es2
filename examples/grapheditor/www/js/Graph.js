@@ -1085,7 +1085,7 @@ export class Graph extends m.mxGraph {
   /**
    * Sanitizes the given HTML markup.
    */
-  sanitizeHtml(value, editing) {
+static  sanitizeHtml(value, editing) {
     // Uses https://code.google.com/p/google-caja/wiki/JsHtmlSanitizer
     // NOTE: Original minimized sanitizer was modified to support
     // data URIs for images, mailto and special data:-links.
@@ -1132,12 +1132,43 @@ export class Graph extends m.mxGraph {
     return text;
   }
 
+/**
+ * Returns the CSS font family from the given computed style.
+ */
+static stripQuotes(text)
+{
+        if (text != null)
+        {
+                if (text.charAt(0) == '\'')
+                {
+                        text = text.substring(1);
+                }
+                       
+                if (text.charAt(text.length - 1) == '\'')
+                {
+                        text = text.substring(0, text.length - 1);
+                }
+              
+                if (text.charAt(0) == '"')
+                {
+                        text = text.substring(1);
+                }
+                      
+                if (text.charAt(text.length - 1) == '"')
+                {
+                        text = text.substring(0, text.length - 1);
+                }
+        }
+              
+        return text;
+};
+
   /**
    * Returns true if the given string is a link.
    *
    * See https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
    */
-  isLink(text) {
+static  isLink(text) {
     return text != null && Graph.linkPattern.test(text);
   }
 

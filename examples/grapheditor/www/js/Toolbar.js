@@ -7,6 +7,8 @@
 
 import * as m from "../../../../../dist/mxgraph.es.js";
 //import { EditorUi } from "./EditorUi.js";
+//import { Menus } from "./Menus.js";
+import { Default } from "./Default.js";
 
 export class Toolbar {
   constructor(editorUi, container) {
@@ -682,7 +684,8 @@ Toolbar.prototype.createTextToolbar = function () {
   this.fontMenu.style.overflow = "hidden";
   this.fontMenu.style.width = m.mxClient.IS_QUIRKS ? "80px" : "60px";
 
-  this.setFontName(Menus.prototype.defaultFont);
+  //this.setFontName(Menus.prototype.defaultFont);
+  this.setFontName(Default.prototype.defaultFont);
 
   //if (EditorUi.compactUi) {
   if (Toolbar.compactUi) {
@@ -694,7 +697,8 @@ Toolbar.prototype.createTextToolbar = function () {
   this.addSeparator();
 
   this.sizeMenu = this.addMenu(
-    Menus.prototype.defaultFontSize,
+    //Menus.prototype.defaultFontSize,
+    Default.prototype.defaultFontSize,
     m.mxResources.get("fontSize"),
     true,
     "fontSize",
@@ -704,7 +708,8 @@ Toolbar.prototype.createTextToolbar = function () {
   this.sizeMenu.style.overflow = "hidden";
   this.sizeMenu.style.width = m.mxClient.IS_QUIRKS ? "44px" : "24px";
 
-  this.setFontSize(Menus.prototype.defaultFontSize);
+  //this.setFontSize(Menus.prototype.defaultFontSize);
+  this.setFontSize(Default.prototype.defaultFontSize);
 
   //if (EditorUi.compactUi) {
   if (Toolbar.compactUi) {
