@@ -8,33 +8,96 @@
  * @updated 2012-01-19
  * @link    http://jscolor.com
  */
-import {mxClient}  from "../../../../../dist/mxgraph.es.js";
 
-const mxJSColor = {
-  dir: "", // location of jscolor directory (leave empty to autodetect)
-  bindClass: "color", // class name
-  binding: true, // automatic binding via <input class="...">
-  preloading: true, // use image preloading?
+export class mxJSColor  {
+  //dir= "";  // location of jscolor directory (leave empty to autodetect)
+  //bindClass= "color"; // class name
+  //binding= true; // automatic binding via <input class="...">
+  //preloading= true; // use image preloading?
 
+  constructor() {
+       this.dir= "";  // location of jscolor directory (leave empty to autodetect)
+       this.bindClass= "color"; // class name
+       this.binding= true; // automatic binding via <input class="...">
+       this.preloading= true; // use image preloading?
+       this.images= {
+         pad: [181, 101],
+         sld: [16, 101],
+         cross: [15, 15],
+         arrow: [7, 11],
+       }
+
+       this.imgRequire= {};
+       this.imgLoaded= {};
+    var THIS = this;
+    var modeID = this.pickerMode.toLowerCase() === "hvs" ? 1 : 0;
+    var abortBlur = false;
+    var valueElement = mxJSColor.fetchElement(this.valueElement),
+      styleElement = mxJSColor.fetchElement(this.styleElement);
+    var holdPad = false,
+      holdSld = false;
+    var leaveValue = 1 << 0,
+      leaveStyle = 1 << 1,
+      leavePad = 1 << 2,
+      leaveSld = 1 << 3;
+
+
+    // valueElement
+    if (valueElement) {
+      var updateField = function () {
+        THIS.fromString(valueElement.value, leaveValue);
+        dispatchImmediateChange();
+      };
+      mxJSColor.addEvent(valueElement, "keyup", updateField);
+      mxJSColor.addEvent(valueElement, "input", updateField);
+      mxJSColor.addEvent(valueElement, "blur", blurValue);
+      valueElement.setAttribute("autocomplete", "off");
+    }
+
+    // styleElement
+    if (styleElement) {
+      styleElement.jscStyle = {
+        backgroundImage: styleElement.style.backgroundImage,
+        backgroundColor: styleElement.style.backgroundColor,
+        color: styleElement.style.color,
+      };
+    }
+
+    // require images
+    switch (modeID) {
+      case 0:
+        mxJSColor.requireImage("hs.png");
+        break;
+      case 1:
+        mxJSColor.requireImage("hv.png");
+        break;
+    }
+    mxJSColor.requireImage("cross.gif");
+    mxJSColor.requireImage("arrow.gif");
+
+    this.importColor();
+  }
+
+	/*
   install: function () {
     //mxJSColor.addEvent(window, 'load', mxJSColor.init);
   },
+*/
 
-  init: function () {
+  init () {
     if (mxJSColor.preloading) {
       mxJSColor.preload();
     }
-  },
-
-  getDir: function () {
-    if (!mxJSColor.dir) {
-      var detected = mxJSColor.detectDir();
-      mxJSColor.dir = detected !== false ? detected : "jscolor/";
+  }
+static  getDir() {
+    if (!this.dir) {
+      var detected = this.detectDir();
+      this.dir = detected !== false ? detected : "jscolor/";
     }
-    return mxJSColor.dir;
-  },
+    return this.dir;
+  };
 
-  detectDir: function () {
+static  detectDir() {
     var base = location.href;
 
     var e = document.getElementsByTagName("base");
@@ -47,7 +110,7 @@ const mxJSColor = {
     var e = document.getElementsByTagName("script");
     for (var i = 0; i < e.length; i += 1) {
       if (e[i].src && /(^|\/)jscolor\.js([?#].*)?$/i.test(e[i].src)) {
-        var src = new mxJSColor.URI(e[i].src);
+        var src = new URI(e[i].src);
         var srcAbs = src.toAbsolute(base);
         srcAbs.path = srcAbs.path.replace(/[^\/]+$/, ""); // remove filename
         srcAbs.query = null;
@@ -56,50 +119,51 @@ const mxJSColor = {
       }
     }
     return false;
-  },
+  };
 
-  preload: function () {
-    for (var fn in mxJSColor.imgRequire) {
-      if (mxJSColor.imgRequire.hasOwnProperty(fn)) {
-        mxJSColor.loadImage(fn);
+  preload() {
+    for (var fn in this.imgRequire) {
+      if (this.imgRequire.hasOwnProperty(fn)) {
+        this.loadImage(fn);
       }
     }
-  },
-
+  };
+/*
   images: {
     pad: [181, 101],
     sld: [16, 101],
     cross: [15, 15],
     arrow: [7, 11],
-  },
+  }
 
   imgRequire: {},
   imgLoaded: {},
+*/
 
-  requireImage: function (filename) {
-    mxJSColor.imgRequire[filename] = true;
-  },
+  requireImage(filename) {
+    this.imgRequire[filename] = true;
+  };
 
-  loadImage: function (filename) {
-    if (!mxJSColor.imgLoaded[filename]) {
-      mxJSColor.imgLoaded[filename] = new Image();
-      mxJSColor.imgLoaded[filename].src = mxJSColor.getDir() + filename;
+  loadImage(filename) {
+    if (!this.imgLoaded[filename]) {
+      this.imgLoaded[filename] = new Image();
+      this.imgLoaded[filename].src = this.getDir() + filename;
     }
-  },
+  };
 
-  fetchElement: function (mixed) {
+  fetchElement(mixed) {
     return typeof mixed === "string" ? document.getElementById(mixed) : mixed;
-  },
+  };
 
-  addEvent: function (el, evnt, func) {
+  addEvent(el, evnt, func) {
     if (el.addEventListener) {
       el.addEventListener(evnt, func, false);
     } else if (el.attachEvent) {
       el.attachEvent("on" + evnt, func);
     }
-  },
+  };
 
-  fireEvent: function (el, evnt) {
+  fireEvent(el, evnt) {
     if (!el) {
       return;
     }
@@ -114,9 +178,9 @@ const mxJSColor = {
       // alternatively use the traditional event model (IE5)
       el["on" + evnt]();
     }
-  },
+  };
 
-  getElementPos: function (e) {
+static  getElementPos(e) {
     var e1 = e,
       e2 = e;
     var x = 0,
@@ -132,13 +196,13 @@ const mxJSColor = {
       y -= e2.scrollTop;
     }
     return [x, y];
-  },
+  };
 
-  getElementSize: function (e) {
+static  getElementSize(e) {
     return [e.offsetWidth, e.offsetHeight];
-  },
+  };
 
-  getRelMousePos: function (e) {
+static   getRelMousePos(e) {
     var x = 0,
       y = 0;
     if (!e) {
@@ -152,9 +216,9 @@ const mxJSColor = {
       y = e.layerY;
     }
     return { x: x, y: y };
-  },
+  };
 
-  getViewPos: function () {
+static  getViewPos () {
     if (typeof window.pageYOffset === "number") {
       return [window.pageXOffset, window.pageYOffset];
     } else if (
@@ -174,9 +238,9 @@ const mxJSColor = {
     } else {
       return [0, 0];
     }
-  },
+  };
 
-  getViewSize: function () {
+static  getViewSize() {
     if (typeof window.innerWidth === "number") {
       return [window.innerWidth, window.innerHeight];
     } else if (
@@ -196,139 +260,144 @@ const mxJSColor = {
     } else {
       return [0, 0];
     }
-  },
+  };
+};
 
-  URI: function (uri) {
-    // See RFC3986
-
-    this.scheme = null;
-    this.authority = null;
-    this.path = "";
-    this.query = null;
-    this.fragment = null;
-
-    this.parse = function (uri) {
-      var m = uri.match(
-        /^(([A-Za-z][0-9A-Za-z+.-]*)(:))?((\/\/)([^\/?#]*))?([^?#]*)((\?)([^#]*))?((#)(.*))?/,
-      );
-      this.scheme = m[3] ? m[2] : null;
-      this.authority = m[5] ? m[6] : null;
-      this.path = m[7];
-      this.query = m[9] ? m[10] : null;
-      this.fragment = m[12] ? m[13] : null;
-      return this;
-    };
-
-    this.toString = function () {
-      var result = "";
-      if (this.scheme !== null) {
-        result = result + this.scheme + ":";
-      }
-      if (this.authority !== null) {
-        result = result + "//" + this.authority;
-      }
-      if (this.path !== null) {
-        result = result + this.path;
-      }
-      if (this.query !== null) {
-        result = result + "?" + this.query;
-      }
-      if (this.fragment !== null) {
-        result = result + "#" + this.fragment;
-      }
-      return result;
-    };
-
-    this.toAbsolute = function (base) {
-      var base = new mxJSColor.URI(base);
-      var r = this;
-      var t = new mxJSColor.URI();
-
-      if (base.scheme === null) {
-        return false;
-      }
-
-      if (
-        r.scheme !== null &&
-        r.scheme.toLowerCase() === base.scheme.toLowerCase()
-      ) {
-        r.scheme = null;
-      }
-
-      if (r.scheme !== null) {
-        t.scheme = r.scheme;
-        t.authority = r.authority;
-        t.path = removeDotSegments(r.path);
-        t.query = r.query;
-      } else {
-        if (r.authority !== null) {
-          t.authority = r.authority;
-          t.path = removeDotSegments(r.path);
-          t.query = r.query;
-        } else {
-          if (r.path === "") {
-            // TODO: == or === ?
-            t.path = base.path;
-            if (r.query !== null) {
-              t.query = r.query;
-            } else {
-              t.query = base.query;
-            }
-          } else {
-            if (r.path.substr(0, 1) === "/") {
-              t.path = removeDotSegments(r.path);
-            } else {
-              if (base.authority !== null && base.path === "") {
-                // TODO: == or === ?
-                t.path = "/" + r.path;
-              } else {
-                t.path = base.path.replace(/[^\/]+$/, "") + r.path;
-              }
-              t.path = removeDotSegments(t.path);
-            }
-            t.query = r.query;
-          }
-          t.authority = base.authority;
-        }
-        t.scheme = base.scheme;
-      }
-      t.fragment = r.fragment;
-
-      return t;
-    };
-
-    function removeDotSegments(path) {
-      var out = "";
-      while (path) {
-        if (path.substr(0, 3) === "../" || path.substr(0, 2) === "./") {
-          path = path.replace(/^\.+/, "").substr(1);
-        } else if (path.substr(0, 3) === "/./" || path === "/.") {
-          path = "/" + path.substr(3);
-        } else if (path.substr(0, 4) === "/../" || path === "/..") {
-          path = "/" + path.substr(4);
-          out = out.replace(/\/?[^\/]*$/, "");
-        } else if (path === "." || path === "..") {
-          path = "";
-        } else {
-          var rm = path.match(/^\/?[^\/]*/)[0];
-          path = path.substr(rm.length);
-          out = out + rm;
-        }
-      }
-      return out;
-    }
-
-    if (uri) {
-      this.parse(uri);
-    }
-  },
-
+///*
+//  class URI  {
+//    // See RFC3986
+//    constructor(){
+//       this.scheme = null;
+//       this.authority = null;
+//       this.path = "";
+//       this.query = null;
+//       this.fragment = null;
+//    }
+//    parse(uri) {
+//      var m = uri.match(
+//        /^(([A-Za-z][0-9A-Za-z+.-]*)(:))?((\/\/)([^\/?#]*))?([^?#]*)((\?)([^#]*))?((#)(.*))?/,
+//      );
+//      this.scheme = m[3] ? m[2] : null;
+//      this.authority = m[5] ? m[6] : null;
+//      this.path = m[7];
+//      this.query = m[9] ? m[10] : null;
+//      this.fragment = m[12] ? m[13] : null;
+//      return this;
+//    };
+//
+//    toString() {
+//      var result = "";
+//      if (this.scheme !== null) {
+//        result = result + this.scheme + ":";
+//      }
+//      if (this.authority !== null) {
+//        result = result + "//" + this.authority;
+//      }
+//      if (this.path !== null) {
+//        result = result + this.path;
+//      }
+//      if (this.query !== null) {
+//        result = result + "?" + this.query;
+//      }
+//      if (this.fragment !== null) {
+//        result = result + "#" + this.fragment;
+//      }
+//      return result;
+//    };
+//
+//    toAbsolute(base) {
+//      var base = new mxJSColor.URI(base);
+//      var r = this;
+//      var t = new mxJSColor.URI();
+//
+//      if (base.scheme === null) {
+//        return false;
+//      }
+//
+//      if (
+//        r.scheme !== null &&
+//        r.scheme.toLowerCase() === base.scheme.toLowerCase()
+//      ) {
+//        r.scheme = null;
+//      }
+//
+//      if (r.scheme !== null) {
+//        t.scheme = r.scheme;
+//        t.authority = r.authority;
+//        t.path = removeDotSegments(r.path);
+//        t.query = r.query;
+//      } else {
+//        if (r.authority !== null) {
+//          t.authority = r.authority;
+//          t.path = removeDotSegments(r.path);
+//          t.query = r.query;
+//        } else {
+//          if (r.path === "") {
+//            // TODO: == or === ?
+//            t.path = base.path;
+//            if (r.query !== null) {
+//              t.query = r.query;
+//            } else {
+//              t.query = base.query;
+//            }
+//          } else {
+//            if (r.path.substr(0, 1) === "/") {
+//              t.path = removeDotSegments(r.path);
+//            } else {
+//              if (base.authority !== null && base.path === "") {
+//                // TODO: == or === ?
+//                t.path = "/" + r.path;
+//              } else {
+//                t.path = base.path.replace(/[^\/]+$/, "") + r.path;
+//              }
+//              t.path = removeDotSegments(t.path);
+//            }
+//            t.query = r.query;
+//          }
+//          t.authority = base.authority;
+//        }
+//        t.scheme = base.scheme;
+//      }
+//      t.fragment = r.fragment;
+//
+//      return t;
+//    };
+//
+//    removeDotSegments(path) {
+//      var out = "";
+//      while (path) {
+//        if (path.substr(0, 3) === "../" || path.substr(0, 2) === "./") {
+//          path = path.replace(/^\.+/, "").substr(1);
+//        } else if (path.substr(0, 3) === "/./" || path === "/.") {
+//          path = "/" + path.substr(3);
+//        } else if (path.substr(0, 4) === "/../" || path === "/..") {
+//          path = "/" + path.substr(4);
+//          out = out.replace(/\/?[^\/]*$/, "");
+//        } else if (path === "." || path === "..") {
+//          path = "";
+//        } else {
+//          var rm = path.match(/^\/?[^\/]*/)[0];
+//          path = path.substr(rm.length);
+//          out = out + rm;
+//        }
+//      }
+//      return out;
+//    }
+//
+//    if (uri) {
+//      this.parse(uri);
+//    }
+//
+//  }// class URI end
+//*/
   /*
    * Usage example:
    * var myColor = new mxJSColor.color(myInputElement)
    */
 
-  color: function (target, prop) {
+export class  Color{
+  construcor(target, prop) {
+    this.target = target;
     this.required = true; // refuse empty values?
     this.adjust = true; // adjust value to uniform notation?
     this.hash = false; // prefix color with # symbol?
@@ -363,17 +432,18 @@ const mxJSColor = {
         this[p] = prop[p];
       }
     }
+ } // end constructor
 
-    this.hidePicker = function () {
-      if (isPickerOwner()) {
-        removePicker();
+    hidePicker() {
+      if (this.isPickerOwner()) {
+        this.removePicker();
       }
     };
 
-    this.showPicker = function () {
-      if (!isPickerOwner()) {
-        var tp = mxJSColor.getElementPos(target); // target pos
-        var ts = mxJSColor.getElementSize(target); // target size
+    showPicker() {
+      if (!this.isPickerOwner()) {
+        var tp = mxJSColor.getElementPos(this.target); // target pos
+        var ts = mxJSColor.getElementSize(this.target); // target size
         var vp = mxJSColor.getViewPos(); // view pos
         var vs = mxJSColor.getViewSize(); // view size
         var ps = getPickerDims(this); // picker size
@@ -427,8 +497,8 @@ const mxJSColor = {
       }
     };
 
-    this.importColor = function () {
-      if (!valueElement) {
+    importColor() {
+      if (!this.valueElement) {
         this.exportColor();
       } else {
         if (!this.adjust) {
@@ -456,7 +526,7 @@ const mxJSColor = {
       }
     };
 
-    this.exportColor = function (flags) {
+    exportColor(flags) {
       if (!(flags & leaveValue) && valueElement) {
         var value = this.toString();
         if (this.caps) {
@@ -483,7 +553,7 @@ const mxJSColor = {
       }
     };
 
-    this.fromHSV = function (h, s, v, flags) {
+    fromHSV(h, s, v, flags) {
       // null = don't change
       (h < 0 && (h = 0)) || (h > 6 && (h = 6));
       (s < 0 && (s = 0)) || (s > 1 && (s = 1));
@@ -496,7 +566,7 @@ const mxJSColor = {
       this.exportColor(flags);
     };
 
-    this.fromRGB = function (r, g, b, flags) {
+    romRGB(r, g, b, flags) {
       // null = don't change
       (r < 0 && (r = 0)) || (r > 1 && (r = 1));
       (g < 0 && (g = 0)) || (g > 1 && (g = 1));
@@ -516,7 +586,7 @@ const mxJSColor = {
       this.exportColor(flags);
     };
 
-    this.fromString = function (hex, flags) {
+    fromString(hex, flags) {
       var m = hex.match(/^\W*([0-9A-F]{3}([0-9A-F]{3})?)\W*$/i);
       if (!m) {
         return false;
@@ -542,7 +612,7 @@ const mxJSColor = {
       }
     };
 
-    this.toString = function () {
+    toString() {
       return (
         (0x100 | Math.round(255 * this.rgb[0])).toString(16).substr(1) +
         (0x100 | Math.round(255 * this.rgb[1])).toString(16).substr(1) +
@@ -550,7 +620,7 @@ const mxJSColor = {
       );
     };
 
-    function RGB_HSV(r, g, b) {
+    RGB_HSV(r, g, b) {
       var n = Math.min(Math.min(r, g), b);
       var v = Math.max(Math.max(r, g), b);
       var m = v - n;
@@ -562,7 +632,7 @@ const mxJSColor = {
       return [h === 6 ? 0 : h, m / v, v];
     }
 
-    function HSV_RGB(h, s, v) {
+    HSV_RGB(h, s, v) {
       if (h === null) {
         return [v, v, v];
       }
@@ -587,14 +657,14 @@ const mxJSColor = {
       }
     }
 
-    function removePicker() {
+    removePicker() {
       delete mxJSColor.picker.owner;
       document
         .getElementsByTagName("body")[0]
         .removeChild(mxJSColor.picker.boxB);
     }
 
-    function drawPicker(x, y) {
+    drawPicker(x, y) {
       if (!mxJSColor.picker) {
         mxJSColor.picker = {
           box: document.createElement("div"),
@@ -825,7 +895,7 @@ const mxJSColor = {
       document.getElementsByTagName("body")[0].appendChild(p.boxB);
     }
 
-    function getPickerDims(o) {
+    getPickerDims(o) {
       var dims = [
         2 * o.pickerInset +
           2 * o.pickerFace +
@@ -845,7 +915,7 @@ const mxJSColor = {
       return dims;
     }
 
-    function redrawPad() {
+    redrawPad() {
       // redraw the pad pointer
       switch (modeID) {
         case 0:
@@ -932,7 +1002,7 @@ const mxJSColor = {
       }
     }
 
-    function redrawSld() {
+    redrawSld() {
       // redraw the slider pointer
       switch (modeID) {
         case 0:
@@ -954,11 +1024,11 @@ const mxJSColor = {
         "px";
     }
 
-    function isPickerOwner() {
+    isPickerOwner() {
       return mxJSColor.picker && mxJSColor.picker.owner === THIS;
     }
 
-    function blurTarget() {
+    blurTarget() {
       if (valueElement === target) {
         THIS.importColor();
       }
@@ -967,13 +1037,13 @@ const mxJSColor = {
       }
     }
 
-    function blurValue() {
+    blurValue() {
       if (valueElement !== target) {
         THIS.importColor();
       }
     }
 
-    function setPad(e) {
+    setPad(e) {
       var mpos = mxJSColor.getRelMousePos(e);
       var x = mpos.x - THIS.pickerFace - THIS.pickerInset;
       var y = mpos.y - THIS.pickerFace - THIS.pickerInset;
@@ -997,7 +1067,7 @@ const mxJSColor = {
       }
     }
 
-    function setSld(e) {
+    setSld(e) {
       var mpos = mxJSColor.getRelMousePos(e);
       var y = mpos.y - THIS.pickerFace - THIS.pickerInset;
       switch (modeID) {
@@ -1020,7 +1090,7 @@ const mxJSColor = {
       }
     }
 
-    function dispatchImmediateChange() {
+    dispatchImmediateChange() {
       if (THIS.onImmediateChange) {
         if (typeof THIS.onImmediateChange === "string") {
           eval(THIS.onImmediateChange);
@@ -1029,7 +1099,7 @@ const mxJSColor = {
         }
       }
     }
-
+/*
     var THIS = this;
     var modeID = this.pickerMode.toLowerCase() === "hvs" ? 1 : 0;
     var abortBlur = false;
@@ -1042,17 +1112,6 @@ const mxJSColor = {
       leavePad = 1 << 2,
       leaveSld = 1 << 3;
 
-    // target
-    /*mxJSColor.addEvent(target, 'focus', function() {
-			if(THIS.pickerOnfocus) { THIS.showPicker(); }
-		});
-		mxJSColor.addEvent(target, 'blur', function() {
-			if(!abortBlur) {
-				window.setTimeout(function(){ abortBlur || blurTarget(); abortBlur=false; }, 0);
-			} else {
-				abortBlur = false;
-			}
-		});*/
 
     // valueElement
     if (valueElement) {
@@ -1088,9 +1147,136 @@ const mxJSColor = {
     mxJSColor.requireImage("arrow.gif");
 
     this.importColor();
-  },
-};
 
-mxJSColor.install();
+*/
 
-export {mxJSColor};
+  } // end color
+
+
+  class URI  {
+    // See RFC3986
+    constructor(){
+       this.scheme = null;
+       this.authority = null;
+       this.path = "";
+       this.query = null;
+       this.fragment = null;
+    }
+    parse(uri) {
+      var m = uri.match(
+        /^(([A-Za-z][0-9A-Za-z+.-]*)(:))?((\/\/)([^\/?#]*))?([^?#]*)((\?)([^#]*))?((#)(.*))?/,
+      );
+      this.scheme = m[3] ? m[2] : null;
+      this.authority = m[5] ? m[6] : null;
+      this.path = m[7];
+      this.query = m[9] ? m[10] : null;
+      this.fragment = m[12] ? m[13] : null;
+      return this;
+    };
+
+    toString() {
+      var result = "";
+      if (this.scheme !== null) {
+        result = result + this.scheme + ":";
+      }
+      if (this.authority !== null) {
+        result = result + "//" + this.authority;
+      }
+      if (this.path !== null) {
+        result = result + this.path;
+      }
+      if (this.query !== null) {
+        result = result + "?" + this.query;
+      }
+      if (this.fragment !== null) {
+        result = result + "#" + this.fragment;
+      }
+      return result;
+    };
+
+    toAbsolute(base) {
+      var base = new mxJSColor.URI(base);
+      var r = this;
+      var t = new mxJSColor.URI();
+
+      if (base.scheme === null) {
+        return false;
+      }
+
+      if (
+        r.scheme !== null &&
+        r.scheme.toLowerCase() === base.scheme.toLowerCase()
+      ) {
+        r.scheme = null;
+      }
+
+      if (r.scheme !== null) {
+        t.scheme = r.scheme;
+        t.authority = r.authority;
+        t.path = removeDotSegments(r.path);
+        t.query = r.query;
+      } else {
+        if (r.authority !== null) {
+          t.authority = r.authority;
+          t.path = removeDotSegments(r.path);
+          t.query = r.query;
+        } else {
+          if (r.path === "") {
+            // TODO: == or === ?
+            t.path = base.path;
+            if (r.query !== null) {
+              t.query = r.query;
+            } else {
+              t.query = base.query;
+            }
+          } else {
+            if (r.path.substr(0, 1) === "/") {
+              t.path = removeDotSegments(r.path);
+            } else {
+              if (base.authority !== null && base.path === "") {
+                // TODO: == or === ?
+                t.path = "/" + r.path;
+              } else {
+                t.path = base.path.replace(/[^\/]+$/, "") + r.path;
+              }
+              t.path = removeDotSegments(t.path);
+            }
+            t.query = r.query;
+          }
+          t.authority = base.authority;
+        }
+        t.scheme = base.scheme;
+      }
+      t.fragment = r.fragment;
+
+      return t;
+    };
+
+    removeDotSegments(path) {
+      var out = "";
+      while (path) {
+        if (path.substr(0, 3) === "../" || path.substr(0, 2) === "./") {
+          path = path.replace(/^\.+/, "").substr(1);
+        } else if (path.substr(0, 3) === "/./" || path === "/.") {
+          path = "/" + path.substr(3);
+        } else if (path.substr(0, 4) === "/../" || path === "/..") {
+          path = "/" + path.substr(4);
+          out = out.replace(/\/?[^\/]*$/, "");
+        } else if (path === "." || path === "..") {
+          path = "";
+        } else {
+          var rm = path.match(/^\/?[^\/]*/)[0];
+          path = path.substr(rm.length);
+          out = out + rm;
+        }
+      }
+      return out;
+    }
+
+    if (uri) {
+      this.parse(uri);
+    }
+
+  }// class URI end
+
+

@@ -6,6 +6,8 @@
  */
 
 import * as m from "../../../../../dist/mxgraph.es.js";
+import { Dialog } from "./Editor.js";
+import {mxJSColor} from "../jscolor/jscolor.js";
 
 //export var OpenDialog = function () {
 export function OpenDialog() {
@@ -82,16 +84,17 @@ export function ColorDialog(editorUi, color, apply, cancelFn) {
     }
   };
 
-  var picker = new m.mxJSColor.color(input);
+  var picker = new mxJSColor.color(input);
+  //var picker = new Color(input);
   picker.pickerOnfocus = false;
   picker.showPicker();
 
   var div = document.createElement("div");
-  m.mxJSColor.picker.box.style.position = "relative";
-  m.mxJSColor.picker.box.style.width = "230px";
-  m.mxJSColor.picker.box.style.height = "100px";
-  m.mxJSColor.picker.box.style.paddingBottom = "10px";
-  div.appendChild(m.mxJSColor.picker.box);
+  mxJSColor.picker.box.style.position = "relative";
+  mxJSColor.picker.box.style.width = "230px";
+  mxJSColor.picker.box.style.height = "100px";
+  mxJSColor.picker.box.style.paddingBottom = "10px";
+  div.appendChild(mxJSColor.picker.box);
 
   var center = document.createElement("center");
 

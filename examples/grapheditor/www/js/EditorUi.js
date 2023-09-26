@@ -15,6 +15,7 @@ import { Toolbar } from "./Toolbar.js";
 import { Dialog } from "./Editor.js";
 import { ErrorDialog } from "./Editor.js";
 import { ColorDialog } from "./Dialogs.js";
+//import { Menus } from "./Menus.js";
 
 export class EditorUi extends m.mxEventSource {
   /**
@@ -794,12 +795,14 @@ export class EditorUi extends m.mxEventSource {
 
           if (this.toolbar != null) {
             this.toolbar.setFontName(
-              graph.currentVertexStyle["fontFamily"] ||
-                Menus.prototype.defaultFont,
+              //graph.currentVertexStyle["fontFamily"] ||
+              //  Menus.prototype.defaultFont,
+              graph.currentVertexStyle["fontFamily"]    /* GS-PD */
             );
             this.toolbar.setFontSize(
-              graph.currentVertexStyle["fontSize"] ||
-                Menus.prototype.defaultFontSize,
+              //graph.currentVertexStyle["fontSize"] ||
+              //  Menus.prototype.defaultFontSize,
+              graph.currentVertexStyle["fontSize"]      /* GS-PD */
             );
 
             if (this.toolbar.edgeStyleMenu != null) {

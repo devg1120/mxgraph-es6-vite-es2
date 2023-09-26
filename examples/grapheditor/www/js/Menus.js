@@ -34,6 +34,8 @@ export class Menus extends m.mxEventSource {
       new Image().src = this.checkmarkImage;
     }
   }
+
+
 }
 
 /**
@@ -1880,5 +1882,6 @@ Menu.prototype.execute = function (menu, parent) {
  * "Installs" menus in EditorUi.
  */
 EditorUi.prototype.createMenus = function () {
+
   return new Menus(this);
 };
