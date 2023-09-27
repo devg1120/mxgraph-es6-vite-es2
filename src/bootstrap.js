@@ -49,6 +49,9 @@ import { mxRectangleShape } from "@mxgraph/shape/mxRectangleShape";
 import { mxConnector } from "@mxgraph/shape/mxConnector";
 import { mxImageShape } from "@mxgraph/shape/mxImageShape";
 
+//import { mxGraphModel } from '@mxgraph/model/mxGraphModel';  /*GS*/
+//import { mxCell } from '@mxgraph/model/mxCell';  /*GS*/
+//import { mxCellPath } from '@mxgraph/model/mxCellPath';  /*GS*/
 //import { mxGeometry } from '@mxgraph/model/mxGeometry';  /*GS*/
 
 export function bootstrap() {
@@ -311,4 +314,49 @@ export function bootstrap() {
     mxConstants.PERIMETER_HEXAGON,
     mxPerimeter.HexagonPerimeter,
   );
+
+//window.mxStylesheet = { name : "mxStylesheet"};
+//window.mxGraphModel = { mame : "mxGraphModel" };
+//window.mxGeometry = { mame : "mxGeometry" };
+//window.mxPoint = { mame : "mxPoint" };
+
+/*
+ window.mxStylesheet = function()
+{
+	this.styles = new Object();
+
+	this.putDefaultVertexStyle(this.createDefaultVertexStyle());
+	this.putDefaultEdgeStyle(this.createDefaultEdgeStyle());
+}
+
+window.mxGraphModel = function(root)
+{
+	this.currentEdit = this.createUndoableEdit();
+	
+	if (root != null)
+	{
+		this.setRoot(root);
+	}
+	else
+	{
+		this.clear();
+	}
+}
+
+window.mxGeometry = function(x, y, width, height)
+{
+	mxRectangle.call(this, x, y, width, height);
+} 
+
+window.mxPoint = function(x, y)
+{
+	this.x = (x != null) ? x : 0;
+	this.y = (y != null) ? y : 0;
+} 
+*/
+
+//window.Array = function() { [native code] } 
+
+
+
 }

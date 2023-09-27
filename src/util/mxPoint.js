@@ -9,9 +9,10 @@ export class mxPoint {
   }
 
   clone() {
-    //return cloneObj(this);
-    let clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
-    return clone;
+    //console.log("mxPoint clone");
+    return cloneObj(this);
+    ///let clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+    //return clone;
   }
 }
 

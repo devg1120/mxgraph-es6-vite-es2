@@ -8,7 +8,6 @@ export class mxCodecRegistry {
   static register(codec) {
     if (codec != null) {
       var name = codec.getName();
-	    console.log("mxCodecRegistry::register", name);
       mxCodecRegistry.codecs[name] = codec;
       var classname = mxUtils.getFunctionName(codec.template.constructor);
 
@@ -25,12 +24,10 @@ export class mxCodecRegistry {
   }
 
   static getCodec(ctor) {
-	  console.log("mxCodecRegistry::getCodec", ctor);
     var codec = null;
 
     if (ctor != null) {
       var name = mxUtils.getFunctionName(ctor);
-      console.log("function name", ctor,name);
       var tmp = mxCodecRegistry.aliases[name];
 
       if (tmp != null) {
@@ -38,7 +35,6 @@ export class mxCodecRegistry {
       }
 
       codec = mxCodecRegistry.codecs[name];
-      //codec = mxCodecRegistry.codecs[ctor];
 
       if (codec == null) {
         try {

@@ -30,7 +30,6 @@ export class EditorUi extends m.mxEventSource {
   constructor(editor, container, lightbox) {
     //m.mxEventSource.call(this);
     super();
-    //	 console.log(m.mxUtils);
     //	 m.mxUtils.gtest("gtest TEST OK");
     this.destroyFunctions = [];
     this.editor = editor || new Editor();
@@ -3095,7 +3094,6 @@ EditorUi.prototype.open = function () {
       window.opener.openFile.setConsumer(
         m.mxUtils.bind(this, function (xml, filename) {
           try {
-		  console.log("open file:", xml);
             var doc = m.mxUtils.parseXml(xml);
             this.editor.setGraphXml(doc.documentElement);
             this.editor.setModified(false);
@@ -4486,7 +4484,6 @@ EditorUi.prototype.pickColor = function (color, apply) {
  * Adds the label menu items to the given menu and parent.
  */
 EditorUi.prototype.openFile = function () {
-   console.log("EditorUi.prototype.openFile");
 
   // Closes dialog after open
   window.openFile = new OpenFile(
@@ -4599,7 +4596,6 @@ EditorUi.prototype.isCompatibleString = function (data) {
  */
 EditorUi.prototype.saveFile = function (forceDialog) {
 
-   console.log("EditorUi.prototype.saveFile ");
 
 
   if (!forceDialog && this.editor.filename != null) {
@@ -4632,7 +4628,6 @@ EditorUi.prototype.saveFile = function (forceDialog) {
  * Saves the current graph under the given filename.
  */
 EditorUi.prototype.save = function (name) {
-   console.log("EditorUi.prototype.save ");
   if (name != null) {
     if (this.editor.graph.isEditing()) {
       this.editor.graph.stopEditing();
@@ -4640,7 +4635,6 @@ EditorUi.prototype.save = function (name) {
 
     var xml = m.mxUtils.getXml(this.editor.getGraphXml());
 
-console.log(xml);
 
 const blob = new Blob([xml], {type: 'text/plain'});
 //const name = 'test.txt';

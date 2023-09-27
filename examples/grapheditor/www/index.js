@@ -120,3 +120,12 @@ var mxLoadResources = false;
     },
   );
 })();
+
+(function(){
+    window.global_a = "WINDOW GGGGG"; // 『var』を抜いて定義します。
+})();
+    var global_a = "GGGGG"; // 『var』を抜いて定義します。
+ 
+console.log(global_a); 
+console.log(window["global_a"]); 
+
