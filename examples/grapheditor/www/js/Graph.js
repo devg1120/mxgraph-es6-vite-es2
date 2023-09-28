@@ -8085,7 +8085,7 @@ if (typeof m.mxVertexHandler != "undefined") {
       var pt = m.mxUtils.convertPoint(
         this.container,
         m.mxEvent.getClientX(evt),
-        mxEvent.getClientY(evt),
+        m.mxEvent.getClientY(evt),
       );
 
       // Automatically adds new child cells to edges on double click

@@ -315,12 +315,12 @@ export function bootstrap() {
     mxPerimeter.HexagonPerimeter,
   );
 
-//window.mxStylesheet = { name : "mxStylesheet"};
-//window.mxGraphModel = { mame : "mxGraphModel" };
-//window.mxGeometry = { mame : "mxGeometry" };
-//window.mxPoint = { mame : "mxPoint" };
+  //window.mxStylesheet = { name : "mxStylesheet"};
+  //window.mxGraphModel = { mame : "mxGraphModel" };
+  //window.mxGeometry = { mame : "mxGeometry" };
+  //window.mxPoint = { mame : "mxPoint" };
 
-/*
+  /*
  window.mxStylesheet = function()
 {
 	this.styles = new Object();
@@ -355,8 +355,5 @@ window.mxPoint = function(x, y)
 } 
 */
 
-//window.Array = function() { [native code] } 
-
-
-
+  //window.Array = function() { [native code] }
 }
