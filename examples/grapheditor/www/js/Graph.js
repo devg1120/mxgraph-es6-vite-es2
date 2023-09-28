@@ -201,12 +201,12 @@ export class Graph extends m.mxGraph {
   /**
    * Default size for line jumps.
    */
-  lineJumpsEnabled = true;
+static  lineJumpsEnabled = true;
 
   /**
    * Default size for line jumps.
    */
-  defaultJumpSize = 6;
+static  defaultJumpSize = 6;
 
   /**
    * Minimum width for table columns.
@@ -5875,6 +5875,7 @@ TableLayout.prototype.execute = function (parent) {
     var pts = state.absolutePoints;
 
     if (Graph.lineJumpsEnabled) {
+
       var changed = state.routedPoints != null;
       var actual = null;
 

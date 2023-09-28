@@ -6946,8 +6946,12 @@ StyleFormatPanel.prototype.addStroke = function (container) {
  * Adds UI for configuring line jumps.
  */
 StyleFormatPanel.prototype.addLineJumps = function (container) {
+
+	console.log("addLineJumps ");
   var ss = this.format.getSelectionState();
 
+	console.log(" Graph.lineJumpsEnabled ",  Graph.lineJumpsEnabled);
+	console.log("ss.linejumps ", ss.lineJumps);
   if (
     Graph.lineJumpsEnabled &&
     ss.edges.length > 0 &&
