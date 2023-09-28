@@ -123,6 +123,10 @@ export class mxText extends mxShape {
         mxUtils.isNode(this.value) ||
         this.dialect == mxConstants.DIALECT_STRICTHTML;
       var fmt = realHtml || c instanceof mxVmlCanvas2D ? "html" : "";
+
+	  realHtml = true;  /* GS-PD*/
+	  fmt = 'html';  /* GS-PD*/
+
       var val = this.value;
 
       if (!realHtml && fmt == "html") {

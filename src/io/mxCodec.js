@@ -181,7 +181,6 @@ export class mxCodec {
 
     var dec = mxCodecRegistry.getCodec(node.nodeName);
     if (dec != null) {
-      console.log("mxCodec:", node.nodeName, "dec");
       try {
         /* try GS */
         obj = dec.decode(this, node, into);

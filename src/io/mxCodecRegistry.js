@@ -63,7 +63,6 @@ export class mxCodecRegistry {
       try {
         let classname = name;
         let obj = eval("new " + classname + "()");
-        console.dir(obj);
         codec = new mxObjectCodec(obj);
         mxCodecRegistry.register(codec);
       } catch (e) {

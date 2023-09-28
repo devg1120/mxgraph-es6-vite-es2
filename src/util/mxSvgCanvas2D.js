@@ -862,6 +862,7 @@ export class mxSvgCanvas2D extends mxAbstractCanvas2D {
   ) {
     var group = this.createElement("g");
     var fo = this.createElement("foreignObject");
+
     fo.setAttribute("style", "overflow: visible; text-align: left;");
     fo.setAttribute("pointer-events", "none");
 
