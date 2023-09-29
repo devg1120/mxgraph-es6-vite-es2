@@ -16,14 +16,14 @@ export class mxGraphHandler {
   cloneEnabled = true;
   moveEnabled = true;
 static  guidesEnabled = false;
-  handlesVisible = true;
+static  handlesVisible = true;
   guide = null;
   currentDx = null;
   currentDy = null;
   updateCursor = true;
   selectEnabled = true;
-  removeCellsFromParent = true;
-  removeEmptyParents = false;
+static  removeCellsFromParent = true;
+static  removeEmptyParents = false;
   connectOnDrop = false;
   scrollOnMove = true;
   minimumSize = 6;
@@ -1079,7 +1079,7 @@ static  maxLivePreview = 0;
     this.cell = null;
   }
 
-  shouldRemoveCellsFromParent(parent, cells, evt) {
+shouldRemoveCellsFromParent(parent, cells, evt) {
     if (this.graph.getModel().isVertex(parent)) {
       var pState = this.graph.getView().getState(parent);
 
