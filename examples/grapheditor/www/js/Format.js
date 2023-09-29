@@ -13,7 +13,6 @@ import { ChangePageSetup  } from "./EditorUi.js";
 export function Format(editorUi, container) {
   this.editorUi = editorUi;
   this.container = container;
-  //console.log(m.mxUtils);
   //m.mxUtils.gtest("Format gtest TEST OK");   /* GS-PD */
 }
 
@@ -1367,7 +1366,6 @@ BaseFormatPanel.prototype.addArrow = function (elt, height) {
   //     +
   //  '" style="margin-bottom:4px;">';
 
-  ////console.log(m.mxUtils);
   ////m.mxUtils.gtest("TEST OK");   /* GS-PD */
   //m.mxUtils.setOpacity(arrow, 70);   /* GS-PD */
 
@@ -6947,11 +6945,8 @@ StyleFormatPanel.prototype.addStroke = function (container) {
  */
 StyleFormatPanel.prototype.addLineJumps = function (container) {
 
-	console.log("addLineJumps ");
   var ss = this.format.getSelectionState();
 
-	console.log(" Graph.lineJumpsEnabled ",  Graph.lineJumpsEnabled);
-	console.log("ss.linejumps ", ss.lineJumps);
   if (
     Graph.lineJumpsEnabled &&
     ss.edges.length > 0 &&

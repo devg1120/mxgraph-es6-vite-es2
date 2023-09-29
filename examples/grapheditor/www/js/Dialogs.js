@@ -8,6 +8,7 @@
 import * as m from "../../../../../dist/mxgraph.es.js";
 import { Editor } from "./Editor.js";
 import { Dialog } from "./Editor.js";
+import { EditorUi } from "./EditorUi.js";
 import {mxJSColor} from "../jscolor/jscolor.js";
 
 //export var OpenDialog = function () {
@@ -1831,7 +1832,8 @@ var LinkDialog = function (editorUi, initialValue, btnLabel, fn) {
 /**
  *
  */
-var OutlineWindow = function (editorUi, x, y, w, h) {
+//var OutlineWindow = function (editorUi, x, y, w, h) {
+export function OutlineWindow(editorUi, x, y, w, h) {
   var graph = editorUi.editor.graph;
 
   var div = document.createElement("div");
@@ -1841,8 +1843,8 @@ var OutlineWindow = function (editorUi, x, y, w, h) {
   div.style.border = "1px solid whiteSmoke";
   div.style.overflow = "hidden";
 
-  this.window = new mxWindow(
-    mxResources.get("outline"),
+  this.window = new m.mxWindow(
+    m.mxResources.get("outline"),
     div,
     x,
     y,
@@ -1851,7 +1853,7 @@ var OutlineWindow = function (editorUi, x, y, w, h) {
     true,
     true,
   );
-  this.window.minimumSize = new mxRectangle(0, 0, 80, 80);
+  this.window.minimumSize = new m.mxRectangle(0, 0, 80, 80);
   this.window.destroyOnClose = false;
   this.window.setMaximizable(false);
   this.window.setResizable(true);
@@ -1872,38 +1874,38 @@ var OutlineWindow = function (editorUi, x, y, w, h) {
     y = Math.max(0, Math.min(y, ih - this.table.clientHeight - 48));
 
     if (this.getX() != x || this.getY() != y) {
-      mxWindow.prototype.setLocation.apply(this, arguments);
+      m.mxWindow.prototype.setLocation.apply(this, arguments);
     }
   };
 
-  var resizeListener = mxUtils.bind(this, function () {
+  var resizeListener = m.mxUtils.bind(this, function () {
     var x = this.window.getX();
     var y = this.window.getY();
 
     this.window.setLocation(x, y);
   });
 
-  mxEvent.addListener(window, "resize", resizeListener);
+  m.mxEvent.addListener(window, "resize", resizeListener);
 
   var outline = editorUi.createOutline(this.window);
 
   this.destroy = function () {
-    mxEvent.removeListener(window, "resize", resizeListener);
+    m.mxEvent.removeListener(window, "resize", resizeListener);
     this.window.destroy();
     outline.destroy();
   };
 
   this.window.addListener(
-    mxEvent.RESIZE,
-    mxUtils.bind(this, function () {
+    m.mxEvent.RESIZE,
+    m.mxUtils.bind(this, function () {
       outline.update(false);
       outline.outline.sizeDidChange();
     }),
   );
 
   this.window.addListener(
-    mxEvent.SHOW,
-    mxUtils.bind(this, function () {
+    m.mxEvent.SHOW,
+    m.mxUtils.bind(this, function () {
       this.window.fit();
       outline.suspended = false;
       outline.outline.refresh();
@@ -1912,23 +1914,23 @@ var OutlineWindow = function (editorUi, x, y, w, h) {
   );
 
   this.window.addListener(
-    mxEvent.HIDE,
-    mxUtils.bind(this, function () {
+    m.mxEvent.HIDE,
+    m.mxUtils.bind(this, function () {
       outline.suspended = true;
     }),
   );
 
   this.window.addListener(
-    mxEvent.NORMALIZE,
-    mxUtils.bind(this, function () {
+    m.mxEvent.NORMALIZE,
+    m.mxUtils.bind(this, function () {
       outline.suspended = false;
       outline.update();
     }),
   );
 
   this.window.addListener(
-    mxEvent.MINIMIZE,
-    mxUtils.bind(this, function () {
+    m.mxEvent.MINIMIZE,
+    m.mxUtils.bind(this, function () {
       outline.suspended = true;
     }),
   );
@@ -1940,12 +1942,12 @@ var OutlineWindow = function (editorUi, x, y, w, h) {
     g.pageScale = graph.pageScale;
     g.pageFormat = graph.pageFormat;
     g.background =
-      graph.background == null || graph.background == mxConstants.NONE
+      graph.background == null || graph.background == m.mxConstants.NONE
         ? graph.defaultPageBackgroundColor
         : graph.background;
     g.pageVisible = graph.pageVisible;
 
-    var current = mxUtils.getCurrentStyle(graph.container);
+    var current = m.mxUtils.getCurrentStyle(graph.container);
     div.style.backgroundColor = current.backgroundColor;
 
     return g;
@@ -1956,11 +1958,11 @@ var OutlineWindow = function (editorUi, x, y, w, h) {
     outline.outline.pageFormat = graph.pageFormat;
     outline.outline.pageVisible = graph.pageVisible;
     outline.outline.background =
-      graph.background == null || graph.background == mxConstants.NONE
+      graph.background == null || graph.background == m.mxConstants.NONE
         ? graph.defaultPageBackgroundColor
         : graph.background;
 
-    var current = mxUtils.getCurrentStyle(graph.container);
+    var current = m.mxUtils.getCurrentStyle(graph.container);
     div.style.backgroundColor = current.backgroundColor;
 
     if (
@@ -1985,13 +1987,13 @@ var OutlineWindow = function (editorUi, x, y, w, h) {
     outline.update(true);
   });
 
-  if (outline.outline.dialect == mxConstants.DIALECT_SVG) {
+  if (outline.outline.dialect == m.mxConstants.DIALECT_SVG) {
     var zoomInAction = editorUi.actions.get("zoomIn");
     var zoomOutAction = editorUi.actions.get("zoomOut");
 
-    mxEvent.addMouseWheelListener(function (evt, up) {
+    m.mxEvent.addMouseWheelListener(function (evt, up) {
       var outlineWheel = false;
-      var source = mxEvent.getSource(evt);
+      var source = m.mxEvent.getSource(evt);
 
       while (source != null) {
         if (source == outline.outline.view.canvas.ownerSVGElement) {
@@ -2016,7 +2018,8 @@ var OutlineWindow = function (editorUi, x, y, w, h) {
 /**
  *
  */
-var LayersWindow = function (editorUi, x, y, w, h) {
+//var LayersWindow = function (editorUi, x, y, w, h) {
+export function LayersWindow(editorUi, x, y, w, h) {
   var graph = editorUi.editor.graph;
 
   var div = document.createElement("div");
@@ -2044,7 +2047,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   var dragSource = null;
   var dropIndex = null;
 
-  mxEvent.addListener(div, "dragover", function (evt) {
+  m.mxEvent.addListener(div, "dragover", function (evt) {
     evt.dataTransfer.dropEffect = "move";
     dropIndex = 0;
     evt.stopPropagation();
@@ -2052,7 +2055,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   });
 
   // Workaround for "no element found" error in FF
-  mxEvent.addListener(div, "drop", function (evt) {
+  m.mxEvent.addListener(div, "drop", function (evt) {
     evt.stopPropagation();
     evt.preventDefault();
   });
@@ -2092,7 +2095,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   removeLink.innerHTML =
     '<div class="geSprite geSprite-delete" style="display:inline-block;"></div>';
 
-  mxEvent.addListener(removeLink, "click", function (evt) {
+  m.mxEvent.addListener(removeLink, "click", function (evt) {
     if (graph.isEnabled()) {
       graph.model.beginUpdate();
       try {
@@ -2101,7 +2104,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
 
         // Creates default layer if no layer exists
         if (graph.model.getChildCount(graph.model.root) == 0) {
-          graph.model.add(graph.model.root, new mxCell());
+          graph.model.add(graph.model.root, new m.mxCell());
           graph.setDefaultParent(null);
         } else if (
           index > 0 &&
@@ -2118,7 +2121,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
       }
     }
 
-    mxEvent.consume(evt);
+    m.mxEvent.consume(evt);
   });
 
   if (!graph.isEnabled()) {
@@ -2130,24 +2133,24 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   var insertLink = link.cloneNode();
   insertLink.setAttribute(
     "title",
-    mxUtils.trim(mxResources.get("moveSelectionTo", ["..."])),
+    m.mxUtils.trim(m.mxResources.get("moveSelectionTo", ["..."])),
   );
   insertLink.innerHTML =
     '<div class="geSprite geSprite-insert" style="display:inline-block;"></div>';
 
-  mxEvent.addListener(insertLink, "click", function (evt) {
+  m.mxEvent.addListener(insertLink, "click", function (evt) {
     if (graph.isEnabled() && !graph.isSelectionEmpty()) {
-      var offset = mxUtils.getOffset(insertLink);
+      var offset = m.mxUtils.getOffset(insertLink);
 
       editorUi.showPopupMenu(
-        mxUtils.bind(this, function (menu, parent) {
+        m.mxUtils.bind(this, function (menu, parent) {
           for (var i = layerCount - 1; i >= 0; i--) {
-            mxUtils.bind(this, function (child) {
+            m.mxUtils.bind(this, function (child) {
               var item = menu.addItem(
                 graph.convertValueToString(child) ||
-                  mxResources.get("background"),
+                  m.mxResources.get("background"),
                 null,
-                mxUtils.bind(this, function () {
+                m.mxUtils.bind(this, function () {
                   graph.moveCells(
                     graph.getSelectionCells(),
                     0,
@@ -2180,14 +2183,14 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   var dataLink = link.cloneNode();
   dataLink.innerHTML =
     '<div class="geSprite geSprite-dots" style="display:inline-block;"></div>';
-  dataLink.setAttribute("title", mxResources.get("rename"));
+  dataLink.setAttribute("title", m.mxResources.get("rename"));
 
-  mxEvent.addListener(dataLink, "click", function (evt) {
+  m.mxEvent.addListener(dataLink, "click", function (evt) {
     if (graph.isEnabled()) {
       editorUi.showDataDialog(selectionLayer);
     }
 
-    mxEvent.consume(evt);
+    m.mxEvent.consume(evt);
   });
 
   if (!graph.isEnabled()) {
@@ -2201,14 +2204,14 @@ var LayersWindow = function (editorUi, x, y, w, h) {
       var label = graph.convertValueToString(layer);
       var dlg = new FilenameDialog(
         editorUi,
-        label || mxResources.get("background"),
-        mxResources.get("rename"),
-        mxUtils.bind(this, function (newValue) {
+        label || m.mxResources.get("background"),
+        m.mxResources.get("rename"),
+        m.mxUtils.bind(this, function (newValue) {
           if (newValue != null) {
             graph.cellLabelChanged(layer, newValue);
           }
         }),
-        mxResources.get("enterName"),
+        m.mxResources.get("enterName"),
       );
       editorUi.showDialog(dlg.container, 300, 100, true, true);
       dlg.init();
@@ -2219,13 +2222,13 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   duplicateLink.innerHTML =
     '<div class="geSprite geSprite-duplicate" style="display:inline-block;"></div>';
 
-  mxEvent.addListener(duplicateLink, "click", function (evt) {
+  m.mxEvent.addListener(duplicateLink, "click", function (evt) {
     if (graph.isEnabled()) {
       var newCell = null;
       graph.model.beginUpdate();
       try {
         newCell = graph.cloneCell(selectionLayer);
-        graph.cellLabelChanged(newCell, mxResources.get("untitledLayer"));
+        graph.cellLabelChanged(newCell, m.mxResources.get("untitledLayer"));
         newCell.setVisible(true);
         newCell = graph.addCell(newCell, graph.model.root);
         graph.setDefaultParent(newCell);
@@ -2248,15 +2251,15 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   var addLink = link.cloneNode();
   addLink.innerHTML =
     '<div class="geSprite geSprite-plus" style="display:inline-block;"></div>';
-  addLink.setAttribute("title", mxResources.get("addLayer"));
+  addLink.setAttribute("title", m.mxResources.get("addLayer"));
 
-  mxEvent.addListener(addLink, "click", function (evt) {
+  m.mxEvent.addListener(addLink, "click", function (evt) {
     if (graph.isEnabled()) {
       graph.model.beginUpdate();
 
       try {
         var cell = graph.addCell(
-          new mxCell(mxResources.get("untitledLayer")),
+          new m.mxCell(m.mxResources.get("untitledLayer")),
           graph.model.root,
         );
         graph.setDefaultParent(cell);
@@ -2265,7 +2268,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
       }
     }
 
-    mxEvent.consume(evt);
+    m.mxEvent.consume(evt);
   });
 
   if (!graph.isEnabled()) {
@@ -2302,14 +2305,14 @@ var LayersWindow = function (editorUi, x, y, w, h) {
       left.style.textOverflow = "ellipsis";
       left.style.overflow = "hidden";
 
-      mxEvent.addListener(ldiv, "dragover", function (evt) {
+      m.mxEvent.addListener(ldiv, "dragover", function (evt) {
         evt.dataTransfer.dropEffect = "move";
         dropIndex = index;
         evt.stopPropagation();
         evt.preventDefault();
       });
 
-      mxEvent.addListener(ldiv, "dragstart", function (evt) {
+      m.mxEvent.addListener(ldiv, "dragstart", function (evt) {
         dragSource = ldiv;
 
         // Workaround for no DnD on DIV in FF
@@ -2319,7 +2322,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
         }
       });
 
-      mxEvent.addListener(ldiv, "dragend", function (evt) {
+      m.mxEvent.addListener(ldiv, "dragend", function (evt) {
         if (dragSource != null && dropIndex != null) {
           graph.addCell(child, graph.model.root, dropIndex);
         }
@@ -2335,11 +2338,11 @@ var LayersWindow = function (editorUi, x, y, w, h) {
       btn.setAttribute("align", "top");
       btn.setAttribute("border", "0");
       btn.style.padding = "4px";
-      btn.setAttribute("title", mxResources.get("lockUnlock"));
+      btn.setAttribute("title", m.mxResources.get("lockUnlock"));
 
       var style = graph.getCurrentCellStyle(child);
 
-      if (mxUtils.getValue(style, "locked", "0") == "1") {
+      if (m.mxUtils.getValue(style, "locked", "0") == "1") {
         btn.setAttribute("src", Dialog.prototype.lockedImage);
       } else {
         btn.setAttribute("src", Dialog.prototype.unlockedImage);
@@ -2349,13 +2352,13 @@ var LayersWindow = function (editorUi, x, y, w, h) {
         btn.style.cursor = "pointer";
       }
 
-      mxEvent.addListener(btn, "click", function (evt) {
+      m.mxEvent.addListener(btn, "click", function (evt) {
         if (graph.isEnabled()) {
           var value = null;
 
           graph.getModel().beginUpdate();
           try {
-            value = mxUtils.getValue(style, "locked", "0") == "1" ? null : "1";
+            value = m.mxUtils.getValue(style, "locked", "0") == "1" ? null : "1";
             graph.setCellStyles("locked", value, [child]);
           } finally {
             graph.getModel().endUpdate();
@@ -2365,7 +2368,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
             graph.removeSelectionCells(graph.getModel().getDescendants(child));
           }
 
-          mxEvent.consume(evt);
+          m.mxEvent.consume(evt);
         }
       });
 
@@ -2375,8 +2378,8 @@ var LayersWindow = function (editorUi, x, y, w, h) {
       inp.setAttribute("type", "checkbox");
       inp.setAttribute(
         "title",
-        mxResources.get("hideIt", [
-          child.value || mxResources.get("background"),
+        m.mxResources.get("hideIt", [
+          child.value || m.mxResources.get("background"),
         ]),
       );
       inp.style.marginLeft = "4px";
@@ -2389,12 +2392,12 @@ var LayersWindow = function (editorUi, x, y, w, h) {
         inp.defaultChecked = true;
       }
 
-      mxEvent.addListener(inp, "click", function (evt) {
+      m.mxEvent.addListener(inp, "click", function (evt) {
         graph.model.setVisible(child, !graph.model.isVisible(child));
-        mxEvent.consume(evt);
+        m.mxEvent.consume(evt);
       });
 
-      mxUtils.write(left, label);
+      m.mxUtils.write(left, label);
       ldiv.appendChild(left);
 
       if (graph.isEnabled()) {
@@ -2417,7 +2420,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
           if (index > 0) {
             var img2 = document.createElement("a");
 
-            img2.setAttribute("title", mxResources.get("toBack"));
+            img2.setAttribute("title", m.mxResources.get("toBack"));
 
             img2.className = "geButton";
             img2.style.cssFloat = "none";
@@ -2429,19 +2432,19 @@ var LayersWindow = function (editorUi, x, y, w, h) {
             img2.style.marginTop = "-1px";
             right.appendChild(img2);
 
-            mxEvent.addListener(img2, "click", function (evt) {
+            m.mxEvent.addListener(img2, "click", function (evt) {
               if (graph.isEnabled()) {
                 graph.addCell(child, graph.model.root, index - 1);
               }
 
-              mxEvent.consume(evt);
+              m.mxEvent.consume(evt);
             });
           }
 
           if (index >= 0 && index < layerCount - 1) {
             var img1 = document.createElement("a");
 
-            img1.setAttribute("title", mxResources.get("toFront"));
+            img1.setAttribute("title", m.mxResources.get("toFront"));
 
             img1.className = "geButton";
             img1.style.cssFloat = "none";
@@ -2453,12 +2456,12 @@ var LayersWindow = function (editorUi, x, y, w, h) {
             img1.style.marginTop = "-1px";
             right.appendChild(img1);
 
-            mxEvent.addListener(img1, "click", function (evt) {
+            m.mxEvent.addListener(img1, "click", function (evt) {
               if (graph.isEnabled()) {
                 graph.addCell(child, graph.model.root, index + 1);
               }
 
-              mxEvent.consume(evt);
+              m.mxEvent.consume(evt);
             });
           }
 
@@ -2474,12 +2477,12 @@ var LayersWindow = function (editorUi, x, y, w, h) {
         }
       }
 
-      mxEvent.addListener(ldiv, "dblclick", function (evt) {
-        var nodeName = mxEvent.getSource(evt).nodeName;
+      m.mxEvent.addListener(ldiv, "dblclick", function (evt) {
+        var nodeName = m.mxEvent.getSource(evt).nodeName;
 
         if (nodeName != "INPUT" && nodeName != "IMG") {
           renameLayer(child);
-          mxEvent.consume(evt);
+          m.mxEvent.consume(evt);
         }
       });
 
@@ -2489,7 +2492,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
         ldiv.style.fontWeight = graph.isEnabled() ? "bold" : "";
         selectionLayer = child;
       } else {
-        mxEvent.addListener(ldiv, "click", function (evt) {
+        m.mxEvent.addListener(ldiv, "click", function (evt) {
           if (graph.isEnabled()) {
             graph.setDefaultParent(defaultParent);
             graph.view.setCurrentRoot(null);
@@ -2502,10 +2505,10 @@ var LayersWindow = function (editorUi, x, y, w, h) {
 
     // Cannot be moved or deleted
     for (var i = layerCount - 1; i >= 0; i--) {
-      mxUtils.bind(this, function (child) {
+      m.mxUtils.bind(this, function (child) {
         addLayer(
           i,
-          graph.convertValueToString(child) || mxResources.get("background"),
+          graph.convertValueToString(child) || m.mxResources.get("background"),
           child,
           child,
         );
@@ -2514,13 +2517,13 @@ var LayersWindow = function (editorUi, x, y, w, h) {
 
     var label =
       graph.convertValueToString(selectionLayer) ||
-      mxResources.get("background");
-    removeLink.setAttribute("title", mxResources.get("removeIt", [label]));
+      m.mxResources.get("background");
+    removeLink.setAttribute("title", m.mxResources.get("removeIt", [label]));
     duplicateLink.setAttribute(
       "title",
-      mxResources.get("duplicateIt", [label]),
+      m.mxResources.get("duplicateIt", [label]),
     );
-    dataLink.setAttribute("title", mxResources.get("editData"));
+    dataLink.setAttribute("title", m.mxResources.get("editData"));
 
     if (graph.isSelectionEmpty()) {
       insertLink.className = "geButton mxDisabled";
@@ -2528,10 +2531,10 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   }
 
   refresh();
-  graph.model.addListener(mxEvent.CHANGE, refresh);
+  graph.model.addListener(m.mxEvent.CHANGE, refresh);
   graph.addListener("defaultParentChanged", refresh);
 
-  graph.selectionModel.addListener(mxEvent.CHANGE, function () {
+  graph.selectionModel.addListener(m.mxEvent.CHANGE, function () {
     if (graph.isSelectionEmpty()) {
       insertLink.className = "geButton mxDisabled";
     } else {
@@ -2539,8 +2542,8 @@ var LayersWindow = function (editorUi, x, y, w, h) {
     }
   });
 
-  this.window = new mxWindow(
-    mxResources.get("layers"),
+  this.window = new m.mxWindow(
+    m.mxResources.get("layers"),
     div,
     x,
     y,
@@ -2549,7 +2552,7 @@ var LayersWindow = function (editorUi, x, y, w, h) {
     true,
     true,
   );
-  this.window.minimumSize = new mxRectangle(0, 0, 120, 120);
+  this.window.minimumSize = new m.mxRectangle(0, 0, 120, 120);
   this.window.destroyOnClose = false;
   this.window.setMaximizable(false);
   this.window.setResizable(true);
@@ -2561,8 +2564,8 @@ var LayersWindow = function (editorUi, x, y, w, h) {
   };
 
   this.window.addListener(
-    mxEvent.SHOW,
-    mxUtils.bind(this, function () {
+    m.mxEvent.SHOW,
+    m.mxUtils.bind(this, function () {
       this.window.fit();
     }),
   );
@@ -2584,21 +2587,21 @@ var LayersWindow = function (editorUi, x, y, w, h) {
     y = Math.max(0, Math.min(y, ih - this.table.clientHeight - 48));
 
     if (this.getX() != x || this.getY() != y) {
-      mxWindow.prototype.setLocation.apply(this, arguments);
+      m.mxWindow.prototype.setLocation.apply(this, arguments);
     }
   };
 
-  var resizeListener = mxUtils.bind(this, function () {
+  var resizeListener = m.mxUtils.bind(this, function () {
     var x = this.window.getX();
     var y = this.window.getY();
 
     this.window.setLocation(x, y);
   });
 
-  mxEvent.addListener(window, "resize", resizeListener);
+  m.mxEvent.addListener(window, "resize", resizeListener);
 
   this.destroy = function () {
-    mxEvent.removeListener(window, "resize", resizeListener);
+    m.mxEvent.removeListener(window, "resize", resizeListener);
     this.window.destroy();
   };
 };

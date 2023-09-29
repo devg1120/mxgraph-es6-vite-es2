@@ -6,6 +6,9 @@
  */
 import * as m from "../../../../../dist/mxgraph.es.js";
 import { Editor } from "./Editor.js";
+import { FilenameDialog } from "./Editor.js";
+import { OutlineWindow } from "./Dialogs.js";
+import { LayersWindow } from "./Dialogs.js";
 
 /*
 export function Actions(editorUi) {
