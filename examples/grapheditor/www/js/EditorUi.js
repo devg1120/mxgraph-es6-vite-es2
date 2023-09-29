@@ -189,6 +189,7 @@ export class EditorUi extends m.mxEventSource {
         this.diagramContainer,
         "mousemove",
         m.mxUtils.bind(this, function (evt) {
+	//	console.log("nousenove");
           var off = m.mxUtils.getOffset(this.diagramContainer);
 
           if (

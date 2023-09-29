@@ -15,7 +15,7 @@ export class mxGraphHandler {
   highlightEnabled = true;
   cloneEnabled = true;
   moveEnabled = true;
-  guidesEnabled = false;
+static  guidesEnabled = false;
   handlesVisible = true;
   guide = null;
   currentDx = null;
@@ -32,8 +32,9 @@ export class mxGraphHandler {
   shape = null;
   scaleGrid = false;
   rotationEnabled = true;
-  maxLivePreview = 0;
+static  maxLivePreview = 0;
   allowLivePreview = mxClient.IS_SVG;
+
 
   constructor(graph) {
     this.graph = graph;
@@ -530,11 +531,12 @@ export class mxGraphHandler {
   }
 
   checkPreview() {
+
     if (this.livePreviewActive && this.cloning) {
       this.resetLivePreview();
       this.livePreviewActive = false;
     } else if (
-      this.maxLivePreview >= this.cellCount &&
+      this.maxLivePreview >= this.cellCount &&      
       !this.livePreviewActive &&
       this.allowLivePreview
     ) {
@@ -545,6 +547,7 @@ export class mxGraphHandler {
     } else if (!this.livePreviewUsed && this.shape == null) {
       this.shape = this.createPreviewShape(this.bounds);
     }
+
   }
 
   mouseMove(sender, me) {
@@ -558,6 +561,7 @@ export class mxGraphHandler {
       this.bounds != null &&
       !this.suspended
     ) {
+
       if (mxEvent.isMultiTouchEvent(me.getEvent())) {
         this.reset();
         return;
@@ -566,12 +570,22 @@ export class mxGraphHandler {
       var delta = this.getDelta(me);
       var tol = graph.tolerance;
 
+
+//console.log("livePreviewActive",this.livePreviewActive);     
+//console.log("livePreviewUsed",this.livePreviewUsed);     
+//console.log("allowLivePreview",this.allowLivePreview);     
+//console.log("maxLivePreview",this.maxLivePreview);     
+//console.log("cellCount",this.cellCount);     
+                
+
       if (
         this.shape != null ||
         this.livePreviewActive ||
         Math.abs(delta.x) > tol ||
         Math.abs(delta.y) > tol
       ) {
+
+       //  ここで描画
         if (this.highlight == null) {
           this.highlight = new mxCellHighlight(
             this.graph,
@@ -666,9 +680,11 @@ export class mxGraphHandler {
           this.currentDy = delta.y;
           this.updatePreview();
         }
+
+	
       }
 
-      this.updateHint(me);
+      this.updateHint(me);  // 座標表示
       this.consumeMouseEvent(mxEvent.MOUSE_MOVE, me);
       mxEvent.consume(me.getEvent());
     } else if (
@@ -1033,17 +1049,21 @@ export class mxGraphHandler {
   reset() {
     if (this.livePreviewUsed) {
       this.resetLivePreview();
-      this.setHandlesVisibleForCells(
-        this.graph.selectionCellsHandler.getHandledSelectionCells(),
-        true,
-      );
+      try{ /* GS */
+            this.setHandlesVisibleForCells(
+              this.graph.selectionCelltresHandler.getHandledSelectionCells(),
+              true,
+            );
+      }catch (e) {
+      
+      }
     }
 
     this.destroyShapes();
     this.removeHint();
     this.delayedSelection = false;
-    this.livePreviewActive = null;
-    this.livePreviewUsed = null;
+    this.livePreviewActive = null;  
+    this.livePreviewUsed = null;    
     this.cellWasClicked = false;
     this.suspended = null;
     this.currentDx = null;
