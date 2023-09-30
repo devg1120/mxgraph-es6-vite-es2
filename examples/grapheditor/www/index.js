@@ -44,6 +44,7 @@ import * as s from "./js/Shapes.js";
 
 var mxBasePath = "../../../dist";
 let OPEN_URL = "/examples/grapheditor/www";
+var IMAGE_PATH = 'images';
 //console.log("OPEN_URL", OPEN_URL);
 
 var urlParams = (function (url) {

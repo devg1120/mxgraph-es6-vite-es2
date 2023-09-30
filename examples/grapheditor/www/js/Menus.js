@@ -7,6 +7,7 @@
 
 import * as m from "../../../../../dist/mxgraph.es.js";
 import { EditorUi } from "./EditorUi.js";
+import { ColorDialog } from "./Dialogs.js";
 
 //Menus = function (editorUi) {
 /*
