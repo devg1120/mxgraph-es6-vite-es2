@@ -3304,6 +3304,7 @@ Graph.prototype.connectVertex = function (
   createTarget,
   done,
 ) {
+
   ignoreCellAt = ignoreCellAt ? ignoreCellAt : false;
 
   // Ignores relative edge labels

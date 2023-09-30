@@ -630,6 +630,8 @@ export class EditorUi extends m.mxEventSource {
 
       // Implements a global current style for edges and vertices that is applied to new cells
       var insertHandler = function (cells, asText, model) {
+
+       //console.trace("EditorUi:insertHamdler", cells,asText,model);
         model = model != null ? model : graph.getModel();
 
         model.beginUpdate();

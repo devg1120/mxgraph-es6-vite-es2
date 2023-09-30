@@ -1,5 +1,6 @@
 import { mxConstants } from "@mxgraph/util/mxConstants";
 import { mxUtils } from "@mxgraph/util/mxUtils";
+import { mxGeometry } from "@mxgraph/model/mxGeometry";
 
 export class mxCell {
   id = null;
@@ -280,12 +281,27 @@ export class mxCell {
   }
 
   clone() {
+	  
     var clone = mxUtils.clone(this, this.mxTransient);
     clone.setValue(this.cloneValue());
     return clone;
-    //    console.log("mxCell clone...");
-    //    let  clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
-    //    return clone;
+
+/*
+        let  clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+	//  clone.geometry = new mxGeometry(0,0,100,100);
+        return clone;
+*/
+	/*
+       let  value = Object.assign(Object.create(Object.getPrototypeOf(this.value)), this.value);
+       let  geometry = Object.assign(Object.create(Object.getPrototypeOf(this.geometry)), this.geometry);
+       let  style = Object.assign(Object.create(Object.getPrototypeOf(this.style)), this.style);
+    var clone = mxUtils.clone(this, this.mxTransient);
+    clone.setValue(this.cloneValue());
+	  clone.value = this.value;
+	  clone.geometry = new mxGeometry(0,0,100,100);
+	  clone.style = this.style;
+    return clone;
+    */
   }
 
   cloneValue() {

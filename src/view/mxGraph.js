@@ -2018,6 +2018,7 @@ export class mxGraph extends mxEventSource {
     constrain,
     extend,
   ) {
+
     if (cells != null && parent != null && index != null) {
       this.model.beginUpdate();
 

@@ -846,7 +846,7 @@ export class mxUtils {
     return value;
   }
 
-  static clone_org(obj, transients, shallow) {
+  static clone(obj, transients, shallow) {
     shallow = shallow != null ? shallow : false;
     var clone = null;
 
@@ -869,7 +869,7 @@ export class mxUtils {
 
     return clone;
   }
-
+/*
   static clone(obj, transients, shallow) {
     shallow = shallow != null ? shallow : false;
     var clone = null;
@@ -878,7 +878,7 @@ export class mxUtils {
     }
     return clone;
   }
-
+*/
   static equalPoints(a, b) {
     if (
       (a == null && b != null) ||
