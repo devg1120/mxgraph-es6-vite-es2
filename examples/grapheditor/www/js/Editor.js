@@ -113,6 +113,12 @@ export class Editor extends m.mxEventSource {
  */
 Editor.prototype.useLocalStorage = typeof Storage != "undefined" && m.mxClient.IS_IOS;
 
+
+Editor.prototype.seleceImage =  IMAGE_PATH + "/select.png";  /* GS */
+Editor.prototype.panImage    =  IMAGE_PATH + "/pan.png";     /* GS */
+
+
+
 /**
  *
  */
@@ -130,7 +136,7 @@ Editor.prototype.rowMoveImage = m.mxClient.IS_SVG
 /**
  * Images below are for lightbox and embedding toolbars.
  */
-Editor.helpImage = m.mxClient.IS_SVG
+Editor.prototype.helpImage = m.mxClient.IS_SVG
   ? "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+PHBhdGggZD0iTTExIDE4aDJ2LTJoLTJ2MnptMS0xNkM2LjQ4IDIgMiA2LjQ4IDIgMTJzNC40OCAxMCAxMCAxMCAxMC00LjQ4IDEwLTEwUzE3LjUyIDIgMTIgMnptMCAxOGMtNC40MSAwLTgtMy41OS04LThzMy41OS04IDgtOCA4IDMuNTkgOCA4LTMuNTkgOC04IDh6bTAtMTRjLTIuMjEgMC00IDEuNzktNCA0aDJjMC0xLjEuOS0yIDItMnMyIC45IDIgMmMwIDItMyAxLjc1LTMgNWgyYzAtMi4yNSAzLTIuNSAzLTUgMC0yLjIxLTEuNzktNC00LTR6Ii8+PC9zdmc+"
   : IMAGE_PATH + "/help.png";
 

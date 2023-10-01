@@ -148,6 +148,28 @@ Actions.prototype.init = function () {
     "sprite-redo",
     !m.mxClient.IS_WIN ? Editor.ctrlKey + "+Shift+Z" : Editor.ctrlKey + "+Y",
   );
+
+  // Select actions
+  this.addAction(
+    "select",
+    function () {
+      ui.select();
+    },
+    null,
+    "sprite-select",
+    null,
+  );
+  this.addAction(
+    "pan",
+    function () {
+      ui.pan();
+    },
+    null,
+    "sprite-pan",
+    null,
+  );
+
+ //
   this.addAction(
     "cut",
     function () {

@@ -170,7 +170,24 @@ Toolbar.prototype.init = function () {
       this.editorUi.actions.get("redo").shortcut +
       ")",
   );
+//------------------------------------------------ GS
+  var selp = this.addItems(["-", "select", "pan"]);
+  selp[1].setAttribute(
+    "title",
+    m.mxResources.get("select") +
+      " (" +
+      this.editorUi.actions.get("select").shortcut +
+      ")",
+  );
+  selp[2].setAttribute(
+    "title",
+    m.mxResources.get("pan") +
+      " (" +
+      this.editorUi.actions.get("select").shortcut +
+      ")",
+  );
 
+//------------------------------------------------ 
   if (sw >= 320) {
     var elts = this.addItems(["-", "delete"]);
     elts[1].setAttribute(
@@ -1521,6 +1538,8 @@ Toolbar.prototype.createButton = function (classname) {
   elt.className = "geButton";
 
   var inner = document.createElement("div");
+
+console.log("Toolbar:createButton", "geSprite" + classname);
 
   if (classname != null) {
     inner.className = "geSprite " + classname;
