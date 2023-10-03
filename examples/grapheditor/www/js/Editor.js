@@ -2585,21 +2585,23 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
     canvas.addEventListener('mousemove', (event) => {
          if (EditorUi.mode_pan) {
             if (this.canvas_mousedown ) {
-	        //let dx = event.clientX - this.mouse_x;
-	        //let dy = event.clientY - this.mouse_y;
+		
 	        let dx = (this.mouse_x - event.clientX) * 50 ;
 	        let dy = (this.mouse_y - event.clientY) * 50 ;
-		//graph.container.scrollBy(-dx,-dy);
-		    if ( dx == 0 && dy == 0 ) { return;}
+	        this.mouse_x = event.clientX;
+	        this.mouse_y = event.clientY;
+	        if ( dx == 0 && dy == 0 ) { return;}
+		    
                 graph.container.scrollBy( {
                     top: dy,
                     left:dx,
                     behavior: 'smooth'
                   });
-		  
-	        this.mouse_x = event.clientX;
-	        this.mouse_y = event.clientY;
-                console.log("mousemove",dx,dy);
+		
+	        /*
+                graph.container.scrollTop = event.clientY;
+                graph.container.scrollLeft= event.clientX;
+                */
 	    }
 	         //event.stopImmediatePropagation();
 		 event.preventDefault();
