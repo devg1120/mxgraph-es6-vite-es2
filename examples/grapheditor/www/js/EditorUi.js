@@ -26,10 +26,14 @@ export class EditorUi extends m.mxEventSource {
    * Global config that specifies if the compact UI elements should be used.
    */
   //   compactUi = true;
+static    mode_select = true;
+static    mode_pan    = false;
 
   constructor(editor, container, lightbox) {
     //m.mxEventSource.call(this);
     super();
+    //this.mode_select = true;
+    //this.mode_pan    = false;
     //	 m.mxUtils.gtest("gtest TEST OK");
     this.destroyFunctions = [];
     this.editor = editor || new Editor();
@@ -4107,6 +4111,7 @@ EditorUi.prototype.createUi = function () {
   if (this.toolbar != null) {
     this.toolbarContainer.appendChild(this.toolbar.container);
     this.container.appendChild(this.toolbarContainer);
+    this.select();
   }
 
   // HSplit
@@ -4282,7 +4287,7 @@ EditorUi.prototype.handleError = function (
     if (e != null && e.message != null) {
       msg = m.mxUtils.htmlEntities(e.message);
     }
-    console.log(title, msg, resp); //DEBUG   GS
+   // console.log(title, msg, resp); //DEBUG   GS
     this.showError(
       title,
       msg,
@@ -5290,6 +5295,27 @@ EditorUi.prototype.createKeyHandler = function (editor) {
 
   return keyHandler;
 };
+
+EditorUi.prototype.select = function () {
+   console.log("EditorUi  select");
+   //this.mode_select = true;
+   //this.mode_pan    = false;
+   EditorUi.mode_select = true;
+   EditorUi.mode_pan = false;
+   this.toolbar.toggle_select_pan(false);
+}
+
+EditorUi.prototype.pan = function () {
+   console.log("EditorUi  pan");
+   //this.mode_select = false;
+   //this.mode_pan    = true;
+   EditorUi.mode_select = false;
+   EditorUi.mode_pan = true;
+   this.toolbar.toggle_select_pan(true);
+
+
+}
+
 
 /**
  * Creates the keyboard event handler for the current graph and history.

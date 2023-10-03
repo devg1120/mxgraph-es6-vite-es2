@@ -6,6 +6,7 @@
  */
 import * as m from "../../../../../dist/mxgraph.es.js";
 import { Graph } from "./Graph.js";
+import { EditorUi } from "./EditorUi.js";
 
 //var IMAGE_PATH = "images";
 
@@ -19,6 +20,7 @@ export class Editor extends m.mxEventSource {
     this.undoManager = this.createUndoManager();
     this.status = "";
     this.pageCounter = 0;
+    this.canvas_mousedown = false;
 
     this.graph.getModel().addListener(
       m.mxEvent.CHANGE,
@@ -114,8 +116,6 @@ export class Editor extends m.mxEventSource {
 Editor.prototype.useLocalStorage = typeof Storage != "undefined" && m.mxClient.IS_IOS;
 
 
-Editor.prototype.seleceImage =  IMAGE_PATH + "/select.png";  /* GS */
-Editor.prototype.panImage    =  IMAGE_PATH + "/pan.png";     /* GS */
 
 
 
@@ -2432,10 +2432,18 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
               this.backgroundPageShape.node,
               "dblclick",
               m.mxUtils.bind(this, function (evt) {
+		      console.log("backgroundPageShape: dblclick");
                 graph.dblClick(evt);
               }),
             );
 
+            m.mxEvent.addListener(
+              this.backgroundPageShape.node,
+              "click",
+              m.mxUtils.bind(this, function (evt) {
+		      console.log("backgroundPageShape: click");
+              }),
+            );
             // Adds basic listeners for graph event dispatching outside of the
             // container and finishing the handling of a single gesture
             m.mxEvent.addGestureListeners(
@@ -2553,8 +2561,57 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
       canvas.style.backgroundColor = color;
       canvas.style.backgroundImage = image;
     }
-  };
+    /* GS */
+    canvas.addEventListener('mousedown', (event) => {
+         if (EditorUi.mode_pan) {
+	    this.mouse_x = event.clientX;
+	    this.mouse_y = event.clientY;
+            //console.log("mousedown");
+            this.canvas_mousedown = true;
+	         //event.stopImmediatePropagation();
+		 event.preventDefault();
+		 event.stopPropagation();
+	 }
+    })
 
+    canvas.addEventListener('mouseup', (event) => {
+         if (EditorUi.mode_pan) {
+            this.canvas_mousedown = false;
+	         //event.stopImmediatePropagation();
+		 event.preventDefault();
+		 event.stopPropagation();
+	 }
+    })
+    canvas.addEventListener('mousemove', (event) => {
+         if (EditorUi.mode_pan) {
+            if (this.canvas_mousedown ) {
+	        //let dx = event.clientX - this.mouse_x;
+	        //let dy = event.clientY - this.mouse_y;
+	        let dx = (this.mouse_x - event.clientX) * 50 ;
+	        let dy = (this.mouse_y - event.clientY) * 50 ;
+		//graph.container.scrollBy(-dx,-dy);
+		    if ( dx == 0 && dy == 0 ) { return;}
+                graph.container.scrollBy( {
+                    top: dy,
+                    left:dx,
+                    behavior: 'smooth'
+                  });
+		  
+	        this.mouse_x = event.clientX;
+	        this.mouse_y = event.clientY;
+                console.log("mousemove",dx,dy);
+	    }
+	         //event.stopImmediatePropagation();
+		 event.preventDefault();
+		 event.stopPropagation();
+
+	 }
+    })
+    canvas.addEventListener('mouseleave', (event) => {
+            this.canvas_mousedown = false;
+	 
+    })
+  };
   // Returns the SVG required for painting the background grid.
   m.mxGraphView.prototype.createSvgGrid = function (color) {
     var tmp = this.graph.gridSize * this.scale;

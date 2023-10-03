@@ -15,6 +15,9 @@ export class Toolbar {
     this.compactUi = true;
     this.editorUi = editorUi;
     this.container = container;
+    this.select_bottun = null;
+    this.pan_bottun = null;
+
     this.staticElements = [];
     this.init();
 
@@ -183,9 +186,13 @@ Toolbar.prototype.init = function () {
     "title",
     m.mxResources.get("pan") +
       " (" +
-      this.editorUi.actions.get("select").shortcut +
+      this.editorUi.actions.get("pan").shortcut +
       ")",
   );
+
+   this.select_bottun = selp[1];
+   this.pan_bottun = selp[2];
+
 
 //------------------------------------------------ 
   if (sw >= 320) {
@@ -1539,7 +1546,7 @@ Toolbar.prototype.createButton = function (classname) {
 
   var inner = document.createElement("div");
 
-console.log("Toolbar:createButton", "geSprite" + classname);
+//console.log("Toolbar:createButton", "geSprite" + classname);
 
   if (classname != null) {
     inner.className = "geSprite " + classname;
@@ -1631,4 +1638,25 @@ Toolbar.prototype.destroy = function () {
     m.mxEvent.removeGestureListeners(document, this.gestureHandler);
     this.gestureHandler = null;
   }
+};
+
+Toolbar.prototype.toggle_select_pan = function (pan) {
+     console.log("Toolbar.prototype.toggle_select_pan",pan);
+
+	if (pan) {
+
+          this.select_bottun.className = this.select_bottun.className.replace('geButtonToggleOn','');
+          this.pan_bottun.className = this.pan_bottun.className.concat(' ', 'geButtonToggleOn');
+
+          console.log("select_bottun class",this.select_bottun.className) ;
+          console.log("pan_bottun class",this.pan_bottun.className);
+
+	} else {
+          this.select_bottun.className = this.select_bottun.className.concat(' ', 'geButtonToggleOn');
+          this.pan_bottun.className = this.pan_bottun.className.replace('geButtonToggleOn','');
+
+          console.log("select_bottun class",this.select_bottun.className) ;
+          console.log("pan_bottun class",this.pan_bottun.className);
+
+	}
 };

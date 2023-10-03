@@ -322,6 +322,15 @@
 	opacity:0.6;
 	_filter:alpha(opacity=60);
 }
+
+.geToolbarContainer .geButtonToggleOn {
+	border-top:2px solid #C0C0C0	;
+	border-bottom:0.5px solid #C0C0C0;
+	border-left:2px solid #C0C0C0;
+	border-right:0.5px solid #C0C0C0;
+}
+
+
 div.mxWindow .geButton {
 	margin: -1px 2px 2px 2px;
 	padding: 1px 2px 2px 1px;
