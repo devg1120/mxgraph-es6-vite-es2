@@ -575,107 +575,74 @@ html body .geBigStandardButton:active {
 @media print {
 	div.geNoPrint { display: none !important; }
 }
-
-/************************************************************/
-
-.geSprite-formatpanel { background-position: 0 -3738px; }
-
-/* .geSprite-zoomin { background-position: 0 -966px; } */
-
-.geSprite-zoomin {background-image: url("/dist/images/svg/zoom-in.svg");}
-
-/* .geSprite-zoomout { background-position: 0 -1012px; } */
-
-.geSprite-zoomout {background-image: url("/dist/images/svg/zoom-out.svg");}
-
-
-/* .geSprite-undo { background-position: 0 -920px; } */
-.geSprite-undo {background-image: url("/dist/images/svg/undo.svg");}
-
-/* .geSprite-redo { background-position: 0 -644px; } */
-.geSprite-redo {background-image: url("/dist/images/svg/redo.svg");}
-
-
-.geSprite-select {background-image: url("/dist/images/svg/pointer.svg");}
-
-.geSprite-pan {background-image: url("/dist/images/svg/pan.svg");}
-
-/*.geSprite-delete { background-position: 0 -184px; }*/
-.geSprite-delete {background-image: url("/dist/images/svg/delete.svg");}
-
-/*.geSprite-tofront { background-position: 0 -4060px; }*/
-.geSprite-tofront {background-image: url("/dist/images/svg/forward.svg");}
-
-/*.geSprite-toback { background-position: 0 -4014px; }*/
-.geSprite-toback {background-image: url("/dist/images/svg/backward.svg");}
-
-/* .geSprite-fillcolor { background-position: 0 -229px; } */
-.geSprite-fillcolor {background-image: url("/dist/images/svg/paint.svg");}
-
-/* .geSprite-strokecolor { background-position: 0 -782px; } */
-.geSprite-strokecolor {background-image: url("/dist/images/svg/write.svg");}
-
-
-/* .geSprite-shadow { background-position: 0 -735px; } */
-.geSprite-shadow {background-image: url("/dist/images/svg/shadow.svg");}
-
-/* connection */
-.geSprite-connection { background-position: 0 -3784px; }    /* connection */
-.geSprite-linkedge { background-position: 0 -1105px; }      /* connection */
-.geSprite-arrow { background-position: 0 -1059px; }         /* connection */
-.geSprite-simplearrow { background-position: 0 -3876px; }   /* connection */
-
-/* wayspoints */
-
-.geSprite-straight { background-position: 0 -1150px; }
-.geSprite-entity { background-position: 0 -1196px; }
-.geSprite-orthogonal { background-position: 0 -1242px; }
-.geSprite-curved { background-position: 0 -1288px; }
-.geSprite-verticalelbow { background-position: 0 -5857px; }
-.geSprite-horizontalelbow { background-position: 0 -5903px; }
-.geSprite-horizontalisometric { background-position: 0 -5949px; }
-.geSprite-verticalisometric { background-position: 0 -5995px; }
-
-/* insert */
-
-.geSprite-plus { background-position: 0 -3922px; }
-.geSprite-table { background-position: 0 -2944px; }
-
-
-
-/************************************************************/
-
-
-/*
-.geSprite-pan {
-  background: url("data:image/svg+xml;utf8,<svg width='20' height='10' version='1.1' xmlns='http://www.w3.org/2000/svg'><rect x='0' y='0' width='10' height='10' fill='blue' /></svg>") repeat-x left bottom;
-
-}
-*/
-
-
-
-/*
 .geSprite-actualsize { background-position: 0 0; }
 .geSprite-bold { background-position: 0 -46px; }
 .geSprite-bottom { background-position: 0 -92px; }
 .geSprite-center { background-position: 0 -138px; }
+.geSprite-delete { background-position: 0 -184px; }
 
-.geSprite-top { background-position: 0 -828px; }
-.geSprite-underline { background-position: 0 -874px; }
+.geSprite-fillcolor { background-position: 0 -229px; }
 
-.geSprite-fit { background-position: 0 -277px; } 
-.geSprite-fontcolor { background-position: 0 -322px; } 
-.geSprite-gradientcolor { background-position: 0 -368px; } 
+.geSprite-fit { background-position: 0 -277px; }
+.geSprite-fontcolor { background-position: 0 -322px; }
+.geSprite-gradientcolor { background-position: 0 -368px; }
 .geSprite-image { background-position: 0 -414px; }
 .geSprite-italic { background-position: 0 -460px; }
 .geSprite-left { background-position: 0 -505px; }
 .geSprite-middle { background-position: 0 -552px; }
 .geSprite-print { background-position: 0 -598px; }
+.geSprite-redo { background-position: 0 -644px; }
 .geSprite-right { background-position: 0 -689px; }
+/* GS */
+/*
+.geSprite-select { background-position: 0 -414px; }
+.geSprite-pan { background-position: 0 -414px; }
+*/
+/*
+.geSprite-select {background-image: url("/dist/images/warning.png");}
+*/
+.geSprite-select {background-image: url("/dist/images/warning.png");}
+/*
+.geSprite-select {background-image: url("/dist/images/svg/zoom-in.svg");}
+.geSprite-select {background-image: url("/dist/images/svg/pointer.svg");}
+.geSprite-pan {background-image: url("/dist/images/svg/pan.svg");}
+
+.geSprite-select {background-image: url("/dist/images/button.gif");}
+.geSprite-select {background-image: url("/dist/images/resize.gif");
+}
 */
 
+.geSprite-pan {
+  background: url("data:image/svg+xml;utf8,<svg width='20' height='10' version='1.1' xmlns='http://www.w3.org/2000/svg'><rect x='0' y='0' width='10' height='10' fill='blue' /></svg>") repeat-x left bottom;
+
+}
+
+
+  
 /*
+.geSprite-select { background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPi5hYm94e2ZpbGw6I2ZmZDNlMDt9IC5hbGluZXtmaWxsOm5vbmU7c3Ryb2tlOiNmZmZmZmY7c3Ryb2tlLXdpZHRoOjI7fTwvc3R5bGU+PHJlY3QgY2xhc3M9ImFib3giIHdpZHRoPSI3MCIgaGVpZ2h0PSI3MCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTApIHJvdGF0ZSg0NSkiLz48cG9seWxpbmUgY2xhc3M9ImFsaW5lIiBwb2ludHM9IjEwMCwxMDAgNTAsNTAgMTAwLDAiLz48cG9seWxpbmUgY2xhc3M9ImFsaW5lIiBwb2ludHM9IjAsMCA1MCw1MCAwLDEwMCIvPjwvc3ZnPg==");}
+.geSprite-pan { background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPi5hYm94e2ZpbGw6I2ZmZDNlMDt9IC5hbGluZXtmaWxsOm5vbmU7c3Ryb2tlOiNmZmZmZmY7c3Ryb2tlLXdpZHRoOjI7fTwvc3R5bGU+PHJlY3QgY2xhc3M9ImFib3giIHdpZHRoPSI3MCIgaGVpZ2h0PSI3MCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTApIHJvdGF0ZSg0NSkiLz48cG9seWxpbmUgY2xhc3M9ImFsaW5lIiBwb2ludHM9IjEwMCwxMDAgNTAsNTAgMTAwLDAiLz48cG9seWxpbmUgY2xhc3M9ImFsaW5lIiBwb2ludHM9IjAsMCA1MCw1MCAwLDEwMCIvPjwvc3ZnPg==");}
+*/
+
+
+.geSprite-shadow { background-position: 0 -735px; }
+
+.geSprite-strokecolor { background-position: 0 -782px; }
+.geSprite-top { background-position: 0 -828px; }
+.geSprite-underline { background-position: 0 -874px; }
+.geSprite-undo { background-position: 0 -920px; }
+/*
+.geSprite-zoomin { background-position: 0 -966px; }
+*/
+.geSprite-zoomin {background-image: url("/dist/images/svg/pan.svg");}
+
+.geSprite-zoomout { background-position: 0 -1012px; }
+.geSprite-arrow { background-position: 0 -1059px; }
+.geSprite-linkedge { background-position: 0 -1105px; }
+.geSprite-straight { background-position: 0 -1150px; }
+.geSprite-entity { background-position: 0 -1196px; }
+.geSprite-orthogonal { background-position: 0 -1242px; }
+.geSprite-curved { background-position: 0 -1288px; }
 .geSprite-noarrow { background-position: 0 -1334px; }
 .geSprite-endclassic { background-position: 0 -1380px; }
 .geSprite-endopen { background-position: 0 -1426px; }
@@ -688,10 +655,6 @@ html body .geBigStandardButton:active {
 .geSprite-endovaltrans { background-position: 0 -1748px; }
 .geSprite-enddiamondtrans { background-position: 0 -1794px; }
 .geSprite-endthindiamondtrans { background-position: 0 -1840px; }
-*/
-
-
-/*
 .geSprite-startclassic { background-position: 0 -1886px; }
 .geSprite-startopen { background-position: 0 -1932px; }
 .geSprite-startblock { background-position: 0 -1978px; }
@@ -707,13 +670,7 @@ html body .geBigStandardButton:active {
 .geSprite-orderedlist { background-position: 0 -2438px; }
 .geSprite-unorderedlist { background-position: 0 -2484px; }
 .geSprite-horizontalrule { background-position: 0 -2530px; }
-*/
-
-
-
-
-/*
-.geSprite-link { background-position: 0 -2576px; }  
+.geSprite-link { background-position: 0 -2576px; }
 .geSprite-indent { background-position: 0 -2622px; }
 .geSprite-outdent { background-position: 0 -2668px; }
 .geSprite-code { background-position: 0 -2714px; }
@@ -739,15 +696,15 @@ html body .geBigStandardButton:active {
 .geSprite-alignmiddle { background-position: 0 -3646px; }
 .geSprite-justifyfull { background-position: 0 -3692px; }
 .geSprite-formatpanel { background-position: 0 -3738px; }
+.geSprite-connection { background-position: 0 -3784px; }
 .geSprite-vertical { background-position: 0 -3830px; }
+.geSprite-simplearrow { background-position: 0 -3876px; }
 .geSprite-plus { background-position: 0 -3922px; }
 .geSprite-rounded { background-position: 0 -3968px; }
-*/
-
-/*
+.geSprite-toback { background-position: 0 -4014px; }
+.geSprite-tofront { background-position: 0 -4060px; }
 .geSprite-duplicate { background-position: 0 -4106px; }
 .geSprite-insert { background-position: 0 -4152px; }
-
 .geSprite-endblockthin { background-position: 0 -4201px; }
 .geSprite-endblockthintrans { background-position: 0 -4247px; }
 .geSprite-enderone { background-position: 0 -4293px; }
@@ -763,8 +720,6 @@ html body .geBigStandardButton:active {
 .geSprite-endcircle { background-position: 0 -5121px; }
 .geSprite-endasync { background-position: 0 -5167px; }
 .geSprite-endasynctrans { background-position: 0 -5213px; }
-
-
 .geSprite-startblockthin { background-position: 0 -4569px; }
 .geSprite-startblockthintrans { background-position: 0 -4615px; }
 .geSprite-starterone { background-position: 0 -4661px; }
@@ -786,11 +741,10 @@ html body .geBigStandardButton:active {
 .geSprite-endcross { background-position: 0 -5719px; }
 .geSprite-endopenthin { background-position: 0 -5765px; }
 .geSprite-endopenasync { background-position: 0 -5811px; }
-
-*/
-
-
-
+.geSprite-verticalelbow { background-position: 0 -5857px; }
+.geSprite-horizontalelbow { background-position: 0 -5903px; }
+.geSprite-horizontalisometric { background-position: 0 -5949px; }
+.geSprite-verticalisometric { background-position: 0 -5995px; }
 .geSvgSprite {
 	background-position: center center;
 }
