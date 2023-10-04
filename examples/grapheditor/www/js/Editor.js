@@ -7,6 +7,7 @@
 import * as m from "../../../../../dist/mxgraph.es.js";
 import { Graph } from "./Graph.js";
 import { EditorUi } from "./EditorUi.js";
+import AnimatedScroll from "./AnimatedScroll.js";
 
 //var IMAGE_PATH = "images";
 
@@ -2562,6 +2563,9 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
       canvas.style.backgroundImage = image;
     }
     /* GS */
+
+    var scroll = new AnimatedScroll(graph.container);
+
     canvas.addEventListener('mousedown', (event) => {
          if (EditorUi.mode_pan) {
 	    this.mouse_x = event.clientX;
@@ -2578,6 +2582,7 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
          if (EditorUi.mode_pan) {
             this.canvas_mousedown = false;
 	         //event.stopImmediatePropagation();
+		 //
 		 event.preventDefault();
 		 event.stopPropagation();
 	 }
@@ -2602,7 +2607,7 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
                 graph.container.scrollTop = event.clientY;
                 graph.container.scrollLeft= event.clientX;
 	*/
-
+        /*
 	        let dx = (this.mouse_x - event.clientX) * 50 ;
 	        let dy = (this.mouse_y - event.clientY) * 50 ;
 	        this.mouse_x = event.clientX;
@@ -2613,6 +2618,36 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
                               graph.container.scrollTop + dy/3;
                 graph.container.scrollLeft= 
                               graph.container.scrollLeft + dx/3;
+        */
+		    /*
+	        let dx = (this.mouse_x - event.offsetX)  ;
+	        let dy = (this.mouse_y - event.offsetY)  ;
+	        this.mouse_x = event.offsetX;
+	        this.mouse_y = event.offsetY;
+	        if ( dx == 0 && dy == 0 ) { return;}
+                
+                graph.container.scrollTop = 
+                              graph.container.scrollTop + dy/3;
+                graph.container.scrollLeft= 
+                              graph.container.scrollLeft + dx/3;
+			      */
+		    /*
+                console.log(event);
+	        let dx = (this.mouse_x - event.clientX) * 41 ;
+	        let dy = (this.mouse_y - event.clientY) * 41 ;
+	        this.mouse_x = event.clientX;
+	        this.mouse_y = event.clientY;
+	        if ( dx == 0 && dy == 0 ) { return;}
+                scroll.to({ left: dx, top: dy });
+		    */
+		    
+	        let dx = (event.offsetX - this.mouse_x )  ;
+	        let dy = (event.offsetY - this.mouse_y )  ;
+	        this.mouse_x = event.offsetX;
+	        this.mouse_y = event.offsetY;
+	        if ( dx == 0 && dy == 0 ) { return;}
+                scroll.to({ left: -dx, top: -dy });
+		
 	    }
 	         //event.stopImmediatePropagation();
 		 event.preventDefault();
