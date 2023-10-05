@@ -193,7 +193,12 @@ static    mode_pan    = false;
         this.diagramContainer,
         "mousemove",
         m.mxUtils.bind(this, function (evt) {
-	//	console.log("nousenove");
+		/*
+		console.log("nousenove");
+                event.preventDefault();
+                event.stopPropagation();
+		return;
+		*/
           var off = m.mxUtils.getOffset(this.diagramContainer);
 
           if (
@@ -424,6 +429,10 @@ static    mode_pan    = false;
       // Keeps graph container focused on mouse down
       var graphFireMouseEvent = graph.fireMouseEvent;
       graph.fireMouseEvent = function (evtName, me, sender) {
+        if (EditorUi.mode_pan) {     /* GS */
+	      return;
+	}
+
         if (evtName == m.mxEvent.MOUSE_DOWN) {
           this.container.focus();
         }

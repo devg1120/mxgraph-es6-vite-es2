@@ -114,11 +114,8 @@ export class Editor extends m.mxEventSource {
 /**
  * Specifies if local storage should be used (eg. on the iPad which has no filesystem)
  */
-Editor.prototype.useLocalStorage = typeof Storage != "undefined" && m.mxClient.IS_IOS;
-
-
-
-
+Editor.prototype.useLocalStorage =
+  typeof Storage != "undefined" && m.mxClient.IS_IOS;
 
 /**
  *
@@ -148,7 +145,6 @@ Editor.prototype.helpImage = m.mxClient.IS_SVG
 Editor.prototype.checkmarkImage = m.mxClient.IS_SVG
   ? "data:image/gif;base64,R0lGODlhFQAVAMQfAGxsbHx8fIqKioaGhvb29nJycvr6+sDAwJqamltbW5OTk+np6YGBgeTk5Ly8vJiYmP39/fLy8qWlpa6ursjIyOLi4vj4+N/f3+3t7fT09LCwsHZ2dubm5r6+vmZmZv///yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OEY4NTZERTQ5QUFBMTFFMUE5MTVDOTM5MUZGMTE3M0QiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OEY4NTZERTU5QUFBMTFFMUE5MTVDOTM5MUZGMTE3M0QiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Rjg1NkRFMjlBQUExMUUxQTkxNUM5MzkxRkYxMTczRCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Rjg1NkRFMzlBQUExMUUxQTkxNUM5MzkxRkYxMTczRCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmop6alpKOioaCfnp2cm5qZmJeWlZSTkpGQj46NjIuKiYiHhoWEg4KBgH9+fXx7enl4d3Z1dHNycXBvbm1sa2ppaGdmZWRjYmFgX15dXFtaWVhXVlVUU1JRUE9OTUxLSklIR0ZFRENCQUA/Pj08Ozo5ODc2NTQzMjEwLy4tLCsqKSgnJiUkIyIhIB8eHRwbGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEAACH5BAEAAB8ALAAAAAAVABUAAAVI4CeOZGmeaKqubKtylktSgCOLRyLd3+QJEJnh4VHcMoOfYQXQLBcBD4PA6ngGlIInEHEhPOANRkaIFhq8SuHCE1Hb8Lh8LgsBADs="
   : IMAGE_PATH + "/checkmark.gif";
-
 
 /**
  * Images below are for lightbox and embedding toolbars.
@@ -2252,7 +2248,7 @@ export function FilenameDialog(
   table.appendChild(tbody);
 
   this.container = table;
-};
+}
 
 /**
  *
@@ -2433,7 +2429,7 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
               this.backgroundPageShape.node,
               "dblclick",
               m.mxUtils.bind(this, function (evt) {
-		      console.log("backgroundPageShape: dblclick");
+                console.log("backgroundPageShape: dblclick");
                 graph.dblClick(evt);
               }),
             );
@@ -2442,7 +2438,7 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
               this.backgroundPageShape.node,
               "click",
               m.mxUtils.bind(this, function (evt) {
-		      console.log("backgroundPageShape: click");
+                console.log("backgroundPageShape: click");
               }),
             );
             // Adds basic listeners for graph event dispatching outside of the
@@ -2562,203 +2558,58 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
       canvas.style.backgroundColor = color;
       canvas.style.backgroundImage = image;
     }
+
     /* GS */
-
-    canvas.addEventListener('mousedown', (event) => {
-         if (EditorUi.mode_pan) {
-            this.canvas_mousedown = true;
-  this._startY = event.pageY -  graph.container.offsetTop;
-  this._startX = event.pageX -  graph.container.offsetLeft;
-  this._scrollLeft =  graph.container.scrollLeft;
-  this._scrollTop =  graph.container.scrollTop; 
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
-
-    canvas.addEventListener('mouseup', (event) => {
-         //if (EditorUi.mode_pan) {
-            this.canvas_mousedown = false;
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
-	 //}
-    })
-
-    canvas.addEventListener('mouseleave', (event) => {
-            this.canvas_mousedown = false;
-	 
-    })
-
-    canvas.addEventListener('mousemove', (event) => {
-         if (EditorUi.mode_pan) {
-            if (this.canvas_mousedown ) {
-    //Move vertcally
-    const y = event.pageY -  graph.container.offsetTop;
-    const walkY = y - this._startY;
-     graph.container.scrollTop = this._scrollTop - walkY*2;
-
-    //Move Horizontally
-    const x = event.pageX -  graph.container.offsetLeft;
-    const walkX = x - this._startX;
-     graph.container.scrollLeft = this._scrollLeft - walkX*2;
-
-	    }
-	         //event.stopImmediatePropagation();
-	         event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
-
-/*
-    canvas.addEventListener('mousedown', (event) => {
-         if (EditorUi.mode_pan) {
-            this.canvas_mousedown = true;
-  this._startY = event.pageY - canvas.offsetTop;
-  this._startX = event.pageX - canvas.offsetLeft;
-  this._scrollLeft = canvas.scrollLeft;
-  this._scrollTop = canvas.scrollTop; 
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
-
-    canvas.addEventListener('mouseup', (event) => {
-         //if (EditorUi.mode_pan) {
-            this.canvas_mousedown = false;
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
-	 //}
-    })
-
-    canvas.addEventListener('mouseleave', (event) => {
-            this.canvas_mousedown = false;
-	 
-    })
-
-    canvas.addEventListener('mousemove', (event) => {
-         if (EditorUi.mode_pan) {
-            if (this.canvas_mousedown ) {
-    //Move vertcally
-    const y = event.pageY - canvas.offsetTop;
-    const walkY = y - this._startY;
-    canvas.scrollTop = this._scrollTop - walkY;
-
-    //Move Horizontally
-    const x = event.pageX - canvas.offsetLeft;
-    const walkX = x - this._startX;
-    canvas.scrollLeft = this._scrollLeft - walkX;
-
-	    }
-	         //event.stopImmediatePropagation();
-	         event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
-
-*/
-
-
-
     //var scroll = new AnimatedScroll(graph.container);
-/*
-    canvas.addEventListener('mousedown', (event) => {
-         if (EditorUi.mode_pan) {
-	    this.mouse_x = event.clientX;
-	    this.mouse_y = event.clientY;
-            //console.log("mousedown");
-            this.canvas_mousedown = true;
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
 
-    canvas.addEventListener('mouseup', (event) => {
-         if (EditorUi.mode_pan) {
-            this.canvas_mousedown = false;
-	         //event.stopImmediatePropagation();
-		 //
-		 event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
-    canvas.addEventListener('mousemove', (event) => {
-         if (EditorUi.mode_pan) {
-            if (this.canvas_mousedown ) {
-		
-	        let dx = (this.mouse_x - event.clientX) * 50 ;
-	        let dy = (this.mouse_y - event.clientY) * 50 ;
-	        this.mouse_x = event.clientX;
-	        this.mouse_y = event.clientY;
-	        if ( dx == 0 && dy == 0 ) { return;}
-		    
-                graph.container.scrollBy( {
-                    top: dy,
-                    left:dx,
-                    behavior: 'smooth'
-                  });
-	 
-	
-                graph.container.scrollTop = event.clientY;
-                graph.container.scrollLeft= event.clientX;
-	
-        
-	        let dx = (this.mouse_x - event.clientX) * 50 ;
-	        let dy = (this.mouse_y - event.clientY) * 50 ;
-	        this.mouse_x = event.clientX;
-	        this.mouse_y = event.clientY;
-	        if ( dx == 0 && dy == 0 ) { return;}
-                
-                graph.container.scrollTop = 
-                              graph.container.scrollTop + dy/3;
-                graph.container.scrollLeft= 
-                              graph.container.scrollLeft + dx/3;
-        
-		    
-	        let dx = (this.mouse_x - event.offsetX)  ;
-	        let dy = (this.mouse_y - event.offsetY)  ;
-	        this.mouse_x = event.offsetX;
-	        this.mouse_y = event.offsetY;
-	        if ( dx == 0 && dy == 0 ) { return;}
-                
-                graph.container.scrollTop = 
-                              graph.container.scrollTop + dy/3;
-                graph.container.scrollLeft= 
-                              graph.container.scrollLeft + dx/3;
-			      
-		    
-                console.log(event);
-	        let dx = (this.mouse_x - event.clientX) * 41 ;
-	        let dy = (this.mouse_y - event.clientY) * 41 ;
-	        this.mouse_x = event.clientX;
-	        this.mouse_y = event.clientY;
-	        if ( dx == 0 && dy == 0 ) { return;}
-                scroll.to({ left: dx, top: dy });
-		    
-		 //
-	        let dx = (event.offsetX - this.mouse_x )  ;
-	        let dy = (event.offsetY - this.mouse_y )  ;
-	        this.mouse_x = event.offsetX;
-	        this.mouse_y = event.offsetY;
-	        if ( dx == 0 && dy == 0 ) { return;}
-                scroll.to({ left: -dx, top: -dy });
-		
-	    }
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
+    canvas.addEventListener("mousedown", (event) => {
+      if (EditorUi.mode_pan) {
+        this.canvas_mousedown = true;
+        this._startY = event.pageY - graph.container.offsetTop;
+        this._startX = event.pageX - graph.container.offsetLeft;
+        this._scrollLeft = graph.container.scrollLeft;
+        this._scrollTop = graph.container.scrollTop;
+        //event.stopImmediatePropagation();
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    });
 
-	 }
-    })
-    canvas.addEventListener('mouseleave', (event) => {
-            this.canvas_mousedown = false;
-	 
-    })
-*/
+    canvas.addEventListener("mouseup", (event) => {
+      //if (EditorUi.mode_pan) {
+      this.canvas_mousedown = false;
+      //event.stopImmediatePropagation();
+      event.preventDefault();
+      event.stopPropagation();
+      //}
+    });
+
+    canvas.addEventListener("mouseleave", (event) => {
+      this.canvas_mousedown = false;
+    });
+
+    canvas.addEventListener("mousemove", (event) => {
+      if (EditorUi.mode_pan) {
+        if (this.canvas_mousedown) {
+          //Move vertcally
+          const y = event.pageY - graph.container.offsetTop;
+          const walkY = y - this._startY;
+          graph.container.scrollTop = this._scrollTop - walkY ;
+
+          //Move Horizontally
+          const x = event.pageX - graph.container.offsetLeft;
+          const walkX = x - this._startX;
+          graph.container.scrollLeft = this._scrollLeft - walkX ;
+
+          //scroll.to({ left: this._scrollLeft - walkX*3,
+          //	      top:  this._scrollTop - walkY*3
+          //	     });
+        }
+        //event.stopImmediatePropagation();
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    });
   };
   // Returns the SVG required for painting the background grid.
   m.mxGraphView.prototype.createSvgGrid = function (color) {
