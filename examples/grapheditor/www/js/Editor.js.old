@@ -2564,107 +2564,8 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
     }
     /* GS */
 
-    canvas.addEventListener('mousedown', (event) => {
-         if (EditorUi.mode_pan) {
-            this.canvas_mousedown = true;
-  this._startY = event.pageY -  graph.container.offsetTop;
-  this._startX = event.pageX -  graph.container.offsetLeft;
-  this._scrollLeft =  graph.container.scrollLeft;
-  this._scrollTop =  graph.container.scrollTop; 
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
+    var scroll = new AnimatedScroll(graph.container);
 
-    canvas.addEventListener('mouseup', (event) => {
-         //if (EditorUi.mode_pan) {
-            this.canvas_mousedown = false;
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
-	 //}
-    })
-
-    canvas.addEventListener('mouseleave', (event) => {
-            this.canvas_mousedown = false;
-	 
-    })
-
-    canvas.addEventListener('mousemove', (event) => {
-         if (EditorUi.mode_pan) {
-            if (this.canvas_mousedown ) {
-    //Move vertcally
-    const y = event.pageY -  graph.container.offsetTop;
-    const walkY = y - this._startY;
-     graph.container.scrollTop = this._scrollTop - walkY*2;
-
-    //Move Horizontally
-    const x = event.pageX -  graph.container.offsetLeft;
-    const walkX = x - this._startX;
-     graph.container.scrollLeft = this._scrollLeft - walkX*2;
-
-	    }
-	         //event.stopImmediatePropagation();
-	         event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
-
-/*
-    canvas.addEventListener('mousedown', (event) => {
-         if (EditorUi.mode_pan) {
-            this.canvas_mousedown = true;
-  this._startY = event.pageY - canvas.offsetTop;
-  this._startX = event.pageX - canvas.offsetLeft;
-  this._scrollLeft = canvas.scrollLeft;
-  this._scrollTop = canvas.scrollTop; 
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
-
-    canvas.addEventListener('mouseup', (event) => {
-         //if (EditorUi.mode_pan) {
-            this.canvas_mousedown = false;
-	         //event.stopImmediatePropagation();
-		 event.preventDefault();
-		 event.stopPropagation();
-	 //}
-    })
-
-    canvas.addEventListener('mouseleave', (event) => {
-            this.canvas_mousedown = false;
-	 
-    })
-
-    canvas.addEventListener('mousemove', (event) => {
-         if (EditorUi.mode_pan) {
-            if (this.canvas_mousedown ) {
-    //Move vertcally
-    const y = event.pageY - canvas.offsetTop;
-    const walkY = y - this._startY;
-    canvas.scrollTop = this._scrollTop - walkY;
-
-    //Move Horizontally
-    const x = event.pageX - canvas.offsetLeft;
-    const walkX = x - this._startX;
-    canvas.scrollLeft = this._scrollLeft - walkX;
-
-	    }
-	         //event.stopImmediatePropagation();
-	         event.preventDefault();
-		 event.stopPropagation();
-	 }
-    })
-
-*/
-
-
-
-    //var scroll = new AnimatedScroll(graph.container);
-/*
     canvas.addEventListener('mousedown', (event) => {
          if (EditorUi.mode_pan) {
 	    this.mouse_x = event.clientX;
@@ -2689,7 +2590,7 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
     canvas.addEventListener('mousemove', (event) => {
          if (EditorUi.mode_pan) {
             if (this.canvas_mousedown ) {
-		
+	/*	
 	        let dx = (this.mouse_x - event.clientX) * 50 ;
 	        let dy = (this.mouse_y - event.clientY) * 50 ;
 	        this.mouse_x = event.clientX;
@@ -2701,12 +2602,12 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
                     left:dx,
                     behavior: 'smooth'
                   });
-	 
-	
+	*/
+	/*
                 graph.container.scrollTop = event.clientY;
                 graph.container.scrollLeft= event.clientX;
-	
-        
+	*/
+        /*
 	        let dx = (this.mouse_x - event.clientX) * 50 ;
 	        let dy = (this.mouse_y - event.clientY) * 50 ;
 	        this.mouse_x = event.clientX;
@@ -2717,8 +2618,8 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
                               graph.container.scrollTop + dy/3;
                 graph.container.scrollLeft= 
                               graph.container.scrollLeft + dx/3;
-        
-		    
+        */
+		    /*
 	        let dx = (this.mouse_x - event.offsetX)  ;
 	        let dy = (this.mouse_y - event.offsetY)  ;
 	        this.mouse_x = event.offsetX;
@@ -2729,7 +2630,7 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
                               graph.container.scrollTop + dy/3;
                 graph.container.scrollLeft= 
                               graph.container.scrollLeft + dx/3;
-			      
+			      */
 		    
                 console.log(event);
 	        let dx = (this.mouse_x - event.clientX) * 41 ;
@@ -2739,14 +2640,14 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
 	        if ( dx == 0 && dy == 0 ) { return;}
                 scroll.to({ left: dx, top: dy });
 		    
-		 //
+		    /*
 	        let dx = (event.offsetX - this.mouse_x )  ;
 	        let dy = (event.offsetY - this.mouse_y )  ;
 	        this.mouse_x = event.offsetX;
 	        this.mouse_y = event.offsetY;
 	        if ( dx == 0 && dy == 0 ) { return;}
                 scroll.to({ left: -dx, top: -dy });
-		
+		*/
 	    }
 	         //event.stopImmediatePropagation();
 		 event.preventDefault();
@@ -2758,7 +2659,6 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
             this.canvas_mousedown = false;
 	 
     })
-*/
   };
   // Returns the SVG required for painting the background grid.
   m.mxGraphView.prototype.createSvgGrid = function (color) {
