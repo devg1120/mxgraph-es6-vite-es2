@@ -5329,7 +5329,7 @@ EditorUi.prototype.pan = function () {  /* GS */
    if ( c != undefined) {
         //c.style.cursor = "crosshair";
         //c.style.cursor =  'url(/dist/images/svg/pan.svg),auto' ;
-        c.style.cursor =  'url(/dist/images/svg/pan.svg),auto' ;
+        c.style.cursor =  'url(/dist/images/svg/pan.svg),auto, 20 20' ;
    }
 }
 

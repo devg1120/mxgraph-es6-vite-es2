@@ -1765,11 +1765,13 @@ Graph.prototype.linkRelation = "nofollow noopener noreferrer";
  * cannot be detected in Firefox, see above).
  */
 Graph.prototype.defaultScrollbars = !m.mxClient.IS_IOS;
+//Graph.prototype.defaultScrollbars = false;  /* GS */
 
 /**
  * Specifies if the page should be visible for new files. Default is true.
  */
-Graph.prototype.defaultPageVisible = true;
+//Graph.prototype.defaultPageVisible = true;
+Graph.prototype.defaultPageVisible = false;  /* GS */
 
 /**
  * Specifies if the app should run in chromeless mode. Default is false.
