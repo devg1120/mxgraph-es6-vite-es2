@@ -2576,12 +2576,12 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
     });
 
     canvas.addEventListener("mouseup", (event) => {
-      //if (EditorUi.mode_pan) {
+      if (EditorUi.mode_pan) {
       this.canvas_mousedown = false;
       //event.stopImmediatePropagation();
       event.preventDefault();
       event.stopPropagation();
-      //}
+      }
     });
 
     canvas.addEventListener("mouseleave", (event) => {
@@ -2610,7 +2610,9 @@ FilenameDialog.createFileTypes = function (editorUi, nameInput, types) {
         event.stopPropagation();
       }
     });
+    
   };
+  
   // Returns the SVG required for painting the background grid.
   m.mxGraphView.prototype.createSvgGrid = function (color) {
     var tmp = this.graph.gridSize * this.scale;
